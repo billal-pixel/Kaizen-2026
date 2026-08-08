@@ -62,9 +62,9 @@ export function useAutoRefresh({
         for (const gid of Object.keys(syncResult.sheets)) {
           const csvText = syncResult.sheets[gid];
           if (csvText) {
-            const parsed = parseCsvText(csvText);
-            allStationed = [...allStationed, ...parsed.stationed];
-            allVirtual = [...allVirtual, ...parsed.virtual];
+            const parsed = await parseCsvText(csvText);
+            if (parsed.stationed) allStationed = [...allStationed, ...parsed.stationed];
+            if (parsed.virtual) allVirtual = [...allVirtual, ...parsed.virtual];
           }
         }
 
