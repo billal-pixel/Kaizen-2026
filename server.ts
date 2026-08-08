@@ -195,13 +195,7 @@ app.get("/api/sheets-sync-all", async (req, res) => {
 
     const sheetMap: Record<string, string> = {};
 
-    // 1. Fetch default sheet without gid first
-    const defaultCsv = await fetchGoogleSheetCsv(docId);
-    if (defaultCsv) {
-      sheetMap["default"] = defaultCsv;
-    }
-
-    // 2. Fetch specific GIDs in parallel
+    // Fetch specific GIDs in parallel (gid=0 for Stationed, gid=1487776310 for Virtual)
     const gidResults = await Promise.all(
       gidsToFetch.map(async (gid) => {
         const text = await fetchGoogleSheetCsv(docId, gid);
@@ -214,6 +208,14 @@ app.get("/api/sheets-sync-all", async (req, res) => {
         sheetMap[r.gid] = r.text;
       }
     });
+
+    // Fallback to default endpoint if no GID returned data
+    if (Object.keys(sheetMap).length === 0) {
+      const defaultCsv = await fetchGoogleSheetCsv(docId);
+      if (defaultCsv) {
+        sheetMap["default"] = defaultCsv;
+      }
+    }
 
     // If no data found for custom docId, fallback to primary default docId
     if (Object.keys(sheetMap).length === 0 && docId !== DEFAULT_DOC_ID) {

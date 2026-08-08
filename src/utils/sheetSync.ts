@@ -71,6 +71,32 @@ export async function directBrowserFetchSheets(sheetUrl: string): Promise<Record
   return sheetsMap;
 }
 
+export function deduplicateStationed(advisors: StationedAdvisor[]): StationedAdvisor[] {
+  const seen = new Set<string>();
+  const result: StationedAdvisor[] = [];
+  for (const adv of advisors) {
+    const key = (adv.employeeId && adv.employeeId.trim() !== '' ? adv.employeeId.trim() : adv.advisorName.trim()).toLowerCase();
+    if (!seen.has(key)) {
+      seen.add(key);
+      result.push(adv);
+    }
+  }
+  return result;
+}
+
+export function deduplicateVirtual(advisors: VirtualAdvisor[]): VirtualAdvisor[] {
+  const seen = new Set<string>();
+  const result: VirtualAdvisor[] = [];
+  for (const adv of advisors) {
+    const key = (adv.employeeId && adv.employeeId.trim() !== '' ? adv.employeeId.trim() : adv.advisorName.trim()).toLowerCase();
+    if (!seen.has(key)) {
+      seen.add(key);
+      result.push(adv);
+    }
+  }
+  return result;
+}
+
 export async function syncAllSheetsData(sheetUrl: string): Promise<SyncSheetsResult> {
   const targetUrl = sheetUrl || PRIMARY_DEFAULT_SHEET;
   let sheetContentsMap: Record<string, string> = {};
@@ -129,10 +155,13 @@ export async function syncAllSheetsData(sheetUrl: string): Promise<SyncSheetsRes
     }
   }
 
+  const uniqueStationed = deduplicateStationed(allStationed);
+  const uniqueVirtual = deduplicateVirtual(allVirtual);
+
   return {
     success: true,
-    stationed: allStationed,
-    virtual: allVirtual,
+    stationed: uniqueStationed,
+    virtual: uniqueVirtual,
     sheetsCount: Object.keys(sheetContentsMap).length,
     source,
   };

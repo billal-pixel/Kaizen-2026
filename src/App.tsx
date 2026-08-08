@@ -16,6 +16,7 @@ import {
   initialCallRecords
 } from './data/initialData';
 import { getNumericKpi } from './utils/sheetParser';
+import { deduplicateStationed, deduplicateVirtual } from './utils/sheetSync';
 import { Header } from './components/Header';
 import { ExecutiveOverview } from './components/ExecutiveOverview';
 import { StationedTeamView } from './components/StationedTeamView';
@@ -28,13 +29,14 @@ import { GoogleSheetSyncModal } from './components/GoogleSheetSyncModal';
 import { AdvisorDetailModal } from './components/AdvisorDetailModal';
 import { AddAdvisorModal } from './components/AddAdvisorModal';
 import { PaymentCopyModal } from './components/PaymentCopyModal';
+import { SyncErrorAlert } from './components/SyncErrorAlert';
 import { useAutoRefresh } from './hooks/useAutoRefresh';
 
 export default function App() {
   const teamLeaderName = "Muhammad Billal";
 
   const PRIMARY_LIVE_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0';
-  const DATA_VERSION = 'kaizen_v16_live_sheet_1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys';
+  const DATA_VERSION = 'kaizen_v21_clean_deduped_live_sheet_1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys';
 
   // Snapshot initial version before any state initializers write to localStorage
   const initialSavedVersion = useMemo(() => localStorage.getItem('kaizen_data_version'), []);
@@ -87,32 +89,32 @@ export default function App() {
     const saved = localStorage.getItem('kaizen_stationed_advisors');
     if (initialSavedVersion !== DATA_VERSION || !saved) {
       localStorage.setItem('kaizen_data_version', DATA_VERSION);
-      return initialStationedAdvisors;
+      return deduplicateStationed(initialStationedAdvisors);
     }
     try {
       const parsed = JSON.parse(saved);
       if (!Array.isArray(parsed) || parsed.length < 10 || parsed.some((a: any) => a.advisorName === 'Tariqul Islam')) {
-        return initialStationedAdvisors;
+        return deduplicateStationed(initialStationedAdvisors);
       }
-      return parsed;
+      return deduplicateStationed(parsed);
     } catch {
-      return initialStationedAdvisors;
+      return deduplicateStationed(initialStationedAdvisors);
     }
   });
 
   const [virtualAdvisors, setVirtualAdvisors] = useState<VirtualAdvisor[]>(() => {
     const saved = localStorage.getItem('kaizen_virtual_advisors');
     if (initialSavedVersion !== DATA_VERSION || !saved) {
-      return initialVirtualAdvisors;
+      return deduplicateVirtual(initialVirtualAdvisors);
     }
     try {
       const parsed = JSON.parse(saved);
       if (!Array.isArray(parsed) || parsed.length < 5 || parsed.some((a: any) => a.advisorName === 'Rafiqul Ahmed')) {
-        return initialVirtualAdvisors;
+        return deduplicateVirtual(initialVirtualAdvisors);
       }
-      return parsed;
+      return deduplicateVirtual(parsed);
     } catch {
-      return initialVirtualAdvisors;
+      return deduplicateVirtual(initialVirtualAdvisors);
     }
   });
 
@@ -255,24 +257,28 @@ export default function App() {
 
   // Import handlers from Google Sheet / CSV (with equality check to prevent blinking)
   const handleImportStationedData = useCallback((imported: StationedAdvisor[], replace = true) => {
+    const cleanImported = deduplicateStationed(imported);
     if (replace) {
       setStationedAdvisors((prev) => {
-        if (JSON.stringify(prev) === JSON.stringify(imported)) return prev;
-        return imported;
+        const cleanPrev = deduplicateStationed(prev);
+        if (JSON.stringify(cleanPrev) === JSON.stringify(cleanImported)) return cleanPrev;
+        return cleanImported;
       });
     } else {
-      setStationedAdvisors((prev) => [...imported, ...prev]);
+      setStationedAdvisors((prev) => deduplicateStationed([...cleanImported, ...prev]));
     }
   }, []);
 
   const handleImportVirtualData = useCallback((imported: VirtualAdvisor[], replace = true) => {
+    const cleanImported = deduplicateVirtual(imported);
     if (replace) {
       setVirtualAdvisors((prev) => {
-        if (JSON.stringify(prev) === JSON.stringify(imported)) return prev;
-        return imported;
+        const cleanPrev = deduplicateVirtual(prev);
+        if (JSON.stringify(cleanPrev) === JSON.stringify(cleanImported)) return cleanPrev;
+        return cleanImported;
       });
     } else {
-      setVirtualAdvisors((prev) => [...imported, ...prev]);
+      setVirtualAdvisors((prev) => deduplicateVirtual([...cleanImported, ...prev]));
     }
   }, []);
 
@@ -281,6 +287,12 @@ export default function App() {
     isRefreshing: isAutoRefreshing,
     countdown: autoRefreshCountdown,
     refreshNow: triggerManualRefresh,
+    errorMessage: autoRefreshError,
+    errorType: autoRefreshErrorType,
+    lastErrorAt,
+    consecutiveErrors,
+    isErrorDismissed,
+    dismissError: dismissAutoRefreshError,
   } = useAutoRefresh({
     sheetUrl,
     onImportStationedData: handleImportStationedData,
@@ -342,6 +354,19 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-16">
+        {/* Visual Error Alert Banner when Google Sheet Auto-Refresh Fails */}
+        <SyncErrorAlert
+          errorMessage={autoRefreshError}
+          errorType={autoRefreshErrorType}
+          lastErrorAt={lastErrorAt}
+          consecutiveErrors={consecutiveErrors}
+          isRefreshing={isAutoRefreshing}
+          isErrorDismissed={isErrorDismissed}
+          onRetry={triggerManualRefresh}
+          onOpenSyncModal={() => setIsSheetSyncOpen(true)}
+          onDismiss={dismissAutoRefreshError}
+        />
+
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
