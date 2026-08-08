@@ -40,17 +40,19 @@ export function useAutoRefresh({
   }, [autoRefreshEnabled]);
 
   const refreshNow = useCallback(async () => {
-    if (!sheetUrl) return;
-
     setIsRefreshing(true);
     setLastStatus('idle');
 
+    const DEFAULT_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0';
+    const targetUrl = sheetUrl || DEFAULT_SHEET;
+
     try {
-      const fetchUrl = `/api/sheets-sync-all?url=${encodeURIComponent(sheetUrl)}&_t=${Date.now()}`;
-      const res = await fetch(fetchUrl);
+      let fetchUrl = `/api/sheets-sync-all?url=${encodeURIComponent(targetUrl)}&_t=${Date.now()}`;
+      let res = await fetch(fetchUrl);
 
       if (!res.ok) {
-        throw new Error('Network response not ok');
+        fetchUrl = `/api/sheets-sync-all?url=${encodeURIComponent(DEFAULT_SHEET)}&_t=${Date.now()}`;
+        res = await fetch(fetchUrl);
       }
 
       const syncResult = await res.json();

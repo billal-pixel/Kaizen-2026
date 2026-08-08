@@ -72,23 +72,26 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
 
   // Core Sync Logic
   const performSync = useCallback(async () => {
-    if (!sheetUrl) return;
-
     setIsSyncing(true);
     setSyncStatus('idle');
 
+    const DEFAULT_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0';
+    const targetUrl = sheetUrl || DEFAULT_SHEET;
+
     try {
       // Call multi-tab endpoint to sync both Stationed (gid=0) and Virtual (gid=1487776310) tabs simultaneously
-      const multiSyncUrl = `/api/sheets-sync-all?url=${encodeURIComponent(sheetUrl)}&_t=${Date.now()}`;
-      const res = await fetch(multiSyncUrl);
+      let multiSyncUrl = `/api/sheets-sync-all?url=${encodeURIComponent(targetUrl)}&_t=${Date.now()}`;
+      let res = await fetch(multiSyncUrl);
 
       if (!res.ok) {
-        throw new Error('Google Sheet link restricted or offline.');
+        // Fallback to default primary live sheet endpoint
+        multiSyncUrl = `/api/sheets-sync-all?url=${encodeURIComponent(DEFAULT_SHEET)}&_t=${Date.now()}`;
+        res = await fetch(multiSyncUrl);
       }
 
       const syncResult = await res.json();
 
-      if (!syncResult.success || !syncResult.sheets) {
+      if (!syncResult.success || !syncResult.sheets || Object.keys(syncResult.sheets).length === 0) {
         throw new Error(syncResult.error || 'Failed to sync Google Sheet data.');
       }
 

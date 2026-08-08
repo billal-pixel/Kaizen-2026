@@ -131,20 +131,26 @@ app.get("/api/sheets-proxy", async (req, res) => {
     const sheetUrl = (req.query.url as string) || "";
     const customGid = req.query.gid as string;
 
-    if (!sheetUrl) {
-      return res.status(400).json({ error: "Missing sheet URL" });
+    const DEFAULT_DOC_ID = "1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys";
+    let docId = DEFAULT_DOC_ID;
+
+    if (sheetUrl) {
+      const match = sheetUrl.match(/\/d\/([a-zA-Z0-9-_]+)/);
+      if (match && match[1]) {
+        docId = match[1];
+      }
     }
 
-    const match = sheetUrl.match(/\/d\/([a-zA-Z0-9-_]+)/);
-    if (!match || !match[1]) {
-      return res.status(400).json({ error: "Invalid Google Sheet link" });
-    }
-
-    const docId = match[1];
-    const gidMatch = sheetUrl.match(/gid=([0-9]+)/);
+    const gidMatch = sheetUrl ? sheetUrl.match(/gid=([0-9]+)/) : null;
     const gid = customGid || (gidMatch ? gidMatch[1] : undefined);
 
-    const csvText = await fetchGoogleSheetCsv(docId, gid);
+    let csvText = await fetchGoogleSheetCsv(docId, gid);
+    if (!csvText && docId !== DEFAULT_DOC_ID) {
+      // Fallback to default Kaizen sheet if provided URL fails
+      docId = DEFAULT_DOC_ID;
+      csvText = await fetchGoogleSheetCsv(DEFAULT_DOC_ID, gid);
+    }
+
     if (!csvText) {
       return res.status(403).json({ error: "Google Sheet is restricted, private, or unavailable." });
     }
@@ -160,17 +166,17 @@ app.get("/api/sheets-proxy", async (req, res) => {
 app.get("/api/sheets-sync-all", async (req, res) => {
   try {
     const sheetUrl = (req.query.url as string) || "";
-    if (!sheetUrl) {
-      return res.status(400).json({ error: "Missing sheet URL" });
+    const DEFAULT_DOC_ID = "1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys";
+    let docId = DEFAULT_DOC_ID;
+
+    if (sheetUrl) {
+      const match = sheetUrl.match(/\/d\/([a-zA-Z0-9-_]+)/);
+      if (match && match[1]) {
+        docId = match[1];
+      }
     }
 
-    const match = sheetUrl.match(/\/d\/([a-zA-Z0-9-_]+)/);
-    if (!match || !match[1]) {
-      return res.status(400).json({ error: "Invalid Google Sheet link" });
-    }
-
-    const docId = match[1];
-    const userGidMatch = sheetUrl.match(/gid=([0-9]+)/);
+    const userGidMatch = sheetUrl ? sheetUrl.match(/gid=([0-9]+)/) : null;
     const userGid = userGidMatch ? userGidMatch[1] : null;
 
     // Fetch gid=0 (Stationed) and gid=1487776310 (Virtual) plus userGid
@@ -197,6 +203,23 @@ app.get("/api/sheets-sync-all", async (req, res) => {
         sheetMap[r.gid] = r.text;
       }
     });
+
+    // If no data found for custom docId, fallback to primary default docId
+    if (Object.keys(sheetMap).length === 0 && docId !== DEFAULT_DOC_ID) {
+      docId = DEFAULT_DOC_ID;
+      const defaultCsvFallback = await fetchGoogleSheetCsv(DEFAULT_DOC_ID);
+      if (defaultCsvFallback) sheetMap["default"] = defaultCsvFallback;
+
+      const fallbackGidResults = await Promise.all(
+        ["0", "1487776310"].map(async (gid) => {
+          const text = await fetchGoogleSheetCsv(DEFAULT_DOC_ID, gid);
+          return { gid, text };
+        })
+      );
+      fallbackGidResults.forEach((r) => {
+        if (r.text) sheetMap[r.gid] = r.text;
+      });
+    }
 
     const hasData = Object.keys(sheetMap).length > 0;
 
