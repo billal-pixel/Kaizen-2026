@@ -13,7 +13,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { StationedAdvisor, VirtualAdvisor } from '../types';
-import { parseCsvText } from '../utils/sheetParser';
+import { syncAllSheetsData, PRIMARY_DEFAULT_SHEET } from '../utils/sheetSync';
 
 interface AutoSyncBarProps {
   sheetUrl: string;
@@ -75,45 +75,26 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
     setIsSyncing(true);
     setSyncStatus('idle');
 
-    const DEFAULT_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0';
-    const targetUrl = sheetUrl || DEFAULT_SHEET;
+    const targetUrl = sheetUrl || PRIMARY_DEFAULT_SHEET;
 
     try {
-      // Call multi-tab endpoint to sync both Stationed (gid=0) and Virtual (gid=1487776310) tabs simultaneously
-      let multiSyncUrl = `/api/sheets-sync-all?url=${encodeURIComponent(targetUrl)}&_t=${Date.now()}`;
-      let res = await fetch(multiSyncUrl);
+      const result = await syncAllSheetsData(targetUrl);
 
-      if (!res.ok) {
-        // Fallback to default primary live sheet endpoint
-        multiSyncUrl = `/api/sheets-sync-all?url=${encodeURIComponent(DEFAULT_SHEET)}&_t=${Date.now()}`;
-        res = await fetch(multiSyncUrl);
-      }
-
-      const syncResult = await res.json();
-
-      if (!syncResult.success || !syncResult.sheets || Object.keys(syncResult.sheets).length === 0) {
-        throw new Error(syncResult.error || 'Failed to sync Google Sheet data.');
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to sync Google Sheet data.');
       }
 
       let totalStationedImported = 0;
       let totalVirtualImported = 0;
 
-      // Parse each sheet tab
-      for (const gid of Object.keys(syncResult.sheets)) {
-        const csvText = syncResult.sheets[gid];
-        if (!csvText || csvText.includes('<!DOCTYPE html>') || csvText.includes('document-root')) continue;
+      if (result.stationed && result.stationed.length > 0) {
+        stationedImportRef.current(result.stationed, true);
+        totalStationedImported = result.stationed.length;
+      }
 
-        const parsed = await parseCsvText(csvText, 'auto');
-
-        if (parsed.stationed && parsed.stationed.length > 0) {
-          stationedImportRef.current(parsed.stationed, true);
-          totalStationedImported += parsed.stationed.length;
-        }
-
-        if (parsed.virtual && parsed.virtual.length > 0) {
-          virtualImportRef.current(parsed.virtual, true);
-          totalVirtualImported += parsed.virtual.length;
-        }
+      if (result.virtual && result.virtual.length > 0) {
+        virtualImportRef.current(result.virtual, true);
+        totalVirtualImported = result.virtual.length;
       }
 
       const totalRecords = totalStationedImported + totalVirtualImported;

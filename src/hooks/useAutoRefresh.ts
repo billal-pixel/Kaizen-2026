@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { StationedAdvisor, VirtualAdvisor } from '../types';
-import { parseCsvText } from '../utils/sheetParser';
+import { syncAllSheetsData, PRIMARY_DEFAULT_SHEET } from '../utils/sheetSync';
 
 interface UseAutoRefreshOptions {
   sheetUrl: string;
@@ -43,38 +43,17 @@ export function useAutoRefresh({
     setIsRefreshing(true);
     setLastStatus('idle');
 
-    const DEFAULT_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0';
-    const targetUrl = sheetUrl || DEFAULT_SHEET;
+    const targetUrl = sheetUrl || PRIMARY_DEFAULT_SHEET;
 
     try {
-      let fetchUrl = `/api/sheets-sync-all?url=${encodeURIComponent(targetUrl)}&_t=${Date.now()}`;
-      let res = await fetch(fetchUrl);
+      const result = await syncAllSheetsData(targetUrl);
 
-      if (!res.ok) {
-        fetchUrl = `/api/sheets-sync-all?url=${encodeURIComponent(DEFAULT_SHEET)}&_t=${Date.now()}`;
-        res = await fetch(fetchUrl);
-      }
-
-      const syncResult = await res.json();
-
-      if (syncResult && syncResult.success && syncResult.sheets) {
-        let allStationed: StationedAdvisor[] = [];
-        let allVirtual: VirtualAdvisor[] = [];
-
-        for (const gid of Object.keys(syncResult.sheets)) {
-          const csvText = syncResult.sheets[gid];
-          if (csvText) {
-            const parsed = await parseCsvText(csvText);
-            if (parsed.stationed) allStationed = [...allStationed, ...parsed.stationed];
-            if (parsed.virtual) allVirtual = [...allVirtual, ...parsed.virtual];
-          }
+      if (result.success && (result.stationed.length > 0 || result.virtual.length > 0)) {
+        if (result.stationed.length > 0) {
+          stationedRef.current(result.stationed, true);
         }
-
-        if (allStationed.length > 0) {
-          stationedRef.current(allStationed, true);
-        }
-        if (allVirtual.length > 0) {
-          virtualRef.current(allVirtual, true);
+        if (result.virtual.length > 0) {
+          virtualRef.current(result.virtual, true);
         }
 
         const now = new Date();
@@ -85,7 +64,7 @@ export function useAutoRefresh({
         setLastStatus('error');
       }
     } catch (err) {
-      console.warn('60s Auto-refresh error:', err);
+      console.warn('Auto-refresh warning:', err);
       setLastStatus('error');
     } finally {
       setIsRefreshing(false);

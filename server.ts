@@ -86,8 +86,17 @@ Return JSON with the following structure:
   }
 });
 
-// Helper to fetch CSV from Google Sheets using both gviz and export endpoints
+// In-memory cache for CSV responses (TTL 15 seconds)
+const sheetCsvCache = new Map<string, { timestamp: number; text: string }>();
+
+// Helper to fetch CSV from Google Sheets using fast gviz and fallback export endpoints
 async function fetchGoogleSheetCsv(docId: string, gid?: string): Promise<string | null> {
+  const cacheKey = `${docId}_${gid || "default"}`;
+  const cached = sheetCsvCache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < 15000) {
+    return cached.text;
+  }
+
   const gvizUrl = gid !== undefined && gid !== null
     ? `https://docs.google.com/spreadsheets/d/${docId}/gviz/tq?tqx=out:csv&gid=${gid}`
     : `https://docs.google.com/spreadsheets/d/${docId}/gviz/tq?tqx=out:csv`;
@@ -101,6 +110,7 @@ async function fetchGoogleSheetCsv(docId: string, gid?: string): Promise<string 
   for (const url of urlsToTry) {
     try {
       const resp = await fetch(url, {
+        signal: AbortSignal.timeout(4500),
         headers: {
           "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
           "Accept": "text/csv,text/plain,*/*",
@@ -116,6 +126,7 @@ async function fetchGoogleSheetCsv(docId: string, gid?: string): Promise<string 
         !text.includes("sign-in") &&
         text.trim().length > 10
       ) {
+        sheetCsvCache.set(cacheKey, { timestamp: Date.now(), text });
         return text;
       }
     } catch (e) {

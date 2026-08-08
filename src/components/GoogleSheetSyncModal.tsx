@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import Papa from 'papaparse';
 import { StationedAdvisor, VirtualAdvisor } from '../types';
 import { parseRawRows, parseCsvText, formatKpiDisplay } from '../utils/sheetParser';
+import { syncAllSheetsData, PRIMARY_DEFAULT_SHEET } from '../utils/sheetSync';
 import { 
   FileSpreadsheet, 
   Upload, 
@@ -106,33 +107,14 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
     }
 
     try {
-      const response = await fetch(`/api/sheets-sync-all?url=${encodeURIComponent(urlToFetch)}`);
-      if (!response.ok) {
-        throw new Error('Google Sheet is restricted or private. Switch to "Paste Sheet Cells" tab above to paste cells in 1 click!');
-      }
+      const syncResult = await syncAllSheetsData(urlToFetch);
 
-      const syncResult = await response.json();
       if (!syncResult.success) {
         throw new Error(syncResult.error || 'Failed to fetch Google Sheet data.');
       }
 
-      if (syncResult.isRestricted && Object.keys(syncResult.sheets || {}).length === 0) {
-        setErrorMsg('This Google Sheet is currently private or restricted. Set sharing to "Anyone with the link can view", or use "Paste Sheet Cells" to copy rows directly!');
-        setSyncing(false);
-        return;
-      }
-
-      let allStationed: StationedAdvisor[] = [];
-      let allVirtual: VirtualAdvisor[] = [];
-
-      for (const gid of Object.keys(syncResult.sheets || {})) {
-        const csvText = syncResult.sheets[gid];
-        if (!csvText || csvText.includes('<!DOCTYPE html>') || csvText.includes('document-root')) continue;
-
-        const parsed = await parseCsvText(csvText, targetTeam);
-        if (parsed.stationed.length > 0) allStationed = [...allStationed, ...parsed.stationed];
-        if (parsed.virtual.length > 0) allVirtual = [...allVirtual, ...parsed.virtual];
-      }
+      const allStationed = syncResult.stationed;
+      const allVirtual = syncResult.virtual;
 
       if (allStationed.length > 0 && allVirtual.length > 0) {
         setPreviewStationed(allStationed);
@@ -147,7 +129,7 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
         setPreviewVirtual(null);
         setSuccessMsg(`Successfully connected & parsed ${allStationed.length} Stationed Advisors!`);
       } else {
-        setErrorMsg('Connected sheet URL, but no valid advisor rows were detected in the public response. If this sheet is private, copy cells and paste in "Paste Sheet Cells".');
+        setErrorMsg('Connected sheet URL, but no valid advisor rows were detected. If this sheet is private, copy cells and paste in "Paste Sheet Cells".');
       }
 
       setSyncing(false);
