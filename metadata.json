@@ -1,0 +1,6 @@
+{
+  "name": "Kaizen Team Leader Dashboard",
+  "description": "Centralized real-time performance tracking, task management, time tracking, and automated reporting for Stationed and Virtual advisor teams under Team Leader Muhammad Billal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
