@@ -33,8 +33,8 @@ import { useAutoRefresh } from './hooks/useAutoRefresh';
 export default function App() {
   const teamLeaderName = "Muhammad Billal";
 
-  const PRIMARY_LIVE_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit?gid=1487776310#gid=1487776310';
-  const DATA_VERSION = 'kaizen_v12_live_sheet_1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys';
+  const PRIMARY_LIVE_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6ZErztFzIVU54RvwZ2z5kRVRf2JWLoGURDzys/edit#gid=0';
+  const DATA_VERSION = 'kaizen_v14_live_sheet_1r0_mnl6ZErztFzIVU54RvwZ2z5kRVRf2JWLoGURDzys';
 
   // Snapshot initial version before any state initializers write to localStorage
   const initialSavedVersion = useMemo(() => localStorage.getItem('kaizen_data_version'), []);
@@ -42,7 +42,7 @@ export default function App() {
   // Google Sheet URL state (connected to requested live sheet)
   const [sheetUrl, setSheetUrl] = useState<string>(() => {
     const saved = localStorage.getItem('kaizen_sheet_url');
-    if (!saved || saved.includes('1OenfVVwq4xEk_8s-LoRwxBh2_vMEtwe9COUy9bNa8kM')) {
+    if (!saved || saved.includes('1OenfVVwq4xEk') || saved.toLowerCase().includes('1r0_mnl6zerzt')) {
       localStorage.setItem('kaizen_sheet_url', PRIMARY_LIVE_SHEET);
       return PRIMARY_LIVE_SHEET;
     }

@@ -86,6 +86,45 @@ Return JSON with the following structure:
   }
 });
 
+// Helper to fetch CSV from Google Sheets using both gviz and export endpoints
+async function fetchGoogleSheetCsv(docId: string, gid?: string): Promise<string | null> {
+  const gvizUrl = gid !== undefined && gid !== null
+    ? `https://docs.google.com/spreadsheets/d/${docId}/gviz/tq?tqx=out:csv&gid=${gid}`
+    : `https://docs.google.com/spreadsheets/d/${docId}/gviz/tq?tqx=out:csv`;
+
+  const exportUrl = gid !== undefined && gid !== null
+    ? `https://docs.google.com/spreadsheets/d/${docId}/export?format=csv&gid=${gid}`
+    : `https://docs.google.com/spreadsheets/d/${docId}/export?format=csv`;
+
+  const urlsToTry = [gvizUrl, exportUrl];
+
+  for (const url of urlsToTry) {
+    try {
+      const resp = await fetch(url, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          "Accept": "text/csv,text/plain,*/*",
+        },
+      });
+      if (!resp.ok) continue;
+      const text = await resp.text();
+      if (
+        text &&
+        !text.includes("<!DOCTYPE html>") &&
+        !text.includes("document-root") &&
+        !text.includes("ServiceLogin") &&
+        !text.includes("sign-in") &&
+        text.trim().length > 10
+      ) {
+        return text;
+      }
+    } catch (e) {
+      console.warn(`Fetch failed for ${url}:`, e);
+    }
+  }
+  return null;
+}
+
 // Proxy route to fetch public Google Sheet CSV content
 app.get("/api/sheets-proxy", async (req, res) => {
   try {
@@ -96,24 +135,20 @@ app.get("/api/sheets-proxy", async (req, res) => {
       return res.status(400).json({ error: "Missing sheet URL" });
     }
 
-    // Convert standard Google Sheet edit link to CSV export link if needed
-    let csvUrl = sheetUrl;
-    if (sheetUrl.includes("docs.google.com/spreadsheets")) {
-      const match = sheetUrl.match(/\/d\/([a-zA-Z0-9-_]+)/);
-      const gidMatch = sheetUrl.match(/gid=([0-9]+)/);
-      if (match && match[1]) {
-        const docId = match[1];
-        const gid = customGid || (gidMatch ? gidMatch[1] : "0");
-        csvUrl = `https://docs.google.com/spreadsheets/d/${docId}/export?format=csv&gid=${gid}`;
-      }
+    const match = sheetUrl.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    if (!match || !match[1]) {
+      return res.status(400).json({ error: "Invalid Google Sheet link" });
     }
 
-    const response = await fetch(csvUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch sheet: ${response.statusText}`);
+    const docId = match[1];
+    const gidMatch = sheetUrl.match(/gid=([0-9]+)/);
+    const gid = customGid || (gidMatch ? gidMatch[1] : undefined);
+
+    const csvText = await fetchGoogleSheetCsv(docId, gid);
+    if (!csvText) {
+      return res.status(403).json({ error: "Google Sheet is restricted, private, or unavailable." });
     }
 
-    const csvText = await response.text();
     res.type("text/csv").send(csvText);
   } catch (err: any) {
     console.error("Sheets proxy error:", err);
@@ -138,40 +173,38 @@ app.get("/api/sheets-sync-all", async (req, res) => {
     const userGidMatch = sheetUrl.match(/gid=([0-9]+)/);
     const userGid = userGidMatch ? userGidMatch[1] : null;
 
-    // Fetch gid=0 (Stationed) and gid=1487776310 (Virtual) in parallel
+    // Fetch gid=0 (Stationed) and gid=1487776310 (Virtual) plus userGid
     const gidsToFetch = Array.from(new Set(["0", "1487776310", ...(userGid ? [userGid] : [])]));
 
-    const fetchPromises = gidsToFetch.map(async (gid) => {
-      const url = `https://docs.google.com/spreadsheets/d/${docId}/export?format=csv&gid=${gid}`;
-      try {
-        const resp = await fetch(url);
-        if (!resp.ok) return { gid, text: null };
-        const text = await resp.text();
-        return { gid, text };
-      } catch {
-        return { gid, text: null };
-      }
-    });
-
-    const results = await Promise.all(fetchPromises);
     const sheetMap: Record<string, string> = {};
-    let isRestricted = false;
 
-    results.forEach((r) => {
+    // 1. Fetch default sheet without gid first
+    const defaultCsv = await fetchGoogleSheetCsv(docId);
+    if (defaultCsv) {
+      sheetMap["default"] = defaultCsv;
+    }
+
+    // 2. Fetch specific GIDs in parallel
+    const gidResults = await Promise.all(
+      gidsToFetch.map(async (gid) => {
+        const text = await fetchGoogleSheetCsv(docId, gid);
+        return { gid, text };
+      })
+    );
+
+    gidResults.forEach((r) => {
       if (r.text) {
-        if (r.text.includes("<!DOCTYPE html>") || r.text.includes("document-root") || r.text.includes("sign-in") || r.text.includes("ServiceLogin")) {
-          isRestricted = true;
-        } else {
-          sheetMap[r.gid] = r.text;
-        }
+        sheetMap[r.gid] = r.text;
       }
     });
+
+    const hasData = Object.keys(sheetMap).length > 0;
 
     res.json({
       success: true,
       docId,
       userGid,
-      isRestricted,
+      isRestricted: !hasData,
       sheets: sheetMap,
     });
   } catch (err: any) {

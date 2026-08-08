@@ -91,11 +91,14 @@ export function useAutoRefresh({
     }
   }, [sheetUrl, intervalSeconds]);
 
-  // Timer loop for 60-second periodic auto-refresh
+  // Initial refresh on mount & timer loop for periodic auto-refresh
   useEffect(() => {
     if (!autoRefreshEnabled) {
       return;
     }
+
+    // Trigger immediate refresh on mount / when sheetUrl changes
+    refreshNow();
 
     const intervalId = setInterval(() => {
       setCountdown((prev) => {

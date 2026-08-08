@@ -35,7 +35,7 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
   sheetUrl: externalSheetUrl,
   onUpdateSheetUrl,
 }) => {
-  const defaultSheetUrl = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit?gid=1487776310#gid=1487776310';
+  const defaultSheetUrl = 'https://docs.google.com/spreadsheets/d/1r0_mnl6ZErztFzIVU54RvwZ2z5kRVRf2JWLoGURDzys/edit#gid=0';
   
   const [syncMode, setSyncMode] = useState<'paste' | 'url' | 'upload'>('url');
   const [targetTeam, setTargetTeam] = useState<'auto' | 'stationed' | 'virtual'>('auto');
@@ -46,8 +46,8 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
   // Quick Sheet Presets
   const sheetPresets = [
     {
-      name: 'Primary Kaizen Live Sheet (1r0_mnl6zER...)',
-      url: 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit?gid=1487776310#gid=1487776310',
+      name: 'Primary Kaizen Live Sheet (TEAM KAIZEN)',
+      url: 'https://docs.google.com/spreadsheets/d/1r0_mnl6ZErztFzIVU54RvwZ2z5kRVRf2JWLoGURDzys/edit#gid=0',
       badge: 'Main Live Sheet'
     },
     {
