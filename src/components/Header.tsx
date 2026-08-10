@@ -10,6 +10,8 @@ import {
   PhoneCall,
   CreditCard,
   Globe,
+  FileText,
+  Link2,
   ExternalLink,
   ShieldCheck,
   Zap,
@@ -71,13 +73,13 @@ export const Header: React.FC<HeaderProps> = React.memo(({
       {/* Top Animated Cyan/Sky Glow Hairline Accent */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400/80 via-sky-400/80 to-transparent shadow-[0_0_12px_rgba(34,211,238,0.8)]" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         {/* Top bar with Brand ID on Left and grouped Actions & Integrations on Right */}
-        <div className="py-3 flex flex-col lg:flex-row items-center justify-between gap-3.5 border-b border-slate-800/70">
+        <div className="py-2.5 sm:py-3 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 border-b border-slate-800/70">
           
-          {/* Left: Brand ID & Team Leader */}
-          <div className="flex items-center gap-3.5 shrink-0 w-full lg:w-auto justify-between lg:justify-start">
-            <div className="flex items-center gap-3">
+          {/* Brand ID & Top-Level Quick Actions */}
+          <div className="flex items-center justify-between gap-2 shrink-0 w-full lg:w-auto">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
               {/* Hologram Floating Logo Shield */}
               <motion.div 
                 animate={{ y: [0, -3, 0] }}
@@ -98,21 +100,22 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 </div>
               </motion.div>
 
-              <div>
-                <div className="flex items-center gap-2">
-                  <h1 className="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-cyan-300 via-cyan-100 to-slate-100 bg-clip-text text-transparent uppercase font-sans drop-shadow-sm">
+              <div className="min-w-0 flex flex-col justify-center">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <h1 className="text-base sm:text-2xl font-black tracking-tight bg-gradient-to-r from-cyan-300 via-cyan-100 to-slate-100 bg-clip-text text-transparent uppercase font-sans drop-shadow-sm whitespace-nowrap">
                     TEAM KAIZEN
                   </h1>
-                  <span className="bg-cyan-950/90 border border-cyan-500/40 text-cyan-300 text-[10px] font-black px-2 py-0.5 rounded-md tracking-wider uppercase shadow-inner flex items-center gap-1.5">
+                  <span className="bg-cyan-950/90 border border-cyan-500/40 text-cyan-300 text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-md tracking-wider uppercase shadow-inner flex items-center gap-1 shrink-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
-                    <span>COMMAND CENTER</span>
+                    <span className="hidden sm:inline">COMMAND CENTER</span>
+                    <span className="sm:hidden">HQ</span>
                   </span>
                 </div>
-                <div className="flex items-center gap-2 mt-0.5 text-xs text-slate-400">
-                  <span className="flex items-center gap-1 text-slate-300 font-medium bg-slate-900/80 border border-slate-800/80 px-2 py-0.5 rounded-md">
-                    <ShieldCheck className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <div className="flex items-center gap-1 mt-0.5 text-xs text-slate-400">
+                  <span className="flex items-center gap-1 text-slate-300 font-medium bg-slate-900/80 border border-slate-800/80 px-1.5 py-0.5 rounded-md text-[10px] sm:text-xs">
+                    <ShieldCheck className="w-3 h-3 text-cyan-400 shrink-0" />
                     <span>TL:</span>
-                    <strong className="text-cyan-300 font-semibold">{teamLeaderName}</strong>
+                    <strong className="text-cyan-300 font-semibold truncate max-w-[90px] sm:max-w-none">{teamLeaderName}</strong>
                   </span>
                   <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-emerald-400 bg-emerald-950/50 border border-emerald-800/50 px-2 py-0.5 rounded-md font-mono">
                     <Activity className="w-3 h-3 text-emerald-400 animate-pulse" />
@@ -121,13 +124,44 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 </div>
               </div>
             </div>
+
+            {/* Mobile Header Quick Buttons (Theme Toggle & Add Advisor) */}
+            <div className="flex items-center gap-1.5 shrink-0 lg:hidden">
+              {onToggleTheme && (
+                <button
+                  type="button"
+                  onClick={onToggleTheme}
+                  title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to High-Contrast Light Mode'}
+                  className={`p-2 rounded-xl border transition-all cursor-pointer ${
+                    theme === 'light'
+                      ? 'bg-amber-100 border-amber-300 text-amber-950'
+                      : 'bg-slate-900 border-slate-800 text-amber-300 hover:border-amber-500/40'
+                  }`}
+                >
+                  {theme === 'light' ? (
+                    <Sun className="w-4 h-4 text-amber-600 animate-spin-slow" />
+                  ) : (
+                    <Moon className="w-4 h-4 text-amber-300" />
+                  )}
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={onOpenAddModal}
+                className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs px-2.5 py-2 rounded-xl flex items-center gap-1 shadow-md shadow-cyan-500/20 active:scale-95 cursor-pointer shrink-0 border border-cyan-200/50"
+              >
+                <Plus className="w-4 h-4 stroke-[3] text-slate-950" />
+                <span className="text-slate-950 font-extrabold whitespace-nowrap">Add Advisor</span>
+              </button>
+            </div>
           </div>
 
-          {/* Right: Grouped Controls (Integration Settings, Quick Links, Payment CTA, Add Advisor) */}
-          <div className="flex flex-wrap items-center gap-2.5 justify-end w-full lg:w-auto">
+          {/* Controls & Quick Access Integrations */}
+          <div className="flex flex-col sm:flex-row lg:flex-row flex-wrap items-stretch sm:items-center gap-2.5 justify-end w-full lg:w-auto">
             
             {/* Live Google Sheet Integration Widget */}
-            <div className="min-w-0">
+            <div className="w-full lg:w-auto min-w-0">
               <AutoSyncBar
                 sheetUrl={sheetUrl}
                 onUpdateSheetUrl={onUpdateSheetUrl}
@@ -137,8 +171,41 @@ export const Header: React.FC<HeaderProps> = React.memo(({
               />
             </div>
 
-            {/* Team Google Sites Quick Links (Essential Link & Virtual Link) */}
-            <div className="flex items-center gap-1.5 bg-slate-900/90 border border-slate-800/90 p-1 rounded-xl shadow-inner backdrop-blur-md">
+            {/* Group Joining Links, Portals & Payment Texts - Horizontal Scrollable Pill Row */}
+            <div className="w-full lg:w-auto flex items-center gap-1.5 bg-slate-900/90 border border-slate-800/90 p-1 rounded-xl shadow-inner backdrop-blur-md overflow-x-auto no-scrollbar scroll-smooth shrink-0">
+              {/* Station Group Joining Link */}
+              <motion.a
+                whileHover={{ scale: 1.02, y: -0.5 }}
+                whileTap={{ scale: 0.96 }}
+                href="https://docs.google.com/document/d/1jaGIrl5ewYbilQj38ZIqf6Cz6AVeQedGyDeuWP7lK7Q/edit?tab=t.0"
+                target="_blank"
+                rel="noreferrer"
+                title="Station Group Joining Link (Google Doc)"
+                className="group relative px-2.5 py-1.5 bg-emerald-950/80 hover:bg-emerald-900/90 border border-emerald-500/40 text-emerald-300 hover:text-emerald-100 text-xs font-bold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shadow-sm shrink-0 overflow-hidden"
+              >
+                <Link2 className="w-3.5 h-3.5 text-emerald-400 group-hover:rotate-12 transition-transform duration-300 shrink-0" />
+                <span className="whitespace-nowrap">Station Group Link</span>
+                <ExternalLink className="w-3 h-3 text-emerald-400 opacity-70 group-hover:opacity-100 transition-all shrink-0" />
+              </motion.a>
+
+              {/* Virtual Group Joining Link */}
+              <motion.a
+                whileHover={{ scale: 1.02, y: -0.5 }}
+                whileTap={{ scale: 0.96 }}
+                href="https://docs.google.com/document/d/1KVLOt1nOmNAsXCtCsxF4TYobUt8zfSGJ3mYq920s1UA/edit?tab=t.0"
+                target="_blank"
+                rel="noreferrer"
+                title="Virtual Group Joining Link (Google Doc)"
+                className="group relative px-2.5 py-1.5 bg-indigo-950/80 hover:bg-indigo-900/90 border border-indigo-500/40 text-indigo-300 hover:text-indigo-100 text-xs font-bold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shadow-sm shrink-0 overflow-hidden"
+              >
+                <Link2 className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform duration-300 shrink-0" />
+                <span className="whitespace-nowrap">Virtual Group Link</span>
+                <ExternalLink className="w-3 h-3 text-indigo-400 opacity-70 group-hover:opacity-100 transition-all shrink-0" />
+              </motion.a>
+
+              <div className="h-4 w-px bg-slate-800 mx-0.5 shrink-0" />
+
+              {/* Essential Sites Links */}
               <motion.a
                 whileHover={{ scale: 1.02, y: -0.5 }}
                 whileTap={{ scale: 0.96 }}
@@ -146,12 +213,11 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 target="_blank"
                 rel="noreferrer"
                 title="10MS Mirpur Station Essential Link Google Site"
-                className="group relative px-3 py-1.5 bg-cyan-950/70 hover:bg-cyan-900/90 border border-cyan-500/30 hover:border-cyan-400/80 text-cyan-300 hover:text-cyan-100 text-xs font-bold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-[0_0_12px_rgba(34,211,238,0.25)] overflow-hidden"
+                className="group relative px-2.5 py-1.5 bg-cyan-950/70 hover:bg-cyan-900/90 border border-cyan-500/30 hover:border-cyan-400/80 text-cyan-300 hover:text-cyan-100 text-xs font-bold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shadow-sm shrink-0 overflow-hidden"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/0 via-cyan-400/20 to-cyan-400/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
                 <Globe className="w-3.5 h-3.5 text-cyan-400 group-hover:rotate-12 transition-transform duration-300 shrink-0" />
-                <span>Essential Link</span>
-                <ExternalLink className="w-3 h-3 text-cyan-400 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
+                <span className="whitespace-nowrap">Essential Site</span>
+                <ExternalLink className="w-3 h-3 text-cyan-400 opacity-70 group-hover:opacity-100 transition-all shrink-0" />
               </motion.a>
 
               <motion.a
@@ -161,80 +227,80 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 target="_blank"
                 rel="noreferrer"
                 title="Virtual Team Essential Links Google Site"
-                className="group relative px-3 py-1.5 bg-sky-950/70 hover:bg-sky-900/90 border border-sky-500/30 hover:border-sky-400/80 text-sky-300 hover:text-sky-100 text-xs font-bold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-[0_0_12px_rgba(56,189,248,0.25)] overflow-hidden"
+                className="group relative px-2.5 py-1.5 bg-sky-950/70 hover:bg-sky-900/90 border border-sky-500/30 hover:border-sky-400/80 text-sky-300 hover:text-sky-100 text-xs font-bold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shadow-sm shrink-0 overflow-hidden"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-sky-400/0 via-sky-400/20 to-sky-400/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
                 <Globe className="w-3.5 h-3.5 text-sky-400 group-hover:rotate-12 transition-transform duration-300 shrink-0" />
-                <span>Virtual Link</span>
-                <ExternalLink className="w-3 h-3 text-sky-400 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
+                <span className="whitespace-nowrap">VT Essential Site</span>
+                <ExternalLink className="w-3 h-3 text-sky-400 opacity-70 group-hover:opacity-100 transition-all shrink-0" />
               </motion.a>
+
+              <div className="h-4 w-px bg-slate-800 mx-0.5 shrink-0" />
+
+              {/* Payment Copy Messages Button */}
+              {onOpenPaymentModal && (
+                <motion.button
+                  whileHover={{ scale: 1.03, y: -1 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={onOpenPaymentModal}
+                  className="group relative bg-slate-950 hover:bg-slate-900 border border-pink-500/40 hover:border-pink-400/90 text-pink-300 hover:text-pink-100 font-bold text-xs px-2.5 py-1.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer shadow-sm overflow-hidden whitespace-nowrap"
+                >
+                  <CreditCard className="w-3.5 h-3.5 text-pink-400 shrink-0" />
+                  <span>Payment Texts</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-pulse shrink-0" />
+                </motion.button>
+              )}
             </div>
 
-            {/* Theme Toggle Button */}
-            {onToggleTheme && (
-              <motion.button
-                whileHover={{ scale: 1.04, y: -0.5 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={onToggleTheme}
-                title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to High-Contrast Light Mode'}
-                className={`group relative px-3 py-2 rounded-xl border font-bold text-xs flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-sm ${
-                  theme === 'light'
-                    ? 'bg-amber-100 hover:bg-amber-200 border-amber-300 text-amber-950 shadow-amber-500/10 ring-1 ring-amber-400/30'
-                    : 'bg-slate-900/90 hover:bg-slate-800 border-slate-800 text-amber-300 shadow-inner hover:border-amber-500/40'
-                }`}
-              >
-                {theme === 'light' ? (
-                  <>
-                    <Sun className="w-4 h-4 text-amber-600 shrink-0 animate-spin-slow" />
-                    <span className="font-extrabold text-[11px] text-amber-950">Light Mode</span>
-                  </>
-                ) : (
-                  <>
-                    <Moon className="w-4 h-4 text-amber-300 shrink-0 group-hover:rotate-12 transition-transform duration-300" />
-                    <span className="font-extrabold text-[11px] text-slate-200 group-hover:text-amber-200">Dark Mode</span>
-                  </>
-                )}
-              </motion.button>
-            )}
+            {/* Desktop Only Extra Action Controls */}
+            <div className="hidden lg:flex items-center gap-2 justify-end w-auto shrink-0">
+              {/* Theme Toggle Button (Desktop View) */}
+              {onToggleTheme && (
+                <motion.button
+                  whileHover={{ scale: 1.04, y: -0.5 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={onToggleTheme}
+                  title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to High-Contrast Light Mode'}
+                  className={`group relative px-3 py-2 rounded-xl border font-bold text-xs flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-sm ${
+                    theme === 'light'
+                      ? 'bg-amber-100 hover:bg-amber-200 border-amber-300 text-amber-950 shadow-amber-500/10 ring-1 ring-amber-400/30'
+                      : 'bg-slate-900/90 hover:bg-slate-800 border-slate-800 text-amber-300 shadow-inner hover:border-amber-500/40'
+                  }`}
+                >
+                  {theme === 'light' ? (
+                    <>
+                      <Sun className="w-4 h-4 text-amber-600 shrink-0 animate-spin-slow" />
+                      <span className="font-extrabold text-[11px] text-amber-950">Light Mode</span>
+                    </>
+                  ) : (
+                    <>
+                      <Moon className="w-4 h-4 text-amber-300 shrink-0 group-hover:rotate-12 transition-transform duration-300" />
+                      <span className="font-extrabold text-[11px] text-slate-200 group-hover:text-amber-200">Dark Mode</span>
+                    </>
+                  )}
+                </motion.button>
+              )}
 
-            {/* Payment Copy Messages Button with Glint Border & Tactile Press */}
-            {onOpenPaymentModal && (
-              <motion.button
-                whileHover={{ scale: 1.03, y: -1 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={onOpenPaymentModal}
-                className="group relative bg-slate-900 hover:bg-slate-850 border border-pink-500/40 hover:border-pink-400/90 text-pink-300 hover:text-pink-100 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer shadow-lg shadow-pink-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.3)] overflow-hidden"
-              >
-                {/* Glint Sweep Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-pink-500/0 via-pink-400/25 to-pink-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
-                <CreditCard className="w-4 h-4 text-pink-400 group-hover:scale-110 transition-transform duration-200 shrink-0" />
-                <span>Payment Texts</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-pulse" />
-              </motion.button>
-            )}
-
-            {/* Primary Action CTA: Add Advisor with Pulsing Outline Glow, Tactile Press & Shimmer Sweep */}
-            <div className="relative group shrink-0">
-              {/* Pulsing Outline Aura */}
-              <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-cyan-400 via-cyan-300 to-sky-400 opacity-70 blur-xs animate-pulse group-hover:opacity-100 group-hover:blur-sm transition-all duration-300" />
-              
-              <motion.button
-                whileHover={{ scale: 1.03, y: -1 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={onOpenAddModal}
-                className="relative bg-gradient-to-r from-cyan-400 via-cyan-500 to-sky-500 hover:from-cyan-300 hover:to-sky-400 text-slate-950 font-black text-xs px-4 py-2.5 rounded-xl flex items-center gap-1.5 shadow-xl shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all duration-200 shrink-0 cursor-pointer overflow-hidden border border-cyan-200/50"
-              >
-                {/* Fast Shimmer Sweep Across Surface */}
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/40 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-600 ease-out" />
-                <Plus className="w-4 h-4 stroke-[3] group-hover:rotate-90 transition-transform duration-300 shrink-0" />
-                <span className="tracking-wide">Add Advisor</span>
-              </motion.button>
+              {/* Primary Action CTA: Add Advisor (Desktop View) */}
+              <div className="relative group shrink-0">
+                <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-cyan-400 via-cyan-300 to-sky-400 opacity-70 blur-xs animate-pulse group-hover:opacity-100 group-hover:blur-sm transition-all duration-300" />
+                
+                <motion.button
+                  whileHover={{ scale: 1.03, y: -1 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={onOpenAddModal}
+                  className="relative bg-gradient-to-r from-cyan-400 via-cyan-500 to-sky-500 hover:from-cyan-300 hover:to-sky-400 text-slate-950 font-black text-xs px-4 py-2.5 rounded-xl flex items-center gap-1.5 shadow-xl shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all duration-200 shrink-0 cursor-pointer overflow-hidden border border-cyan-200/50"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/40 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-600 ease-out" />
+                  <Plus className="w-4 h-4 stroke-[3] group-hover:rotate-90 transition-transform duration-300 shrink-0" />
+                  <span className="tracking-wide">Add Advisor</span>
+                </motion.button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Navigation Tabs */}
-        <nav className="flex items-center space-x-1 sm:space-x-1.5 overflow-x-auto py-2.5 no-scrollbar scroll-smooth">
+        <nav className="flex items-center space-x-1 sm:space-x-1.5 overflow-x-auto py-2.5 no-scrollbar scroll-smooth w-full">
           {[
             { id: 'overview', label: 'Executive Dashboard', icon: BarChart3, color: 'text-cyan-400' },
             { id: 'stationed', label: 'Stationed Team', icon: Users, color: 'text-cyan-400', badge: stationedCount },
@@ -252,7 +318,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`group relative px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-2 whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                className={`group relative px-3 sm:px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-2 whitespace-nowrap transition-all duration-200 cursor-pointer shrink-0 min-h-[40px] ${
                   isActive
                     ? 'text-cyan-100 font-extrabold shadow-sm'
                     : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/80'

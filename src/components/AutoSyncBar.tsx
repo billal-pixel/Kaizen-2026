@@ -238,12 +238,12 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
         </div>
 
         {/* Right Controls */}
-        <div className="flex items-center gap-1.5 flex-wrap justify-end shrink-0">
+        <div className="flex items-center gap-1.5 justify-between sm:justify-end w-full sm:w-auto shrink-0 pt-1.5 sm:pt-0 border-t sm:border-0 border-slate-800/60">
           {/* Pause / Resume Button */}
           <button
             type="button"
             onClick={() => setAutoSyncEnabled(!autoSyncEnabled)}
-            className={`p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 border transition-all cursor-pointer ${
+            className={`px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1 border transition-all cursor-pointer flex-1 sm:flex-initial whitespace-nowrap ${
               autoSyncEnabled
                 ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
                 : 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border-emerald-500/30'
@@ -252,46 +252,45 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
           >
             {autoSyncEnabled ? (
               <>
-                <Pause className="w-3.5 h-3.5 text-slate-400" />
-                <span className="hidden md:inline">Pause</span>
+                <Pause className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                <span className="text-[11px] font-bold">Pause</span>
               </>
             ) : (
               <>
-                <Play className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden md:inline">Resume</span>
+                <Play className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span className="text-[11px] font-bold">Resume</span>
               </>
             )}
           </button>
 
-          {/* Sync Now Button with active rotation & glow */}
+          {/* Sync Now Button */}
           <button
             type="button"
             onClick={performSync}
             disabled={isSyncing}
-            className={`relative px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all duration-200 active:scale-95 disabled:opacity-50 cursor-pointer overflow-hidden ${
+            className={`relative px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 disabled:opacity-50 cursor-pointer overflow-hidden flex-1 sm:flex-initial whitespace-nowrap ${
               isSyncing 
                 ? 'bg-cyan-500/25 border border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.4)]' 
                 : 'bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400/60'
             }`}
             title="Sync data now"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-cyan-300 stroke-[2.5]' : ''}`} />
-            <span className="hidden sm:inline">{isSyncing ? 'Syncing...' : 'Sync Now'}</span>
+            <RefreshCw className={`w-3.5 h-3.5 shrink-0 ${isSyncing ? 'animate-spin text-cyan-300 stroke-[2.5]' : ''}`} />
+            <span className="text-[11px] font-bold">{isSyncing ? 'Syncing...' : 'Sync Now'}</span>
           </button>
 
-          {/* Configure Sheet Modal Trigger with Glint Border & Tactile Press */}
+          {/* Configure Sheet Modal Trigger */}
           {onOpenSyncModal && (
             <motion.button
               whileHover={{ scale: 1.03, y: -0.5 }}
               whileTap={{ scale: 0.96 }}
               type="button"
               onClick={onOpenSyncModal}
-              className="group relative bg-emerald-950/90 hover:bg-emerald-900/90 text-emerald-300 border border-emerald-500/40 hover:border-emerald-400/80 px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all duration-200 shadow-sm hover:shadow-[0_0_12px_rgba(16,185,129,0.25)] cursor-pointer overflow-hidden"
-              title="Open Google Sheet configuration & paste modal"
+              className="group relative bg-emerald-950/90 hover:bg-emerald-900/90 text-emerald-300 border border-emerald-500/40 hover:border-emerald-400/80 px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all duration-200 shadow-sm cursor-pointer overflow-hidden flex-1 sm:flex-initial whitespace-nowrap"
+              title="Open Google Sheet configuration"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/0 via-emerald-400/20 to-emerald-400/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
-              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform duration-200" />
-              <span>Sheet Config</span>
+              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform duration-200 shrink-0" />
+              <span className="text-[11px] font-bold">Sheet Config</span>
             </motion.button>
           )}
 
@@ -299,7 +298,7 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
           <button
             type="button"
             onClick={() => setShowSettings(!showSettings)}
-            className={`p-1.5 rounded-lg border text-slate-400 hover:text-slate-100 transition-colors cursor-pointer ${
+            className={`p-1.5 rounded-lg border text-slate-400 hover:text-slate-100 transition-colors cursor-pointer shrink-0 ${
               showSettings ? 'bg-slate-800 border-cyan-500/40 text-cyan-300' : 'bg-slate-950/80 border-slate-800'
             }`}
             title="Auto-Sync Settings"

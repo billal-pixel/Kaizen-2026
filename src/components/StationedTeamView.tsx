@@ -18,6 +18,7 @@ import {
   Briefcase,
   FileSpreadsheet,
   Globe,
+  Link2,
   ExternalLink
 } from 'lucide-react';
 
@@ -212,16 +213,29 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
             </p>
           </div>
 
-          <a
-            href="https://sites.google.com/view/10msmirpur/home"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 hover:text-cyan-200 font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-cyan-500/10 shrink-0 cursor-pointer group"
-          >
-            <Globe className="w-4 h-4 text-cyan-400 group-hover:rotate-12 transition-transform" />
-            <span>10MS Mirpur Station Portal</span>
-            <ExternalLink className="w-3.5 h-3.5 text-cyan-400 opacity-80" />
-          </a>
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            <a
+              href="https://docs.google.com/document/d/1jaGIrl5ewYbilQj38ZIqf6Cz6AVeQedGyDeuWP7lK7Q/edit?tab=t.0"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 hover:text-emerald-100 font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-emerald-500/10 cursor-pointer group"
+            >
+              <Link2 className="w-4 h-4 text-emerald-400 group-hover:rotate-12 transition-transform" />
+              <span>Station Group Joining Link</span>
+              <ExternalLink className="w-3.5 h-3.5 text-emerald-400 opacity-80" />
+            </a>
+
+            <a
+              href="https://sites.google.com/view/10msmirpur/home"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 hover:text-cyan-200 font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-cyan-500/10 cursor-pointer group"
+            >
+              <Globe className="w-4 h-4 text-cyan-400 group-hover:rotate-12 transition-transform" />
+              <span>10MS Mirpur Portal</span>
+              <ExternalLink className="w-3.5 h-3.5 text-cyan-400 opacity-80" />
+            </a>
+          </div>
         </div>
 
         {/* 4 Summary Stat Cards */}

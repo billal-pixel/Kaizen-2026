@@ -18,6 +18,7 @@ import {
   Briefcase,
   FileSpreadsheet,
   Globe,
+  Link2,
   ExternalLink
 } from 'lucide-react';
 
@@ -203,16 +204,29 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
             </p>
           </div>
 
-          <a
-            href="https://sites.google.com/view/10ms-vt-essential/home"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 bg-sky-950/90 hover:bg-sky-900 border border-sky-500/40 text-sky-300 hover:text-sky-200 font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-sky-500/10 shrink-0 cursor-pointer group"
-          >
-            <Globe className="w-4 h-4 text-sky-400 group-hover:rotate-12 transition-transform" />
-            <span>Virtual Essential Link Portal</span>
-            <ExternalLink className="w-3.5 h-3.5 text-sky-400 opacity-80" />
-          </a>
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            <a
+              href="https://docs.google.com/document/d/1KVLOt1nOmNAsXCtCsxF4TYobUt8zfSGJ3mYq920s1UA/edit?tab=t.0"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 bg-indigo-950/90 hover:bg-indigo-900 border border-indigo-500/50 text-indigo-300 hover:text-indigo-100 font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-indigo-500/10 cursor-pointer group"
+            >
+              <Link2 className="w-4 h-4 text-indigo-400 group-hover:rotate-12 transition-transform" />
+              <span>Virtual Group Joining Link</span>
+              <ExternalLink className="w-3.5 h-3.5 text-indigo-400 opacity-80" />
+            </a>
+
+            <a
+              href="https://sites.google.com/view/10ms-vt-essential/home"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 bg-sky-950/90 hover:bg-sky-900 border border-sky-500/40 text-sky-300 hover:text-sky-200 font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-sky-500/10 cursor-pointer group"
+            >
+              <Globe className="w-4 h-4 text-sky-400 group-hover:rotate-12 transition-transform" />
+              <span>Virtual Essential Portal</span>
+              <ExternalLink className="w-3.5 h-3.5 text-sky-400 opacity-80" />
+            </a>
+          </div>
         </div>
 
         {/* 4 Summary Stat Cards */}
