@@ -84,8 +84,8 @@ export const Header: React.FC<HeaderProps> = React.memo(({
         <div className="py-1.5 sm:py-2.5 flex flex-col lg:flex-row items-center justify-between gap-2 sm:gap-3 border-b border-slate-800/70">
           
           {/* Brand ID & Top-Level Quick Actions */}
-          <div className="flex items-center justify-between gap-2.5 w-full lg:w-auto min-w-0">
-            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+          <div className="flex items-center justify-between gap-2.5 w-full lg:w-auto shrink-0">
+            <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
               {/* Hologram Floating Logo Shield */}
               <motion.div 
                 animate={{ y: [0, -3, 0] }}
@@ -97,14 +97,14 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 </div>
               </motion.div>
 
-              <div className="flex flex-col justify-center min-w-0">
-                <h1 className="text-sm sm:text-base font-extrabold tracking-tight uppercase font-sans leading-none text-white truncate">
+              <div className="flex flex-col justify-center shrink-0 self-center min-w-max">
+                <h1 className="text-sm sm:text-base font-extrabold tracking-tight uppercase font-sans leading-none text-white whitespace-nowrap">
                   TEAM KAIZEN
                 </h1>
-                <div className="flex items-center gap-1.5 mt-1 text-xs text-[#38BDF8] min-w-0">
+                <div className="flex items-center gap-1.5 mt-1 text-xs text-[#38BDF8] whitespace-nowrap">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#38BDF8] shrink-0" />
                   <span className="shrink-0 text-slate-400 font-medium">TL:</span>
-                  <span className="text-[#38BDF8] font-bold leading-tight truncate">{teamLeaderName}</span>
+                  <span className="text-[#38BDF8] font-bold leading-tight whitespace-nowrap">{teamLeaderName}</span>
                 </div>
               </div>
             </div>
@@ -149,7 +149,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
             {/* Mobile Horizontal Scrolling Direct Link Chips */}
             <div className="relative w-full lg:hidden min-w-0">
               {/* Right Edge 12px Gradient Fade Visual Cue for Horizontal Scroll */}
-              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-[12px] bg-gradient-to-l from-[#0F172A] via-[#0F172A]/80 to-transparent z-10" />
+              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-[12px] bg-gradient-to-l from-slate-900 via-slate-900/80 to-transparent z-10" />
 
               <div className="w-full flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 pr-4 scroll-smooth shrink-0">
                 {/* Station Group Link */}
@@ -158,7 +158,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   target="_blank"
                   rel="noreferrer"
                   title="Station Group Joining Link (Google Doc)"
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-[#1E293B] hover:border-slate-700 text-emerald-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
+                  className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-emerald-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
                 >
                   <Link2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span className="whitespace-nowrap font-bold">Station Group</span>
@@ -171,7 +171,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   target="_blank"
                   rel="noreferrer"
                   title="Virtual Group Joining Link (Google Doc)"
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-[#1E293B] hover:border-slate-700 text-indigo-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
+                  className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-indigo-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
                 >
                   <Link2 className="w-4 h-4 text-indigo-400 shrink-0" />
                   <span className="whitespace-nowrap font-bold">Virtual Group</span>
@@ -184,7 +184,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   target="_blank"
                   rel="noreferrer"
                   title="10MS Station Site"
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-[#1E293B] hover:border-slate-700 text-cyan-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
+                  className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-cyan-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
                 >
                   <Globe className="w-4 h-4 text-cyan-400 shrink-0" />
                   <span className="whitespace-nowrap font-bold">Essential Site</span>
@@ -197,7 +197,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   target="_blank"
                   rel="noreferrer"
                   title="VT Essential Site"
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-[#1E293B] hover:border-slate-700 text-sky-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
+                  className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-sky-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
                 >
                   <Globe className="w-4 h-4 text-sky-400 shrink-0" />
                   <span className="whitespace-nowrap font-bold">VT Essential Site</span>
@@ -209,7 +209,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   <button
                     type="button"
                     onClick={onOpenPaymentModal}
-                    className="h-10 px-3.5 py-2 bg-slate-900 border border-[#1E293B] hover:border-slate-700 text-pink-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
+                    className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-pink-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
                   >
                     <CreditCard className="w-4 h-4 text-pink-400 shrink-0" />
                     <span className="whitespace-nowrap font-bold">Payment Texts</span>
@@ -220,7 +220,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 <button
                   type="button"
                   onClick={() => setIsActionDrawerOpen(true)}
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-[#1E293B] hover:border-slate-700 text-slate-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
+                  className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
                 >
                   <Compass className="w-4 h-4 text-slate-400 shrink-0" />
                   <span className="whitespace-nowrap font-bold">More</span>
@@ -345,7 +345,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
         {/* Navigation Tabs Segmented Control */}
         <nav className="w-full overflow-x-auto no-scrollbar py-2">
-          <div className="inline-flex items-center gap-1 bg-[#0F172A] border border-[#1E293B] p-1.5 rounded-2xl shadow-inner min-w-max">
+          <div className="inline-flex items-center gap-1 bg-slate-900 border border-slate-800 p-1.5 rounded-2xl shadow-inner min-w-max">
             {[
               { id: 'overview', label: 'Executive Dashboard', icon: BarChart3, color: 'text-cyan-400' },
               { id: 'stationed', label: 'Stationed Team', icon: Users, color: 'text-cyan-400', badge: stationedCount },
