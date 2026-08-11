@@ -81,36 +81,36 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         {/* Top bar with Brand ID on Left and grouped Actions & Integrations on Right */}
-        <div className="py-1.5 sm:py-2.5 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2 sm:gap-3 border-b border-slate-800/70">
+        <div className="py-1.5 sm:py-2.5 flex flex-col lg:flex-row items-center justify-between gap-2 sm:gap-3 border-b border-slate-800/70">
           
           {/* Brand ID & Top-Level Quick Actions */}
-          <div className="flex items-center justify-between gap-2.5 w-full lg:w-auto">
-            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-2.5 w-full lg:w-auto min-w-0">
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
               {/* Hologram Floating Logo Shield */}
               <motion.div 
                 animate={{ y: [0, -3, 0] }}
                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                className="relative group cursor-pointer shrink-0"
+                className="relative group cursor-pointer shrink-0 self-center"
               >
-                <div className="relative bg-slate-900 border border-slate-800 p-1 rounded-xl shadow-sm backdrop-blur-md">
+                <div className="relative bg-slate-900 border border-slate-800 p-1 rounded-xl shadow-sm backdrop-blur-md flex items-center justify-center">
                   <KaizenLogo size="md" />
                 </div>
               </motion.div>
 
-              <div className="min-w-0 flex flex-col justify-center flex-1 self-center">
-                <h1 className="text-sm font-bold tracking-tight uppercase font-sans leading-none text-white">
+              <div className="flex flex-col justify-center min-w-0">
+                <h1 className="text-sm sm:text-base font-extrabold tracking-tight uppercase font-sans leading-none text-white truncate">
                   TEAM KAIZEN
                 </h1>
                 <div className="flex items-center gap-1.5 mt-1 text-xs text-[#38BDF8] min-w-0">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#38BDF8] shrink-0" />
                   <span className="shrink-0 text-slate-400 font-medium">TL:</span>
-                  <span className="text-[#38BDF8] font-bold leading-tight whitespace-nowrap sm:truncate">{teamLeaderName}</span>
+                  <span className="text-[#38BDF8] font-bold leading-tight truncate">{teamLeaderName}</span>
                 </div>
               </div>
             </div>
 
             {/* Mobile Top-Right Control: Theme Toggle (36x36px) */}
-            <div className="flex items-center gap-2 shrink-0 lg:hidden">
+            <div className="flex items-center gap-2 shrink-0 self-center lg:hidden">
               {onToggleTheme && (
                 <button
                   type="button"

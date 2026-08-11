@@ -318,17 +318,25 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-cyan-400 text-xs font-bold flex items-center gap-1.5 uppercase tracking-wider font-mono">
-                <Activity className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                Live Operational Analytics
+          <div className="flex flex-col items-start gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <Activity className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <span className="text-cyan-400 text-xs font-bold uppercase tracking-wider font-mono flex items-center gap-1.5">
+                <span className="relative flex h-2 w-2">
+                  <motion.span
+                    animate={{ scale: [1, 2.2, 1], opacity: [0.8, 0, 0.8] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    className="absolute inline-flex h-full w-full rounded-full bg-cyan-400"
+                  />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400" />
+                </span>
+                <span>Live Operational Analytics</span>
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-100 tracking-tight">
               Executive Performance Hub
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
               Consolidated real-time operational telemetry and sales performance benchmarks for Team Kaizen.
             </p>
           </div>
@@ -345,43 +353,52 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         </div>
 
         {/* 4 Core Stat Metrics */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 mt-6 pt-6 border-t border-slate-800/80">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6 pt-6 border-t border-slate-800/80">
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
           >
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Total Sales Revenue</span>
-            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0">
-              <span className="text-xl xs:text-2xl lg:text-3xl font-extrabold text-slate-100 font-mono tracking-tight truncate w-full">৳{totalSales.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] sm:text-[11px] font-bold text-emerald-400 uppercase tracking-wider inline-flex items-center gap-1 bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-800/60 shrink-0">
-                <ArrowUpRight className="w-3.5 h-3.5" /> Live
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Total Sales Revenue</span>
+            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
+              <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-slate-100 font-mono tracking-tight truncate w-full">৳{totalSales.toLocaleString('en-BD')}</span>
+              <span className="text-[10px] sm:text-[11px] font-extrabold text-emerald-400 uppercase tracking-wider inline-flex items-center gap-1.5 bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-800/60 shrink-0">
+                <span className="relative flex h-2 w-2">
+                  <motion.span
+                    animate={{ scale: [1, 2.2, 1], opacity: [0.8, 0, 0.8] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    className="absolute inline-flex h-full w-full rounded-full bg-emerald-400"
+                  />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                </span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+                <span>Live</span>
               </span>
             </div>
           </motion.div>
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
           >
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Overall Team KPI</span>
-            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0">
-              <span className="text-xl xs:text-2xl lg:text-3xl font-extrabold text-cyan-400 font-mono tracking-tight">{overallTeamKpi.toFixed(1)}%</span>
-              <span className="text-[10px] sm:text-[11px] font-bold text-cyan-300 uppercase tracking-wider inline-flex items-center gap-1 bg-cyan-950/80 px-2.5 py-1 rounded-md border border-cyan-800/60 shrink-0">Target 90%</span>
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Overall Team KPI</span>
+            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
+              <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-cyan-400 font-mono tracking-tight truncate w-full">{overallTeamKpi.toFixed(1)}%</span>
+              <span className="text-[10px] sm:text-[11px] font-extrabold text-cyan-300 uppercase tracking-wider inline-flex items-center gap-1 bg-cyan-950/80 px-2.5 py-1 rounded-md border border-cyan-800/60 shrink-0">Target 90%</span>
             </div>
           </motion.div>
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
             onClick={() => onNavigateTab('call_records')}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/50 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card cursor-pointer group flex flex-col justify-between"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/50 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card cursor-pointer group flex flex-col justify-between min-w-0"
           >
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block group-hover:text-cyan-400 transition-colors flex items-center justify-between">
-              <span>Total Reach Calls</span>
-              <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-cyan-400 transition-colors flex items-center justify-between gap-1 truncate">
+              <span className="truncate">Total Reach Calls</span>
+              <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
             </span>
-            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0">
-              <span className="text-xl xs:text-2xl lg:text-3xl font-extrabold text-slate-100 font-mono tracking-tight">{totalReachCalls.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] sm:text-[11px] font-bold text-cyan-300 uppercase tracking-wider inline-flex items-center gap-1 bg-cyan-950/80 px-2.5 py-1 rounded-md border border-cyan-800/60 shrink-0">
+            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
+              <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-slate-100 font-mono tracking-tight truncate w-full">{totalReachCalls.toLocaleString('en-BD')}</span>
+              <span className="text-[10px] sm:text-[11px] font-extrabold text-cyan-300 uppercase tracking-wider inline-flex items-center gap-1 bg-cyan-950/80 px-2.5 py-1 rounded-md border border-cyan-800/60 shrink-0">
                 View Records →
               </span>
             </div>
@@ -389,12 +406,12 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
           >
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Active Tasks</span>
-            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0">
-              <span className="text-xl xs:text-2xl lg:text-3xl font-extrabold text-amber-400 font-mono tracking-tight">{tasks.filter(t => t.status !== 'completed').length}</span>
-              <span className="text-[10px] sm:text-[11px] font-bold text-amber-300 uppercase tracking-wider inline-flex items-center gap-1 bg-amber-950/80 px-2.5 py-1 rounded-md border border-amber-800/60 shrink-0">In Pipeline</span>
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Active Tasks</span>
+            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
+              <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-amber-400 font-mono tracking-tight truncate w-full">{tasks.filter(t => t.status !== 'completed').length}</span>
+              <span className="text-[10px] sm:text-[11px] font-extrabold text-amber-300 uppercase tracking-wider inline-flex items-center gap-1 bg-amber-950/80 px-2.5 py-1 rounded-md border border-amber-800/60 shrink-0">In Pipeline</span>
             </div>
           </motion.div>
         </div>
@@ -404,29 +421,29 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Stationed Team Card */}
         <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden space-y-4 hover:border-cyan-500/30 transition-all">
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 rounded-xl shadow-inner">
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-slate-800/80 pb-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="p-2.5 bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 rounded-xl shadow-inner shrink-0">
                 <Users className="w-5 h-5" />
               </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <h3 className="font-bold text-slate-100 text-sm">Stationed Team Division</h3>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <h3 className="font-bold text-slate-100 text-sm truncate">Stationed Team Division</h3>
                   {/* Tooltip for Methodology */}
-                  <div className="group relative inline-flex items-center cursor-help">
+                  <div className="group relative inline-flex items-center cursor-help shrink-0">
                     <Info className="w-3.5 h-3.5 text-slate-400 hover:text-cyan-300 transition-colors" />
                     <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-60 p-2.5 bg-slate-950 border border-cyan-500/30 rounded-xl text-[11px] text-slate-300 shadow-2xl z-20 pointer-events-none leading-tight">
                       <strong>Stationed Methodology:</strong> Tracks Avg Reach, Talktime, CE Count, Exam Marks, Briefings, Sales & KPI Grade.
                     </div>
                   </div>
                 </div>
-                <p className="text-[11px] text-slate-400">On-site Advisor Hub • {stationedAdvisors.length} Members</p>
+                <p className="text-[11px] text-slate-400 truncate">On-site Advisor Hub • {stationedAdvisors.length} Members</p>
               </div>
             </div>
 
             <button
               onClick={() => onNavigateTab('stationed')}
-              className="text-xs text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1 bg-cyan-950/60 hover:bg-cyan-900/60 px-3 py-1.5 rounded-lg border border-cyan-800/50 transition-all"
+              className="text-xs text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1 bg-cyan-950/60 hover:bg-cyan-900/60 px-3 py-1.5 rounded-lg border border-cyan-800/50 transition-all shrink-0 ml-auto"
             >
               <span>Explore</span>
               <ChevronRight className="w-4 h-4" />
@@ -451,29 +468,29 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
         {/* Virtual Team Card */}
         <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden space-y-4 hover:border-indigo-500/30 transition-all">
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-indigo-950/80 border border-indigo-500/30 text-indigo-400 rounded-xl shadow-inner">
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-slate-800/80 pb-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="p-2.5 bg-indigo-950/80 border border-indigo-500/30 text-indigo-400 rounded-xl shadow-inner shrink-0">
                 <Layers className="w-5 h-5" />
               </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <h3 className="font-bold text-slate-100 text-sm">Virtual Team Division</h3>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <h3 className="font-bold text-slate-100 text-sm truncate">Virtual Team Division</h3>
                   {/* Tooltip for Methodology */}
-                  <div className="group relative inline-flex items-center cursor-help">
+                  <div className="group relative inline-flex items-center cursor-help shrink-0">
                     <Info className="w-3.5 h-3.5 text-slate-400 hover:text-indigo-300 transition-colors" />
                     <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-60 p-2.5 bg-slate-950 border border-indigo-500/30 rounded-xl text-[11px] text-slate-300 shadow-2xl z-20 pointer-events-none leading-tight">
                       <strong>Virtual Methodology:</strong> Tracks Reach Calls, Talk Time, Meetings, Dispositions, Incentives & Total Salary.
                     </div>
                   </div>
                 </div>
-                <p className="text-[11px] text-slate-400">Remote Operations Hub • {virtualAdvisors.length} Members</p>
+                <p className="text-[11px] text-slate-400 truncate">Remote Operations Hub • {virtualAdvisors.length} Members</p>
               </div>
             </div>
 
             <button
               onClick={() => onNavigateTab('virtual')}
-              className="text-xs text-indigo-400 hover:text-indigo-300 font-bold flex items-center gap-1 bg-indigo-950/60 hover:bg-indigo-900/60 px-3 py-1.5 rounded-lg border border-indigo-800/50 transition-all"
+              className="text-xs text-indigo-400 hover:text-indigo-300 font-bold flex items-center gap-1 bg-indigo-950/60 hover:bg-indigo-900/60 px-3 py-1.5 rounded-lg border border-indigo-800/50 transition-all shrink-0 ml-auto"
             >
               <span>Explore</span>
               <ChevronRight className="w-4 h-4" />
@@ -500,34 +517,38 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
       {/* Daily Team Sales Performance Trend Line Chart */}
       <div className="bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-2xl space-y-5">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-cyan-950/90 border border-cyan-500/30 text-cyan-400 shadow-inner">
-              <TrendingUp className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="font-bold text-sm text-slate-100 uppercase tracking-wider">
-                  {trendTimeRange === '7d' ? '7-Day' : '30-Day'} Daily Team Sales Trend
-                </h3>
-                <span className="text-[10px] font-mono font-black text-cyan-400 bg-cyan-950/80 border border-cyan-800/60 px-2 py-0.5 rounded-md">
-                  Live Trend
+          <div className="flex flex-col items-start gap-2 w-full lg:w-auto">
+            <div className="flex items-center gap-2 flex-wrap">
+              <TrendingUp className="w-4 h-4 text-cyan-400 shrink-0" />
+              <h3 className="font-bold text-sm text-slate-100 uppercase tracking-wider">
+                {trendTimeRange === '7d' ? '7-Day' : '30-Day'} Daily Team Sales Trend
+              </h3>
+              <span className="text-[10px] font-mono font-black text-cyan-400 bg-cyan-950/80 border border-cyan-800/60 px-2 py-0.5 rounded-md inline-flex items-center gap-1.5">
+                <span className="relative flex h-1.5 w-1.5">
+                  <motion.span
+                    animate={{ scale: [1, 2, 1], opacity: [0.8, 0, 0.8] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    className="absolute inline-flex h-full w-full rounded-full bg-cyan-400"
+                  />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-400" />
                 </span>
-              </div>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Visualizing daily revenue trajectory across Stationed & Virtual divisions over the past {trendTimeRange === '7d' ? '7 days' : '30 days'}
-              </p>
+                <span>Live Trend</span>
+              </span>
             </div>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Visualizing daily revenue trajectory across Stationed & Virtual divisions over the past {trendTimeRange === '7d' ? '7 days' : '30 days'}
+            </p>
           </div>
 
-          {/* Controls: Time Range Toggle & Division Filter */}
-          <div className="flex flex-wrap items-center gap-3 shrink-0 self-start lg:self-auto">
+          {/* Controls: Time Range Toggle & Division Filter in Full-Width Horizontal Containers */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 w-full lg:w-auto shrink-0">
             {/* 7-Day vs 30-Day Time Range Toggle */}
-            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800/90 shadow-inner">
+            <div className="w-full sm:w-auto flex items-center justify-between gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800/90 shadow-inner">
               <button
                 onClick={() => setTrendTimeRange('7d')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+                className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   trendTimeRange === '7d'
-                    ? 'bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-cyan-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm shadow-emerald-500/10'
+                    ? 'bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-cyan-500/20 text-emerald-300 border border-emerald-500/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -536,9 +557,9 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               </button>
               <button
                 onClick={() => setTrendTimeRange('30d')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+                className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   trendTimeRange === '30d'
-                    ? 'bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-cyan-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm shadow-emerald-500/10'
+                    ? 'bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-cyan-500/20 text-emerald-300 border border-emerald-500/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -548,12 +569,12 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </div>
 
             {/* Division Filter */}
-            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800/90 shadow-inner">
+            <div className="w-full sm:w-auto flex items-center justify-between gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800/90 shadow-inner">
               <button
                 onClick={() => setTrendDivisionFilter('all')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+                className={`flex-1 sm:flex-initial text-center px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   trendDivisionFilter === 'all'
-                    ? 'bg-gradient-to-r from-amber-500/20 via-cyan-500/20 to-indigo-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
+                    ? 'bg-gradient-to-r from-amber-500/20 via-cyan-500/20 to-indigo-500/20 text-amber-300 border border-amber-500/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -561,9 +582,9 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               </button>
               <button
                 onClick={() => setTrendDivisionFilter('stationed')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+                className={`flex-1 sm:flex-initial text-center px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   trendDivisionFilter === 'stationed'
-                    ? 'bg-gradient-to-r from-cyan-500/20 to-sky-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
+                    ? 'bg-gradient-to-r from-cyan-500/20 to-sky-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -571,9 +592,9 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               </button>
               <button
                 onClick={() => setTrendDivisionFilter('virtual')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+                className={`flex-1 sm:flex-initial text-center px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   trendDivisionFilter === 'virtual'
-                    ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-300 border border-indigo-500/40 shadow-sm'
+                    ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-300 border border-indigo-500/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -584,42 +605,42 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         </div>
 
         {/* Top Trend Key Performance Metrics */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3.5 space-y-1 transition-all">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Average Daily Sales</span>
-            <div className="flex items-baseline justify-between">
-              <span className="text-lg font-extrabold text-slate-100 font-mono">৳{trendMetrics.avgDaily.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] text-slate-400 font-mono">/ day</span>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3 sm:p-3.5 flex flex-col justify-between transition-all min-w-0">
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block truncate">Average Daily Sales</span>
+            <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
+              <span className="text-base xs:text-lg sm:text-xl font-black text-slate-100 font-mono tracking-tight truncate w-full">৳{trendMetrics.avgDaily.toLocaleString('en-BD')}</span>
+              <span className="text-[10px] text-slate-400 font-mono font-medium truncate">/ day</span>
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3.5 space-y-1 transition-all">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Peak Single-Day Revenue</span>
-            <div className="flex items-baseline justify-between">
-              <span className="text-lg font-extrabold text-amber-400 font-mono">৳{trendMetrics.peakDaily.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] text-amber-300/80 font-mono">{trendMetrics.peakDate}</span>
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3 sm:p-3.5 flex flex-col justify-between transition-all min-w-0">
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block truncate">Peak Single-Day Revenue</span>
+            <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
+              <span className="text-base xs:text-lg sm:text-xl font-black text-amber-400 font-mono tracking-tight truncate w-full">৳{trendMetrics.peakDaily.toLocaleString('en-BD')}</span>
+              <span className="text-[10px] text-amber-300/80 font-mono font-medium truncate">{trendMetrics.peakDate}</span>
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3.5 space-y-1 transition-all">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3 sm:p-3.5 flex flex-col justify-between transition-all min-w-0">
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block truncate">
               Total {trendTimeRange === '7d' ? '7-Day' : '30-Day'} Revenue
             </span>
-            <div className="flex items-baseline justify-between">
-              <span className="text-lg font-extrabold text-cyan-400 font-mono">৳{trendMetrics.totalPeriodSales.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] text-cyan-300/80 font-mono">Cumulative</span>
+            <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
+              <span className="text-base xs:text-lg sm:text-xl font-black text-cyan-400 font-mono tracking-tight truncate w-full">৳{trendMetrics.totalPeriodSales.toLocaleString('en-BD')}</span>
+              <span className="text-[10px] text-cyan-300/80 font-mono font-medium truncate">Cumulative</span>
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3.5 space-y-1 transition-all">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3 sm:p-3.5 flex flex-col justify-between transition-all min-w-0">
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block truncate">
               {trendTimeRange === '7d' ? '7-Day Momentum' : 'Monthly Sales Momentum'}
             </span>
-            <div className="flex items-baseline justify-between">
-              <span className={`text-lg font-extrabold font-mono ${trendMetrics.momentum >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+            <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
+              <span className={`text-base xs:text-lg sm:text-xl font-black font-mono tracking-tight truncate w-full ${trendMetrics.momentum >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                 {trendMetrics.momentum >= 0 ? '+' : ''}{trendMetrics.momentum.toFixed(1)}%
               </span>
-              <span className="text-[10px] text-emerald-400/90 font-semibold bg-emerald-950/50 px-1.5 py-0.5 rounded border border-emerald-800/40">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-800/60 shrink-0">
                 2nd Half Growth
               </span>
             </div>
@@ -835,26 +856,30 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
           {/* Comparative Division Metric Cards */}
           <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800/60">
-            <div className="bg-slate-950/80 border border-cyan-500/30 hover:border-cyan-400/60 rounded-xl p-3 space-y-1 transition-all">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] text-cyan-400 font-extrabold uppercase tracking-wider">Stationed</span>
-                <span className="text-[10px] text-slate-400 font-medium">{stationedAdvisors.length} Members</span>
+            <div className="bg-slate-950/80 border border-cyan-500/30 hover:border-cyan-400/60 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
+                <span className="text-[10px] text-cyan-400 font-black uppercase tracking-wider truncate">Stationed</span>
+                <span className="text-[10px] text-slate-400 font-semibold shrink-0">{stationedAdvisors.length} Members</span>
               </div>
-              <p className="text-sm font-black text-slate-100 font-mono">৳{stationedSales.toLocaleString('en-BD')}</p>
-              <p className="text-[10px] text-slate-400">
-                Avg: <strong className="text-cyan-300 font-mono">৳{Math.round(stationedSales / (stationedAdvisors.length || 1)).toLocaleString('en-BD')}</strong>/advisor
-              </p>
+              <p className="text-base sm:text-lg font-black text-slate-100 font-mono tracking-tight truncate my-0.5">৳{stationedSales.toLocaleString('en-BD')}</p>
+              <div className="text-[10px] text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-slate-900/80">
+                <span className="text-slate-400 font-medium">Avg:</span>
+                <strong className="text-cyan-300 font-mono font-bold">৳{Math.round(stationedSales / (stationedAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
+                <span className="text-slate-500 text-[9px] font-mono">/advisor</span>
+              </div>
             </div>
 
-            <div className="bg-slate-950/80 border border-indigo-500/30 hover:border-indigo-400/60 rounded-xl p-3 space-y-1 transition-all">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] text-indigo-400 font-extrabold uppercase tracking-wider">Virtual</span>
-                <span className="text-[10px] text-slate-400 font-medium">{virtualAdvisors.length} Members</span>
+            <div className="bg-slate-950/80 border border-indigo-500/30 hover:border-indigo-400/60 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
+                <span className="text-[10px] text-indigo-400 font-black uppercase tracking-wider truncate">Virtual</span>
+                <span className="text-[10px] text-slate-400 font-semibold shrink-0">{virtualAdvisors.length} Members</span>
               </div>
-              <p className="text-sm font-black text-slate-100 font-mono">৳{virtualSales.toLocaleString('en-BD')}</p>
-              <p className="text-[10px] text-slate-400">
-                Avg: <strong className="text-indigo-300 font-mono">৳{Math.round(virtualSales / (virtualAdvisors.length || 1)).toLocaleString('en-BD')}</strong>/advisor
-              </p>
+              <p className="text-base sm:text-lg font-black text-slate-100 font-mono tracking-tight truncate my-0.5">৳{virtualSales.toLocaleString('en-BD')}</p>
+              <div className="text-[10px] text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-slate-900/80">
+                <span className="text-slate-400 font-medium">Avg:</span>
+                <strong className="text-indigo-300 font-mono font-bold">৳{Math.round(virtualSales / (virtualAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
+                <span className="text-slate-500 text-[9px] font-mono">/advisor</span>
+              </div>
             </div>
           </div>
         </div>

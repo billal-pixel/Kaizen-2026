@@ -283,8 +283,8 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
       </div>
 
       {/* Filter & Control Bar */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
-        <div className="relative w-full sm:w-80">
+      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-lg min-w-0">
+        <div className="relative w-full sm:w-80 min-w-0">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
@@ -303,17 +303,17 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
           )}
         </div>
 
-        <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-          <span className="text-xs text-slate-400 font-medium">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-start sm:justify-end min-w-0">
+          <span className="text-xs text-slate-400 font-medium whitespace-nowrap shrink-0">
             Showing <strong className="text-cyan-300 font-mono">{filteredAdvisors.length}</strong> of {advisors.length}
           </span>
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-slate-950 border border-slate-800 px-3 py-2 rounded-xl">
-            <Filter className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Grade:</span>
+          <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-slate-950 border border-slate-800 px-3 py-2 rounded-xl shrink-0">
+            <Filter className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <span className="shrink-0">Grade:</span>
             <select
               value={gradeFilter}
               onChange={(e) => setGradeFilter(e.target.value)}
-              className="bg-transparent text-cyan-300 font-semibold focus:outline-none cursor-pointer"
+              className="bg-transparent text-cyan-300 font-semibold focus:outline-none cursor-pointer pr-1"
             >
               <option value="all" className="bg-slate-900 text-slate-200">All Grades</option>
               <option value="A" className="bg-slate-900 text-slate-200">A (80%+)</option>
@@ -326,19 +326,19 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
 
           <button
             onClick={handleExportCsv}
-            className="bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 font-semibold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+            className="bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 font-semibold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shrink-0"
             title="Export Stationed Advisors data to CSV file"
           >
-            <Download className="w-3.5 h-3.5 text-cyan-400" />
+            <Download className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
             <span className="hidden xs:inline">Export</span>
           </button>
 
           <button
             onClick={onAddAdvisor}
-            className="bg-cyan-950/80 hover:bg-cyan-900 text-[#38BDF8] border border-cyan-800/80 hover:border-cyan-500/60 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-xs shrink-0"
+            className="bg-cyan-950/80 hover:bg-cyan-900 text-[#38BDF8] border border-cyan-800/80 hover:border-cyan-500/60 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-xs shrink-0 whitespace-nowrap"
             title="Add New Advisor"
           >
-            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+            <Plus className="w-3.5 h-3.5 stroke-[2.5] shrink-0" />
             <span>Add Advisor</span>
           </button>
         </div>
