@@ -87,6 +87,15 @@
   animation: spin-slow 12s linear infinite;
 }
 
+/* Utility to hide scrollbars for clean horizontal pill swiping */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* High Contrast Light Theme overrides */
 .light-theme {
   color-scheme: light;

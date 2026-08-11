@@ -333,53 +333,27 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full md:w-auto shrink-0">
-            <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
-              <a
-                href="https://docs.google.com/document/d/1jaGIrl5ewYbilQj38ZIqf6Cz6AVeQedGyDeuWP7lK7Q/edit?tab=t.0"
-                target="_blank"
-                rel="noreferrer"
-                className="bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 hover:text-emerald-100 font-extrabold text-[11px] sm:text-xs px-3 py-2 rounded-xl shadow-md flex items-center justify-center gap-1.5 transition-all active:scale-95 group cursor-pointer"
-                title="Station Group Joining Link (Google Doc)"
-              >
-                <Link2 className="w-3.5 h-3.5 text-emerald-400 group-hover:rotate-12 transition-transform shrink-0" />
-                <span className="whitespace-nowrap">Station Group</span>
-                <ExternalLink className="w-3 h-3 text-emerald-400 opacity-80 shrink-0" />
-              </a>
-
-              <a
-                href="https://docs.google.com/document/d/1KVLOt1nOmNAsXCtCsxF4TYobUt8zfSGJ3mYq920s1UA/edit?tab=t.0"
-                target="_blank"
-                rel="noreferrer"
-                className="bg-indigo-950/90 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 hover:text-indigo-100 font-extrabold text-[11px] sm:text-xs px-3 py-2 rounded-xl shadow-md flex items-center justify-center gap-1.5 transition-all active:scale-95 group cursor-pointer"
-                title="Virtual Group Joining Link (Google Doc)"
-              >
-                <Link2 className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform shrink-0" />
-                <span className="whitespace-nowrap">Virtual Group</span>
-                <ExternalLink className="w-3 h-3 text-indigo-400 opacity-80 shrink-0" />
-              </a>
-            </div>
-
+          <div className="flex items-center gap-3 w-full md:w-auto shrink-0">
             <button
               onClick={() => onNavigateTab('ai_report')}
-              className="bg-gradient-to-r from-cyan-400 via-cyan-500 to-indigo-500 hover:from-cyan-300 hover:to-indigo-400 text-slate-950 font-black text-xs px-4 py-2.5 rounded-xl shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer w-full sm:w-auto"
+              className="min-h-[44px] bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer w-full sm:w-auto border border-cyan-200/50"
             >
-              <Sparkles className="w-4 h-4 fill-slate-950 shrink-0" />
+              <Sparkles className="w-4 h-4 text-slate-950 fill-slate-950 shrink-0" />
               <span>Generate AI Audit Report</span>
             </button>
           </div>
         </div>
 
         {/* 4 Core Stat Metrics */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6 pt-6 border-t border-slate-800/80">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 mt-6 pt-6 border-t border-slate-800/80">
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-4.5 transition-colors glass-card"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between"
           >
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Total Sales Revenue</span>
-            <div className="flex items-baseline justify-between gap-2 mt-2">
-              <span className="text-2xl sm:text-3xl font-extrabold text-slate-100 font-mono tracking-tight">৳{totalSales.toLocaleString('en-BD')}</span>
-              <span className="text-xs font-bold text-emerald-400 flex items-center gap-0.5 bg-emerald-950/50 px-2 py-0.5 rounded-md border border-emerald-800/40">
+            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0">
+              <span className="text-xl xs:text-2xl lg:text-3xl font-extrabold text-slate-100 font-mono tracking-tight truncate w-full">৳{totalSales.toLocaleString('en-BD')}</span>
+              <span className="text-[10px] sm:text-[11px] font-bold text-emerald-400 uppercase tracking-wider inline-flex items-center gap-1 bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-800/60 shrink-0">
                 <ArrowUpRight className="w-3.5 h-3.5" /> Live
               </span>
             </div>
@@ -387,40 +361,40 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-4.5 transition-colors glass-card"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between"
           >
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Overall Team KPI</span>
-            <div className="flex items-baseline justify-between gap-2 mt-2">
-              <span className="text-2xl sm:text-3xl font-extrabold text-cyan-400 font-mono tracking-tight">{overallTeamKpi.toFixed(1)}%</span>
-              <span className="text-[11px] font-bold text-cyan-300/90 bg-cyan-950/70 px-2 py-0.5 rounded-md border border-cyan-800/50">Target 90%</span>
+            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0">
+              <span className="text-xl xs:text-2xl lg:text-3xl font-extrabold text-cyan-400 font-mono tracking-tight">{overallTeamKpi.toFixed(1)}%</span>
+              <span className="text-[10px] sm:text-[11px] font-bold text-cyan-300 uppercase tracking-wider inline-flex items-center gap-1 bg-cyan-950/80 px-2.5 py-1 rounded-md border border-cyan-800/60 shrink-0">Target 90%</span>
             </div>
           </motion.div>
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
             onClick={() => onNavigateTab('call_records')}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/50 rounded-2xl p-4.5 transition-colors glass-card cursor-pointer group"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/50 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card cursor-pointer group flex flex-col justify-between"
           >
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block group-hover:text-cyan-400 transition-colors flex items-center justify-between">
               <span>Total Reach Calls</span>
               <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
             </span>
-            <div className="flex items-baseline justify-between gap-2 mt-2">
-              <span className="text-2xl sm:text-3xl font-extrabold text-slate-100 font-mono tracking-tight">{totalReachCalls.toLocaleString('en-BD')}</span>
-              <span className="text-[11px] text-cyan-300 font-semibold bg-cyan-950/70 px-2 py-0.5 rounded-md border border-cyan-800/60">
-                View Call Records →
+            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0">
+              <span className="text-xl xs:text-2xl lg:text-3xl font-extrabold text-slate-100 font-mono tracking-tight">{totalReachCalls.toLocaleString('en-BD')}</span>
+              <span className="text-[10px] sm:text-[11px] font-bold text-cyan-300 uppercase tracking-wider inline-flex items-center gap-1 bg-cyan-950/80 px-2.5 py-1 rounded-md border border-cyan-800/60 shrink-0">
+                View Records →
               </span>
             </div>
           </motion.div>
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/30 rounded-2xl p-4.5 transition-colors glass-card"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between"
           >
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Active Tasks</span>
-            <div className="flex items-baseline justify-between gap-2 mt-2">
-              <span className="text-2xl sm:text-3xl font-extrabold text-amber-400 font-mono tracking-tight">{tasks.filter(t => t.status !== 'completed').length}</span>
-              <span className="text-[11px] text-amber-300/90 font-semibold bg-amber-950/50 px-2 py-0.5 rounded-md border border-amber-800/40">In Pipeline</span>
+            <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0">
+              <span className="text-xl xs:text-2xl lg:text-3xl font-extrabold text-amber-400 font-mono tracking-tight">{tasks.filter(t => t.status !== 'completed').length}</span>
+              <span className="text-[10px] sm:text-[11px] font-bold text-amber-300 uppercase tracking-wider inline-flex items-center gap-1 bg-amber-950/80 px-2.5 py-1 rounded-md border border-amber-800/60 shrink-0">In Pipeline</span>
             </div>
           </motion.div>
         </div>

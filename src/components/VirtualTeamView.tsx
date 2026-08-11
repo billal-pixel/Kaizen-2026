@@ -315,11 +315,20 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
 
           <button
             onClick={handleExportCsv}
-            className="bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 font-semibold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all active:scale-95"
+            className="bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 font-semibold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer"
             title="Export Virtual Advisors data to CSV file"
           >
             <Download className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Export CSV</span>
+            <span className="hidden xs:inline">Export</span>
+          </button>
+
+          <button
+            onClick={onAddAdvisor}
+            className="bg-indigo-950/80 hover:bg-indigo-900 text-indigo-300 border border-indigo-800/80 hover:border-indigo-500/60 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-xs shrink-0"
+            title="Add New Advisor"
+          >
+            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+            <span>Add Advisor</span>
           </button>
         </div>
       </div>
