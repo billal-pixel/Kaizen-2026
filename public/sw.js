@@ -22,10 +22,13 @@ async function notifyClients(message) {
 
 async function performBackgroundCheck() {
   if (!currentSheetUrl) return;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
   try {
     notifyClients({ type: 'BACKGROUND_SYNC_START' });
     const fetchUrl = `/api/sheets-sync-all?url=${encodeURIComponent(currentSheetUrl)}&_t=${Date.now()}`;
-    const response = await fetch(fetchUrl);
+    const response = await fetch(fetchUrl, { signal: controller.signal });
+    clearTimeout(timeoutId);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
@@ -44,9 +47,10 @@ async function performBackgroundCheck() {
       });
     }
   } catch (err) {
+    clearTimeout(timeoutId);
     notifyClients({
       type: 'BACKGROUND_SYNC_ERROR',
-      error: err.message || 'Network error during background sync',
+      error: err.name === 'AbortError' ? 'Background sync timeout' : (err.message || 'Network error during background sync'),
       timestamp: Date.now()
     });
   }

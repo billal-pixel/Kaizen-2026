@@ -108,14 +108,19 @@ async function fetchGoogleSheetCsv(docId: string, gid?: string): Promise<string 
   const urlsToTry = [gvizUrl, exportUrl];
 
   for (const url of urlsToTry) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8500);
+
     try {
       const resp = await fetch(url, {
-        signal: AbortSignal.timeout(4500),
+        signal: controller.signal,
         headers: {
           "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
           "Accept": "text/csv,text/plain,*/*",
         },
       });
+      clearTimeout(timeoutId);
+
       if (!resp.ok) continue;
       const text = await resp.text();
       if (
@@ -129,8 +134,13 @@ async function fetchGoogleSheetCsv(docId: string, gid?: string): Promise<string 
         sheetCsvCache.set(cacheKey, { timestamp: Date.now(), text });
         return text;
       }
-    } catch (e) {
-      console.warn(`Fetch failed for ${url}:`, e);
+    } catch (e: any) {
+      clearTimeout(timeoutId);
+      if (e.name === 'AbortError' || e.name === 'TimeoutError') {
+        console.log(`[Sheet Sync] Request timed out for doc ${docId} gid ${gid || '0'}, trying fallback...`);
+      } else {
+        console.warn(`[Sheet Sync] Fetch notice for doc ${docId} gid ${gid || '0'}:`, e?.message || e);
+      }
     }
   }
   return null;

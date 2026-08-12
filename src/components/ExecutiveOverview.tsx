@@ -1074,15 +1074,15 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         </div>
 
         {/* Kaizen Top Performers Leaderboard */}
-        <div className="bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 border border-slate-800/90 rounded-2xl p-5 shadow-2xl space-y-4 flex flex-col justify-between">
+        <div className="bg-slate-900/90 border border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-2xl space-y-4 flex flex-col justify-between glass-card">
           {/* Header & Segmented Filter Control */}
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 shrink-0 shadow-inner">
+              <div className="p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 shrink-0 shadow-xs">
                 <Trophy className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <h3 className="font-black text-xs uppercase tracking-wider text-slate-100 truncate">
+                <h3 className="font-black text-xs sm:text-sm uppercase tracking-wider text-slate-100 truncate">
                   Top Advisors Leaderboard
                 </h3>
                 <p className="text-[10px] text-slate-400 font-medium truncate">Merit Rankings (Based on Sales Revenue)</p>
@@ -1090,12 +1090,12 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </div>
 
             {/* Segmented Filter Bar - Full Width, Perfectly Distributed */}
-            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800/90 shadow-inner w-full">
+            <div className="flex items-center gap-1 bg-slate-950/90 p-1 rounded-xl border border-slate-800/80 shadow-inner w-full leaderboard-filter-bar">
               <button
                 onClick={() => setLeaderboardFilter('combined')}
                 className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   leaderboardFilter === 'combined'
-                    ? 'bg-gradient-to-r from-cyan-500/20 via-sky-500/20 to-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm shadow-cyan-500/10'
+                    ? 'bg-gradient-to-r from-cyan-500/20 via-sky-500/20 to-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -1105,7 +1105,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setLeaderboardFilter('stationed')}
                 className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   leaderboardFilter === 'stationed'
-                    ? 'bg-gradient-to-r from-cyan-500/20 via-sky-500/20 to-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm shadow-cyan-500/10'
+                    ? 'bg-gradient-to-r from-cyan-500/20 via-sky-500/20 to-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -1115,7 +1115,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setLeaderboardFilter('virtual')}
                 className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   leaderboardFilter === 'virtual'
-                    ? 'bg-gradient-to-r from-cyan-500/20 via-sky-500/20 to-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm shadow-cyan-500/10'
+                    ? 'bg-gradient-to-r from-cyan-500/20 via-sky-500/20 to-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -1125,7 +1125,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           </div>
 
           {/* Leaderboard List */}
-          <div className="space-y-2 flex-1 flex flex-col justify-between">
+          <div className="space-y-2.5 flex-1 flex flex-col justify-between">
             {leaderboard.length === 0 ? (
               <p className="text-xs text-slate-500 text-center py-6">No advisors found in this division.</p>
             ) : (
@@ -1133,31 +1133,35 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 <div
                   key={`${item.team}-${item.name}-${idx}`}
                   onClick={() => onSelectAdvisor(item.raw, item.team.toLowerCase() as any)}
-                  className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/40 p-2.5 sm:p-3 rounded-xl flex items-center justify-between gap-3 cursor-pointer transition-all group hover:scale-[1.01] shadow-md hover:shadow-cyan-500/5"
+                  className="bg-slate-950/70 border border-slate-800/80 hover:border-cyan-500/50 p-2.5 sm:p-3 rounded-2xl flex items-center justify-between gap-3 cursor-pointer transition-all duration-200 group hover:scale-[1.01] shadow-xs hover:shadow-md leaderboard-card"
                 >
                   {/* Left Column: Advisor Rank & Identity */}
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                    <div className={`w-8 h-8 rounded-xl font-black text-xs flex items-center justify-center shrink-0 shadow-lg ${
+                    {/* Rank Badge */}
+                    <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl font-black text-xs flex items-center justify-center shrink-0 shadow-xs transition-transform group-hover:scale-105 ${
                       idx === 0 
-                        ? 'bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 text-slate-950 ring-2 ring-amber-400/40 shadow-amber-500/20' 
+                        ? 'rank-badge-1 bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 text-amber-950 ring-2 ring-amber-400/50 shadow-md shadow-amber-500/20' 
                         : idx === 1 
-                        ? 'bg-gradient-to-br from-slate-200 via-slate-300 to-slate-400 text-slate-950 shadow-slate-300/10' 
+                        ? 'rank-badge-2 bg-gradient-to-br from-slate-200 via-slate-300 to-slate-400 text-slate-900 ring-2 ring-slate-300/50 shadow-xs' 
                         : idx === 2 
-                        ? 'bg-gradient-to-br from-amber-600 via-amber-700 to-amber-800 text-amber-100 shadow-amber-700/20' 
-                        : 'bg-slate-900 border border-slate-800 text-slate-400 font-mono'
+                        ? 'rank-badge-3 bg-gradient-to-br from-amber-600 via-amber-700 to-amber-800 text-white ring-2 ring-amber-600/50 shadow-xs' 
+                        : 'rank-badge-other bg-slate-900 border border-slate-800 text-slate-400 font-mono font-extrabold'
                     }`}>
-                      {idx === 0 ? <Crown className="w-4 h-4 text-slate-950 fill-slate-950" /> : `#${idx + 1}`}
+                      {idx === 0 ? <Crown className="w-4 h-4 text-amber-950 fill-amber-950" /> : `#${idx + 1}`}
                     </div>
-                    <div className="min-w-0 flex-1 space-y-0.5">
-                      <h4 className="font-extrabold text-slate-100 text-xs group-hover:text-cyan-300 transition-colors truncate">
+
+                    {/* Name & Division Tag */}
+                    <div className="min-w-0 flex-1 space-y-1">
+                      <h4 className="font-extrabold text-slate-100 text-xs sm:text-sm group-hover:text-cyan-300 transition-colors truncate leading-tight">
                         {item.name}
                       </h4>
                       <div className="flex items-center gap-1.5">
-                        <span className={`text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded border font-mono ${
+                        <span className={`inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md border font-mono tracking-tight whitespace-nowrap ${
                           item.team === 'Stationed'
-                            ? 'bg-cyan-950/90 text-cyan-400 border-cyan-800/60'
-                            : 'bg-indigo-950/90 text-indigo-300 border-indigo-800/60'
+                            ? 'bg-cyan-950/80 text-cyan-300 border-cyan-800/60'
+                            : 'bg-indigo-950/80 text-indigo-300 border-indigo-800/60'
                         }`}>
+                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.team === 'Stationed' ? 'bg-cyan-400' : 'bg-indigo-400'}`} />
                           {item.team} Division
                         </span>
                       </div>
@@ -1165,18 +1169,31 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                   </div>
 
                   {/* Right Column: Grade, Sales & KPI Metrics */}
-                  <div className="text-right shrink-0 flex flex-col items-end justify-center space-y-0.5">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-black text-slate-100 font-mono">
+                  <div className="text-right shrink-0 flex flex-col items-end justify-center space-y-1">
+                    <div className="flex items-center justify-end gap-1">
+                      <span className="text-xs sm:text-sm font-black text-slate-100 font-mono tracking-tight whitespace-nowrap">
                         ৳{item.sales.toLocaleString('en-BD')}
                       </span>
-                      <span className="font-extrabold text-[10px] text-emerald-400 font-mono tracking-tight bg-emerald-950/60 border border-emerald-800/50 px-1.5 py-0.2 rounded">
-                        {item.kpiDisplay}
-                      </span>
                     </div>
-                    <div>
-                      <span className="text-[9px] text-cyan-300 font-extrabold uppercase tracking-wider bg-slate-900 px-1.5 py-0.2 rounded border border-slate-800 font-mono">
-                        {item.grade} Grade
+                    <div className="flex items-center gap-1.5 justify-end">
+                      {/* KPI Badge */}
+                      <span className="font-extrabold text-[10px] font-mono tracking-tight bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 px-2 py-0.5 rounded-md whitespace-nowrap">
+                        {item.kpiDisplay} KPI
+                      </span>
+
+                      {/* Grade Badge */}
+                      <span className={`text-[10px] font-extrabold font-mono px-2 py-0.5 rounded-md border uppercase tracking-wide whitespace-nowrap ${
+                        item.grade === 'A'
+                          ? 'bg-emerald-950/80 text-emerald-300 border-emerald-800/60'
+                          : item.grade === 'B'
+                          ? 'bg-sky-950/80 text-sky-300 border-sky-800/60'
+                          : item.grade === 'C'
+                          ? 'bg-amber-950/80 text-amber-300 border-amber-800/60'
+                          : item.grade === 'D'
+                          ? 'bg-orange-950/80 text-orange-300 border-orange-800/60'
+                          : 'bg-rose-950/80 text-rose-300 border-rose-800/60'
+                      }`}>
+                        {item.grade} GRADE
                       </span>
                     </div>
                   </div>

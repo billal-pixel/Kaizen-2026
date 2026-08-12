@@ -28,10 +28,10 @@ export async function directBrowserFetchSheets(sheetUrl: string): Promise<Record
   // Fetch gids in parallel directly using Google Sheets gviz CORS endpoint
   await Promise.all(
     gids.map(async (gid) => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
       try {
         const url = `https://docs.google.com/spreadsheets/d/${docId}/gviz/tq?tqx=out:csv&gid=${gid}`;
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000);
         
         const res = await fetch(url, { signal: controller.signal });
         clearTimeout(timeoutId);
@@ -43,6 +43,7 @@ export async function directBrowserFetchSheets(sheetUrl: string): Promise<Record
           }
         }
       } catch {
+        clearTimeout(timeoutId);
         // Ignore individual tab timeout/failure
       }
     })
@@ -52,9 +53,12 @@ export async function directBrowserFetchSheets(sheetUrl: string): Promise<Record
   if (Object.keys(sheetsMap).length === 0 && docId !== PRIMARY_DOC_ID) {
     await Promise.all(
       ['0', '1487776310'].map(async (gid) => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
         try {
           const url = `https://docs.google.com/spreadsheets/d/${PRIMARY_DOC_ID}/gviz/tq?tqx=out:csv&gid=${gid}`;
-          const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
+          const res = await fetch(url, { signal: controller.signal });
+          clearTimeout(timeoutId);
           if (res.ok) {
             const txt = await res.text();
             if (txt && !txt.includes('<!DOCTYPE html>') && txt.length > 20) {
@@ -62,6 +66,7 @@ export async function directBrowserFetchSheets(sheetUrl: string): Promise<Record
             }
           }
         } catch {
+          clearTimeout(timeoutId);
           // Ignore
         }
       })
@@ -107,7 +112,7 @@ export async function syncAllSheetsData(sheetUrl: string): Promise<SyncSheetsRes
     const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
     const fetchUrl = `${origin}/api/sheets-sync-all?url=${encodeURIComponent(targetUrl)}&_t=${Date.now()}`;
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7000);
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const response = await fetch(fetchUrl, { signal: controller.signal });
     clearTimeout(timeoutId);

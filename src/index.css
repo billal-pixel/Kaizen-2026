@@ -276,6 +276,57 @@
   color: #b45309 !important;
 }
 
+.light-theme [class*="bg-sky-950"] {
+  background-color: #e0f2fe !important;
+  border-color: #7dd3fc !important;
+  color: #0369a1 !important;
+}
+
+.light-theme [class*="bg-orange-950"] {
+  background-color: #ffedd5 !important;
+  border-color: #fdba74 !important;
+  color: #c2410c !important;
+}
+
+.light-theme [class*="bg-rose-950"] {
+  background-color: #ffe4e6 !important;
+  border-color: #fca5a5 !important;
+  color: #be185d !important;
+}
+
+/* Rank Badge Overrides for Light Theme */
+.light-theme .rank-badge-1 {
+  background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #eab308 100%) !important;
+  color: #451a03 !important;
+  border-color: #fde047 !important;
+  box-shadow: 0 4px 12px rgba(234, 179, 8, 0.25) !important;
+}
+
+.light-theme .rank-badge-1 svg {
+  fill: #451a03 !important;
+  color: #451a03 !important;
+}
+
+.light-theme .rank-badge-2 {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%) !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+  box-shadow: 0 2px 8px rgba(148, 163, 184, 0.2) !important;
+}
+
+.light-theme .rank-badge-3 {
+  background: linear-gradient(135deg, #f97316 0%, #d97706 50%, #b45309 100%) !important;
+  color: #ffffff !important;
+  border-color: #d97706 !important;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25) !important;
+}
+
+.light-theme .rank-badge-other {
+  background-color: #f8fafc !important;
+  color: #334155 !important;
+  border-color: #cbd5e1 !important;
+}
+
 .light-theme .bg-slate-800\/90,
 .light-theme .bg-slate-700\/80 {
   background-color: #e2e8f0 !important;
@@ -326,4 +377,42 @@
   background-color: rgba(255, 255, 255, 0.95) !important;
   border-color: #e2e8f0 !important;
   color: #475569 !important;
+}
+
+/* Leaderboard Specific Light Theme Adjustments */
+.light-theme .leaderboard-filter-bar {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.light-theme .leaderboard-filter-bar button {
+  color: #64748b !important;
+}
+
+.light-theme .leaderboard-filter-bar button:hover {
+  color: #0f172a !important;
+}
+
+.light-theme .leaderboard-filter-bar button[class*="border-cyan-500"] {
+  background: #ffffff !important;
+  color: #0284c7 !important;
+  border-color: #7dd3fc !important;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.15) !important;
+}
+
+.light-theme .leaderboard-card {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+}
+
+.light-theme .leaderboard-card:hover {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.1) !important;
+  background-color: #f8fafc !important;
+}
+
+.light-theme .leaderboard-card h4,
+.light-theme .leaderboard-card .text-slate-100 {
+  color: #0f172a !important;
 }
