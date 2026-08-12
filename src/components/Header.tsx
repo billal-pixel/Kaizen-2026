@@ -218,6 +218,19 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   <ExternalLink className="w-3.5 h-3.5 text-emerald-400 opacity-80 shrink-0" />
                 </a>
 
+                {/* Follow Up Drive Link */}
+                <a
+                  href="https://drive.google.com/drive/folders/1Tk2c1pQKVmBhJkZqSeMHizWdeW_cMeah"
+                  target="_blank"
+                  rel="noreferrer"
+                  title="Follow Up Drive Folder"
+                  className="h-10 px-3.5 py-2 bg-slate-900 border border-indigo-800/80 hover:border-indigo-600 text-indigo-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
+                >
+                  <Folder className="w-4 h-4 text-indigo-400 shrink-0" />
+                  <span className="whitespace-nowrap font-bold">Follow Up</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-indigo-400 opacity-80 shrink-0" />
+                </a>
+
                 {/* Payment Copy Messages */}
                 {onOpenPaymentModal && (
                   <button
@@ -309,6 +322,19 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 <Folder className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span className="whitespace-nowrap font-bold">Good Call</span>
                 <ExternalLink className="w-3.5 h-3.5 text-emerald-400 opacity-70 shrink-0" />
+              </a>
+
+              {/* Follow Up Drive Folder Link */}
+              <a
+                href="https://drive.google.com/drive/folders/1Tk2c1pQKVmBhJkZqSeMHizWdeW_cMeah"
+                target="_blank"
+                rel="noreferrer"
+                title="Follow Up Drive Folder"
+                className="min-h-[40px] px-3 py-2 bg-slate-950/80 hover:bg-slate-800 border border-indigo-800/80 text-indigo-300 hover:text-indigo-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 active:scale-95"
+              >
+                <Folder className="w-4 h-4 text-indigo-400 shrink-0" />
+                <span className="whitespace-nowrap font-bold">Follow Up</span>
+                <ExternalLink className="w-3.5 h-3.5 text-indigo-400 opacity-70 shrink-0" />
               </a>
 
               <div className="h-5 w-px bg-slate-800 mx-0.5 shrink-0" />
