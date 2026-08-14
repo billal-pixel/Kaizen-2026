@@ -90,11 +90,11 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
     <div className="space-y-6">
       {/* Live Operational Stopwatch Card */}
       <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#30AFFF]/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div>
-            <span className="bg-cyan-950 text-cyan-400 border border-cyan-800/80 text-xs font-bold px-2.5 py-0.5 rounded-md uppercase">
+            <span className="bg-[#30AFFF]/15 text-[#92EEFF] border border-[#30AFFF]/30 text-xs font-bold px-2.5 py-0.5 rounded-md uppercase">
               Operational Time Tracker
             </span>
             <h2 className="text-xl sm:text-2xl font-extrabold text-slate-100 tracking-tight mt-1">
@@ -108,9 +108,9 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
             <div className="flex items-center gap-2 mt-4 flex-wrap">
               <button
                 onClick={() => setActiveType('talktime')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeType === 'talktime'
-                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
+                    ? 'bg-[#30AFFF] text-slate-950 shadow-md shadow-[#30AFFF]/20 font-bold'
                     : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
                 }`}
               >
@@ -120,9 +120,9 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
 
               <button
                 onClick={() => setActiveType('break')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeType === 'break'
-                    ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
+                    ? 'bg-[#92EEFF] text-slate-950 shadow-md shadow-[#92EEFF]/20 font-bold'
                     : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
                 }`}
               >
@@ -132,9 +132,9 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
 
               <button
                 onClick={() => setActiveType('meeting')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeType === 'meeting'
-                    ? 'bg-purple-500 text-slate-950 shadow-md shadow-purple-500/20'
+                    ? 'bg-[#C4F7CA] text-slate-950 shadow-md shadow-[#C4F7CA]/20 font-bold'
                     : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
                 }`}
               >
@@ -144,9 +144,9 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
 
               <button
                 onClick={() => setActiveType('mgt')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeType === 'mgt'
-                    ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
+                    ? 'bg-[#D8FFC5] text-slate-950 shadow-md shadow-[#D8FFC5]/20 font-bold'
                     : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
                 }`}
               >
@@ -160,24 +160,24 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
           <div className="bg-slate-950/90 border border-slate-800/90 rounded-2xl p-6 flex flex-col items-center justify-center min-w-[280px] shadow-2xl relative">
             {isRunning && (
               <span className="absolute top-3 right-3 flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#30AFFF] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#30AFFF]"></span>
               </span>
             )}
-            <span className="text-4xl sm:text-5xl font-mono font-black tracking-wider text-cyan-300 drop-shadow-[0_0_15px_rgba(56,189,248,0.3)]">
+            <span className="text-4xl sm:text-5xl font-mono font-black tracking-wider text-[#92EEFF] drop-shadow-[0_0_15px_rgba(48,175,255,0.3)]">
               {formatSeconds(seconds)}
             </span>
             <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mt-2 flex items-center gap-1.5 bg-slate-900 px-2.5 py-0.5 rounded-full border border-slate-800">
-              Active Session: <strong className="text-cyan-300">{activeType.toUpperCase()}</strong>
+              Active Session: <strong className="text-[#92EEFF]">{activeType.toUpperCase()}</strong>
             </span>
 
             <div className="flex items-center gap-2.5 mt-5">
               <button
                 onClick={() => setIsRunning(!isRunning)}
-                className={`px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 transition-all active:scale-95 ${
+                className={`px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 transition-all active:scale-95 cursor-pointer ${
                   isRunning
-                    ? 'bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-lg shadow-amber-400/20'
-                    : 'bg-gradient-to-r from-cyan-400 via-cyan-500 to-sky-500 hover:from-cyan-300 hover:to-sky-400 text-slate-950 shadow-lg shadow-cyan-500/25'
+                    ? 'bg-[#C4F7CA] hover:bg-[#D8FFC5] text-slate-950 shadow-lg shadow-[#C4F7CA]/20'
+                    : 'bg-gradient-to-r from-[#30AFFF] via-[#92EEFF] to-[#C4F7CA] hover:brightness-110 text-slate-950 shadow-lg shadow-[#30AFFF]/25'
                 }`}
               >
                 {isRunning ? <Pause className="w-4 h-4 fill-slate-950" /> : <Play className="w-4 h-4 fill-slate-950" />}
@@ -189,7 +189,7 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
                   setIsRunning(false);
                   setSeconds(0);
                 }}
-                className="p-2.5 bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 rounded-xl transition-all active:scale-95"
+                className="p-2.5 bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 rounded-xl transition-all active:scale-95 cursor-pointer"
                 title="Reset Timer"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -267,7 +267,7 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
               <tr className="bg-slate-950/50 text-slate-400 border-b border-slate-800 uppercase tracking-wider font-medium">
                 <th className="p-3.5">Timestamp</th>
                 <th className="p-3.5">Advisor</th>
-                <th className="p-3.5">Division</th>
+                <th className="p-3.5">Team</th>
                 <th className="p-3.5">Type</th>
                 <th className="p-3.5 text-right">Duration</th>
                 <th className="p-3.5">Notes</th>

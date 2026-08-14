@@ -81,7 +81,7 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
         <div className="flex items-center justify-between border-b border-slate-800 pb-4">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="w-12 h-12 rounded-xl bg-cyan-950/90 border border-cyan-800/80 text-cyan-300 font-black flex items-center justify-center text-lg font-mono shadow-md">
+              <div className="w-12 h-12 rounded-xl bg-[#30AFFF]/15 border border-[#30AFFF]/30 text-[#92EEFF] font-black flex items-center justify-center text-lg font-mono shadow-md">
                 {advisor.advisorName.slice(0, 2).toUpperCase()}
               </div>
               <div className="absolute -bottom-1 -right-1">
@@ -91,12 +91,12 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-lg font-bold text-slate-100">{advisor.advisorName}</h3>
-                <span className="bg-cyan-950 text-cyan-400 border border-cyan-800 text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-md font-mono">
-                  {type} Division
+                <span className="bg-[#30AFFF]/15 text-[#92EEFF] border border-[#30AFFF]/30 text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-md font-mono">
+                  {type}
                 </span>
               </div>
               <p className="text-xs text-slate-400 flex items-center gap-2 mt-0.5">
-                <span className="font-mono text-cyan-300 font-semibold">{advisor.employeeId || 'TE-ID'}</span>
+                <span className="font-mono text-[#92EEFF] font-semibold">{advisor.employeeId || 'TE-ID'}</span>
                 <span>•</span>
                 <span>{advisor.advisorDesignation || (isStationed ? 'Trainee Advisor Station' : 'Trainee Advisor Virtual')}</span>
               </p>
@@ -115,7 +115,7 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
               <>
                 <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3">
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Avg Reach</span>
-                  <p className="text-sm font-bold text-cyan-300">{stAdvisor.avgReach}</p>
+                  <p className="text-sm font-bold text-cyan-400">{stAdvisor.avgReach}</p>
                 </div>
                 <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3">
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Avg Talktime</span>
@@ -143,7 +143,7 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
                 </div>
                 <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3">
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">KPI Grade</span>
-                  <p className="text-sm font-bold text-cyan-400">{stAdvisor.kpiGrade}</p>
+                  <p className="text-sm font-bold text-sky-400">{stAdvisor.kpiGrade}</p>
                 </div>
                 <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3">
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">AVG Break</span>
@@ -162,7 +162,7 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
               <>
                 <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3">
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Reach Call</span>
-                  <p className="text-sm font-bold text-cyan-300">{vtAdvisor.reachCall}</p>
+                  <p className="text-sm font-bold text-cyan-400">{vtAdvisor.reachCall}</p>
                 </div>
                 <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3">
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Talk Time</span>
@@ -198,7 +198,7 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
                 </div>
                 <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3">
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Final Incentive</span>
-                  <p className="text-sm font-bold text-purple-300">৳{vtAdvisor.finalIncentive.toLocaleString('en-BD')}</p>
+                  <p className="text-sm font-bold text-cyan-400">৳{vtAdvisor.finalIncentive.toLocaleString('en-BD')}</p>
                 </div>
                 <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3">
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Total Salary</span>
@@ -212,7 +212,7 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
         {/* Assigned Tasks Section */}
         <div className="space-y-2">
           <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-            <CheckSquare className="w-3.5 h-3.5 text-cyan-400" />
+            <CheckSquare className="w-3.5 h-3.5 text-[#30AFFF]" />
             <span>Assigned Tasks ({advisorTasks.length})</span>
           </h4>
           {advisorTasks.length === 0 ? (
@@ -228,7 +228,7 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
                     <p className="text-[11px] text-slate-400">{t.category} • Due: {t.dueDate}</p>
                   </div>
                   <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                    t.status === 'completed' ? 'bg-emerald-950 text-emerald-400' : 'bg-cyan-950 text-cyan-300'
+                    t.status === 'completed' ? 'bg-[#C4F7CA]/15 text-[#C4F7CA] border border-[#C4F7CA]/30' : 'bg-[#30AFFF]/15 text-[#92EEFF] border border-[#30AFFF]/30'
                   }`}>
                     {t.status}
                   </span>
@@ -242,11 +242,11 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
         <div className="space-y-2">
           <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
             <span className="flex items-center gap-2">
-              <PhoneCall className="w-3.5 h-3.5 text-cyan-400" />
+              <PhoneCall className="w-3.5 h-3.5 text-[#30AFFF]" />
               <span>Call Records ({advisorCallRecords.length})</span>
             </span>
             {advisorCallRecords.length > 0 && (
-              <span className="text-[10px] text-cyan-300 font-mono">
+              <span className="text-[10px] text-[#92EEFF] font-mono">
                 Avg Reach: {isStationed ? stAdvisor.avgReach : vtAdvisor.reachCall} calls
               </span>
             )}
@@ -263,12 +263,12 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-slate-200">{rec.customerName}</span>
-                      <span className="text-[10px] font-mono text-cyan-400">{rec.customerPhone}</span>
+                      <span className="text-[10px] font-mono text-[#92EEFF]">{rec.customerPhone}</span>
                     </div>
                     <p className="text-[10px] text-slate-400">{rec.callType} • {rec.notes}</p>
                   </div>
                   <div className="text-right space-y-0.5 shrink-0">
-                    <span className="font-mono font-bold text-cyan-300 block">{rec.duration}</span>
+                    <span className="font-mono font-bold text-[#92EEFF] block">{rec.duration}</span>
                     <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-slate-900 border border-slate-800 text-slate-300">
                       {rec.disposition}
                     </span>
@@ -282,7 +282,7 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
         {/* Time Tracking Activity History */}
         <div className="space-y-2">
           <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-            <Clock className="w-3.5 h-3.5 text-cyan-400" />
+            <Clock className="w-3.5 h-3.5 text-[#30AFFF]" />
             <span>Time Logs ({advisorLogs.length})</span>
           </h4>
           {advisorLogs.length === 0 ? (
@@ -299,7 +299,7 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
                     </span>
                     <span className="text-slate-300">{l.notes}</span>
                   </div>
-                  <span className="font-mono font-bold text-cyan-300">
+                  <span className="font-mono font-bold text-[#92EEFF]">
                     {Math.floor(l.durationSeconds / 60)} mins
                   </span>
                 </div>
@@ -311,15 +311,15 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
         <div className="flex items-center justify-between pt-2 border-t border-slate-800">
           <button
             onClick={handleCopyBrief}
-            className="bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-800/80 font-semibold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1.5 transition-colors"
+            className="bg-[#30AFFF]/15 hover:bg-[#30AFFF]/25 text-[#92EEFF] hover:text-white border border-[#30AFFF]/40 font-semibold px-3.5 py-2 rounded-lg text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-cyan-400" />}
+            {copied ? <Check className="w-4 h-4 text-[#C4F7CA]" /> : <Copy className="w-4 h-4 text-[#30AFFF]" />}
             <span>{copied ? 'Brief Copied!' : 'Copy Performance Brief'}</span>
           </button>
 
           <button
             onClick={onClose}
-            className="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-4 py-2 rounded-lg text-xs transition-colors"
+            className="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-4 py-2 rounded-lg text-xs transition-colors cursor-pointer"
           >
             Close Card
           </button>

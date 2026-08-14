@@ -60,10 +60,10 @@ export default function App() {
   // Active Navigation Tab
   const [activeTab, setActiveTab] = useState<'overview' | 'stationed' | 'virtual' | 'tasks' | 'time' | 'call_records' | 'ai_report'>('overview');
 
-  // User Selected Theme State ('dark' or 'light')
+  // User Selected Theme State ('light' or 'dark') - default to Light Mode as requested
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     const saved = localStorage.getItem('kaizen_theme');
-    return (saved === 'light' || saved === 'dark') ? saved : 'dark';
+    return saved === 'dark' ? 'dark' : 'light';
   });
 
   const handleToggleTheme = useCallback(() => {

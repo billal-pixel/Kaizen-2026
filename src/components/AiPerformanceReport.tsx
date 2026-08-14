@@ -192,12 +192,12 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
             </p>
           </div>
 
-          {/* Division Analysis Grid */}
+          {/* Team Analysis Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-5 space-y-2">
               <h4 className="font-bold text-xs uppercase tracking-wider text-cyan-300 flex items-center gap-2">
                 <Users className="w-4 h-4" />
-                Stationed Division Analysis
+                Stationed Team Analysis
               </h4>
               <p className="text-xs text-slate-300 leading-relaxed">
                 {report.stationedAnalysis}
@@ -207,7 +207,7 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
             <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-5 space-y-2">
               <h4 className="font-bold text-xs uppercase tracking-wider text-cyan-300 flex items-center gap-2">
                 <Layers className="w-4 h-4" />
-                Virtual Division Analysis
+                Virtual Team Analysis
               </h4>
               <p className="text-xs text-slate-300 leading-relaxed">
                 {report.virtualAnalysis}

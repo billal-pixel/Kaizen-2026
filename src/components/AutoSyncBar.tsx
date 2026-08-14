@@ -161,10 +161,10 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
   }, [autoSyncEnabled, intervalSeconds, performSync]);
 
   return (
-    <div className="relative bg-slate-900/90 border border-slate-800 rounded-xl p-2.5 sm:px-3 sm:py-2 shadow-inner backdrop-blur-md transition-all overflow-hidden">
+    <div className="relative bg-slate-50/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-1.5 shadow-2xs dark:shadow-inner backdrop-blur-md transition-all overflow-hidden flex flex-col justify-center">
       {/* Active Sync: Horizontal Scanning Progress Beam across top edge */}
       {isSyncing && (
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-slate-800 overflow-hidden z-20">
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-slate-200 dark:bg-slate-800 overflow-hidden z-20">
           <motion.div
             initial={{ x: '-100%' }}
             animate={{ x: '100%' }}
@@ -174,170 +174,176 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
         </div>
       )}
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 w-full">
         {/* Left Status & Indicators */}
-        <div className="flex items-center justify-between sm:justify-start gap-2.5 min-w-0 w-full sm:w-auto">
-          <div className="flex items-center gap-2.5 min-w-0">
-            {/* Status Box Icon */}
-            <div className="relative shrink-0">
-              <div className={`p-2 rounded-xl border flex items-center justify-center transition-all duration-300 ${
-                autoSyncEnabled 
-                  ? 'bg-slate-950 border-emerald-500/40 text-emerald-300 shadow-sm' 
-                  : 'bg-slate-800 border-slate-700 text-slate-500'
-              }`}>
-                <Zap className={`w-4 h-4 ${isSyncing ? 'animate-bounce text-cyan-400' : 'text-emerald-400'}`} />
-              </div>
-            </div>
-
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs sm:text-sm font-bold text-slate-100 tracking-tight">
-                  Google Sheet Sync
-                </span>
-                
-                {/* Status Badge */}
-                {autoSyncEnabled ? (
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                    <span className="relative flex h-2 w-2 items-center justify-center">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400"></span>
-                    </span>
-                    <span>LIVE</span>
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md text-xs font-bold bg-slate-800 text-slate-400 border border-slate-700">
-                    PAUSED
-                  </span>
-                )}
-              </div>
-
-              <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-1.5 flex-wrap">
-                {isSyncing ? (
-                  <span className="text-cyan-400 font-medium animate-pulse flex items-center gap-1">
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                    <span>Fetching live data...</span>
-                  </span>
-                ) : syncStatus === 'success' ? (
-                  <span className="text-emerald-400/90 flex items-center gap-1.5 flex-wrap font-medium text-xs min-w-0">
-                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-emerald-400" />
-                    <span className="font-semibold text-emerald-300">{syncedCount} records synced ({lastSyncTime})</span>
-                    {autoSyncEnabled && (
-                      <span className="text-slate-500 font-mono text-xs shrink-0">• Poll: {countdown}s</span>
-                    )}
-                  </span>
-                ) : syncStatus === 'error' ? (
-                  <span className="text-amber-400 flex items-center gap-1 font-medium text-xs flex-wrap">
-                    <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-                    <span>{statusMessage}</span>
-                  </span>
-                ) : (
-                  <span className="text-xs text-slate-400">{statusMessage}</span>
-                )}
-              </p>
+        <div className="flex items-center justify-between sm:justify-start gap-2.5 min-w-0">
+          {/* Status Box Icon */}
+          <div className="relative shrink-0">
+            <div className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all duration-300 ${
+              autoSyncEnabled 
+                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 shadow-2xs' 
+                : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-500'
+            }`}>
+              <Zap className={`w-3.5 h-3.5 ${isSyncing ? 'animate-bounce text-cyan-500' : 'text-emerald-600 dark:text-emerald-400'}`} />
             </div>
           </div>
 
-          {/* Mobile Collapse/Expand Controls Button */}
-          <button
-            type="button"
-            onClick={() => setIsControlsOpenMobile(!isControlsOpenMobile)}
-            className="sm:hidden min-h-[44px] px-3 py-2 bg-slate-800 hover:bg-slate-750 border border-slate-700/90 text-slate-200 font-bold text-xs rounded-xl flex items-center gap-1 shrink-0 cursor-pointer active:scale-95 ml-2"
-          >
-            <span>{isControlsOpenMobile ? 'Hide' : 'Sync Controls'}</span>
-            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isControlsOpenMobile ? 'rotate-180' : ''}`} />
-          </button>
+          <div className="min-w-0 flex flex-col justify-center">
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-bold text-slate-800 dark:text-slate-100 tracking-tight leading-none">
+                Google Sheet Sync
+              </span>
+              
+              {/* Status Badge */}
+              {autoSyncEnabled ? (
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 leading-none">
+                  <span className="relative flex h-1.5 w-1.5 items-center justify-center">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-1 w-1 bg-emerald-500 dark:bg-emerald-400"></span>
+                  </span>
+                  <span>LIVE</span>
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-200/80 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300/80 dark:border-slate-700 leading-none">
+                  PAUSED
+                </span>
+              )}
+            </div>
+
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1.5 leading-none">
+              {isSyncing ? (
+                <span className="text-cyan-600 dark:text-cyan-400 font-semibold animate-pulse flex items-center gap-1 leading-none">
+                  <RefreshCw className="w-3 h-3 animate-spin" />
+                  <span>Fetching live data...</span>
+                </span>
+              ) : syncStatus === 'success' ? (
+                <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 font-medium text-[11px] min-w-0 leading-none">
+                  <CheckCircle2 className="w-3 h-3 shrink-0 text-emerald-500 dark:text-emerald-400" />
+                  <span className="font-semibold text-emerald-700 dark:text-emerald-300">{syncedCount} synced ({lastSyncTime})</span>
+                  {autoSyncEnabled && (
+                    <span className="text-slate-400 dark:text-slate-500 font-mono text-[10px] shrink-0">• Poll: {countdown}s</span>
+                  )}
+                </span>
+              ) : syncStatus === 'error' ? (
+                <span className="text-amber-600 dark:text-amber-400 flex items-center gap-1 font-medium text-[11px] leading-none">
+                  <AlertTriangle className="w-3 h-3 shrink-0" />
+                  <span>{statusMessage}</span>
+                </span>
+              ) : (
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 leading-none">{statusMessage}</span>
+              )}
+            </div>
+          </div>
         </div>
 
+        {/* Mobile Collapse/Expand Controls Button */}
+        <button
+          type="button"
+          onClick={() => setIsControlsOpenMobile(!isControlsOpenMobile)}
+          className="sm:hidden h-7 px-2 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-lg flex items-center gap-1 shrink-0 cursor-pointer active:scale-95 shadow-2xs ml-2"
+        >
+          <span>{isControlsOpenMobile ? 'Hide' : 'Controls'}</span>
+          <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isControlsOpenMobile ? 'rotate-180' : ''}`} />
+        </button>
+
         {/* Right Controls - Collapsible on Mobile, always visible on Desktop */}
-        <div className={`${isControlsOpenMobile ? 'flex' : 'hidden'} sm:flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:gap-2 justify-stretch sm:justify-end w-full sm:w-auto shrink-0 pt-2 sm:pt-0 border-t sm:border-0 border-slate-800/80`}>
+        <div className={`${isControlsOpenMobile ? 'flex' : 'hidden'} sm:flex flex-wrap sm:flex-nowrap items-center gap-1.5 justify-stretch sm:justify-end w-full sm:w-auto shrink-0 pt-1 sm:pt-0 border-t sm:border-0 border-slate-200 dark:border-slate-800`}>
           {/* Pause / Resume Button */}
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.95 }}
             type="button"
             onClick={() => setAutoSyncEnabled(!autoSyncEnabled)}
-            className={`min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 border transition-all cursor-pointer flex-1 sm:flex-initial whitespace-nowrap active:scale-95 ${
+            className={`h-7 px-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 border transition-all cursor-pointer flex-1 sm:flex-initial whitespace-nowrap shadow-2xs ${
               autoSyncEnabled
-                ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-700/80'
-                : 'bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-300 border-emerald-600/40'
+                ? 'bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700'
+                : 'bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-600/40'
             }`}
             title={autoSyncEnabled ? "Pause Auto-Sync" : "Enable Auto-Sync"}
           >
             {autoSyncEnabled ? (
               <>
-                <Pause className="w-4 h-4 text-slate-400 shrink-0" />
-                <span className="text-xs font-bold">Pause</span>
+                <Pause className="w-3 h-3 text-slate-500 dark:text-slate-400 shrink-0" />
+                <span className="text-[11px] font-bold leading-none">Pause</span>
               </>
             ) : (
               <>
-                <Play className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span className="text-xs font-bold">Resume</span>
+                <Play className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span className="text-[11px] font-bold leading-none">Resume</span>
               </>
             )}
-          </button>
+          </motion.button>
 
-          {/* Sync Now Button - Secondary wireframe outline style */}
-          <button
+          {/* Sync Now Button */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.95 }}
             type="button"
             onClick={performSync}
             disabled={isSyncing}
-            className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 disabled:opacity-50 cursor-pointer flex-1 sm:flex-initial whitespace-nowrap ${
+            className={`h-7 px-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 disabled:opacity-50 cursor-pointer flex-1 sm:flex-initial whitespace-nowrap shadow-2xs ${
               isSyncing 
-                ? 'bg-slate-900 border border-cyan-500/50 text-cyan-200' 
-                : 'bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-slate-100 border border-slate-700/80 hover:border-slate-600'
+                ? 'bg-cyan-50 dark:bg-slate-900 border border-cyan-400 dark:border-cyan-500/50 text-cyan-700 dark:text-cyan-200' 
+                : 'bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700'
             }`}
             title="Sync data now"
           >
-            <RefreshCw className={`w-4 h-4 shrink-0 ${isSyncing ? 'animate-spin text-cyan-400 stroke-[2.5]' : 'text-slate-400'}`} />
-            <span className="text-xs font-bold">{isSyncing ? 'Syncing...' : 'Sync Now'}</span>
-          </button>
+            <RefreshCw className={`w-3 h-3 shrink-0 ${isSyncing ? 'animate-spin text-cyan-600 dark:text-cyan-400 stroke-[2.5]' : 'text-slate-500 dark:text-slate-400'}`} />
+            <span className="text-[11px] font-bold leading-none">{isSyncing ? 'Syncing...' : 'Sync Now'}</span>
+          </motion.button>
 
           {/* Configure Sheet Modal Trigger */}
           {onOpenSyncModal && (
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.95 }}
               type="button"
               onClick={onOpenSyncModal}
-              className="min-h-[44px] bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer flex-1 sm:flex-initial whitespace-nowrap"
+              className="h-7 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 px-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer flex-1 sm:flex-initial whitespace-nowrap shadow-2xs"
               title="Open Google Sheet configuration"
             >
-              <FileSpreadsheet className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span className="text-xs font-bold">Sheet Config</span>
-            </button>
+              <FileSpreadsheet className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <span className="text-[11px] font-bold leading-none">Sheet Config</span>
+            </motion.button>
           )}
 
           {/* Auto-Sync Settings Cog */}
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             type="button"
             onClick={() => setShowSettings(!showSettings)}
-            className={`min-h-[44px] min-w-[44px] p-2 rounded-xl border flex items-center justify-center text-slate-400 hover:text-slate-100 transition-colors cursor-pointer shrink-0 ${
-              showSettings ? 'bg-slate-800 border-cyan-500/50 text-cyan-300' : 'bg-slate-950 border-slate-800'
+            className={`h-7 w-7 p-1 rounded-lg border flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer shrink-0 shadow-2xs ${
+              showSettings ? 'bg-slate-200 dark:bg-slate-800 border-cyan-500 text-cyan-600 dark:text-cyan-300' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700'
             }`}
             title="Auto-Sync Settings"
           >
-            <Settings2 className="w-4 h-4" />
-          </button>
+            <Settings2 className={`w-3.5 h-3.5 transition-transform duration-200 ${showSettings ? 'rotate-90 text-cyan-500' : ''}`} />
+          </motion.button>
         </div>
       </div>
 
       {/* Expandable Settings Bar */}
       {showSettings && (
-        <div className="mt-3 pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-300 bg-slate-950/60 p-3 rounded-xl border border-slate-800/60">
+        <div className="mt-2.5 pt-2.5 border-t border-slate-200 dark:border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-950/60 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/60">
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-cyan-400" />
-            <span className="font-medium">Auto-Sync Frequency:</span>
+            <Clock className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+            <span className="font-medium text-[11px]">Auto-Sync Frequency:</span>
             <select
               value={intervalSeconds}
               onChange={(e) => setIntervalSeconds(Number(e.target.value))}
-              className="bg-slate-900 border border-slate-700 text-cyan-300 rounded-lg px-2.5 py-1 text-xs font-mono focus:outline-none focus:border-cyan-500"
+              className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-cyan-700 dark:text-cyan-300 rounded-md px-2 py-0.5 text-xs font-mono focus:outline-none focus:border-cyan-500"
             >
-              <option value={15}>Every 15 Seconds</option>
-              <option value={30}>Every 30 Seconds (Default)</option>
-              <option value={60}>Every 1 Minute</option>
-              <option value={180}>Every 3 Minutes</option>
-              <option value={300}>Every 5 Minutes</option>
+              <option value={15}>Every 15s</option>
+              <option value={30}>Every 30s (Default)</option>
+              <option value={60}>Every 1m</option>
+              <option value={180}>Every 3m</option>
+              <option value={300}>Every 5m</option>
             </select>
           </div>
 
-          <div className="text-[11px] text-slate-400">
-            Automated background polling checks for live changes in Google Sheets without refreshing the browser tab.
+          <div className="text-[10px] text-slate-500 dark:text-slate-400">
+            Background polling checks for live changes in Google Sheets.
           </div>
         </div>
       )}

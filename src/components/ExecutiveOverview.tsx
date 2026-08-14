@@ -57,6 +57,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
   onNavigateTab,
   onSelectAdvisor,
 }) => {
+
   // Aggregate Metrics
   const stationedSales = stationedAdvisors.reduce((acc, c) => acc + c.finalSalesData, 0);
   const virtualSales = virtualAdvisors.reduce((acc, c) => acc + c.finalSales, 0);
@@ -218,8 +219,8 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
     const total = items.length || 1;
 
     return [
-      { name: 'High Tier (≥80%)', tier: 'High Tier', count: highCount, pct: ((highCount / total) * 100).toFixed(1), color: '#10b981', label: 'Outstanding' },
-      { name: 'Medium Tier (60-79%)', tier: 'Medium Tier', count: medCount, pct: ((medCount / total) * 100).toFixed(1), color: '#38bdf8', label: 'On Track' },
+      { name: 'High Tier (≥80%)', tier: 'High Tier', count: highCount, pct: ((highCount / total) * 100).toFixed(1), color: '#C4F7CA', label: 'Outstanding' },
+      { name: 'Medium Tier (60-79%)', tier: 'Medium Tier', count: medCount, pct: ((medCount / total) * 100).toFixed(1), color: '#92EEFF', label: 'On Track' },
       { name: 'Low Tier (<60%)', tier: 'Low Tier', count: lowCount, pct: ((lowCount / total) * 100).toFixed(1), color: '#f43f5e', label: 'Needs Action' },
     ];
   }, [stationedAdvisors, virtualAdvisors, gradeDistributionFilter]);
@@ -255,14 +256,14 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
   }, [stationedAdvisors, virtualAdvisors, gradeDistributionFilter]);
 
   const salesPieData = useMemo(() => [
-    { name: 'Stationed Division', value: stationedSales, color: '#06b6d4' },
-    { name: 'Virtual Division', value: virtualSales, color: '#6366f1' },
+    { name: 'Stationed Division', value: stationedSales, color: '#30AFFF' },
+    { name: 'Virtual Division', value: virtualSales, color: '#92EEFF' },
   ], [stationedSales, virtualSales]);
 
   // Revenue comparison chart data
   const revenueChartData = [
-    { name: 'Stationed Division', sales: stationedSales, color: '#38bdf8' },
-    { name: 'Virtual Division', sales: virtualSales, color: '#818cf8' },
+    { name: 'Stationed Division', sales: stationedSales, color: '#30AFFF' },
+    { name: 'Virtual Division', sales: virtualSales, color: '#92EEFF' },
   ];
 
   // Leaderboard state & filter (Combined, Stationed, Virtual)
@@ -356,21 +357,21 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6 pt-6 border-t border-slate-800/80">
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-[#30AFFF]/40 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
           >
             <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Total Sales Revenue</span>
             <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
               <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-slate-100 font-mono tracking-tight truncate w-full">৳{totalSales.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] sm:text-[11px] font-extrabold text-emerald-400 uppercase tracking-wider inline-flex items-center gap-1.5 bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-800/60 shrink-0">
+              <span className="text-[10px] sm:text-[11px] font-extrabold text-emerald-400 uppercase tracking-wider inline-flex items-center gap-1.5 bg-emerald-500/15 px-2.5 py-1 rounded-md border border-emerald-500/30 shrink-0">
                 <span className="relative flex h-2 w-2">
                   <motion.span
                     animate={{ scale: [1, 2.2, 1], opacity: [0.8, 0, 0.8] }}
                     transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
                     className="absolute inline-flex h-full w-full rounded-full bg-emerald-400"
                   />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
                 </span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
+                <ArrowUpRight className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Live</span>
               </span>
             </div>
@@ -378,27 +379,27 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-[#30AFFF]/40 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
           >
             <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Overall Team KPI</span>
             <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
-              <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-cyan-400 font-mono tracking-tight truncate w-full">{overallTeamKpi.toFixed(1)}%</span>
-              <span className="text-[10px] sm:text-[11px] font-extrabold text-cyan-300 uppercase tracking-wider inline-flex items-center gap-1 bg-cyan-950/80 px-2.5 py-1 rounded-md border border-cyan-800/60 shrink-0">Target 90%</span>
+              <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-sky-400 font-mono tracking-tight truncate w-full">{overallTeamKpi.toFixed(1)}%</span>
+              <span className="text-[10px] sm:text-[11px] font-extrabold text-sky-300 uppercase tracking-wider inline-flex items-center gap-1 bg-sky-500/15 px-2.5 py-1 rounded-md border border-sky-500/30 shrink-0">Target 90%</span>
             </div>
           </motion.div>
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
             onClick={() => onNavigateTab('call_records')}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/50 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card cursor-pointer group flex flex-col justify-between min-w-0"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-[#30AFFF]/50 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card cursor-pointer group flex flex-col justify-between min-w-0"
           >
-            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-cyan-400 transition-colors flex items-center justify-between gap-1 truncate">
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-cyan-300 transition-colors flex items-center justify-between gap-1 truncate">
               <span className="truncate">Total Reach Calls</span>
               <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
             </span>
             <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
               <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-slate-100 font-mono tracking-tight truncate w-full">{totalReachCalls.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] sm:text-[11px] font-extrabold text-cyan-300 uppercase tracking-wider inline-flex items-center gap-1 bg-cyan-950/80 px-2.5 py-1 rounded-md border border-cyan-800/60 shrink-0">
+              <span className="text-[10px] sm:text-[11px] font-extrabold text-cyan-300 uppercase tracking-wider inline-flex items-center gap-1 bg-cyan-500/15 px-2.5 py-1 rounded-md border border-cyan-500/30 shrink-0">
                 View Records →
               </span>
             </div>
@@ -406,12 +407,12 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/30 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-emerald-500/40 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
           >
             <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Active Tasks</span>
             <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
-              <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-amber-400 font-mono tracking-tight truncate w-full">{tasks.filter(t => t.status !== 'completed').length}</span>
-              <span className="text-[10px] sm:text-[11px] font-extrabold text-amber-300 uppercase tracking-wider inline-flex items-center gap-1 bg-amber-950/80 px-2.5 py-1 rounded-md border border-amber-800/60 shrink-0">In Pipeline</span>
+              <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-emerald-400 font-mono tracking-tight truncate w-full">{tasks.filter(t => t.status !== 'completed').length}</span>
+              <span className="text-[10px] sm:text-[11px] font-extrabold text-emerald-300 uppercase tracking-wider inline-flex items-center gap-1 bg-emerald-500/15 px-2.5 py-1 rounded-md border border-emerald-500/30 shrink-0">In Pipeline</span>
             </div>
           </motion.div>
         </div>
@@ -420,19 +421,19 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
       {/* Division Comparison Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Stationed Team Card */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden space-y-4 hover:border-cyan-500/30 transition-all">
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden space-y-4 hover:border-[#30AFFF]/40 transition-all">
           <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-slate-800/80 pb-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="p-2.5 bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 rounded-xl shadow-inner shrink-0">
+              <div className="p-2.5 bg-[#30AFFF]/15 border border-[#30AFFF]/30 text-[#30AFFF] rounded-xl shadow-inner shrink-0">
                 <Users className="w-5 h-5" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 min-w-0">
-                  <h3 className="font-bold text-slate-100 text-sm truncate">Stationed Team Division</h3>
+                  <h3 className="font-bold text-slate-100 text-sm truncate">Stationed Team</h3>
                   {/* Tooltip for Methodology */}
                   <div className="group relative inline-flex items-center cursor-help shrink-0">
-                    <Info className="w-3.5 h-3.5 text-slate-400 hover:text-cyan-300 transition-colors" />
-                    <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-60 p-2.5 bg-slate-950 border border-cyan-500/30 rounded-xl text-[11px] text-slate-300 shadow-2xl z-20 pointer-events-none leading-tight">
+                    <Info className="w-3.5 h-3.5 text-slate-400 hover:text-[#92EEFF] transition-colors" />
+                    <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-60 p-2.5 bg-slate-950 border border-[#30AFFF]/30 rounded-xl text-[11px] text-slate-300 shadow-2xl z-20 pointer-events-none leading-tight">
                       <strong>Stationed Methodology:</strong> Tracks Avg Reach, Talktime, CE Count, Exam Marks, Briefings, Sales & KPI Grade.
                     </div>
                   </div>
@@ -443,7 +444,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
             <button
               onClick={() => onNavigateTab('stationed')}
-              className="text-xs text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1 bg-cyan-950/60 hover:bg-cyan-900/60 px-3 py-1.5 rounded-lg border border-cyan-800/50 transition-all shrink-0 ml-auto"
+              className="text-xs text-[#30AFFF] hover:text-[#92EEFF] font-bold flex items-center gap-1 bg-[#30AFFF]/10 hover:bg-[#30AFFF]/20 px-3 py-1.5 rounded-lg border border-[#30AFFF]/40 transition-all shrink-0 ml-auto"
             >
               <span>Explore</span>
               <ChevronRight className="w-4 h-4" />
@@ -452,12 +453,12 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
-              <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Division Sales</span>
+              <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Sales</span>
               <span className="text-sm font-bold text-slate-100 font-mono">৳{stationedSales.toLocaleString('en-BD')}</span>
             </div>
             <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
               <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Avg KPI</span>
-              <span className="text-sm font-bold text-cyan-400 font-mono">{avgStationedKpi.toFixed(1)}%</span>
+              <span className="text-sm font-bold text-[#30AFFF] font-mono">{avgStationedKpi.toFixed(1)}%</span>
             </div>
             <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
               <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Avg Reach</span>
@@ -467,19 +468,19 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         </div>
 
         {/* Virtual Team Card */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden space-y-4 hover:border-indigo-500/30 transition-all">
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden space-y-4 hover:border-[#92EEFF]/40 transition-all">
           <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-slate-800/80 pb-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="p-2.5 bg-indigo-950/80 border border-indigo-500/30 text-indigo-400 rounded-xl shadow-inner shrink-0">
+              <div className="p-2.5 bg-[#92EEFF]/15 border border-[#92EEFF]/30 text-[#92EEFF] rounded-xl shadow-inner shrink-0">
                 <Layers className="w-5 h-5" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 min-w-0">
-                  <h3 className="font-bold text-slate-100 text-sm truncate">Virtual Team Division</h3>
+                  <h3 className="font-bold text-slate-100 text-sm truncate">Virtual Team</h3>
                   {/* Tooltip for Methodology */}
                   <div className="group relative inline-flex items-center cursor-help shrink-0">
-                    <Info className="w-3.5 h-3.5 text-slate-400 hover:text-indigo-300 transition-colors" />
-                    <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-60 p-2.5 bg-slate-950 border border-indigo-500/30 rounded-xl text-[11px] text-slate-300 shadow-2xl z-20 pointer-events-none leading-tight">
+                    <Info className="w-3.5 h-3.5 text-slate-400 hover:text-[#92EEFF] transition-colors" />
+                    <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-60 p-2.5 bg-slate-950 border border-[#92EEFF]/30 rounded-xl text-[11px] text-slate-300 shadow-2xl z-20 pointer-events-none leading-tight">
                       <strong>Virtual Methodology:</strong> Tracks Reach Calls, Talk Time, Meetings, Dispositions, Incentives & Total Salary.
                     </div>
                   </div>
@@ -490,7 +491,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
             <button
               onClick={() => onNavigateTab('virtual')}
-              className="text-xs text-indigo-400 hover:text-indigo-300 font-bold flex items-center gap-1 bg-indigo-950/60 hover:bg-indigo-900/60 px-3 py-1.5 rounded-lg border border-indigo-800/50 transition-all shrink-0 ml-auto"
+              className="text-xs text-[#92EEFF] hover:text-white font-bold flex items-center gap-1 bg-[#92EEFF]/10 hover:bg-[#92EEFF]/20 px-3 py-1.5 rounded-lg border border-[#92EEFF]/40 transition-all shrink-0 ml-auto"
             >
               <span>Explore</span>
               <ChevronRight className="w-4 h-4" />
@@ -499,12 +500,12 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
-              <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Division Sales</span>
+              <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Sales</span>
               <span className="text-sm font-bold text-slate-100 font-mono">৳{virtualSales.toLocaleString('en-BD')}</span>
             </div>
             <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
               <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Overall KPI</span>
-              <span className="text-sm font-bold text-emerald-400 font-mono">{avgVirtualKpi.toFixed(1)}%</span>
+              <span className="text-sm font-bold text-[#C4F7CA] font-mono">{avgVirtualKpi.toFixed(1)}%</span>
             </div>
             <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
               <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Reach Calls</span>
@@ -519,18 +520,18 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
           <div className="flex flex-col items-start gap-2 w-full lg:w-auto">
             <div className="flex items-center gap-2 flex-wrap">
-              <TrendingUp className="w-4 h-4 text-cyan-400 shrink-0" />
+              <TrendingUp className="w-4 h-4 text-[#30AFFF] shrink-0" />
               <h3 className="font-bold text-sm text-slate-100 uppercase tracking-wider">
                 {trendTimeRange === '7d' ? '7-Day' : '30-Day'} Daily Team Sales Trend
               </h3>
-              <span className="text-[10px] font-mono font-black text-cyan-400 bg-cyan-950/80 border border-cyan-800/60 px-2 py-0.5 rounded-md inline-flex items-center gap-1.5">
+              <span className="text-[10px] font-mono font-black text-[#92EEFF] bg-[#30AFFF]/15 border border-[#30AFFF]/30 px-2 py-0.5 rounded-md inline-flex items-center gap-1.5">
                 <span className="relative flex h-1.5 w-1.5">
                   <motion.span
                     animate={{ scale: [1, 2, 1], opacity: [0.8, 0, 0.8] }}
                     transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                    className="absolute inline-flex h-full w-full rounded-full bg-cyan-400"
+                    className="absolute inline-flex h-full w-full rounded-full bg-[#92EEFF]"
                   />
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-400" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#30AFFF]" />
                 </span>
                 <span>Live Trend</span>
               </span>
@@ -548,7 +549,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setTrendTimeRange('7d')}
                 className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   trendTimeRange === '7d'
-                    ? 'bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-cyan-500/20 text-emerald-300 border border-emerald-500/40 shadow-xs'
+                    ? 'bg-[#30AFFF]/20 text-[#92EEFF] border border-[#30AFFF]/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -559,7 +560,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setTrendTimeRange('30d')}
                 className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   trendTimeRange === '30d'
-                    ? 'bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-cyan-500/20 text-emerald-300 border border-emerald-500/40 shadow-xs'
+                    ? 'bg-[#30AFFF]/20 text-[#92EEFF] border border-[#30AFFF]/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -574,7 +575,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setTrendDivisionFilter('all')}
                 className={`flex-1 sm:flex-initial text-center px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   trendDivisionFilter === 'all'
-                    ? 'bg-gradient-to-r from-amber-500/20 via-cyan-500/20 to-indigo-500/20 text-amber-300 border border-amber-500/40 shadow-xs'
+                    ? 'bg-[#C4F7CA]/20 text-[#D8FFC5] border border-[#C4F7CA]/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -584,7 +585,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setTrendDivisionFilter('stationed')}
                 className={`flex-1 sm:flex-initial text-center px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   trendDivisionFilter === 'stationed'
-                    ? 'bg-gradient-to-r from-cyan-500/20 to-sky-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
+                    ? 'bg-[#30AFFF]/20 text-[#92EEFF] border border-[#30AFFF]/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -594,7 +595,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setTrendDivisionFilter('virtual')}
                 className={`flex-1 sm:flex-initial text-center px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   trendDivisionFilter === 'virtual'
-                    ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-300 border border-indigo-500/40 shadow-xs'
+                    ? 'bg-[#92EEFF]/20 text-white border border-[#92EEFF]/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -617,8 +618,8 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3 sm:p-3.5 flex flex-col justify-between transition-all min-w-0">
             <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block truncate">Peak Single-Day Revenue</span>
             <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
-              <span className="text-base xs:text-lg sm:text-xl font-black text-amber-400 font-mono tracking-tight truncate w-full">৳{trendMetrics.peakDaily.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] text-amber-300/80 font-mono font-medium truncate">{trendMetrics.peakDate}</span>
+              <span className="text-base xs:text-lg sm:text-xl font-black text-emerald-400 font-mono tracking-tight truncate w-full">৳{trendMetrics.peakDaily.toLocaleString('en-BD')}</span>
+              <span className="text-[10px] text-slate-400 font-mono font-medium truncate">{trendMetrics.peakDate}</span>
             </div>
           </div>
 
@@ -627,8 +628,8 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               Total {trendTimeRange === '7d' ? '7-Day' : '30-Day'} Revenue
             </span>
             <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
-              <span className="text-base xs:text-lg sm:text-xl font-black text-cyan-400 font-mono tracking-tight truncate w-full">৳{trendMetrics.totalPeriodSales.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] text-cyan-300/80 font-mono font-medium truncate">Cumulative</span>
+              <span className="text-base xs:text-lg sm:text-xl font-black text-sky-400 font-mono tracking-tight truncate w-full">৳{trendMetrics.totalPeriodSales.toLocaleString('en-BD')}</span>
+              <span className="text-[10px] text-slate-400 font-mono font-medium truncate">Cumulative</span>
             </div>
           </div>
 
@@ -640,7 +641,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               <span className={`text-base xs:text-lg sm:text-xl font-black font-mono tracking-tight truncate w-full ${trendMetrics.momentum >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                 {trendMetrics.momentum >= 0 ? '+' : ''}{trendMetrics.momentum.toFixed(1)}%
               </span>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-800/60 shrink-0">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-300 bg-emerald-500/15 px-2.5 py-1 rounded-md border border-emerald-500/30 shrink-0">
                 2nd Half Growth
               </span>
             </div>
@@ -653,16 +654,16 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             <AreaChart data={displayedTrendData} margin={{ top: 10, right: 15, left: 10, bottom: 0 }}>
               <defs>
                 <linearGradient id="stationedTrendGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.35} />
-                  <stop offset="95%" stopColor="#38bdf8" stopOpacity={0.0} />
+                  <stop offset="5%" stopColor="#30AFFF" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#30AFFF" stopOpacity={0.0} />
                 </linearGradient>
                 <linearGradient id="virtualTrendGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#818cf8" stopOpacity={0.35} />
-                  <stop offset="95%" stopColor="#818cf8" stopOpacity={0.0} />
+                  <stop offset="5%" stopColor="#92EEFF" stopOpacity={0.35} />
+                  <stop offset="95%" stopColor="#92EEFF" stopOpacity={0.0} />
                 </linearGradient>
                 <linearGradient id="totalTrendGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.0} />
+                  <stop offset="5%" stopColor="#C4F7CA" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#C4F7CA" stopOpacity={0.0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
@@ -682,7 +683,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               <Tooltip
                 contentStyle={{
                   backgroundColor: '#090d16',
-                  borderColor: 'rgba(56,189,248,0.3)',
+                  borderColor: '#30AFFF',
                   borderRadius: '12px',
                   fontSize: '12px',
                   boxShadow: '0 10px 25px rgba(0,0,0,0.6)',
@@ -713,7 +714,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                   <Area
                     type="monotone"
                     dataKey="stationed"
-                    stroke="#38bdf8"
+                    stroke="#30AFFF"
                     strokeWidth={2}
                     fillOpacity={1}
                     fill="url(#stationedTrendGrad)"
@@ -721,7 +722,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                   <Area
                     type="monotone"
                     dataKey="virtual"
-                    stroke="#818cf8"
+                    stroke="#92EEFF"
                     strokeWidth={2}
                     fillOpacity={1}
                     fill="url(#virtualTrendGrad)"
@@ -729,7 +730,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                   <Area
                     type="monotone"
                     dataKey="total"
-                    stroke="#f59e0b"
+                    stroke="#C4F7CA"
                     strokeWidth={2.5}
                     fillOpacity={1}
                     fill="url(#totalTrendGrad)"
@@ -741,11 +742,11 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 <Area
                   type="monotone"
                   dataKey="stationed"
-                  stroke="#38bdf8"
+                  stroke="#30AFFF"
                   strokeWidth={3}
                   fillOpacity={1}
                   fill="url(#stationedTrendGrad)"
-                  dot={{ r: 3, fill: '#38bdf8' }}
+                  dot={{ r: 3, fill: '#30AFFF' }}
                   activeDot={{ r: 6 }}
                 />
               )}
@@ -754,11 +755,11 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 <Area
                   type="monotone"
                   dataKey="virtual"
-                  stroke="#818cf8"
+                  stroke="#92EEFF"
                   strokeWidth={3}
                   fillOpacity={1}
                   fill="url(#virtualTrendGrad)"
-                  dot={{ r: 3, fill: '#818cf8' }}
+                  dot={{ r: 3, fill: '#92EEFF' }}
                   activeDot={{ r: 6 }}
                 />
               )}
@@ -820,7 +821,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 <span className="text-sm font-black text-slate-100 font-mono">
                   {totalSales > 0 ? ((stationedSales / totalSales) * 100).toFixed(0) : 0}% / {totalSales > 0 ? ((virtualSales / totalSales) * 100).toFixed(0) : 0}%
                 </span>
-                <span className="text-[9px] font-bold text-cyan-400 uppercase tracking-wider bg-cyan-950/80 border border-cyan-800/60 px-1.5 py-0.2 rounded mt-0.5">
+                <span className="text-[9px] font-bold text-[#30AFFF] uppercase tracking-wider bg-[#30AFFF]/15 border border-[#30AFFF]/30 px-1.5 py-0.2 rounded mt-0.5">
                   ST / VT
                 </span>
               </div>
@@ -830,24 +831,24 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             <div className="space-y-1.5 pt-1">
               <div className="h-2.5 w-full bg-slate-950 rounded-full overflow-hidden flex p-0.5 border border-slate-800 shadow-inner">
                 <div 
-                  className="h-full bg-gradient-to-r from-cyan-500 to-sky-400 rounded-l-full transition-all duration-500" 
+                  className="h-full bg-[#30AFFF] rounded-l-full transition-all duration-500" 
                   style={{ width: `${totalSales > 0 ? (stationedSales / totalSales) * 100 : 50}%` }}
                   title={`Stationed Division: ৳${stationedSales.toLocaleString('en-BD')}`}
                 />
                 <div 
-                  className="h-full bg-gradient-to-r from-indigo-500 to-purple-400 rounded-r-full transition-all duration-500" 
+                  className="h-full bg-[#92EEFF] rounded-r-full transition-all duration-500" 
                   style={{ width: `${totalSales > 0 ? (virtualSales / totalSales) * 100 : 50}%` }}
                   title={`Virtual Division: ৳${virtualSales.toLocaleString('en-BD')}`}
                 />
               </div>
 
               <div className="flex items-center justify-between text-[11px] font-extrabold text-slate-400">
-                <span className="flex items-center gap-1.5 text-cyan-300">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                <span className="flex items-center gap-1.5 text-[#30AFFF]">
+                  <span className="w-2 h-2 rounded-full bg-[#30AFFF]" />
                   Stationed: {totalSales > 0 ? ((stationedSales / totalSales) * 100).toFixed(1) : 0}%
                 </span>
-                <span className="flex items-center gap-1.5 text-indigo-300">
-                  <span className="w-2 h-2 rounded-full bg-indigo-400" />
+                <span className="flex items-center gap-1.5 text-[#92EEFF]">
+                  <span className="w-2 h-2 rounded-full bg-[#92EEFF]" />
                   Virtual: {totalSales > 0 ? ((virtualSales / totalSales) * 100).toFixed(1) : 0}%
                 </span>
               </div>
@@ -856,28 +857,28 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
           {/* Comparative Division Metric Cards */}
           <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800/60">
-            <div className="bg-slate-950/80 border border-cyan-500/30 hover:border-cyan-400/60 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0">
+            <div className="bg-slate-950/80 border border-[#30AFFF]/30 hover:border-[#30AFFF]/60 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
-                <span className="text-[10px] text-cyan-400 font-black uppercase tracking-wider truncate">Stationed</span>
+                <span className="text-[10px] text-sky-400 font-black uppercase tracking-wider truncate">Stationed</span>
                 <span className="text-[10px] text-slate-400 font-semibold shrink-0">{stationedAdvisors.length} Members</span>
               </div>
               <p className="text-base sm:text-lg font-black text-slate-100 font-mono tracking-tight truncate my-0.5">৳{stationedSales.toLocaleString('en-BD')}</p>
               <div className="text-[10px] text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-slate-900/80">
                 <span className="text-slate-400 font-medium">Avg:</span>
-                <strong className="text-cyan-300 font-mono font-bold">৳{Math.round(stationedSales / (stationedAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
+                <strong className="text-sky-300 font-mono font-bold">৳{Math.round(stationedSales / (stationedAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
                 <span className="text-slate-500 text-[9px] font-mono">/advisor</span>
               </div>
             </div>
 
-            <div className="bg-slate-950/80 border border-indigo-500/30 hover:border-indigo-400/60 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0">
+            <div className="bg-slate-950/80 border border-[#92EEFF]/30 hover:border-[#92EEFF]/60 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
-                <span className="text-[10px] text-indigo-400 font-black uppercase tracking-wider truncate">Virtual</span>
+                <span className="text-[10px] text-cyan-400 font-black uppercase tracking-wider truncate">Virtual</span>
                 <span className="text-[10px] text-slate-400 font-semibold shrink-0">{virtualAdvisors.length} Members</span>
               </div>
               <p className="text-base sm:text-lg font-black text-slate-100 font-mono tracking-tight truncate my-0.5">৳{virtualSales.toLocaleString('en-BD')}</p>
               <div className="text-[10px] text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-slate-900/80">
                 <span className="text-slate-400 font-medium">Avg:</span>
-                <strong className="text-indigo-300 font-mono font-bold">৳{Math.round(virtualSales / (virtualAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
+                <strong className="text-cyan-300 font-mono font-bold">৳{Math.round(virtualSales / (virtualAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
                 <span className="text-slate-500 text-[9px] font-mono">/advisor</span>
               </div>
             </div>
@@ -889,7 +890,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           <div className="space-y-2.5">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                <div className="p-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
                   <Award className="w-4 h-4" />
                 </div>
                 <h3 className="font-bold text-xs uppercase tracking-wider text-slate-200">
@@ -903,7 +904,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                   onClick={() => setKpiChartType('pie')}
                   className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all cursor-pointer ${
                     kpiChartType === 'pie'
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
                       : 'text-slate-400 hover:text-slate-200'
                   }`}
                   title="Pie Chart View (High, Medium, Low Tiers)"
@@ -914,7 +915,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                   onClick={() => setKpiChartType('bar')}
                   className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all cursor-pointer ${
                     kpiChartType === 'bar'
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
                       : 'text-slate-400 hover:text-slate-200'
                   }`}
                   title="Bar Chart View (A, B, C, D, PIP Grades)"
@@ -930,7 +931,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setGradeDistributionFilter('combined')}
                 className={`flex-1 py-1 rounded-lg text-[11px] font-extrabold transition-all text-center cursor-pointer ${
                   gradeDistributionFilter === 'combined'
-                    ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -940,7 +941,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setGradeDistributionFilter('stationed')}
                 className={`flex-1 py-1 rounded-lg text-[11px] font-extrabold transition-all text-center cursor-pointer ${
                   gradeDistributionFilter === 'stationed'
-                    ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
+                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-sm'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -950,7 +951,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setGradeDistributionFilter('virtual')}
                 className={`flex-1 py-1 rounded-lg text-[11px] font-extrabold transition-all text-center cursor-pointer ${
                   gradeDistributionFilter === 'virtual'
-                    ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -983,7 +984,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     <Tooltip
                       contentStyle={{
                         backgroundColor: '#090d16',
-                        borderColor: 'rgba(52,211,153,0.3)',
+                        borderColor: '#30AFFF',
                         borderRadius: '12px',
                         fontSize: '12px',
                         boxShadow: '0 10px 25px rgba(0,0,0,0.6)',
@@ -999,7 +1000,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                   <span className="text-base font-black text-slate-100 font-mono">
                     {kpiTierPieData.reduce((a, b) => a + b.count, 0)} Team
                   </span>
-                  <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider bg-emerald-950/80 border border-emerald-800/60 px-1.5 py-0.2 rounded mt-0.5 capitalize">
+                  <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/15 border border-emerald-500/30 px-1.5 py-0.2 rounded mt-0.5 capitalize">
                     {gradeDistributionFilter}
                   </span>
                 </div>
@@ -1008,7 +1009,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               {/* KPI Tier Legend & Count Badges */}
               <div className="grid grid-cols-3 gap-2 text-center pt-2 border-t border-slate-800/80">
                 {kpiTierPieData.map((tier) => (
-                  <div key={tier.tier} className="bg-slate-950/80 border border-slate-800/80 p-2 rounded-xl space-y-0.5 hover:border-emerald-500/40 transition-all">
+                  <div key={tier.tier} className="bg-slate-950/80 border border-slate-800/80 p-2 rounded-xl space-y-0.5 hover:border-[#30AFFF]/40 transition-all">
                     <div className="flex items-center justify-center gap-1">
                       <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: tier.color }} />
                       <span className="text-[10px] font-extrabold text-slate-300 truncate">{tier.tier}</span>
@@ -1031,17 +1032,17 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     <XAxis dataKey="grade" stroke="#94a3b8" tick={{ fill: '#cbd5e1', fontSize: 10, fontWeight: 700 }} />
                     <YAxis stroke="#94a3b8" tick={{ fill: '#cbd5e1', fontSize: 10 }} allowDecimals={false} />
                     <Tooltip
-                      contentStyle={{ backgroundColor: '#090d16', borderColor: 'rgba(52,211,153,0.2)', borderRadius: '12px', fontSize: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}
+                      contentStyle={{ backgroundColor: '#090d16', borderColor: '#30AFFF', borderRadius: '12px', fontSize: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}
                       formatter={(val: any) => [`${val} Advisors`, 'Count']}
                     />
                     <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                       {gradeChartData.map((entry, index) => {
                         const semanticColors: Record<string, string> = {
-                          'A': '#10b981',    // Emerald Green (Exceeds >=80%)
-                          'B': '#38bdf8',    // Sky Blue (On Target >=70%)
-                          'C': '#eab308',    // Amber / Yellow (Warning >=60%)
-                          'D': '#f97316',    // Orange (Needs Improvement >=50%)
-                          'PIP': '#e11d48',  // Rose / Red (Critical <50%)
+                          'A': '#10b981',    // Exceeds (Emerald)
+                          'B': '#0ea5e9',    // On Target (Sky)
+                          'C': '#6366f1',    // Warning (Indigo)
+                          'D': '#f97316',    // Needs Improvement
+                          'PIP': '#e11d48',  // Critical
                         };
                         return <Cell key={`cell-grade-${index}`} fill={semanticColors[entry.grade] || '#10b981'} />;
                       })}
@@ -1053,15 +1054,15 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               {/* Semantic Color Legend Strip */}
               <div className="flex items-center justify-between text-[9px] font-extrabold uppercase tracking-tight text-slate-400 pt-2 border-t border-slate-800/60">
                 <span className="flex items-center gap-1 text-emerald-400">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
                   A (Exceeds)
                 </span>
                 <span className="flex items-center gap-1 text-sky-400">
                   <span className="w-2 h-2 rounded-full bg-sky-400" />
                   B (On Target)
                 </span>
-                <span className="flex items-center gap-1 text-amber-400">
-                  <span className="w-2 h-2 rounded-full bg-amber-400" />
+                <span className="flex items-center gap-1 text-indigo-400">
+                  <span className="w-2 h-2 rounded-full bg-indigo-400" />
                   C/D (Warning)
                 </span>
                 <span className="flex items-center gap-1 text-rose-400">
@@ -1078,7 +1079,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           {/* Header & Segmented Filter Control */}
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 shrink-0 shadow-xs">
+              <div className="p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shrink-0 shadow-xs">
                 <Trophy className="w-4 h-4" />
               </div>
               <div className="min-w-0">
@@ -1095,7 +1096,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setLeaderboardFilter('combined')}
                 className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   leaderboardFilter === 'combined'
-                    ? 'bg-gradient-to-r from-cyan-500/20 via-sky-500/20 to-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -1105,7 +1106,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setLeaderboardFilter('stationed')}
                 className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   leaderboardFilter === 'stationed'
-                    ? 'bg-gradient-to-r from-cyan-500/20 via-sky-500/20 to-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
+                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -1115,7 +1116,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 onClick={() => setLeaderboardFilter('virtual')}
                 className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   leaderboardFilter === 'virtual'
-                    ? 'bg-gradient-to-r from-cyan-500/20 via-sky-500/20 to-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -1133,21 +1134,21 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 <div
                   key={`${item.team}-${item.name}-${idx}`}
                   onClick={() => onSelectAdvisor(item.raw, item.team.toLowerCase() as any)}
-                  className="bg-slate-950/70 border border-slate-800/80 hover:border-cyan-500/50 p-2.5 sm:p-3 rounded-2xl flex items-center justify-between gap-3 cursor-pointer transition-all duration-200 group hover:scale-[1.01] shadow-xs hover:shadow-md leaderboard-card"
+                  className="bg-slate-950/70 border border-slate-800/80 hover:border-[#30AFFF]/50 p-2.5 sm:p-3 rounded-2xl flex items-center justify-between gap-3 cursor-pointer transition-all duration-200 group hover:scale-[1.01] shadow-xs hover:shadow-md leaderboard-card"
                 >
                   {/* Left Column: Advisor Rank & Identity */}
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
                     {/* Rank Badge */}
                     <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl font-black text-xs flex items-center justify-center shrink-0 shadow-xs transition-transform group-hover:scale-105 ${
                       idx === 0 
-                        ? 'rank-badge-1 bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 text-amber-950 ring-2 ring-amber-400/50 shadow-md shadow-amber-500/20' 
+                        ? 'rank-badge-1 bg-gradient-to-br from-amber-300 via-amber-400 to-yellow-500 text-slate-950 shadow-md ring-2 ring-amber-400/40' 
                         : idx === 1 
-                        ? 'rank-badge-2 bg-gradient-to-br from-slate-200 via-slate-300 to-slate-400 text-slate-900 ring-2 ring-slate-300/50 shadow-xs' 
+                        ? 'rank-badge-2 bg-gradient-to-br from-slate-200 to-slate-400 text-slate-950 shadow-xs' 
                         : idx === 2 
-                        ? 'rank-badge-3 bg-gradient-to-br from-amber-600 via-amber-700 to-amber-800 text-white ring-2 ring-amber-600/50 shadow-xs' 
+                        ? 'rank-badge-3 bg-gradient-to-br from-amber-700 to-amber-900 text-amber-100 shadow-xs' 
                         : 'rank-badge-other bg-slate-900 border border-slate-800 text-slate-400 font-mono font-extrabold'
                     }`}>
-                      {idx === 0 ? <Crown className="w-4 h-4 text-amber-950 fill-amber-950" /> : `#${idx + 1}`}
+                      {idx === 0 ? <Crown className="w-4 h-4 text-slate-950 fill-slate-950" /> : `#${idx + 1}`}
                     </div>
 
                     {/* Name & Division Tag */}
@@ -1158,11 +1159,11 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                       <div className="flex items-center gap-1.5">
                         <span className={`inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md border font-mono tracking-tight whitespace-nowrap ${
                           item.team === 'Stationed'
-                            ? 'bg-cyan-950/80 text-cyan-300 border-cyan-800/60'
-                            : 'bg-indigo-950/80 text-indigo-300 border-indigo-800/60'
+                            ? 'bg-sky-500/15 text-sky-300 border-sky-500/30'
+                            : 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30'
                         }`}>
-                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.team === 'Stationed' ? 'bg-cyan-400' : 'bg-indigo-400'}`} />
-                          {item.team} Division
+                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.team === 'Stationed' ? 'bg-sky-400' : 'bg-cyan-400'}`} />
+                          {item.team}
                         </span>
                       </div>
                     </div>
@@ -1177,18 +1178,18 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     </div>
                     <div className="flex items-center gap-1.5 justify-end">
                       {/* KPI Badge */}
-                      <span className="font-extrabold text-[10px] font-mono tracking-tight bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 px-2 py-0.5 rounded-md whitespace-nowrap">
+                      <span className="font-extrabold text-[10px] font-mono tracking-tight bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-md whitespace-nowrap">
                         {item.kpiDisplay} KPI
                       </span>
 
                       {/* Grade Badge */}
                       <span className={`text-[10px] font-extrabold font-mono px-2 py-0.5 rounded-md border uppercase tracking-wide whitespace-nowrap ${
                         item.grade === 'A'
-                          ? 'bg-emerald-950/80 text-emerald-300 border-emerald-800/60'
+                          ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
                           : item.grade === 'B'
-                          ? 'bg-sky-950/80 text-sky-300 border-sky-800/60'
+                          ? 'bg-sky-500/15 text-sky-400 border-sky-500/30'
                           : item.grade === 'C'
-                          ? 'bg-amber-950/80 text-amber-300 border-amber-800/60'
+                          ? 'bg-indigo-500/15 text-indigo-400 border-indigo-500/30'
                           : item.grade === 'D'
                           ? 'bg-orange-950/80 text-orange-300 border-orange-800/60'
                           : 'bg-rose-950/80 text-rose-300 border-rose-800/60'

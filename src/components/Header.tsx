@@ -53,7 +53,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   activeTab,
   setActiveTab,
   teamLeaderName,
-  theme = 'dark',
+  theme = 'light',
   onToggleTheme,
   onOpenSheetSync,
   onOpenAddModal,
@@ -74,52 +74,52 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   return (
     <header className={`sticky top-0 z-40 backdrop-blur-2xl border-b transition-colors duration-300 relative overflow-hidden ${
       theme === 'light'
-        ? 'bg-slate-50/95 text-slate-900 border-slate-300/80 shadow-lg shadow-slate-200/50'
-        : 'bg-slate-950/90 text-slate-100 border-cyan-500/20 shadow-2xl shadow-slate-950/90'
+        ? 'bg-white/95 text-slate-900 border-slate-200/90 shadow-sm shadow-slate-200/60'
+        : 'bg-slate-950/90 text-slate-100 border-[#30AFFF]/20 shadow-2xl shadow-slate-950/90'
     }`}>
-      {/* Top Animated Cyan/Sky Glow Hairline Accent */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400/80 via-sky-400/80 to-transparent shadow-[0_0_12px_rgba(34,211,238,0.8)]" />
+      {/* Top Animated 4-Color Glow Hairline Accent */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#30AFFF] via-[#92EEFF] via-[#C4F7CA] to-transparent shadow-[0_0_12px_rgba(48,175,255,0.8)]" />
 
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-        {/* Top bar with Brand ID on Left and grouped Actions & Integrations on Right */}
-        <div className="py-1.5 sm:py-2.5 flex flex-col lg:flex-row items-center justify-between gap-2 sm:gap-3 border-b border-slate-800/70">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 space-y-2">
+        {/* Tier 1: Primary Header Bar (Brand on Left | Live Sync + Theme + Add Advisor on Right) */}
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5 sm:gap-3">
           
-          {/* Brand ID & Top-Level Quick Actions */}
-          <div className="flex items-center justify-between gap-2.5 w-full lg:w-auto shrink-0">
+          {/* Brand ID & TL info */}
+          <div className="flex items-center justify-between lg:justify-start gap-3 shrink-0">
             <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
-              {/* Hologram Floating Logo Shield */}
+              {/* Logo Shield */}
               <motion.div 
-                animate={{ y: [0, -3, 0] }}
+                animate={{ y: [0, -2, 0] }}
                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
                 className="relative group cursor-pointer shrink-0 self-center"
               >
-                <div className="relative bg-slate-900 border border-slate-800 p-1 rounded-xl shadow-sm backdrop-blur-md flex items-center justify-center">
+                <div className="relative bg-slate-900 border border-slate-800 p-1.5 rounded-xl shadow-2xs backdrop-blur-md flex items-center justify-center transition-transform group-hover:scale-105 duration-200">
                   <KaizenLogo size="md" />
                 </div>
               </motion.div>
 
-              <div className="flex flex-col justify-center shrink-0 self-center min-w-max">
-                <h1 className="text-sm sm:text-base font-extrabold tracking-tight uppercase font-sans leading-none text-white whitespace-nowrap">
+              <div className="flex flex-col justify-center shrink-0 min-w-max">
+                <h1 className="text-sm sm:text-base font-extrabold tracking-tight uppercase font-sans leading-none text-slate-900 dark:text-white whitespace-nowrap">
                   TEAM KAIZEN
                 </h1>
-                <div className="flex items-center gap-1.5 mt-1 text-xs text-[#38BDF8] whitespace-nowrap">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#38BDF8] shrink-0" />
-                  <span className="shrink-0 text-slate-400 font-medium">TL:</span>
-                  <span className="text-[#38BDF8] font-bold leading-tight whitespace-nowrap">{teamLeaderName}</span>
+                <div className="flex items-center gap-1.5 mt-1 text-xs text-sky-600 dark:text-[#92EEFF] whitespace-nowrap">
+                  <ShieldCheck className="w-3.5 h-3.5 text-sky-500 dark:text-[#30AFFF] shrink-0" />
+                  <span className="shrink-0 text-slate-500 dark:text-slate-400 font-medium">TL:</span>
+                  <span className="text-slate-800 dark:text-[#92EEFF] font-bold leading-tight whitespace-nowrap">{teamLeaderName}</span>
                 </div>
               </div>
             </div>
 
-            {/* Mobile Top-Right Control: Theme Toggle (36x36px) */}
-            <div className="flex items-center gap-2 shrink-0 self-center lg:hidden">
+            {/* Mobile-Only Quick Action Controls */}
+            <div className="flex items-center gap-1.5 shrink-0 lg:hidden">
               {onToggleTheme && (
                 <button
                   type="button"
                   onClick={onToggleTheme}
-                  title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to High-Contrast Light Mode'}
-                  className={`w-9 h-9 min-h-[36px] min-w-[36px] p-2 rounded-xl border flex items-center justify-center transition-all cursor-pointer ${
+                  title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                  className={`h-8 w-8 p-1.5 rounded-xl border flex items-center justify-center transition-all cursor-pointer shadow-2xs ${
                     theme === 'light'
-                      ? 'bg-amber-100 border-amber-300 text-amber-950'
+                      ? 'bg-amber-50 hover:bg-amber-100 border-amber-200 text-amber-900'
                       : 'bg-slate-900 border-slate-800 text-amber-300 hover:border-slate-700'
                   }`}
                 >
@@ -130,14 +130,22 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   )}
                 </button>
               )}
+
+              <button
+                type="button"
+                onClick={onOpenAddModal}
+                className="h-8 px-2.5 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-bold text-xs flex items-center gap-1 shadow-2xs cursor-pointer active:scale-95"
+              >
+                <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+                <span>Add</span>
+              </button>
             </div>
           </div>
 
-          {/* Controls & Quick Access Integrations */}
-          <div className="flex flex-col sm:flex-row lg:flex-row flex-wrap items-stretch sm:items-center gap-2.5 justify-end w-full lg:w-auto">
-            
-            {/* Live Google Sheet Integration Widget (Desktop Only) */}
-            <div className="hidden lg:block w-full lg:w-auto min-w-0">
+          {/* Desktop Controls (AutoSyncBar + Theme Toggle + Add Advisor) */}
+          <div className="hidden lg:flex items-center gap-2 shrink-0 justify-end">
+            {/* Live Google Sheet Integration Widget */}
+            <div className="w-auto min-w-0 shrink-0">
               <AutoSyncBar
                 sheetUrl={sheetUrl}
                 onUpdateSheetUrl={onUpdateSheetUrl}
@@ -147,379 +155,246 @@ export const Header: React.FC<HeaderProps> = React.memo(({
               />
             </div>
 
-            {/* Mobile Horizontal Scrolling Direct Link Chips */}
-            <div className="relative w-full lg:hidden min-w-0">
-              {/* Right Edge 12px Gradient Fade Visual Cue for Horizontal Scroll */}
-              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-[12px] bg-gradient-to-l from-slate-900 via-slate-900/80 to-transparent z-10" />
-
-              <div className="w-full flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 pr-4 scroll-smooth shrink-0">
-                {/* Station Group Link */}
-                <a
-                  href="https://docs.google.com/document/d/1jaGIrl5ewYbilQj38ZIqf6Cz6AVeQedGyDeuWP7lK7Q/edit?tab=t.0"
-                  target="_blank"
-                  rel="noreferrer"
-                  title="Station Group Joining Link (Google Doc)"
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-emerald-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
-                >
-                  <Link2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span className="whitespace-nowrap font-bold">Station Group</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-emerald-400 opacity-80 shrink-0" />
-                </a>
-
-                {/* Virtual Group Link */}
-                <a
-                  href="https://docs.google.com/document/d/1KVLOt1nOmNAsXCtCsxF4TYobUt8zfSGJ3mYq920s1UA/edit?tab=t.0"
-                  target="_blank"
-                  rel="noreferrer"
-                  title="Virtual Group Joining Link (Google Doc)"
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-indigo-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
-                >
-                  <Link2 className="w-4 h-4 text-indigo-400 shrink-0" />
-                  <span className="whitespace-nowrap font-bold">Virtual Group</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-indigo-400 opacity-80 shrink-0" />
-                </a>
-
-                {/* Essential Site */}
-                <a
-                  href="https://sites.google.com/view/10msmirpur/home"
-                  target="_blank"
-                  rel="noreferrer"
-                  title="10MS Station Site"
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-cyan-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
-                >
-                  <Globe className="w-4 h-4 text-cyan-400 shrink-0" />
-                  <span className="whitespace-nowrap font-bold">Essential Site</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-cyan-400 opacity-80 shrink-0" />
-                </a>
-
-                {/* VT Essential Site */}
-                <a
-                  href="https://sites.google.com/view/10ms-vt-essential/home"
-                  target="_blank"
-                  rel="noreferrer"
-                  title="VT Essential Site"
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-sky-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
-                >
-                  <Globe className="w-4 h-4 text-sky-400 shrink-0" />
-                  <span className="whitespace-nowrap font-bold">VT Essential Site</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-sky-400 opacity-80 shrink-0" />
-                </a>
-
-                {/* Good Call Drive Link */}
-                <a
-                  href="https://drive.google.com/drive/folders/1BGEaDod5zXZ6nvoNfYsGvry02c2oElZk?ths=true"
-                  target="_blank"
-                  rel="noreferrer"
-                  title="Good Call Drive Folder"
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-emerald-800/80 hover:border-emerald-600 text-emerald-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
-                >
-                  <Folder className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span className="whitespace-nowrap font-bold">Good Call</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-emerald-400 opacity-80 shrink-0" />
-                </a>
-
-                {/* Follow Up Drive Link */}
-                <a
-                  href="https://drive.google.com/drive/folders/1Tk2c1pQKVmBhJkZqSeMHizWdeW_cMeah"
-                  target="_blank"
-                  rel="noreferrer"
-                  title="Follow Up Drive Folder"
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-indigo-800/80 hover:border-indigo-600 text-indigo-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
-                >
-                  <Folder className="w-4 h-4 text-indigo-400 shrink-0" />
-                  <span className="whitespace-nowrap font-bold">Follow Up</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-indigo-400 opacity-80 shrink-0" />
-                </a>
-
-                {/* Payment Copy Messages */}
-                {onOpenPaymentModal && (
-                  <button
-                    type="button"
-                    onClick={onOpenPaymentModal}
-                    className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-pink-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
-                  >
-                    <CreditCard className="w-4 h-4 text-pink-400 shrink-0" />
-                    <span className="whitespace-nowrap font-bold">Payment Texts</span>
-                  </button>
-                )}
-
-                {/* More Actions Drawer Trigger */}
-                <button
-                  type="button"
-                  onClick={() => setIsActionDrawerOpen(true)}
-                  className="h-10 px-3.5 py-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 shadow-xs"
-                >
-                  <Compass className="w-4 h-4 text-slate-400 shrink-0" />
-                  <span className="whitespace-nowrap font-bold">More</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                </button>
-              </div>
-            </div>
-
-            {/* Desktop Only: Group Joining Links, Portals & Payment Texts Horizontal Row */}
-            <div className="hidden lg:flex items-center gap-2 bg-slate-900/90 border border-slate-800 p-1.5 rounded-xl shadow-inner backdrop-blur-md shrink-0">
-              {/* Station Group Joining Link */}
-              <a
-                href="https://docs.google.com/document/d/1jaGIrl5ewYbilQj38ZIqf6Cz6AVeQedGyDeuWP7lK7Q/edit?tab=t.0"
-                target="_blank"
-                rel="noreferrer"
-                title="Station Group Joining Link (Google Doc)"
-                className="min-h-[40px] px-3 py-2 bg-slate-950/80 hover:bg-slate-800 border border-slate-700/80 text-emerald-300 hover:text-emerald-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 active:scale-95"
-              >
-                <Link2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span className="whitespace-nowrap font-bold">Station Group Link</span>
-                <ExternalLink className="w-3.5 h-3.5 text-emerald-400 opacity-70 shrink-0" />
-              </a>
-
-              {/* Virtual Group Joining Link */}
-              <a
-                href="https://docs.google.com/document/d/1KVLOt1nOmNAsXCtCsxF4TYobUt8zfSGJ3mYq920s1UA/edit?tab=t.0"
-                target="_blank"
-                rel="noreferrer"
-                title="Virtual Group Joining Link (Google Doc)"
-                className="min-h-[40px] px-3 py-2 bg-slate-950/80 hover:bg-slate-800 border border-slate-700/80 text-indigo-300 hover:text-indigo-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 active:scale-95"
-              >
-                <Link2 className="w-4 h-4 text-indigo-400 shrink-0" />
-                <span className="whitespace-nowrap font-bold">Virtual Group Link</span>
-                <ExternalLink className="w-3.5 h-3.5 text-indigo-400 opacity-70 shrink-0" />
-              </a>
-
-              <div className="h-5 w-px bg-slate-800 mx-0.5 shrink-0" />
-
-              {/* Essential Sites Links */}
-              <a
-                href="https://sites.google.com/view/10msmirpur/home"
-                target="_blank"
-                rel="noreferrer"
-                title="10MS Mirpur Station Essential Link Google Site"
-                className="min-h-[40px] px-3 py-2 bg-slate-950/80 hover:bg-slate-800 border border-slate-700/80 text-cyan-300 hover:text-cyan-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 active:scale-95"
-              >
-                <Globe className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span className="whitespace-nowrap font-bold">Essential Site</span>
-                <ExternalLink className="w-3.5 h-3.5 text-cyan-400 opacity-70 shrink-0" />
-              </a>
-
-              <a
-                href="https://sites.google.com/view/10ms-vt-essential/home"
-                target="_blank"
-                rel="noreferrer"
-                title="Virtual Team Essential Links Google Site"
-                className="min-h-[40px] px-3 py-2 bg-slate-950/80 hover:bg-slate-800 border border-slate-700/80 text-sky-300 hover:text-sky-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 active:scale-95"
-              >
-                <Globe className="w-4 h-4 text-sky-400 shrink-0" />
-                <span className="whitespace-nowrap font-bold">VT Essential Site</span>
-                <ExternalLink className="w-3.5 h-3.5 text-sky-400 opacity-70 shrink-0" />
-              </a>
-
-              {/* Good Call Drive Folder Link */}
-              <a
-                href="https://drive.google.com/drive/folders/1BGEaDod5zXZ6nvoNfYsGvry02c2oElZk?ths=true"
-                target="_blank"
-                rel="noreferrer"
-                title="Good Call Drive Folder"
-                className="min-h-[40px] px-3 py-2 bg-slate-950/80 hover:bg-slate-800 border border-emerald-800/80 text-emerald-300 hover:text-emerald-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 active:scale-95"
-              >
-                <Folder className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span className="whitespace-nowrap font-bold">Good Call</span>
-                <ExternalLink className="w-3.5 h-3.5 text-emerald-400 opacity-70 shrink-0" />
-              </a>
-
-              {/* Follow Up Drive Folder Link */}
-              <a
-                href="https://drive.google.com/drive/folders/1Tk2c1pQKVmBhJkZqSeMHizWdeW_cMeah"
-                target="_blank"
-                rel="noreferrer"
-                title="Follow Up Drive Folder"
-                className="min-h-[40px] px-3 py-2 bg-slate-950/80 hover:bg-slate-800 border border-indigo-800/80 text-indigo-300 hover:text-indigo-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 active:scale-95"
-              >
-                <Folder className="w-4 h-4 text-indigo-400 shrink-0" />
-                <span className="whitespace-nowrap font-bold">Follow Up</span>
-                <ExternalLink className="w-3.5 h-3.5 text-indigo-400 opacity-70 shrink-0" />
-              </a>
-
-              <div className="h-5 w-px bg-slate-800 mx-0.5 shrink-0" />
-
-              {/* Payment Copy Messages Button */}
-              {onOpenPaymentModal && (
-                <button
-                  type="button"
-                  onClick={onOpenPaymentModal}
-                  className="min-h-[40px] px-3 py-2 bg-slate-950/80 hover:bg-slate-800 border border-pink-500/40 text-pink-300 hover:text-pink-200 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer active:scale-95 whitespace-nowrap"
-                >
-                  <CreditCard className="w-4 h-4 text-pink-400 shrink-0" />
-                  <span className="font-bold">Payment Texts</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-pink-400 shrink-0" />
-                </button>
-              )}
-            </div>
-
-            {/* Desktop Only Extra Action Controls */}
-            <div className="hidden lg:flex items-center gap-2 justify-end w-auto shrink-0">
-              {/* Theme Toggle Button (Desktop View) */}
-              {onToggleTheme && (
-                <motion.button
-                  whileHover={{ scale: 1.04, y: -0.5 }}
-                  whileTap={{ scale: 0.96 }}
-                  onClick={onToggleTheme}
-                  title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to High-Contrast Light Mode'}
-                  className={`group relative px-3 py-2 rounded-xl border font-bold text-xs flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-sm ${
-                    theme === 'light'
-                      ? 'bg-amber-100 hover:bg-amber-200 border-amber-300 text-amber-950 shadow-amber-500/10 ring-1 ring-amber-400/30'
-                      : 'bg-slate-900/90 hover:bg-slate-800 border-slate-800 text-amber-300 shadow-inner hover:border-amber-500/40'
-                  }`}
-                >
-                  {theme === 'light' ? (
-                    <>
-                      <Sun className="w-4 h-4 text-amber-600 shrink-0 animate-spin-slow" />
-                      <span className="font-extrabold text-[11px] text-amber-950">Light Mode</span>
-                    </>
-                  ) : (
-                    <>
-                      <Moon className="w-4 h-4 text-amber-300 shrink-0 group-hover:rotate-12 transition-transform duration-300" />
-                      <span className="font-extrabold text-[11px] text-slate-200 group-hover:text-amber-200">Dark Mode</span>
-                    </>
-                  )}
-                </motion.button>
-              )}
-
-              {/* Secondary Action: Add Advisor (Desktop View) */}
+            {/* Theme Toggle Button */}
+            {onToggleTheme && (
               <motion.button
-                whileHover={{ scale: 1.03, y: -0.5 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={onOpenAddModal}
-                className="min-h-[40px] bg-slate-900/90 hover:bg-slate-800 text-[#38BDF8] font-black text-xs px-3.5 py-2.5 rounded-xl flex items-center gap-1.5 border border-[#38BDF8]/80 hover:border-[#38BDF8] transition-all duration-200 shrink-0 cursor-pointer shadow-sm active:scale-95"
+                whileHover={{ scale: 1.03, y: -1 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onToggleTheme}
+                title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                className={`group h-9 px-3 rounded-xl border font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 shadow-2xs ${
+                  theme === 'light'
+                    ? 'bg-amber-50/90 hover:bg-amber-100/90 border-amber-200/90 text-amber-900 ring-1 ring-amber-300/30'
+                    : 'bg-slate-900 hover:bg-slate-800 border-slate-800 text-amber-300 hover:border-amber-500/40'
+                }`}
               >
-                <Plus className="w-4 h-4 stroke-[2.5] text-[#38BDF8] shrink-0" />
-                <span className="whitespace-nowrap font-black tracking-wide">Add Advisor</span>
+                {theme === 'light' ? (
+                  <>
+                    <Sun className="w-3.5 h-3.5 text-amber-600 shrink-0 group-hover:rotate-45 transition-transform duration-300" />
+                    <span className="font-extrabold text-[11px] text-amber-950 leading-none">Light Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-3.5 h-3.5 text-amber-300 shrink-0 group-hover:-rotate-12 transition-transform duration-300" />
+                    <span className="font-extrabold text-[11px] text-slate-200 leading-none">Dark Mode</span>
+                  </>
+                )}
               </motion.button>
-            </div>
+            )}
+
+            {/* Primary Action: Add Advisor */}
+            <motion.button
+              whileHover={{ scale: 1.03, y: -1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onOpenAddModal}
+              className="group h-9 px-3.5 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white dark:bg-sky-500 dark:hover:bg-sky-600 dark:text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-sm shadow-sky-500/25 transition-all duration-200 shrink-0 cursor-pointer"
+            >
+              <Plus className="w-3.5 h-3.5 stroke-[2.5] group-hover:rotate-90 transition-transform duration-300" />
+              <span className="whitespace-nowrap font-bold tracking-wide leading-none">Add Advisor</span>
+            </motion.button>
           </div>
         </div>
 
-        {/* Navigation Tabs Segmented Control */}
-        <nav className="w-full overflow-x-auto no-scrollbar py-2">
-          <div className="inline-flex items-center gap-1 bg-slate-900 border border-slate-800 p-1.5 rounded-2xl shadow-inner min-w-max">
+        {/* Tier 2: Direct Resource Links Pill Strip (Clean Utility Bar) */}
+        <div className="w-full overflow-x-auto no-scrollbar py-0.5">
+          <div className="inline-flex items-center gap-1.5 p-1 rounded-xl bg-slate-100/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 shadow-2xs backdrop-blur-xs min-w-max">
+            {/* Station Group Link */}
+            <motion.a
+              whileHover={{ y: -1.5, scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              href="https://docs.google.com/document/d/1jaGIrl5ewYbilQj38ZIqf6Cz6AVeQedGyDeuWP7lK7Q/edit?tab=t.0"
+              target="_blank"
+              rel="noreferrer"
+              title="Station Group Joining Link (Google Doc)"
+              className="group h-7 px-2.5 bg-white hover:bg-emerald-50/90 dark:bg-slate-800 dark:hover:bg-slate-750 border border-slate-200/90 hover:border-emerald-300 dark:border-slate-700/90 dark:hover:border-emerald-500/40 text-slate-700 hover:text-emerald-700 dark:text-slate-200 dark:hover:text-emerald-300 text-[11px] font-semibold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-2xs"
+            >
+              <Link2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400 group-hover:rotate-45 transition-transform duration-200 shrink-0" />
+              <span className="whitespace-nowrap leading-none">Station Group Link</span>
+              <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-emerald-600 dark:text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200 opacity-80 shrink-0" />
+            </motion.a>
+
+            {/* Virtual Group Link */}
+            <motion.a
+              whileHover={{ y: -1.5, scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              href="https://docs.google.com/document/d/1KVLOt1nOmNAsXCtCsxF4TYobUt8zfSGJ3mYq920s1UA/edit?tab=t.0"
+              target="_blank"
+              rel="noreferrer"
+              title="Virtual Group Joining Link (Google Doc)"
+              className="group h-7 px-2.5 bg-white hover:bg-sky-50/90 dark:bg-slate-800 dark:hover:bg-slate-750 border border-slate-200/90 hover:border-sky-300 dark:border-slate-700/90 dark:hover:border-sky-500/40 text-slate-700 hover:text-sky-700 dark:text-slate-200 dark:hover:text-sky-300 text-[11px] font-semibold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-2xs"
+            >
+              <Link2 className="w-3 h-3 text-sky-600 dark:text-sky-400 group-hover:rotate-45 transition-transform duration-200 shrink-0" />
+              <span className="whitespace-nowrap leading-none">Virtual Group Link</span>
+              <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-sky-600 dark:text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200 opacity-80 shrink-0" />
+            </motion.a>
+
+            <div className="h-4 w-px bg-slate-200 dark:bg-slate-800 mx-0.5 shrink-0" />
+
+            {/* Essential Sites Links */}
+            <motion.a
+              whileHover={{ y: -1.5, scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              href="https://sites.google.com/view/10msmirpur/home"
+              target="_blank"
+              rel="noreferrer"
+              title="10MS Mirpur Station Essential Link Google Site"
+              className="group h-7 px-2.5 bg-white hover:bg-indigo-50/70 dark:bg-slate-800 dark:hover:bg-slate-750 border border-slate-200/90 hover:border-indigo-300 dark:border-slate-700/90 dark:hover:border-indigo-500/40 text-slate-700 hover:text-indigo-700 dark:text-slate-200 dark:hover:text-indigo-300 text-[11px] font-semibold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-2xs"
+            >
+              <Globe className="w-3 h-3 text-indigo-500 dark:text-indigo-400 group-hover:rotate-12 transition-transform duration-200 shrink-0" />
+              <span className="whitespace-nowrap leading-none">Essential Site</span>
+              <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-indigo-600 dark:text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200 opacity-80 shrink-0" />
+            </motion.a>
+
+            <motion.a
+              whileHover={{ y: -1.5, scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              href="https://sites.google.com/view/10ms-vt-essential/home"
+              target="_blank"
+              rel="noreferrer"
+              title="Virtual Team Essential Links Google Site"
+              className="group h-7 px-2.5 bg-white hover:bg-cyan-50/70 dark:bg-slate-800 dark:hover:bg-slate-750 border border-slate-200/90 hover:border-cyan-300 dark:border-slate-700/90 dark:hover:border-cyan-500/40 text-slate-700 hover:text-cyan-700 dark:text-slate-200 dark:hover:text-cyan-300 text-[11px] font-semibold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-2xs"
+            >
+              <Globe className="w-3 h-3 text-cyan-500 dark:text-cyan-400 group-hover:rotate-12 transition-transform duration-200 shrink-0" />
+              <span className="whitespace-nowrap leading-none">VT Essential Site</span>
+              <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-cyan-600 dark:text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200 opacity-80 shrink-0" />
+            </motion.a>
+
+            <div className="h-4 w-px bg-slate-200 dark:bg-slate-800 mx-0.5 shrink-0" />
+
+            {/* Good Call Drive Folder Link */}
+            <motion.a
+              whileHover={{ y: -1.5, scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              href="https://drive.google.com/drive/folders/1BGEaDod5zXZ6nvoNfYsGvry02c2oElZk?ths=true"
+              target="_blank"
+              rel="noreferrer"
+              title="Good Call Drive Folder"
+              className="group h-7 px-2.5 bg-white hover:bg-emerald-50/90 dark:bg-slate-800 dark:hover:bg-slate-750 border border-slate-200/90 hover:border-emerald-300 dark:border-slate-700/90 dark:hover:border-emerald-500/40 text-slate-700 hover:text-emerald-700 dark:text-slate-200 dark:hover:text-emerald-300 text-[11px] font-semibold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-2xs"
+            >
+              <Folder className="w-3 h-3 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform duration-200 shrink-0" />
+              <span className="whitespace-nowrap leading-none">Good Call</span>
+              <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-emerald-600 dark:text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200 opacity-80 shrink-0" />
+            </motion.a>
+
+            {/* Follow Up Drive Folder Link */}
+            <motion.a
+              whileHover={{ y: -1.5, scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              href="https://drive.google.com/drive/folders/1Tk2c1pQKVmBhJkZqSeMHizWdeW_cMeah"
+              target="_blank"
+              rel="noreferrer"
+              title="Follow Up Drive Folder"
+              className="group h-7 px-2.5 bg-white hover:bg-sky-50/90 dark:bg-slate-800 dark:hover:bg-slate-750 border border-slate-200/90 hover:border-sky-300 dark:border-slate-700/90 dark:hover:border-sky-500/40 text-slate-700 hover:text-sky-700 dark:text-slate-200 dark:hover:text-sky-300 text-[11px] font-semibold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-2xs"
+            >
+              <Folder className="w-3 h-3 text-sky-600 dark:text-sky-400 group-hover:scale-110 transition-transform duration-200 shrink-0" />
+              <span className="whitespace-nowrap leading-none">Follow Up</span>
+              <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-sky-600 dark:text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200 opacity-80 shrink-0" />
+            </motion.a>
+
+            <div className="h-4 w-px bg-slate-200 dark:bg-slate-800 mx-0.5 shrink-0" />
+
+            {/* Payment Copy Messages Button */}
+            {onOpenPaymentModal && (
+              <motion.button
+                whileHover={{ y: -1.5, scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                type="button"
+                onClick={onOpenPaymentModal}
+                className="group h-7 px-2.5 bg-white hover:bg-pink-50/90 dark:bg-slate-800 dark:hover:bg-slate-750 border border-slate-200/90 hover:border-pink-300 dark:border-slate-700/90 dark:hover:border-pink-500/40 text-slate-700 hover:text-pink-700 dark:text-slate-200 dark:hover:text-pink-300 font-semibold text-[11px] rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 shrink-0 cursor-pointer whitespace-nowrap shadow-2xs"
+              >
+                <CreditCard className="w-3 h-3 text-pink-500 dark:text-pink-400 group-hover:rotate-6 transition-transform duration-200 shrink-0" />
+                <span className="leading-none">Payment Texts</span>
+                <span className="relative flex h-2 w-2 items-center justify-center shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-pink-500"></span>
+                </span>
+              </motion.button>
+            )}
+
+            {/* Mobile Actions Drawer Trigger */}
+            <button
+              type="button"
+              onClick={() => setIsActionDrawerOpen(true)}
+              className="lg:hidden h-7 px-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-750 text-slate-700 dark:text-slate-300 font-semibold text-[11px] rounded-lg flex items-center gap-1 transition-all shrink-0 cursor-pointer shadow-2xs"
+            >
+              <Compass className="w-3 h-3 text-slate-500 dark:text-slate-400 shrink-0" />
+              <span>More</span>
+              <ChevronRight className="w-3 h-3 text-slate-400 shrink-0" />
+            </button>
+          </div>
+        </div>
+
+        {/* Tier 3: Navigation Tabs Segmented Control (Full-Width Symmetrical Distribution with Smooth Slide Indicator) */}
+        <nav className="w-full pt-0.5 pb-0.5">
+          <div className="w-full bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 p-1 rounded-xl shadow-2xs flex items-center justify-between overflow-x-auto no-scrollbar gap-1 relative">
             {[
-              { id: 'overview', label: 'Executive Dashboard', icon: BarChart3, color: 'text-cyan-400' },
-              { id: 'stationed', label: 'Stationed Team', icon: Users, color: 'text-cyan-400', badge: stationedCount },
-              { id: 'virtual', label: 'Virtual Team', icon: Users, color: 'text-sky-400', badge: virtualCount },
-              { id: 'call_records', label: 'Call Records', icon: PhoneCall, color: 'text-cyan-400', badge: callRecordsCount },
-              { id: 'tasks', label: 'Task Manager', icon: CheckSquare, color: 'text-indigo-400' },
-              { id: 'time', label: 'Time Tracker', icon: Clock, color: 'text-emerald-400' },
-              { id: 'ai_report', label: 'AI Operations Report', icon: Sparkles, color: 'text-cyan-300', isAi: true },
+              { id: 'overview', label: 'Executive Dashboard', icon: BarChart3, color: 'text-sky-500' },
+              { id: 'stationed', label: 'Stationed Team', icon: Users, color: 'text-sky-500', badge: stationedCount },
+              { id: 'virtual', label: 'Virtual Team', icon: Users, color: 'text-cyan-500', badge: virtualCount },
+              { id: 'call_records', label: 'Call Records', icon: PhoneCall, color: 'text-sky-500', badge: callRecordsCount },
+              { id: 'tasks', label: 'Task Manager', icon: CheckSquare, color: 'text-emerald-500' },
+              { id: 'time', label: 'Time Tracker', icon: Clock, color: 'text-teal-500' },
+              { id: 'ai_report', label: 'AI Operations Report', icon: Sparkles, color: 'text-cyan-500', isAi: true },
             ].map((tab) => {
               const isActive = activeTab === tab.id;
               const Icon = tab.icon;
               return (
-                <motion.button
+                <button
                   key={tab.id}
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
+                  type="button"
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`group relative px-3.5 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition-all duration-200 cursor-pointer shrink-0 h-10 min-h-[40px] ${
+                  className={`group relative flex-1 min-w-max px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-2 whitespace-nowrap transition-colors duration-200 cursor-pointer h-8 sm:h-8.5 select-none ${
                     isActive
-                      ? 'text-cyan-100 font-extrabold'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                      ? 'text-slate-900 dark:text-white font-extrabold'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-slate-800/40'
                   }`}
                 >
+                  {/* Sliding Animated Active Indicator */}
                   {isActive && (
                     <motion.div
-                      layoutId="activeTabPill"
-                      className={`absolute inset-0 rounded-xl border ${
-                        tab.isAi 
-                          ? 'bg-slate-900 border-cyan-400/60 shadow-md shadow-cyan-500/15'
-                          : 'bg-slate-900 border-cyan-500/50 shadow-sm shadow-cyan-500/10'
-                      }`}
-                      transition={{ type: 'spring', stiffness: 480, damping: 32 }}
-                    >
-                      {/* Glowing bottom line accent indicator */}
-                      <div className="absolute bottom-0 left-3 right-3 h-[2px] bg-gradient-to-r from-cyan-400 via-sky-400 to-cyan-400 rounded-full shadow-[0_0_8px_#22d3ee]" />
-                    </motion.div>
+                      layoutId="activeHeaderTabIndicator"
+                      className="absolute inset-0 bg-white dark:bg-slate-800 rounded-lg shadow-xs border border-slate-200/90 dark:border-slate-700 z-0"
+                      transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                    />
                   )}
-                  <span className="relative z-10 flex items-center gap-2">
+
+                  <span className="relative z-10 flex items-center gap-1.5">
                     {tab.isAi ? (
                       <div className="relative flex items-center justify-center">
-                        {/* Sparkle Aura Glow Behind AI Icon */}
-                        <motion.div
-                          animate={{
-                            scale: [0.85, 1.3, 0.85],
-                            opacity: [0.35, 0.8, 0.35],
-                            rotate: [0, 180, 360],
-                          }}
-                          transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
-                          className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-400 via-indigo-400 to-sky-400 blur-xs opacity-70"
-                        />
-                        
-                        {/* Sparkling Micro Icon */}
-                        <motion.div
-                          animate={{
-                            rotate: [0, 12, -12, 0],
-                            scale: [1, 1.18, 1],
-                          }}
-                          transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-                          className="relative z-10"
-                        >
-                          <Sparkles className="w-4 h-4 text-cyan-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.9)]" />
-                        </motion.div>
-
-                        {/* Floating Micro Particle Stars */}
-                        <motion.span
-                          animate={{
-                            scale: [0, 1, 0],
-                            opacity: [0, 1, 0],
-                            x: [-5, -9, -5],
-                            y: [-5, -9, -5],
-                          }}
-                          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                          className="absolute w-1 h-1 bg-cyan-200 rounded-full shadow-[0_0_4px_#22d3ee]"
-                        />
-                        <motion.span
-                          animate={{
-                            scale: [0, 1, 0],
-                            opacity: [0, 1, 0],
-                            x: [5, 9, 5],
-                            y: [3, 7, 3],
-                          }}
-                          transition={{ repeat: Infinity, duration: 2.5, delay: 0.8, ease: "easeInOut" }}
-                          className="absolute w-1 h-1 bg-sky-200 rounded-full shadow-[0_0_4px_#38bdf8]"
-                        />
+                        <Sparkles className={`w-3.5 h-3.5 ${isActive ? 'text-cyan-600 dark:text-cyan-400 animate-pulse' : 'text-slate-500 dark:text-cyan-400/80 group-hover:text-cyan-500'}`} />
                       </div>
                     ) : (
-                      <Icon className={`w-4 h-4 transition-all duration-200 group-hover:scale-110 ${
+                      <Icon className={`w-3.5 h-3.5 transition-transform duration-200 group-hover:scale-110 ${
                         isActive 
-                          ? tab.color 
-                          : 'text-slate-400 group-hover:text-cyan-300'
+                          ? 'text-sky-600 dark:text-sky-400' 
+                          : 'text-slate-500 dark:text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-400'
                       }`} />
                     )}
                     
                     {tab.isAi ? (
-                      <span className="relative bg-gradient-to-r from-cyan-200 via-indigo-200 to-sky-100 bg-clip-text text-transparent font-black tracking-wide flex items-center gap-1.5">
+                      <span className="font-extrabold tracking-wide flex items-center gap-1.5 leading-none">
                         <span>{tab.label}</span>
-                        <span className="bg-cyan-950/90 text-cyan-300 border border-cyan-400/40 text-[9px] font-extrabold px-1.5 py-0.5 rounded font-mono shadow-inner tracking-wider">
+                        <span className="bg-gradient-to-r from-cyan-500/15 to-sky-500/15 dark:from-cyan-950/60 dark:to-sky-950/60 text-cyan-700 dark:text-cyan-300 border border-cyan-400/50 text-[9px] font-extrabold px-1.5 py-0.5 rounded-md font-mono shadow-2xs leading-none">
                           AI 2.0
                         </span>
                       </span>
                     ) : (
-                      <span className="transition-colors group-hover:text-slate-100">{tab.label}</span>
+                      <span className="leading-none">{tab.label}</span>
                     )}
 
                     {tab.badge !== undefined && (
-                      <motion.span
-                        key={tab.badge}
-                        initial={{ scale: 0.75 }}
-                        animate={{ scale: 1 }}
-                        transition={{ type: 'spring', stiffness: 500, damping: 22 }}
-                        className={`text-[10px] px-2 py-0.5 rounded-full font-extrabold font-mono transition-colors ${
+                      <span
+                        className={`text-[10px] px-1.5 py-0.5 min-w-[19px] h-4.5 rounded-full font-extrabold font-mono transition-colors leading-none flex items-center justify-center ${
                           isActive 
-                            ? 'bg-cyan-400 text-slate-950 shadow-xs shadow-cyan-400/50' 
-                            : 'bg-slate-900 text-slate-400 border border-slate-800 group-hover:border-cyan-500/40 group-hover:text-cyan-200'
+                            ? 'bg-sky-500 text-white dark:bg-sky-500 dark:text-white font-black shadow-2xs' 
+                            : 'bg-slate-200/90 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-300/60 dark:border-slate-700 group-hover:bg-slate-300/70 dark:group-hover:bg-slate-700'
                         }`}
                       >
                         {tab.badge}
-                      </motion.span>
+                      </span>
                     )}
                   </span>
-                </motion.button>
+                </button>
               );
             })}
           </div>

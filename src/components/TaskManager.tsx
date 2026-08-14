@@ -93,10 +93,10 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Bar */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950/70 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="bg-cyan-950/90 text-cyan-400 border border-cyan-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+            <span className="bg-[#30AFFF]/15 text-[#92EEFF] border border-[#30AFFF]/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
               Operations Hub
             </span>
             <span className="text-slate-400 text-xs font-mono">Total Tasks: {tasks.length}</span>
@@ -114,8 +114,8 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
           <div className="flex items-center bg-slate-950 border border-slate-800/80 rounded-xl p-1 shadow-inner">
             <button
               onClick={() => setViewMode('kanban')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                viewMode === 'kanban' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shadow-sm' : 'text-slate-400 hover:text-slate-200'
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                viewMode === 'kanban' ? 'bg-[#30AFFF]/20 text-[#92EEFF] border border-[#30AFFF]/40 shadow-sm' : 'text-slate-400 hover:text-slate-200'
               }`}
             >
               <Kanban className="w-3.5 h-3.5" />
@@ -123,8 +123,8 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                viewMode === 'list' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shadow-sm' : 'text-slate-400 hover:text-slate-200'
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                viewMode === 'list' ? 'bg-[#30AFFF]/20 text-[#92EEFF] border border-[#30AFFF]/40 shadow-sm' : 'text-slate-400 hover:text-slate-200'
               }`}
             >
               <List className="w-3.5 h-3.5" />
@@ -134,7 +134,7 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-gradient-to-r from-cyan-400 via-cyan-500 to-sky-500 hover:from-cyan-300 hover:to-sky-400 text-slate-950 text-xs font-black px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition-all active:scale-95"
+            className="bg-gradient-to-r from-[#30AFFF] via-[#92EEFF] to-[#C4F7CA] hover:brightness-110 text-slate-950 text-xs font-black px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-lg shadow-[#30AFFF]/20 transition-all active:scale-95 cursor-pointer"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
             <span>Assign New Task</span>
@@ -146,12 +146,12 @@ export const TaskManager: React.FC<TaskManagerProps> = ({
       <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-3 flex-wrap">
           <div className="flex items-center gap-1.5 text-slate-400">
-            <Filter className="w-3.5 h-3.5 text-cyan-400" />
+            <Filter className="w-3.5 h-3.5 text-[#30AFFF]" />
             <span>Team Filter:</span>
             <select
               value={teamFilter}
               onChange={(e) => setTeamFilter(e.target.value as any)}
-              className="bg-slate-950 text-cyan-300 border border-slate-800 px-2.5 py-1 rounded-md font-medium focus:outline-none"
+              className="bg-slate-950 text-[#92EEFF] border border-slate-800 px-2.5 py-1 rounded-md font-medium focus:outline-none cursor-pointer"
             >
               <option value="all">All Teams</option>
               <option value="stationed">Stationed Team</option>

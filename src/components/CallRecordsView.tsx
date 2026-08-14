@@ -346,12 +346,12 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
     <div className="space-y-6">
       {/* Top Banner Header */}
       <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border border-slate-800/90 rounded-2xl p-6 relative overflow-hidden shadow-xl">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#30AFFF]/5 rounded-full blur-3xl pointer-events-none" />
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider mb-1">
-              <PhoneCall className="w-4 h-4 text-cyan-400 animate-pulse" />
+            <div className="flex items-center gap-2 text-[#92EEFF] text-xs font-mono font-bold uppercase tracking-wider mb-1">
+              <PhoneCall className="w-4 h-4 text-[#30AFFF] animate-pulse" />
               <span>Telephony & Call Audit Console</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-100 tracking-tight">
@@ -367,31 +367,31 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
               href="https://drive.google.com/drive/folders/1BGEaDod5zXZ6nvoNfYsGvry02c2oElZk?ths=true"
               target="_blank"
               rel="noreferrer"
-              className="bg-emerald-950/90 hover:bg-emerald-900 text-emerald-300 hover:text-emerald-200 border border-emerald-700/80 hover:border-emerald-500 font-bold px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-2 transition-all cursor-pointer shadow-md shrink-0 active:scale-95"
+              className="bg-[#C4F7CA]/15 hover:bg-[#C4F7CA]/25 text-[#D8FFC5] hover:text-white border border-[#C4F7CA]/40 font-bold px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-2 transition-all cursor-pointer shadow-md shrink-0 active:scale-95"
               title="Open Good Call Drive Folder"
             >
-              <Folder className="w-4 h-4 text-emerald-400 shrink-0" />
+              <Folder className="w-4 h-4 text-[#C4F7CA] shrink-0" />
               <span className="whitespace-nowrap">Good Call</span>
-              <ExternalLink className="w-3.5 h-3.5 text-emerald-400 opacity-80 shrink-0" />
+              <ExternalLink className="w-3.5 h-3.5 text-[#C4F7CA] opacity-80 shrink-0" />
             </a>
 
             <a
               href="https://drive.google.com/drive/folders/1Tk2c1pQKVmBhJkZqSeMHizWdeW_cMeah"
               target="_blank"
               rel="noreferrer"
-              className="bg-indigo-950/90 hover:bg-indigo-900 text-indigo-300 hover:text-indigo-200 border border-indigo-700/80 hover:border-indigo-500 font-bold px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-2 transition-all cursor-pointer shadow-md shrink-0 active:scale-95"
+              className="bg-[#30AFFF]/15 hover:bg-[#30AFFF]/25 text-[#92EEFF] hover:text-white border border-[#30AFFF]/40 font-bold px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-2 transition-all cursor-pointer shadow-md shrink-0 active:scale-95"
               title="Open Follow Up Drive Folder"
             >
-              <Folder className="w-4 h-4 text-indigo-400 shrink-0" />
+              <Folder className="w-4 h-4 text-[#30AFFF] shrink-0" />
               <span className="whitespace-nowrap">Follow Up</span>
-              <ExternalLink className="w-3.5 h-3.5 text-indigo-400 opacity-80 shrink-0" />
+              <ExternalLink className="w-3.5 h-3.5 text-[#30AFFF] opacity-80 shrink-0" />
             </a>
 
             <button
               onClick={handleExportCsv}
               className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-2 transition-all cursor-pointer"
             >
-              <Download className="w-3.5 h-3.5 text-cyan-400" />
+              <Download className="w-3.5 h-3.5 text-[#30AFFF]" />
               <span>Export CSV</span>
             </button>
 
@@ -399,7 +399,7 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setIsModalOpen(true)}
-              className="bg-gradient-to-r from-cyan-400 via-cyan-500 to-sky-500 hover:from-cyan-300 hover:to-sky-400 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition-all cursor-pointer"
+              className="bg-gradient-to-r from-[#30AFFF] via-[#92EEFF] to-[#C4F7CA] hover:brightness-110 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-lg shadow-[#30AFFF]/20 transition-all cursor-pointer"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
               <span>Log Call Record</span>
@@ -409,15 +409,15 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
 
         {/* Top Telemetry Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-slate-800/80">
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-3.5">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-[#30AFFF]/40 rounded-xl p-3.5 transition-colors">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Logged Calls</span>
             <div className="flex items-baseline justify-between mt-1">
               <span className="text-xl sm:text-2xl font-black text-slate-100 font-mono">{totalCalls}</span>
-              <span className="text-[10px] text-cyan-400 bg-cyan-950 border border-cyan-800/80 px-1.5 py-0.5 rounded font-mono font-bold">Live</span>
+              <span className="text-[10px] text-[#92EEFF] bg-[#30AFFF]/15 border border-[#30AFFF]/30 px-1.5 py-0.5 rounded font-mono font-bold">Live</span>
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-3.5">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-[#92EEFF]/40 rounded-xl p-3.5 transition-colors">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Avg Duration</span>
             <div className="flex items-baseline justify-between mt-1">
               <span className="text-xl sm:text-2xl font-black text-slate-100 font-mono">{avgDurationFormatted}</span>
@@ -425,19 +425,19 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-3.5">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-[#C4F7CA]/40 rounded-xl p-3.5 transition-colors">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Conversion Rate</span>
             <div className="flex items-baseline justify-between mt-1">
-              <span className="text-xl sm:text-2xl font-black text-emerald-400 font-mono">{conversionRate}%</span>
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="text-xl sm:text-2xl font-black text-[#C4F7CA] font-mono">{conversionRate}%</span>
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#C4F7CA]" />
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-3.5">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-[#D8FFC5]/40 rounded-xl p-3.5 transition-colors">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Avg CE Audit Grade</span>
             <div className="flex items-baseline justify-between mt-1">
-              <span className="text-xl sm:text-2xl font-black text-cyan-300 font-mono">{avgQualityScore}%</span>
-              <Award className="w-3.5 h-3.5 text-cyan-400" />
+              <span className="text-xl sm:text-2xl font-black text-[#D8FFC5] font-mono">{avgQualityScore}%</span>
+              <Award className="w-3.5 h-3.5 text-[#D8FFC5]" />
             </div>
           </div>
         </div>
@@ -454,7 +454,7 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by advisor name, customer name, phone number, or notes..."
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/60 transition-colors"
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-[#30AFFF] focus:ring-2 focus:ring-[#30AFFF]/20 transition-all"
             />
             {searchTerm && (
               <button 
@@ -476,7 +476,7 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              All Divisions
+              All Teams
             </button>
             <button
               onClick={() => setTeamFilter('stationed')}
@@ -511,14 +511,14 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-cyan-500"
             >
               <option value="all">All Advisors ({allAdvisors.length})</option>
-              <optgroup label="Stationed Division">
+              <optgroup label="Stationed Team">
                 {stationedAdvisors.map((a) => (
                   <option key={a.id} value={a.id}>
                     {a.advisorName} ({a.employeeId || 'ST'})
                   </option>
                 ))}
               </optgroup>
-              <optgroup label="Virtual Division">
+              <optgroup label="Virtual Team">
                 {virtualAdvisors.map((a) => (
                   <option key={a.id} value={a.id}>
                     {a.advisorName} ({a.employeeId || 'VT'})
@@ -697,7 +697,7 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="bg-slate-950/60 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
-                  <th className="py-3 px-4">Advisor & Division</th>
+                  <th className="py-3 px-4">Advisor & Team</th>
                   <th className="py-3 px-4">Call Details</th>
                   <th className="py-3 px-4">CE Audit & Notes</th>
                   <th className="py-3 px-4 min-w-[190px]">Drive Recording & Player</th>
@@ -913,7 +913,7 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
               <form onSubmit={handleFormSubmit} className="space-y-4 text-xs">
                 {/* Team Selection */}
                 <div>
-                  <label className="block font-semibold text-slate-300 mb-1">Select Advisor Division</label>
+                  <label className="block font-semibold text-slate-300 mb-1">Select Advisor Team</label>
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       type="button"

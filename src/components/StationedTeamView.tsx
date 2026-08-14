@@ -195,13 +195,13 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
     <div className="space-y-6">
       {/* Top Section Banner */}
       <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#30AFFF]/5 rounded-full blur-3xl pointer-events-none" />
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center gap-2">
-              <span className="bg-cyan-950 text-cyan-400 border border-cyan-800/80 text-xs font-bold px-2.5 py-0.5 rounded-md uppercase">
-                Stationed Division
+              <span className="bg-[#30AFFF]/15 text-[#92EEFF] border border-[#30AFFF]/30 text-xs font-bold px-2.5 py-0.5 rounded-md uppercase">
+                Stationed Team
               </span>
               <span className="text-slate-400 text-xs">Total Members: {advisors.length}</span>
             </div>
@@ -218,7 +218,7 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
               href="https://docs.google.com/document/d/1jaGIrl5ewYbilQj38ZIqf6Cz6AVeQedGyDeuWP7lK7Q/edit?tab=t.0"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 hover:text-emerald-100 font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-emerald-500/10 cursor-pointer group"
+              className="inline-flex items-center gap-2 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 hover:text-emerald-100 font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-emerald-500/10 cursor-pointer group"
             >
               <Link2 className="w-4 h-4 text-emerald-400 group-hover:rotate-12 transition-transform" />
               <span>Station Group Joining Link</span>
@@ -229,54 +229,54 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
               href="https://sites.google.com/view/10msmirpur/home"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 hover:text-cyan-200 font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-cyan-500/10 cursor-pointer group"
+              className="inline-flex items-center gap-2 bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/40 text-sky-300 hover:text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md shadow-sky-500/10 cursor-pointer group"
             >
-              <Globe className="w-4 h-4 text-cyan-400 group-hover:rotate-12 transition-transform" />
+              <Globe className="w-4 h-4 text-sky-400 group-hover:rotate-12 transition-transform" />
               <span>10MS Mirpur Portal</span>
-              <ExternalLink className="w-3.5 h-3.5 text-cyan-400 opacity-80" />
+              <ExternalLink className="w-3.5 h-3.5 text-sky-400 opacity-80" />
             </a>
           </div>
         </div>
 
         {/* 4 Summary Stat Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6">
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-3.5 flex items-center gap-3">
-            <div className="p-2.5 rounded-lg bg-cyan-950 text-cyan-400 border border-cyan-800/50">
-              <TrendingUp className="w-5 h-5" />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 mt-6">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-sky-500/40 rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5 sm:gap-3 min-w-0 shadow-xs transition-colors">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30 shrink-0">
+              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div>
-              <p className="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Stationed Sales</p>
-              <p className="text-lg font-bold text-slate-100">৳{totalSales.toLocaleString('en-BD')}</p>
-            </div>
-          </div>
-
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-3.5 flex items-center gap-3">
-            <div className="p-2.5 rounded-lg bg-emerald-950 text-emerald-400 border border-emerald-800/50">
-              <Award className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Avg KPI Score</p>
-              <p className="text-lg font-bold text-emerald-400">{avgKpiScore.toFixed(1)}%</p>
+            <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Stationed Sales</p>
+              <p className="text-base sm:text-lg font-black text-slate-100 font-mono tracking-tight leading-tight truncate">৳{totalSales.toLocaleString('en-BD')}</p>
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-3.5 flex items-center gap-3">
-            <div className="p-2.5 rounded-lg bg-blue-950 text-blue-400 border border-blue-800/50">
-              <PhoneCall className="w-5 h-5" />
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-emerald-500/40 rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5 sm:gap-3 min-w-0 shadow-xs transition-colors">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0">
+              <Award className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div>
-              <p className="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Avg Reach / Advisor</p>
-              <p className="text-lg font-bold text-slate-100">{avgReachCount}</p>
+            <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Avg KPI Score</p>
+              <p className="text-base sm:text-lg font-black text-emerald-400 font-mono tracking-tight leading-tight truncate">{avgKpiScore.toFixed(1)}%</p>
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-3.5 flex items-center gap-3">
-            <div className="p-2.5 rounded-lg bg-purple-950 text-purple-400 border border-purple-800/50">
-              <CheckCircle2 className="w-5 h-5" />
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/40 rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5 sm:gap-3 min-w-0 shadow-xs transition-colors">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 shrink-0">
+              <PhoneCall className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div>
-              <p className="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Total CE Audits</p>
-              <p className="text-lg font-bold text-slate-100">{totalCeCount}</p>
+            <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Avg Reach / Advisor</p>
+              <p className="text-base sm:text-lg font-black text-slate-100 font-mono tracking-tight leading-tight truncate">{avgReachCount}</p>
+            </div>
+          </div>
+
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-emerald-500/40 rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5 sm:gap-3 min-w-0 shadow-xs transition-colors">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0">
+              <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
+            </div>
+            <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Total CE Audits</p>
+              <p className="text-base sm:text-lg font-black text-slate-100 font-mono tracking-tight leading-tight truncate">{totalCeCount}</p>
             </div>
           </div>
         </div>
@@ -291,7 +291,7 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
             placeholder="Search station advisor name or ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-8 py-2.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all"
+            className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-8 py-2.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-[#30AFFF] focus:ring-2 focus:ring-[#30AFFF]/20 transition-all"
           />
           {searchTerm && (
             <button
@@ -305,15 +305,15 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
 
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-start sm:justify-end min-w-0">
           <span className="text-xs text-slate-400 font-medium whitespace-nowrap shrink-0">
-            Showing <strong className="text-cyan-300 font-mono">{filteredAdvisors.length}</strong> of {advisors.length}
+            Showing <strong className="text-[#92EEFF] font-mono">{filteredAdvisors.length}</strong> of {advisors.length}
           </span>
           <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-slate-950 border border-slate-800 px-3 py-2 rounded-xl shrink-0">
-            <Filter className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <Filter className="w-3.5 h-3.5 text-[#30AFFF] shrink-0" />
             <span className="shrink-0">Grade:</span>
             <select
               value={gradeFilter}
               onChange={(e) => setGradeFilter(e.target.value)}
-              className="bg-transparent text-cyan-300 font-semibold focus:outline-none cursor-pointer pr-1"
+              className="bg-transparent text-[#92EEFF] font-semibold focus:outline-none cursor-pointer pr-1"
             >
               <option value="all" className="bg-slate-900 text-slate-200">All Grades</option>
               <option value="A" className="bg-slate-900 text-slate-200">A (80%+)</option>
@@ -329,13 +329,13 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
             className="bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 font-semibold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shrink-0"
             title="Export Stationed Advisors data to CSV file"
           >
-            <Download className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <Download className="w-3.5 h-3.5 text-[#30AFFF] shrink-0" />
             <span className="hidden xs:inline">Export</span>
           </button>
 
           <button
             onClick={onAddAdvisor}
-            className="bg-cyan-950/80 hover:bg-cyan-900 text-[#38BDF8] border border-cyan-800/80 hover:border-cyan-500/60 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-xs shrink-0 whitespace-nowrap"
+            className="bg-[#30AFFF]/15 hover:bg-[#30AFFF]/25 text-[#92EEFF] hover:text-white border border-[#30AFFF]/40 hover:border-[#30AFFF]/70 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-xs shrink-0 whitespace-nowrap"
             title="Add New Advisor"
           >
             <Plus className="w-3.5 h-3.5 stroke-[2.5] shrink-0" />

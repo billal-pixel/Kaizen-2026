@@ -124,7 +124,7 @@ export const AddAdvisorModal: React.FC<AddAdvisorModalProps> = ({
 
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           <div>
-            <label className="block text-slate-400 font-medium mb-1">Select Division *</label>
+            <label className="block text-slate-400 font-medium mb-1">Select Team *</label>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
@@ -135,7 +135,7 @@ export const AddAdvisorModal: React.FC<AddAdvisorModalProps> = ({
                     : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
                 }`}
               >
-                Stationed Division
+                Stationed Team
               </button>
               <button
                 type="button"
@@ -146,7 +146,7 @@ export const AddAdvisorModal: React.FC<AddAdvisorModalProps> = ({
                     : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
                 }`}
               >
-                Virtual Division
+                Virtual Team
               </button>
             </div>
           </div>

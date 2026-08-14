@@ -22,7 +22,7 @@ export const KaizenLogo: React.FC<KaizenLogoProps> = ({
     <div className={`inline-flex items-center gap-2.5 ${className}`}>
       <div className={`relative ${dimensions} shrink-0 group`}>
         {/* Ambient Glow */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-sky-400 rounded-2xl blur-sm opacity-50 group-hover:opacity-100 transition duration-300 pointer-events-none" />
+        <div className="absolute -inset-1 bg-gradient-to-r from-[#30AFFF] to-[#92EEFF] rounded-2xl blur-sm opacity-50 group-hover:opacity-100 transition duration-300 pointer-events-none" />
         
         {/* SVG Shield & Samurai Mascot */}
         <svg 
@@ -33,13 +33,13 @@ export const KaizenLogo: React.FC<KaizenLogoProps> = ({
         >
           <defs>
             <linearGradient id="shieldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#38bdf8" />
-              <stop offset="50%" stopColor="#0284c7" />
+              <stop offset="0%" stopColor="#30AFFF" />
+              <stop offset="50%" stopColor="#92EEFF" />
               <stop offset="100%" stopColor="#0f172a" />
             </linearGradient>
             <linearGradient id="cyanGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#38bdf8" />
-              <stop offset="100%" stopColor="#06b6d4" />
+              <stop offset="0%" stopColor="#30AFFF" />
+              <stop offset="100%" stopColor="#92EEFF" />
             </linearGradient>
             <filter id="glowEffect" x="-20%" y="-20%" width="140%" height="140%">
               <feGaussianBlur stdDeviation="8" result="blur" />
