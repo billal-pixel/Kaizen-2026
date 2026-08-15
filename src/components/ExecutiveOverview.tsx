@@ -769,22 +769,47 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
       </div>
 
       {/* Visual Analytics Charts & Leaderboard Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Sales Revenue Breakdown Card */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 flex flex-col justify-between">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+        {/* Card 1: Sales Revenue Breakdown */}
+        <div className="bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-4 flex flex-col justify-between">
           <div className="space-y-3">
+            {/* Header */}
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-200 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-cyan-400" />
-                <span>Sales Revenue Share</span>
-              </h3>
-              <span className="bg-cyan-950/90 text-cyan-300 border border-cyan-500/30 text-[10px] font-extrabold px-2 py-0.5 rounded-md font-mono">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="p-2 rounded-xl bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 shrink-0">
+                  <TrendingUp className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-extrabold text-xs sm:text-sm uppercase tracking-wider text-slate-900 dark:text-slate-100 truncate">
+                    Sales Revenue Share
+                  </h3>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">Division Split & Sales Contribution</p>
+                </div>
+              </div>
+              <span className="bg-sky-50 dark:bg-cyan-950/90 text-sky-700 dark:text-cyan-300 border border-sky-200 dark:border-cyan-500/30 text-[11px] font-extrabold px-2.5 py-1 rounded-lg font-mono shrink-0 shadow-2xs">
                 ৳{totalSales.toLocaleString('en-BD')} Total
               </span>
             </div>
 
-            {/* Interactive Donut Chart Visualization */}
-            <div className="relative h-44 w-full flex items-center justify-center">
+            {/* Symmetrical Top Stats Bar (Matches 3-tab filter height in Card 2 & 3) */}
+            <div className="flex items-center justify-between px-3 py-1 rounded-xl bg-slate-100/90 dark:bg-slate-950/90 border border-slate-200/90 dark:border-slate-800/80 text-[11px] font-bold text-slate-600 dark:text-slate-300 shadow-inner h-[38px]">
+              <span className="flex items-center gap-1.5 text-sky-600 dark:text-sky-400 truncate">
+                <span className="w-2 h-2 rounded-full bg-sky-500 shrink-0" />
+                Stationed: {stationedAdvisors.length}
+              </span>
+              <span className="h-3 w-px bg-slate-300 dark:bg-slate-700 shrink-0" />
+              <span className="flex items-center gap-1.5 text-cyan-600 dark:text-cyan-400 truncate">
+                <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
+                Virtual: {virtualAdvisors.length}
+              </span>
+              <span className="h-3 w-px bg-slate-300 dark:bg-slate-700 shrink-0" />
+              <span className="text-slate-700 dark:text-slate-200 font-mono shrink-0">
+                Total: {stationedAdvisors.length + virtualAdvisors.length}
+              </span>
+            </div>
+
+            {/* Donut Chart Visualization */}
+            <div className="relative h-44 w-full flex items-center justify-center my-1">
               <ResponsiveContainer width="100%" height={176}>
                 <PieChart>
                   <Pie
@@ -795,8 +820,9 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     outerRadius={72}
                     paddingAngle={4}
                     dataKey="value"
-                    stroke="#090d16"
+                    stroke="#ffffff"
                     strokeWidth={2}
+                    className="dark:[&_path]:stroke-slate-900"
                   >
                     {salesPieData.map((entry, index) => (
                       <Cell key={`sales-pie-cell-${index}`} fill={entry.color} />
@@ -809,6 +835,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                       borderRadius: '12px',
                       fontSize: '12px',
                       boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+                      color: '#ffffff'
                     }}
                     formatter={(value: any) => [`৳${Number(value).toLocaleString('en-BD')}`, 'Sales Revenue']}
                   />
@@ -816,39 +843,39 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               </ResponsiveContainer>
 
               {/* Donut Center Overlay */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Ratio</span>
-                <span className="text-sm font-black text-slate-100 font-mono">
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
+                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-0.5">Ratio</span>
+                <span className="text-sm font-black text-slate-900 dark:text-slate-100 font-mono leading-none">
                   {totalSales > 0 ? ((stationedSales / totalSales) * 100).toFixed(0) : 0}% / {totalSales > 0 ? ((virtualSales / totalSales) * 100).toFixed(0) : 0}%
                 </span>
-                <span className="text-[9px] font-bold text-[#30AFFF] uppercase tracking-wider bg-[#30AFFF]/15 border border-[#30AFFF]/30 px-1.5 py-0.2 rounded mt-0.5">
+                <span className="text-[9px] font-bold text-sky-600 dark:text-sky-400 bg-sky-500/10 border border-sky-500/30 px-1.5 py-0.5 rounded mt-1 font-mono">
                   ST / VT
                 </span>
               </div>
             </div>
 
             {/* Stacked Percentage Visual Bar */}
-            <div className="space-y-1.5 pt-1">
-              <div className="h-2.5 w-full bg-slate-950 rounded-full overflow-hidden flex p-0.5 border border-slate-800 shadow-inner">
+            <div className="space-y-1.5 pt-0.5">
+              <div className="h-2 w-full bg-slate-100 dark:bg-slate-950 rounded-full overflow-hidden flex p-0.5 border border-slate-200 dark:border-slate-800 shadow-inner">
                 <div 
-                  className="h-full bg-[#30AFFF] rounded-l-full transition-all duration-500" 
+                  className="h-full bg-sky-500 rounded-l-full transition-all duration-500" 
                   style={{ width: `${totalSales > 0 ? (stationedSales / totalSales) * 100 : 50}%` }}
                   title={`Stationed Division: ৳${stationedSales.toLocaleString('en-BD')}`}
                 />
                 <div 
-                  className="h-full bg-[#92EEFF] rounded-r-full transition-all duration-500" 
+                  className="h-full bg-cyan-400 rounded-r-full transition-all duration-500" 
                   style={{ width: `${totalSales > 0 ? (virtualSales / totalSales) * 100 : 50}%` }}
                   title={`Virtual Division: ৳${virtualSales.toLocaleString('en-BD')}`}
                 />
               </div>
 
-              <div className="flex items-center justify-between text-[11px] font-extrabold text-slate-400">
-                <span className="flex items-center gap-1.5 text-[#30AFFF]">
-                  <span className="w-2 h-2 rounded-full bg-[#30AFFF]" />
+              <div className="flex items-center justify-between text-[11px] font-extrabold">
+                <span className="flex items-center gap-1.5 text-sky-600 dark:text-sky-400">
+                  <span className="w-2 h-2 rounded-full bg-sky-500" />
                   Stationed: {totalSales > 0 ? ((stationedSales / totalSales) * 100).toFixed(1) : 0}%
                 </span>
-                <span className="flex items-center gap-1.5 text-[#92EEFF]">
-                  <span className="w-2 h-2 rounded-full bg-[#92EEFF]" />
+                <span className="flex items-center gap-1.5 text-cyan-600 dark:text-cyan-400">
+                  <span className="w-2 h-2 rounded-full bg-cyan-400" />
                   Virtual: {totalSales > 0 ? ((virtualSales / totalSales) * 100).toFixed(1) : 0}%
                 </span>
               </div>
@@ -856,56 +883,60 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           </div>
 
           {/* Comparative Division Metric Cards */}
-          <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800/60">
-            <div className="bg-slate-950/80 border border-[#30AFFF]/30 hover:border-[#30AFFF]/60 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
-                <span className="text-[10px] text-sky-400 font-black uppercase tracking-wider truncate">Stationed</span>
-                <span className="text-[10px] text-slate-400 font-semibold shrink-0">{stationedAdvisors.length} Members</span>
+          <div className="grid grid-cols-2 gap-3 pt-3 border-t border-slate-200 dark:border-slate-800/80">
+            <div className="bg-slate-50/90 dark:bg-slate-950/80 border border-slate-200/90 dark:border-sky-500/30 hover:border-sky-400/50 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0 shadow-2xs">
+              <div className="flex items-center justify-between gap-1">
+                <span className="text-[10px] text-sky-600 dark:text-sky-400 font-extrabold uppercase tracking-wider truncate">Stationed</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold shrink-0">{stationedAdvisors.length} Members</span>
               </div>
-              <p className="text-base sm:text-lg font-black text-slate-100 font-mono tracking-tight truncate my-0.5">৳{stationedSales.toLocaleString('en-BD')}</p>
-              <div className="text-[10px] text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-slate-900/80">
-                <span className="text-slate-400 font-medium">Avg:</span>
-                <strong className="text-sky-300 font-mono font-bold">৳{Math.round(stationedSales / (stationedAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
-                <span className="text-slate-500 text-[9px] font-mono">/advisor</span>
+              <p className="text-base font-black text-slate-900 dark:text-slate-100 font-mono tracking-tight truncate my-1">৳{stationedSales.toLocaleString('en-BD')}</p>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-slate-200/80 dark:border-slate-900">
+                <span>Avg:</span>
+                <strong className="text-sky-600 dark:text-sky-300 font-mono font-bold">৳{Math.round(stationedSales / (stationedAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
+                <span className="text-slate-400 dark:text-slate-500 text-[9px]">/adv</span>
               </div>
             </div>
 
-            <div className="bg-slate-950/80 border border-[#92EEFF]/30 hover:border-[#92EEFF]/60 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5">
-                <span className="text-[10px] text-cyan-400 font-black uppercase tracking-wider truncate">Virtual</span>
-                <span className="text-[10px] text-slate-400 font-semibold shrink-0">{virtualAdvisors.length} Members</span>
+            <div className="bg-slate-50/90 dark:bg-slate-950/80 border border-slate-200/90 dark:border-cyan-500/30 hover:border-cyan-400/50 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0 shadow-2xs">
+              <div className="flex items-center justify-between gap-1">
+                <span className="text-[10px] text-cyan-600 dark:text-cyan-400 font-extrabold uppercase tracking-wider truncate">Virtual</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold shrink-0">{virtualAdvisors.length} Members</span>
               </div>
-              <p className="text-base sm:text-lg font-black text-slate-100 font-mono tracking-tight truncate my-0.5">৳{virtualSales.toLocaleString('en-BD')}</p>
-              <div className="text-[10px] text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-slate-900/80">
-                <span className="text-slate-400 font-medium">Avg:</span>
-                <strong className="text-cyan-300 font-mono font-bold">৳{Math.round(virtualSales / (virtualAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
-                <span className="text-slate-500 text-[9px] font-mono">/advisor</span>
+              <p className="text-base font-black text-slate-900 dark:text-slate-100 font-mono tracking-tight truncate my-1">৳{virtualSales.toLocaleString('en-BD')}</p>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-slate-200/80 dark:border-slate-900">
+                <span>Avg:</span>
+                <strong className="text-cyan-600 dark:text-cyan-300 font-mono font-bold">৳{Math.round(virtualSales / (virtualAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
+                <span className="text-slate-400 dark:text-slate-500 text-[9px]">/adv</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* KPI Performance Tiers & Grade Distribution Chart Card */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3 flex flex-col justify-between">
-          <div className="space-y-2.5">
+        {/* Card 2: KPI Performance Tiers & Grade Distribution */}
+        <div className="bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-4 flex flex-col justify-between">
+          <div className="space-y-3">
+            {/* Header */}
             <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 shrink-0">
                   <Award className="w-4 h-4" />
                 </div>
-                <h3 className="font-bold text-xs uppercase tracking-wider text-slate-200">
-                  KPI Performance Tiers
-                </h3>
+                <div className="min-w-0">
+                  <h3 className="font-extrabold text-xs sm:text-sm uppercase tracking-wider text-slate-900 dark:text-slate-100 truncate">
+                    KPI Performance Tiers
+                  </h3>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">Efficiency Grades & Tier Segmentation</p>
+                </div>
               </div>
 
               {/* View Switcher (Pie Chart vs Bar Chart) */}
-              <div className="flex items-center gap-1 bg-slate-950 p-0.5 rounded-lg border border-slate-800">
+              <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-950 p-1 rounded-lg border border-slate-200 dark:border-slate-800 shrink-0">
                 <button
                   onClick={() => setKpiChartType('pie')}
-                  className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all cursor-pointer ${
+                  className={`px-2.5 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer ${
                     kpiChartType === 'pie'
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-white dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-slate-200 dark:border-emerald-500/40 shadow-xs'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                   }`}
                   title="Pie Chart View (High, Medium, Low Tiers)"
                 >
@@ -913,10 +944,10 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 </button>
                 <button
                   onClick={() => setKpiChartType('bar')}
-                  className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all cursor-pointer ${
+                  className={`px-2.5 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer ${
                     kpiChartType === 'bar'
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-white dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-slate-200 dark:border-emerald-500/40 shadow-xs'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                   }`}
                   title="Bar Chart View (A, B, C, D, PIP Grades)"
                 >
@@ -925,199 +956,239 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               </div>
             </div>
 
-            {/* Division Filter Toggle */}
-            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800/90 shadow-inner w-full">
+            {/* Division Filter Toggle Bar (Matches height in Card 1 & 3) */}
+            <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-950/90 p-1 rounded-xl border border-slate-200/90 dark:border-slate-800/80 shadow-inner w-full h-[38px]">
               <button
                 onClick={() => setGradeDistributionFilter('combined')}
-                className={`flex-1 py-1 rounded-lg text-[11px] font-extrabold transition-all text-center cursor-pointer ${
+                className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   gradeDistributionFilter === 'combined'
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-slate-200 dark:border-emerald-500/40 shadow-xs'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
               >
                 Combined
               </button>
               <button
                 onClick={() => setGradeDistributionFilter('stationed')}
-                className={`flex-1 py-1 rounded-lg text-[11px] font-extrabold transition-all text-center cursor-pointer ${
+                className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   gradeDistributionFilter === 'stationed'
-                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-slate-200 dark:border-sky-500/40 shadow-xs'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
               >
                 Stationed
               </button>
               <button
                 onClick={() => setGradeDistributionFilter('virtual')}
-                className={`flex-1 py-1 rounded-lg text-[11px] font-extrabold transition-all text-center cursor-pointer ${
+                className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   gradeDistributionFilter === 'virtual'
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white dark:bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 border border-slate-200 dark:border-cyan-500/40 shadow-xs'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
               >
                 Virtual
               </button>
             </div>
-          </div>
 
-          {/* PIE CHART VIEW FOR KPI PERFORMANCE TIERS */}
-          {kpiChartType === 'pie' ? (
-            <div className="space-y-3 my-auto">
-              <div className="relative h-44 w-full flex items-center justify-center">
-                <ResponsiveContainer width="100%" height={176}>
-                  <PieChart>
-                    <Pie
-                      data={kpiTierPieData.filter(d => d.count > 0)}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={46}
-                      outerRadius={70}
-                      paddingAngle={kpiTierPieData.filter(d => d.count > 0).length > 1 ? 4 : 0}
-                      dataKey="count"
-                      stroke="#090d16"
-                      strokeWidth={2}
-                    >
-                      {kpiTierPieData.filter(d => d.count > 0).map((entry, index) => (
-                        <Cell key={`kpi-tier-pie-cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: '#090d16',
-                        borderColor: '#30AFFF',
-                        borderRadius: '12px',
-                        fontSize: '12px',
-                        boxShadow: '0 10px 25px rgba(0,0,0,0.6)',
-                      }}
-                      formatter={(value: any, name: any) => [`${value} Advisors (${kpiTierPieData.find(d => d.name === name)?.pct || 0}%)`, name]}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
+            {/* PIE CHART VIEW FOR KPI PERFORMANCE TIERS */}
+            {kpiChartType === 'pie' ? (
+              <div className="space-y-2">
+                <div className="relative h-44 w-full flex items-center justify-center my-1">
+                  <ResponsiveContainer width="100%" height={176}>
+                    <PieChart>
+                      <Pie
+                        data={kpiTierPieData.filter(d => d.count > 0)}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={50}
+                        outerRadius={72}
+                        paddingAngle={kpiTierPieData.filter(d => d.count > 0).length > 1 ? 4 : 0}
+                        dataKey="count"
+                        stroke="#ffffff"
+                        strokeWidth={2}
+                        className="dark:[&_path]:stroke-slate-900"
+                      >
+                        {kpiTierPieData.filter(d => d.count > 0).map((entry, index) => (
+                          <Cell key={`kpi-tier-pie-cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: '#090d16',
+                          borderColor: '#30AFFF',
+                          borderRadius: '12px',
+                          fontSize: '12px',
+                          boxShadow: '0 10px 25px rgba(0,0,0,0.6)',
+                          color: '#ffffff'
+                        }}
+                        formatter={(value: any, name: any) => [`${value} Advisors (${kpiTierPieData.find(d => d.name === name)?.pct || 0}%)`, name]}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
 
-                {/* Donut Center Count */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">Total</span>
-                  <span className="text-base font-black text-slate-100 font-mono">
-                    {kpiTierPieData.reduce((a, b) => a + b.count, 0)} Team
+                  {/* Donut Center Count */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-0.5">Total</span>
+                    <span className="text-sm font-black text-slate-900 dark:text-slate-100 font-mono leading-none">
+                      {kpiTierPieData.reduce((a, b) => a + b.count, 0)} Advisors
+                    </span>
+                    <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-1.5 py-0.5 rounded mt-1 capitalize font-mono">
+                      {gradeDistributionFilter}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Progress bar visual for tier ratios */}
+                <div className="space-y-1.5 pt-0.5">
+                  <div className="h-2 w-full bg-slate-100 dark:bg-slate-950 rounded-full overflow-hidden flex p-0.5 border border-slate-200 dark:border-slate-800 shadow-inner">
+                    {kpiTierPieData.map((tier, idx) => (
+                      <div
+                        key={`bar-tier-${idx}`}
+                        className="h-full transition-all duration-500"
+                        style={{
+                          width: `${tier.pct}%`,
+                          backgroundColor: tier.color,
+                          borderRadius: idx === 0 ? '9999px 0 0 9999px' : idx === kpiTierPieData.length - 1 ? '0 9999px 9999px 0' : '0'
+                        }}
+                        title={`${tier.tier}: ${tier.count} (${tier.pct}%)`}
+                      />
+                    ))}
+                  </div>
+                  <div className="flex items-center justify-between text-[11px] font-extrabold text-slate-500 dark:text-slate-400">
+                    <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      High: {kpiTierPieData[0]?.pct}%
+                    </span>
+                    <span className="flex items-center gap-1 text-sky-600 dark:text-sky-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+                      Med: {kpiTierPieData[1]?.pct}%
+                    </span>
+                    <span className="flex items-center gap-1 text-rose-500 dark:text-rose-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                      Low: {kpiTierPieData[2]?.pct}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* BAR CHART VIEW FOR GRADES */
+              <div className="space-y-2">
+                <div className="h-44 w-full my-1">
+                  <ResponsiveContainer width="100%" height={176}>
+                    <BarChart data={gradeChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.15)" />
+                      <XAxis dataKey="grade" stroke="#94a3b8" tick={{ fill: '#64748b', fontSize: 10, fontWeight: 700 }} />
+                      <YAxis stroke="#94a3b8" tick={{ fill: '#64748b', fontSize: 10 }} allowDecimals={false} />
+                      <Tooltip
+                        contentStyle={{ backgroundColor: '#090d16', borderColor: '#30AFFF', borderRadius: '12px', fontSize: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.5)', color: '#ffffff' }}
+                        formatter={(val: any) => [`${val} Advisors`, 'Count']}
+                      />
+                      <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+                        {gradeChartData.map((entry, index) => {
+                          const semanticColors: Record<string, string> = {
+                            'A': '#10b981',    // Exceeds (Emerald)
+                            'B': '#0ea5e9',    // On Target (Sky)
+                            'C': '#6366f1',    // Warning (Indigo)
+                            'D': '#f97316',    // Needs Improvement
+                            'PIP': '#e11d48',  // Critical
+                          };
+                          return <Cell key={`cell-grade-${index}`} fill={semanticColors[entry.grade] || '#10b981'} />;
+                        })}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Semantic Color Legend Strip */}
+                <div className="flex items-center justify-between text-[10px] font-extrabold uppercase tracking-tight text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-200 dark:border-slate-800/60">
+                  <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    A (Exceeds)
                   </span>
-                  <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/15 border border-emerald-500/30 px-1.5 py-0.2 rounded mt-0.5 capitalize">
-                    {gradeDistributionFilter}
+                  <span className="flex items-center gap-1 text-sky-600 dark:text-sky-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+                    B (Target)
+                  </span>
+                  <span className="flex items-center gap-1 text-indigo-600 dark:text-indigo-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
+                    C/D (Warning)
+                  </span>
+                  <span className="flex items-center gap-1 text-rose-600 dark:text-rose-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                    PIP (Action)
                   </span>
                 </div>
               </div>
+            )}
+          </div>
 
-              {/* KPI Tier Legend & Count Badges */}
-              <div className="grid grid-cols-3 gap-2 text-center pt-2 border-t border-slate-800/80">
-                {kpiTierPieData.map((tier) => (
-                  <div key={tier.tier} className="bg-slate-950/80 border border-slate-800/80 p-2 rounded-xl space-y-0.5 hover:border-[#30AFFF]/40 transition-all">
-                    <div className="flex items-center justify-center gap-1">
-                      <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: tier.color }} />
-                      <span className="text-[10px] font-extrabold text-slate-300 truncate">{tier.tier}</span>
-                    </div>
-                    <div className="text-sm font-black text-slate-100 font-mono">
-                      {tier.count} <span className="text-[10px] text-slate-400 font-normal">({tier.pct}%)</span>
-                    </div>
-                    <span className="text-[9px] font-semibold block text-slate-400">{tier.label}</span>
-                  </div>
-                ))}
+          {/* KPI Tier Legend & Count Badges */}
+          <div className="grid grid-cols-3 gap-2 text-center pt-3 border-t border-slate-200 dark:border-slate-800/80">
+            {kpiTierPieData.map((tier) => (
+              <div key={tier.tier} className="bg-slate-50/90 dark:bg-slate-950/80 border border-slate-200/90 dark:border-slate-800/80 p-2.5 rounded-xl space-y-0.5 hover:border-emerald-500/40 transition-all shadow-2xs">
+                <div className="flex items-center justify-center gap-1">
+                  <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: tier.color }} />
+                  <span className="text-[10px] font-extrabold text-slate-700 dark:text-slate-300 truncate">{tier.tier}</span>
+                </div>
+                <div className="text-sm font-black text-slate-900 dark:text-slate-100 font-mono">
+                  {tier.count} <span className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">({tier.pct}%)</span>
+                </div>
+                <span className="text-[9px] font-semibold block text-slate-500 dark:text-slate-400">{tier.label}</span>
               </div>
-            </div>
-          ) : (
-            /* BAR CHART VIEW FOR GRADES */
-            <div className="space-y-2 my-auto">
-              <div className="h-44 w-full">
-                <ResponsiveContainer width="100%" height={176}>
-                  <BarChart data={gradeChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                    <XAxis dataKey="grade" stroke="#94a3b8" tick={{ fill: '#cbd5e1', fontSize: 10, fontWeight: 700 }} />
-                    <YAxis stroke="#94a3b8" tick={{ fill: '#cbd5e1', fontSize: 10 }} allowDecimals={false} />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: '#090d16', borderColor: '#30AFFF', borderRadius: '12px', fontSize: '12px', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}
-                      formatter={(val: any) => [`${val} Advisors`, 'Count']}
-                    />
-                    <Bar dataKey="count" radius={[6, 6, 0, 0]}>
-                      {gradeChartData.map((entry, index) => {
-                        const semanticColors: Record<string, string> = {
-                          'A': '#10b981',    // Exceeds (Emerald)
-                          'B': '#0ea5e9',    // On Target (Sky)
-                          'C': '#6366f1',    // Warning (Indigo)
-                          'D': '#f97316',    // Needs Improvement
-                          'PIP': '#e11d48',  // Critical
-                        };
-                        return <Cell key={`cell-grade-${index}`} fill={semanticColors[entry.grade] || '#10b981'} />;
-                      })}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-
-              {/* Semantic Color Legend Strip */}
-              <div className="flex items-center justify-between text-[9px] font-extrabold uppercase tracking-tight text-slate-400 pt-2 border-t border-slate-800/60">
-                <span className="flex items-center gap-1 text-emerald-400">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                  A (Exceeds)
-                </span>
-                <span className="flex items-center gap-1 text-sky-400">
-                  <span className="w-2 h-2 rounded-full bg-sky-400" />
-                  B (On Target)
-                </span>
-                <span className="flex items-center gap-1 text-indigo-400">
-                  <span className="w-2 h-2 rounded-full bg-indigo-400" />
-                  C/D (Warning)
-                </span>
-                <span className="flex items-center gap-1 text-rose-400">
-                  <span className="w-2 h-2 rounded-full bg-rose-500" />
-                  PIP (Action)
-                </span>
-              </div>
-            </div>
-          )}
+            ))}
+          </div>
         </div>
 
-        {/* Kaizen Top Performers Leaderboard */}
-        <div className="bg-slate-900/90 border border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-2xl space-y-4 flex flex-col justify-between glass-card">
+        {/* Card 3: Kaizen Top Performers Leaderboard */}
+        <div className="bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-4 flex flex-col justify-between glass-card">
           {/* Header & Segmented Filter Control */}
           <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shrink-0 shadow-xs">
-                <Trophy className="w-4 h-4" />
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="p-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 shrink-0">
+                  <Trophy className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-extrabold text-xs sm:text-sm uppercase tracking-wider text-slate-900 dark:text-slate-100 truncate">
+                    Top Advisors Leaderboard
+                  </h3>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">Merit Rankings (Based on Sales Revenue)</p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <h3 className="font-black text-xs sm:text-sm uppercase tracking-wider text-slate-100 truncate">
-                  Top Advisors Leaderboard
-                </h3>
-                <p className="text-[10px] text-slate-400 font-medium truncate">Merit Rankings (Based on Sales Revenue)</p>
-              </div>
+
+              <span className="bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30 text-[10px] font-extrabold px-2.5 py-1 rounded-lg font-mono shrink-0 shadow-2xs">
+                Top 5
+              </span>
             </div>
 
             {/* Segmented Filter Bar - Full Width, Perfectly Distributed */}
-            <div className="flex items-center gap-1 bg-slate-950/90 p-1 rounded-xl border border-slate-800/80 shadow-inner w-full leaderboard-filter-bar">
+            <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-950/90 p-1 rounded-xl border border-slate-200/90 dark:border-slate-800/80 shadow-inner w-full h-[38px] leaderboard-filter-bar">
               <button
                 onClick={() => setLeaderboardFilter('combined')}
-                className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
+                className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   leaderboardFilter === 'combined'
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-xs'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-slate-200 dark:border-emerald-500/40 shadow-xs'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
               >
                 Combined
               </button>
               <button
                 onClick={() => setLeaderboardFilter('stationed')}
-                className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
+                className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   leaderboardFilter === 'stationed'
-                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-xs'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-slate-200 dark:border-sky-500/40 shadow-xs'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
               >
                 Stationed
               </button>
               <button
                 onClick={() => setLeaderboardFilter('virtual')}
-                className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
+                className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
                   leaderboardFilter === 'virtual'
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white dark:bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 border border-slate-200 dark:border-cyan-500/40 shadow-xs'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
               >
                 Virtual
@@ -1126,7 +1197,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           </div>
 
           {/* Leaderboard List */}
-          <div className="space-y-2.5 flex-1 flex flex-col justify-between">
+          <div className="space-y-2 flex-1 flex flex-col justify-between">
             {leaderboard.length === 0 ? (
               <p className="text-xs text-slate-500 text-center py-6">No advisors found in this division.</p>
             ) : (
@@ -1134,35 +1205,35 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 <div
                   key={`${item.team}-${item.name}-${idx}`}
                   onClick={() => onSelectAdvisor(item.raw, item.team.toLowerCase() as any)}
-                  className="bg-slate-950/70 border border-slate-800/80 hover:border-[#30AFFF]/50 p-2.5 sm:p-3 rounded-2xl flex items-center justify-between gap-3 cursor-pointer transition-all duration-200 group hover:scale-[1.01] shadow-xs hover:shadow-md leaderboard-card"
+                  className="bg-slate-50/80 dark:bg-slate-950/70 border border-slate-200/90 dark:border-slate-800/80 hover:border-sky-400/60 dark:hover:border-[#30AFFF]/50 p-2.5 rounded-xl flex items-center justify-between gap-3 cursor-pointer transition-all duration-200 group hover:scale-[1.01] shadow-2xs hover:shadow-md leaderboard-card"
                 >
                   {/* Left Column: Advisor Rank & Identity */}
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
                     {/* Rank Badge */}
-                    <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl font-black text-xs flex items-center justify-center shrink-0 shadow-xs transition-transform group-hover:scale-105 ${
+                    <div className={`w-8 h-8 rounded-lg font-black text-xs flex items-center justify-center shrink-0 shadow-xs transition-transform group-hover:scale-105 ${
                       idx === 0 
                         ? 'rank-badge-1 bg-gradient-to-br from-amber-300 via-amber-400 to-yellow-500 text-slate-950 shadow-md ring-2 ring-amber-400/40' 
                         : idx === 1 
                         ? 'rank-badge-2 bg-gradient-to-br from-slate-200 to-slate-400 text-slate-950 shadow-xs' 
                         : idx === 2 
-                        ? 'rank-badge-3 bg-gradient-to-br from-amber-700 to-amber-900 text-amber-100 shadow-xs' 
-                        : 'rank-badge-other bg-slate-900 border border-slate-800 text-slate-400 font-mono font-extrabold'
+                        ? 'rank-badge-3 bg-gradient-to-br from-amber-600 to-amber-800 text-amber-100 shadow-xs' 
+                        : 'rank-badge-other bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 font-mono font-extrabold'
                     }`}>
                       {idx === 0 ? <Crown className="w-4 h-4 text-slate-950 fill-slate-950" /> : `#${idx + 1}`}
                     </div>
 
                     {/* Name & Division Tag */}
-                    <div className="min-w-0 flex-1 space-y-1">
-                      <h4 className="font-extrabold text-slate-100 text-xs sm:text-sm group-hover:text-cyan-300 transition-colors truncate leading-tight">
+                    <div className="min-w-0 flex-1 space-y-0.5">
+                      <h4 className="font-extrabold text-slate-900 dark:text-slate-100 text-xs sm:text-sm group-hover:text-sky-600 dark:group-hover:text-cyan-300 transition-colors truncate leading-tight">
                         {item.name}
                       </h4>
                       <div className="flex items-center gap-1.5">
-                        <span className={`inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md border font-mono tracking-tight whitespace-nowrap ${
+                        <span className={`inline-flex items-center gap-1 text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded border font-mono tracking-tight whitespace-nowrap ${
                           item.team === 'Stationed'
-                            ? 'bg-sky-500/15 text-sky-300 border-sky-500/30'
-                            : 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30'
+                            ? 'bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-500/30'
+                            : 'bg-cyan-50 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-200 dark:border-cyan-500/30'
                         }`}>
-                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.team === 'Stationed' ? 'bg-sky-400' : 'bg-cyan-400'}`} />
+                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.team === 'Stationed' ? 'bg-sky-500' : 'bg-cyan-400'}`} />
                           {item.team}
                         </span>
                       </div>
@@ -1171,28 +1242,26 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
                   {/* Right Column: Grade, Sales & KPI Metrics */}
                   <div className="text-right shrink-0 flex flex-col items-end justify-center space-y-1">
-                    <div className="flex items-center justify-end gap-1">
-                      <span className="text-xs sm:text-sm font-black text-slate-100 font-mono tracking-tight whitespace-nowrap">
-                        ৳{item.sales.toLocaleString('en-BD')}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 justify-end">
+                    <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100 font-mono tracking-tight whitespace-nowrap">
+                      ৳{item.sales.toLocaleString('en-BD')}
+                    </span>
+                    <div className="flex items-center gap-1 justify-end">
                       {/* KPI Badge */}
-                      <span className="font-extrabold text-[10px] font-mono tracking-tight bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-md whitespace-nowrap">
+                      <span className="font-extrabold text-[9px] sm:text-[10px] font-mono tracking-tight bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 px-1.5 py-0.5 rounded whitespace-nowrap">
                         {item.kpiDisplay} KPI
                       </span>
 
                       {/* Grade Badge */}
-                      <span className={`text-[10px] font-extrabold font-mono px-2 py-0.5 rounded-md border uppercase tracking-wide whitespace-nowrap ${
+                      <span className={`text-[9px] sm:text-[10px] font-extrabold font-mono px-1.5 py-0.5 rounded border uppercase tracking-wide whitespace-nowrap ${
                         item.grade === 'A'
-                          ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                          ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30'
                           : item.grade === 'B'
-                          ? 'bg-sky-500/15 text-sky-400 border-sky-500/30'
+                          ? 'bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-400 border-sky-200 dark:border-sky-500/30'
                           : item.grade === 'C'
-                          ? 'bg-indigo-500/15 text-indigo-400 border-indigo-500/30'
+                          ? 'bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-500/30'
                           : item.grade === 'D'
-                          ? 'bg-orange-950/80 text-orange-300 border-orange-800/60'
-                          : 'bg-rose-950/80 text-rose-300 border-rose-800/60'
+                          ? 'bg-orange-50 dark:bg-orange-950/80 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-800/60'
+                          : 'bg-rose-50 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/60'
                       }`}>
                         {item.grade} GRADE
                       </span>

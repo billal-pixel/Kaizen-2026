@@ -482,3 +482,40 @@
 .light-theme .leaderboard-card .text-slate-100 {
   color: #0f172a !important;
 }
+
+.light-theme .rank-badge-other {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+/* Enhanced Table Styling in Light & Dark Mode */
+.data-table-container {
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .data-table-container {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* Interactive focus ring and transitions */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* Smooth micro-interactions */
+.smooth-hover {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.smooth-hover:hover {
+  transform: translateY(-2px);
+}
+
+.smooth-hover:active {
+  transform: translateY(0px) scale(0.98);
+}
+

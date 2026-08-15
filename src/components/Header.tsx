@@ -22,7 +22,8 @@ import {
   Compass,
   FileSpreadsheet,
   ChevronRight,
-  Folder
+  Folder,
+  BookOpen
 } from 'lucide-react';
 import { KaizenLogo } from './KaizenLogo';
 import { StationedAdvisor, VirtualAdvisor } from '../types';
@@ -293,6 +294,23 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
             <div className="h-4 w-px bg-slate-200 dark:bg-slate-800 mx-0.5 shrink-0" />
 
+            {/* Free Resource Google Doc Link */}
+            <motion.a
+              whileHover={{ y: -1.5, scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              href="https://docs.google.com/document/d/1GiVK9N2diFGsYuW9RfFeDVxtl3AnZe9wP3LGo2g0g1o/edit?tab=t.0"
+              target="_blank"
+              rel="noreferrer"
+              title="Free Resource Google Doc"
+              className="group h-7 px-2.5 bg-white hover:bg-amber-50/90 dark:bg-slate-800 dark:hover:bg-slate-750 border border-slate-200/90 hover:border-amber-300 dark:border-slate-700/90 dark:hover:border-amber-500/40 text-slate-700 hover:text-amber-700 dark:text-slate-200 dark:hover:text-amber-300 text-[11px] font-semibold rounded-lg flex items-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-2xs"
+            >
+              <BookOpen className="w-3 h-3 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform duration-200 shrink-0" />
+              <span className="whitespace-nowrap leading-none">Free Resource</span>
+              <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-amber-600 dark:text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200 opacity-80 shrink-0" />
+            </motion.a>
+
+            <div className="h-4 w-px bg-slate-200 dark:bg-slate-800 mx-0.5 shrink-0" />
+
             {/* Payment Copy Messages Button */}
             {onOpenPaymentModal && (
               <motion.button
@@ -523,10 +541,23 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   </div>
                 </div>
 
-                {/* Essential Google Sites */}
+                {/* Essential Google Sites & Resources */}
                 <div>
-                  <h4 className="text-[11px] uppercase font-mono tracking-wider text-slate-400 font-bold mb-2">Essential Google Sites</h4>
+                  <h4 className="text-[11px] uppercase font-mono tracking-wider text-slate-400 font-bold mb-2">Essential Sites & Free Resources</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <a
+                      href="https://docs.google.com/document/d/1GiVK9N2diFGsYuW9RfFeDVxtl3AnZe9wP3LGo2g0g1o/edit?tab=t.0"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="min-h-[48px] px-4 py-3 bg-slate-950 border border-slate-800 hover:border-amber-500/40 text-amber-300 font-bold text-xs rounded-xl flex items-center justify-between transition-all cursor-pointer active:scale-98"
+                    >
+                      <div className="flex items-center gap-2">
+                        <BookOpen className="w-4 h-4 text-amber-400" />
+                        <span>Free Resource Doc</span>
+                      </div>
+                      <ExternalLink className="w-4 h-4 text-amber-400 opacity-70" />
+                    </a>
+
                     <a
                       href="https://sites.google.com/view/10msmirpur/home"
                       target="_blank"
