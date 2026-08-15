@@ -36,7 +36,7 @@ export default function App() {
   const teamLeaderName = "Muhammad Billal";
 
   const PRIMARY_LIVE_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0';
-  const DATA_VERSION = 'kaizen_v21_clean_deduped_live_sheet_1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys';
+  const DATA_VERSION = 'kaizen_v22_ce_count_zero_corrected_1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys';
 
   // Snapshot initial version before any state initializers write to localStorage
   const initialSavedVersion = useMemo(() => localStorage.getItem('kaizen_data_version'), []);

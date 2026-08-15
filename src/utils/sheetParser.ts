@@ -155,7 +155,7 @@ export const parseRawRows = (rows: any[], targetTeam: 'auto' | 'stationed' | 'vi
       const talkTime = cleanStr(getValueByKeywords(r, ['talk time', 'talktime', 'total talk time', 'avg talktime', 'duration', 'talk']), '00:00:00');
       const meeting = cleanStr(getValueByKeywords(r, ['meeting', 'meeting time', 'avg meeting']), '00:00:00');
       const actualTalkTime = cleanStr(getValueByKeywords(r, ['actual talk time', 'actual talktime', 'pd/dispo', 'dispo', 'actual talk']), '00:00:00');
-      const ceCount = cleanNum(getValueByKeywords(r, ['ce count', 'ce', 'ce audit', 'ce score', 'quality']));
+      const ceCount = cleanNum(getValueByKeywords(r, ['ce count', 'ce_count', 'ce total count', 'ce count total']));
       const finalSales = cleanNum(getValueByKeywords(r, ['final sales', 'sales', 'final sales data', 'total sales', 'sales bdt', 'revenue', 'bdt']));
       const overallKpiRaw = getValueByKeywords(r, ['overall kpi', 'kpi', 'sales kpi', 'kpi score', 'total kpi score', 'kpi %']);
       const overallKpi = overallKpiRaw !== undefined && overallKpiRaw !== null && String(overallKpiRaw).trim() !== '' ? String(overallKpiRaw).trim() : 'PIP';
@@ -205,7 +205,7 @@ export const parseRawRows = (rows: any[], targetTeam: 'auto' | 'stationed' | 'vi
 
       const avgReach = cleanNum(getValueByKeywords(r, ['avg reach', 'reach', 'reach call', 'total reach', 'reach count', 'calls']));
       const avgTalktime = cleanStr(getValueByKeywords(r, ['avg talktime', 'avg talk time', 'talktime', 'talk time', 'total talktime', 'duration']), '00:00:00');
-      const ceCount = cleanNum(getValueByKeywords(r, ['ce count', 'ce', 'ce audit', 'ce score', 'customer experience', 'quality']));
+      const ceCount = cleanNum(getValueByKeywords(r, ['ce count', 'ce_count', 'ce total count', 'ce count total']));
       const avgExamMark = cleanNum(getValueByKeywords(r, ['avg exam mark', 'exam mark', 'exam', 'avg exam', 'exam score']), 0);
       const avgBriefingMark = cleanNum(getValueByKeywords(r, ['avg briefing mark', 'briefing mark', 'briefing', 'avg briefing', 'briefing score']), 0);
       const finalSalesData = cleanNum(getValueByKeywords(r, ['final sales data', 'final sales', 'sales', 'sales data', 'total sales', 'sales bdt', 'revenue', 'bdt']));
@@ -343,7 +343,7 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
 
       const avgReach = cleanNum(row[6]);
       const avgTalktime = cleanStr(row[8], '00:00:00');
-      const ceCount = cleanNum(row[11]);
+      const ceCount = cleanNum(row[10]);
       const avgExamMark = cleanNum(row[13]);
       const avgBriefingMark = cleanNum(row[14]);
       const dutyCount = cleanNum(row[15]);

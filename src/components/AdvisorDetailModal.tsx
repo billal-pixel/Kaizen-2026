@@ -44,14 +44,14 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
       brief = `📊 KAIZEN PERFORMANCE BRIEF - ${stAdvisor.advisorName} (${stAdvisor.employeeId || 'TE-ID'})
 • Division: Stationed Team
 • Reach Calls: ${stAdvisor.avgReach} | Talktime: ${stAdvisor.avgTalktime}
-• Exam Score: ${stAdvisor.avgExamMark} | Briefing: ${stAdvisor.avgBriefingMark}
+• CE Count: ${stAdvisor.ceCount} | Exam: ${stAdvisor.avgExamMark} | Briefing: ${stAdvisor.avgBriefingMark}
 • Sales Revenue: ৳${stAdvisor.finalSalesData.toLocaleString('en-BD')}
-• KPI Score: ${formatKpiDisplay(stAdvisor.totalKpiScore)} | Grade: ${stAdvisor.kpiGrade}`;
+• Total KPI: ${formatKpiDisplay(stAdvisor.totalKpiScore)} | Grade: ${stAdvisor.kpiGrade}`;
     } else {
       brief = `📊 KAIZEN PERFORMANCE BRIEF - ${vtAdvisor.advisorName} (${vtAdvisor.employeeId || 'TE-ID'})
 • Division: Virtual Team
 • Reach Calls: ${vtAdvisor.reachCall} | Talktime: ${vtAdvisor.actualTalkTime}
-• Exam: ${vtAdvisor.exam} | CE Count: ${vtAdvisor.ceCount}
+• CE Count: ${vtAdvisor.ceCount} | Exam: ${vtAdvisor.exam}
 • Sales Revenue: ৳${vtAdvisor.finalSales.toLocaleString('en-BD')}
 • Overall KPI: ${formatKpiDisplay(vtAdvisor.overallKpi)} | Total Salary: ৳${vtAdvisor.totalSalary.toLocaleString('en-BD')}`;
     }

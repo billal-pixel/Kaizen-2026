@@ -22,7 +22,7 @@ export const AddAdvisorModal: React.FC<AddAdvisorModalProps> = ({
   // Stationed Fields
   const [avgReach, setAvgReach] = useState(120);
   const [avgTalktime, setAvgTalktime] = useState('03:00:00');
-  const [ceCount, setCeCount] = useState(20);
+  const [ceCount, setCeCount] = useState(0);
   const [avgExamMark, setAvgExamMark] = useState(85);
   const [avgBriefingMark, setAvgBriefingMark] = useState(88);
   const [finalSalesData, setFinalSalesData] = useState(150000);

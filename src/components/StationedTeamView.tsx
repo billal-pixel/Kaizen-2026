@@ -239,9 +239,9 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
         </div>
 
         {/* 4 Summary Stat Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 mt-6">
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-sky-500/40 rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5 sm:gap-3 min-w-0 shadow-xs transition-colors">
-            <div className="p-2 sm:p-2.5 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30 shrink-0">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-sky-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-sky-500/15 text-sky-400 border border-sky-500/30 shrink-0 flex items-center justify-center">
               <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
@@ -250,8 +250,8 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-emerald-500/40 rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5 sm:gap-3 min-w-0 shadow-xs transition-colors">
-            <div className="p-2 sm:p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-emerald-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0 flex items-center justify-center">
               <Award className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
@@ -260,8 +260,8 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/40 rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5 sm:gap-3 min-w-0 shadow-xs transition-colors">
-            <div className="p-2 sm:p-2.5 rounded-xl bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 shrink-0">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-cyan-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 shrink-0 flex items-center justify-center">
               <PhoneCall className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
@@ -270,12 +270,12 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-emerald-500/40 rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5 sm:gap-3 min-w-0 shadow-xs transition-colors">
-            <div className="p-2 sm:p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-emerald-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0 flex items-center justify-center">
               <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
-              <p className="text-[10px] sm:text-[11px] text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Total CE Audits</p>
+              <p className="text-[10px] sm:text-[11px] text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Total CE Count</p>
               <p className="text-base sm:text-lg font-black text-slate-100 font-mono tracking-tight leading-tight truncate">{totalCeCount}</p>
             </div>
           </div>

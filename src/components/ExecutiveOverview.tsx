@@ -354,15 +354,15 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         </div>
 
         {/* 4 Core Stat Metrics */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6 pt-6 border-t border-slate-800/80">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6 pt-6 border-t border-slate-800/80">
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-[#30AFFF]/40 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-[#30AFFF]/40 rounded-2xl p-4 sm:p-5 transition-colors glass-card flex flex-col justify-between min-w-0 shadow-xs"
           >
             <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Total Sales Revenue</span>
             <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
               <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-slate-100 font-mono tracking-tight truncate w-full">৳{totalSales.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] sm:text-[11px] font-extrabold text-emerald-400 uppercase tracking-wider inline-flex items-center gap-1.5 bg-emerald-500/15 px-2.5 py-1 rounded-md border border-emerald-500/30 shrink-0">
+              <span className="h-6 text-[10px] sm:text-[11px] font-extrabold text-emerald-400 uppercase tracking-wider inline-flex items-center gap-1.5 bg-emerald-500/15 px-2.5 py-0.5 rounded-md border border-emerald-500/30 shrink-0">
                 <span className="relative flex h-2 w-2">
                   <motion.span
                     animate={{ scale: [1, 2.2, 1], opacity: [0.8, 0, 0.8] }}
@@ -379,19 +379,19 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-[#30AFFF]/40 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-[#30AFFF]/40 rounded-2xl p-4 sm:p-5 transition-colors glass-card flex flex-col justify-between min-w-0 shadow-xs"
           >
             <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Overall Team KPI</span>
             <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
               <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-sky-400 font-mono tracking-tight truncate w-full">{overallTeamKpi.toFixed(1)}%</span>
-              <span className="text-[10px] sm:text-[11px] font-extrabold text-sky-300 uppercase tracking-wider inline-flex items-center gap-1 bg-sky-500/15 px-2.5 py-1 rounded-md border border-sky-500/30 shrink-0">Target 90%</span>
+              <span className="h-6 text-[10px] sm:text-[11px] font-extrabold text-sky-300 uppercase tracking-wider inline-flex items-center gap-1 bg-sky-500/15 px-2.5 py-0.5 rounded-md border border-sky-500/30 shrink-0">Target 90%</span>
             </div>
           </motion.div>
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
             onClick={() => onNavigateTab('call_records')}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-[#30AFFF]/50 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card cursor-pointer group flex flex-col justify-between min-w-0"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-[#30AFFF]/50 rounded-2xl p-4 sm:p-5 transition-colors glass-card cursor-pointer group flex flex-col justify-between min-w-0 shadow-xs"
           >
             <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider group-hover:text-cyan-300 transition-colors flex items-center justify-between gap-1 truncate">
               <span className="truncate">Total Reach Calls</span>
@@ -399,7 +399,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </span>
             <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
               <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-slate-100 font-mono tracking-tight truncate w-full">{totalReachCalls.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] sm:text-[11px] font-extrabold text-cyan-300 uppercase tracking-wider inline-flex items-center gap-1 bg-cyan-500/15 px-2.5 py-1 rounded-md border border-cyan-500/30 shrink-0">
+              <span className="h-6 text-[10px] sm:text-[11px] font-extrabold text-cyan-300 uppercase tracking-wider inline-flex items-center gap-1 bg-cyan-500/15 px-2.5 py-0.5 rounded-md border border-cyan-500/30 shrink-0">
                 View Records →
               </span>
             </div>
@@ -407,12 +407,12 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
           <motion.div 
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="bg-slate-950/80 border border-slate-800/80 hover:border-emerald-500/40 rounded-2xl p-3.5 sm:p-4.5 transition-colors glass-card flex flex-col justify-between min-w-0"
+            className="bg-slate-950/80 border border-slate-800/80 hover:border-emerald-500/40 rounded-2xl p-4 sm:p-5 transition-colors glass-card flex flex-col justify-between min-w-0 shadow-xs"
           >
             <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block truncate">Active Tasks</span>
             <div className="flex flex-col items-start gap-1.5 mt-2 min-w-0 w-full">
               <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black text-emerald-400 font-mono tracking-tight truncate w-full">{tasks.filter(t => t.status !== 'completed').length}</span>
-              <span className="text-[10px] sm:text-[11px] font-extrabold text-emerald-300 uppercase tracking-wider inline-flex items-center gap-1 bg-emerald-500/15 px-2.5 py-1 rounded-md border border-emerald-500/30 shrink-0">In Pipeline</span>
+              <span className="h-6 text-[10px] sm:text-[11px] font-extrabold text-emerald-300 uppercase tracking-wider inline-flex items-center gap-1 bg-emerald-500/15 px-2.5 py-0.5 rounded-md border border-emerald-500/30 shrink-0">In Pipeline</span>
             </div>
           </motion.div>
         </div>
@@ -421,10 +421,10 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
       {/* Division Comparison Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Stationed Team Card */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden space-y-4 hover:border-[#30AFFF]/40 transition-all">
-          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-slate-800/80 pb-3">
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden space-y-4 hover:border-[#30AFFF]/40 transition-all flex flex-col justify-between">
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-slate-800/80 pb-3.5">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="p-2.5 bg-[#30AFFF]/15 border border-[#30AFFF]/30 text-[#30AFFF] rounded-xl shadow-inner shrink-0">
+              <div className="p-2.5 bg-[#30AFFF]/15 border border-[#30AFFF]/30 text-[#30AFFF] rounded-xl shadow-inner shrink-0 flex items-center justify-center">
                 <Users className="w-5 h-5" />
               </div>
               <div className="min-w-0">
@@ -444,34 +444,34 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
             <button
               onClick={() => onNavigateTab('stationed')}
-              className="text-xs text-[#30AFFF] hover:text-[#92EEFF] font-bold flex items-center gap-1 bg-[#30AFFF]/10 hover:bg-[#30AFFF]/20 px-3 py-1.5 rounded-lg border border-[#30AFFF]/40 transition-all shrink-0 ml-auto"
+              className="text-xs text-[#30AFFF] hover:text-[#92EEFF] font-bold flex items-center gap-1 bg-[#30AFFF]/10 hover:bg-[#30AFFF]/20 px-3 py-1.5 rounded-lg border border-[#30AFFF]/40 transition-all shrink-0 ml-auto cursor-pointer"
             >
               <span>Explore</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 text-center">
-            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
+          <div className="grid grid-cols-3 gap-3 text-center pt-1">
+            <div className="bg-slate-950/80 p-3 sm:p-3.5 rounded-xl border border-slate-800/80 flex flex-col items-center justify-center">
               <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Sales</span>
-              <span className="text-sm font-bold text-slate-100 font-mono">৳{stationedSales.toLocaleString('en-BD')}</span>
+              <span className="text-sm sm:text-base font-bold text-slate-100 font-mono">৳{stationedSales.toLocaleString('en-BD')}</span>
             </div>
-            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
+            <div className="bg-slate-950/80 p-3 sm:p-3.5 rounded-xl border border-slate-800/80 flex flex-col items-center justify-center">
               <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Avg KPI</span>
-              <span className="text-sm font-bold text-[#30AFFF] font-mono">{avgStationedKpi.toFixed(1)}%</span>
+              <span className="text-sm sm:text-base font-bold text-[#30AFFF] font-mono">{avgStationedKpi.toFixed(1)}%</span>
             </div>
-            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
+            <div className="bg-slate-950/80 p-3 sm:p-3.5 rounded-xl border border-slate-800/80 flex flex-col items-center justify-center">
               <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Avg Reach</span>
-              <span className="text-sm font-bold text-slate-100 font-mono">{Math.round(totalStationedReach / (stationedAdvisors.length || 1))}</span>
+              <span className="text-sm sm:text-base font-bold text-slate-100 font-mono">{Math.round(totalStationedReach / (stationedAdvisors.length || 1))}</span>
             </div>
           </div>
         </div>
 
         {/* Virtual Team Card */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden space-y-4 hover:border-[#92EEFF]/40 transition-all">
-          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-slate-800/80 pb-3">
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl relative overflow-hidden space-y-4 hover:border-[#92EEFF]/40 transition-all flex flex-col justify-between">
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-slate-800/80 pb-3.5">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="p-2.5 bg-[#92EEFF]/15 border border-[#92EEFF]/30 text-[#92EEFF] rounded-xl shadow-inner shrink-0">
+              <div className="p-2.5 bg-[#92EEFF]/15 border border-[#92EEFF]/30 text-[#92EEFF] rounded-xl shadow-inner shrink-0 flex items-center justify-center">
                 <Layers className="w-5 h-5" />
               </div>
               <div className="min-w-0">
@@ -491,25 +491,25 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
             <button
               onClick={() => onNavigateTab('virtual')}
-              className="text-xs text-[#92EEFF] hover:text-white font-bold flex items-center gap-1 bg-[#92EEFF]/10 hover:bg-[#92EEFF]/20 px-3 py-1.5 rounded-lg border border-[#92EEFF]/40 transition-all shrink-0 ml-auto"
+              className="text-xs text-[#92EEFF] hover:text-white font-bold flex items-center gap-1 bg-[#92EEFF]/10 hover:bg-[#92EEFF]/20 px-3 py-1.5 rounded-lg border border-[#92EEFF]/40 transition-all shrink-0 ml-auto cursor-pointer"
             >
               <span>Explore</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 text-center">
-            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
+          <div className="grid grid-cols-3 gap-3 text-center pt-1">
+            <div className="bg-slate-950/80 p-3 sm:p-3.5 rounded-xl border border-slate-800/80 flex flex-col items-center justify-center">
               <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Sales</span>
-              <span className="text-sm font-bold text-slate-100 font-mono">৳{virtualSales.toLocaleString('en-BD')}</span>
+              <span className="text-sm sm:text-base font-bold text-slate-100 font-mono">৳{virtualSales.toLocaleString('en-BD')}</span>
             </div>
-            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
+            <div className="bg-slate-950/80 p-3 sm:p-3.5 rounded-xl border border-slate-800/80 flex flex-col items-center justify-center">
               <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Overall KPI</span>
-              <span className="text-sm font-bold text-[#C4F7CA] font-mono">{avgVirtualKpi.toFixed(1)}%</span>
+              <span className="text-sm sm:text-base font-bold text-[#C4F7CA] font-mono">{avgVirtualKpi.toFixed(1)}%</span>
             </div>
-            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
+            <div className="bg-slate-950/80 p-3 sm:p-3.5 rounded-xl border border-slate-800/80 flex flex-col items-center justify-center">
               <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Reach Calls</span>
-              <span className="text-sm font-bold text-slate-100 font-mono">{totalVirtualReach.toLocaleString('en-BD')}</span>
+              <span className="text-sm sm:text-base font-bold text-slate-100 font-mono">{totalVirtualReach.toLocaleString('en-BD')}</span>
             </div>
           </div>
         </div>
@@ -606,25 +606,25 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         </div>
 
         {/* Top Trend Key Performance Metrics */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3 sm:p-3.5 flex flex-col justify-between transition-all min-w-0">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block truncate">Average Daily Sales</span>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between transition-all min-w-0">
+            <span className="text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-wider block truncate">Average Daily Sales</span>
             <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
               <span className="text-base xs:text-lg sm:text-xl font-black text-slate-100 font-mono tracking-tight truncate w-full">৳{trendMetrics.avgDaily.toLocaleString('en-BD')}</span>
               <span className="text-[10px] text-slate-400 font-mono font-medium truncate">/ day</span>
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3 sm:p-3.5 flex flex-col justify-between transition-all min-w-0">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block truncate">Peak Single-Day Revenue</span>
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between transition-all min-w-0">
+            <span className="text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-wider block truncate">Peak Single-Day Revenue</span>
             <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
               <span className="text-base xs:text-lg sm:text-xl font-black text-emerald-400 font-mono tracking-tight truncate w-full">৳{trendMetrics.peakDaily.toLocaleString('en-BD')}</span>
               <span className="text-[10px] text-slate-400 font-mono font-medium truncate">{trendMetrics.peakDate}</span>
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3 sm:p-3.5 flex flex-col justify-between transition-all min-w-0">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block truncate">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between transition-all min-w-0">
+            <span className="text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-wider block truncate">
               Total {trendTimeRange === '7d' ? '7-Day' : '30-Day'} Revenue
             </span>
             <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
@@ -633,15 +633,15 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </div>
           </div>
 
-          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3 sm:p-3.5 flex flex-col justify-between transition-all min-w-0">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block truncate">
+          <div className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between transition-all min-w-0">
+            <span className="text-[10px] sm:text-[11px] text-slate-400 font-bold uppercase tracking-wider block truncate">
               {trendTimeRange === '7d' ? '7-Day Momentum' : 'Monthly Sales Momentum'}
             </span>
             <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
               <span className={`text-base xs:text-lg sm:text-xl font-black font-mono tracking-tight truncate w-full ${trendMetrics.momentum >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                 {trendMetrics.momentum >= 0 ? '+' : ''}{trendMetrics.momentum.toFixed(1)}%
               </span>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-300 bg-emerald-500/15 px-2.5 py-1 rounded-md border border-emerald-500/30 shrink-0">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-300 bg-emerald-500/15 px-2.5 py-0.5 rounded-md border border-emerald-500/30 shrink-0">
                 2nd Half Growth
               </span>
             </div>
@@ -771,12 +771,12 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
       {/* Visual Analytics Charts & Leaderboard Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         {/* Card 1: Sales Revenue Breakdown */}
-        <div className="bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-4 flex flex-col justify-between">
+        <div className="bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-5 sm:p-6 shadow-sm dark:shadow-xl space-y-4 flex flex-col justify-between">
           <div className="space-y-3">
             {/* Header */}
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center justify-between gap-2 h-10">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="p-2 rounded-xl bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 shrink-0">
+                <div className="p-2.5 rounded-xl bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 shrink-0 flex items-center justify-center">
                   <TrendingUp className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
@@ -792,7 +792,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </div>
 
             {/* Symmetrical Top Stats Bar (Matches 3-tab filter height in Card 2 & 3) */}
-            <div className="flex items-center justify-between px-3 py-1 rounded-xl bg-slate-100/90 dark:bg-slate-950/90 border border-slate-200/90 dark:border-slate-800/80 text-[11px] font-bold text-slate-600 dark:text-slate-300 shadow-inner h-[38px]">
+            <div className="flex items-center justify-between px-3 py-1 rounded-xl bg-slate-100/90 dark:bg-slate-950/90 border border-slate-200/90 dark:border-slate-800/80 text-[11px] font-bold text-slate-600 dark:text-slate-300 shadow-inner h-9 sm:h-10">
               <span className="flex items-center gap-1.5 text-sky-600 dark:text-sky-400 truncate">
                 <span className="w-2 h-2 rounded-full bg-sky-500 shrink-0" />
                 Stationed: {stationedAdvisors.length}
@@ -913,12 +913,12 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         </div>
 
         {/* Card 2: KPI Performance Tiers & Grade Distribution */}
-        <div className="bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-4 flex flex-col justify-between">
+        <div className="bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-5 sm:p-6 shadow-sm dark:shadow-xl space-y-4 flex flex-col justify-between">
           <div className="space-y-3">
             {/* Header */}
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center justify-between gap-2 h-10">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 shrink-0">
+                <div className="p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 shrink-0 flex items-center justify-center">
                   <Award className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
@@ -957,7 +957,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </div>
 
             {/* Division Filter Toggle Bar (Matches height in Card 1 & 3) */}
-            <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-950/90 p-1 rounded-xl border border-slate-200/90 dark:border-slate-800/80 shadow-inner w-full h-[38px]">
+            <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-950/90 p-1 rounded-xl border border-slate-200/90 dark:border-slate-800/80 shadow-inner w-full h-9 sm:h-10">
               <button
                 onClick={() => setGradeDistributionFilter('combined')}
                 className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
@@ -1140,12 +1140,12 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         </div>
 
         {/* Card 3: Kaizen Top Performers Leaderboard */}
-        <div className="bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-5 shadow-sm dark:shadow-xl space-y-4 flex flex-col justify-between glass-card">
+        <div className="bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-5 sm:p-6 shadow-sm dark:shadow-xl space-y-4 flex flex-col justify-between glass-card">
           {/* Header & Segmented Filter Control */}
           <div className="space-y-3">
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center justify-between gap-2 h-10">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="p-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 shrink-0">
+                <div className="p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 shrink-0 flex items-center justify-center">
                   <Trophy className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
@@ -1162,7 +1162,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </div>
 
             {/* Segmented Filter Bar - Full Width, Perfectly Distributed */}
-            <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-950/90 p-1 rounded-xl border border-slate-200/90 dark:border-slate-800/80 shadow-inner w-full h-[38px] leaderboard-filter-bar">
+            <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-950/90 p-1 rounded-xl border border-slate-200/90 dark:border-slate-800/80 shadow-inner w-full h-9 sm:h-10 leaderboard-filter-bar">
               <button
                 onClick={() => setLeaderboardFilter('combined')}
                 className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
