@@ -35,7 +35,7 @@ export function useAutoRefresh({
   onImportStationedData,
   onImportVirtualData,
   intervalSeconds = 30,
-  enabled = true,
+  enabled = false,
 }: UseAutoRefreshOptions): UseAutoRefreshReturn {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(() => new Date());

@@ -161,15 +161,15 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
   }, [autoSyncEnabled, intervalSeconds, performSync]);
 
   return (
-    <div className="relative bg-slate-50/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-1.5 shadow-2xs dark:shadow-inner backdrop-blur-md transition-all overflow-hidden flex flex-col justify-center">
+    <div className="relative bg-white dark:bg-[#10192e] border border-slate-200 dark:border-[#1e2c4a] rounded-xl px-3 py-1.5 shadow-xs dark:shadow-inner backdrop-blur-md transition-all overflow-hidden flex flex-col justify-center">
       {/* Active Sync: Horizontal Scanning Progress Beam across top edge */}
       {isSyncing && (
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-slate-200 dark:bg-slate-800 overflow-hidden z-20">
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-slate-200 dark:bg-[#15223c] overflow-hidden z-20">
           <motion.div
             initial={{ x: '-100%' }}
             animate={{ x: '100%' }}
             transition={{ repeat: Infinity, duration: 1.2, ease: 'linear' }}
-            className="w-1/2 h-full bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_10px_rgba(34,211,238,0.9)]"
+            className="w-1/2 h-full bg-gradient-to-r from-transparent via-indigo-500 to-transparent shadow-[0_0_10px_rgba(79,70,229,0.9)]"
           />
         </div>
       )}
@@ -181,47 +181,47 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
           <div className="relative shrink-0">
             <div className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all duration-300 ${
               autoSyncEnabled 
-                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 shadow-2xs' 
-                : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-500'
+                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-500/30 text-emerald-600 dark:text-emerald-400 shadow-2xs' 
+                : 'bg-slate-100 dark:bg-[#15223c] border-slate-200 dark:border-[#24355a] text-slate-400 dark:text-slate-400'
             }`}>
-              <Zap className={`w-3.5 h-3.5 ${isSyncing ? 'animate-bounce text-cyan-500' : 'text-emerald-600 dark:text-emerald-400'}`} />
+              <Zap className={`w-3.5 h-3.5 ${isSyncing ? 'animate-bounce text-indigo-600' : 'text-emerald-600 dark:text-emerald-400'}`} />
             </div>
           </div>
 
           <div className="min-w-0 flex flex-col justify-center">
             <div className="flex items-center gap-1.5">
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-100 tracking-tight leading-none">
+              <span className="text-xs font-black text-slate-900 dark:text-slate-100 tracking-tight leading-none">
                 Google Sheet Sync
               </span>
               
-              {/* Status Badge */}
+              {/* Status Badge: Soft Pastel Green with Dark Green text */}
               {autoSyncEnabled ? (
-                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 leading-none">
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-extrabold bg-[#DCFCE7] text-[#15803D] border border-[#BBF7D0] leading-none">
                   <span className="relative flex h-1.5 w-1.5 items-center justify-center">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-1 w-1 bg-emerald-500 dark:bg-emerald-400"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#15803D]"></span>
                   </span>
                   <span>LIVE</span>
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-200/80 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-300/80 dark:border-slate-700 leading-none">
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 dark:bg-[#15223c] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-[#24355a] leading-none">
                   PAUSED
                 </span>
               )}
             </div>
 
-            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1.5 leading-none">
+            <div className="text-[11px] text-slate-500 dark:text-slate-300 mt-1 flex items-center gap-1.5 leading-none">
               {isSyncing ? (
-                <span className="text-cyan-600 dark:text-cyan-400 font-semibold animate-pulse flex items-center gap-1 leading-none">
+                <span className="text-indigo-600 dark:text-indigo-300 font-semibold animate-pulse flex items-center gap-1 leading-none">
                   <RefreshCw className="w-3 h-3 animate-spin" />
                   <span>Fetching live data...</span>
                 </span>
               ) : syncStatus === 'success' ? (
-                <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 font-medium text-[11px] min-w-0 leading-none">
-                  <CheckCircle2 className="w-3 h-3 shrink-0 text-emerald-500 dark:text-emerald-400" />
-                  <span className="font-semibold text-emerald-700 dark:text-emerald-300">{syncedCount} synced ({lastSyncTime})</span>
+                <span className="text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 font-medium text-[11px] min-w-0 leading-none">
+                  <CheckCircle2 className="w-3 h-3 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                  <span className="font-bold text-emerald-800 dark:text-emerald-300">{syncedCount} synced ({lastSyncTime})</span>
                   {autoSyncEnabled && (
-                    <span className="text-slate-400 dark:text-slate-500 font-mono text-[10px] shrink-0">• Poll: {countdown}s</span>
+                    <span className="text-slate-400 dark:text-slate-400 font-mono text-[10px] shrink-0">• Poll: {countdown}s</span>
                   )}
                 </span>
               ) : syncStatus === 'error' ? (
@@ -240,14 +240,14 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
         <button
           type="button"
           onClick={() => setIsControlsOpenMobile(!isControlsOpenMobile)}
-          className="sm:hidden h-7 px-2 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-lg flex items-center gap-1 shrink-0 cursor-pointer active:scale-95 shadow-2xs ml-2"
+          className="sm:hidden h-7 px-2 bg-white dark:bg-[#15223c] hover:bg-slate-100 dark:hover:bg-[#1a2b4c] border border-slate-200 dark:border-[#24355a] text-slate-700 dark:text-slate-200 font-bold text-xs rounded-lg flex items-center gap-1 shrink-0 cursor-pointer active:scale-95 shadow-2xs ml-2"
         >
           <span>{isControlsOpenMobile ? 'Hide' : 'Controls'}</span>
           <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isControlsOpenMobile ? 'rotate-180' : ''}`} />
         </button>
 
         {/* Right Controls - Collapsible on Mobile, always visible on Desktop */}
-        <div className={`${isControlsOpenMobile ? 'flex' : 'hidden'} sm:flex flex-wrap sm:flex-nowrap items-center gap-1.5 justify-stretch sm:justify-end w-full sm:w-auto shrink-0 pt-1 sm:pt-0 border-t sm:border-0 border-slate-200 dark:border-slate-800`}>
+        <div className={`${isControlsOpenMobile ? 'flex' : 'hidden'} sm:flex flex-wrap sm:flex-nowrap items-center gap-1.5 justify-stretch sm:justify-end w-full sm:w-auto shrink-0 pt-1 sm:pt-0 border-t sm:border-0 border-slate-200 dark:border-[#1e2c4a]`}>
           {/* Pause / Resume Button */}
           <motion.button
             whileHover={{ scale: 1.02 }}
@@ -256,7 +256,7 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
             onClick={() => setAutoSyncEnabled(!autoSyncEnabled)}
             className={`h-7 px-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 border transition-all cursor-pointer flex-1 sm:flex-initial whitespace-nowrap shadow-2xs ${
               autoSyncEnabled
-                ? 'bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700'
+                ? 'bg-white hover:bg-slate-100 dark:bg-[#15223c] dark:hover:bg-[#1a2b4c] text-slate-700 dark:text-slate-200 border-slate-200 dark:border-[#24355a]'
                 : 'bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-600/40'
             }`}
             title={autoSyncEnabled ? "Pause Auto-Sync" : "Enable Auto-Sync"}
@@ -283,12 +283,12 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
             disabled={isSyncing}
             className={`h-7 px-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 disabled:opacity-50 cursor-pointer flex-1 sm:flex-initial whitespace-nowrap shadow-2xs ${
               isSyncing 
-                ? 'bg-cyan-50 dark:bg-slate-900 border border-cyan-400 dark:border-cyan-500/50 text-cyan-700 dark:text-cyan-200' 
-                : 'bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700'
+                ? 'bg-indigo-50 dark:bg-[#10192e] border border-indigo-400 dark:border-indigo-500/50 text-indigo-700 dark:text-indigo-200' 
+                : 'bg-white hover:bg-slate-100 dark:bg-[#15223c] dark:hover:bg-[#1a2b4c] text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-[#24355a]'
             }`}
             title="Sync data now"
           >
-            <RefreshCw className={`w-3 h-3 shrink-0 ${isSyncing ? 'animate-spin text-cyan-600 dark:text-cyan-400 stroke-[2.5]' : 'text-slate-500 dark:text-slate-400'}`} />
+            <RefreshCw className={`w-3 h-3 shrink-0 ${isSyncing ? 'animate-spin text-indigo-500 dark:text-indigo-400 stroke-[2.5]' : 'text-slate-500 dark:text-slate-400'}`} />
             <span className="text-[11px] font-bold leading-none">{isSyncing ? 'Syncing...' : 'Sync Now'}</span>
           </motion.button>
 
@@ -299,7 +299,7 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
               whileTap={{ scale: 0.95 }}
               type="button"
               onClick={onOpenSyncModal}
-              className="h-7 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 px-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer flex-1 sm:flex-initial whitespace-nowrap shadow-2xs"
+              className="h-7 bg-white hover:bg-slate-100 dark:bg-[#15223c] dark:hover:bg-[#1a2b4c] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-[#24355a] px-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer flex-1 sm:flex-initial whitespace-nowrap shadow-2xs"
               title="Open Google Sheet configuration"
             >
               <FileSpreadsheet className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
@@ -314,11 +314,11 @@ export const AutoSyncBar: React.FC<AutoSyncBarProps> = React.memo(({
             type="button"
             onClick={() => setShowSettings(!showSettings)}
             className={`h-7 w-7 p-1 rounded-lg border flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 transition-colors cursor-pointer shrink-0 shadow-2xs ${
-              showSettings ? 'bg-slate-200 dark:bg-slate-800 border-cyan-500 text-cyan-600 dark:text-cyan-300' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700'
+              showSettings ? 'bg-slate-200 dark:bg-[#15223c] border-indigo-500 text-indigo-600 dark:text-indigo-300' : 'bg-white dark:bg-[#15223c] border-slate-200 dark:border-[#24355a]'
             }`}
             title="Auto-Sync Settings"
           >
-            <Settings2 className={`w-3.5 h-3.5 transition-transform duration-200 ${showSettings ? 'rotate-90 text-cyan-500' : ''}`} />
+            <Settings2 className={`w-3.5 h-3.5 transition-transform duration-200 ${showSettings ? 'rotate-90 text-indigo-400' : ''}`} />
           </motion.button>
         </div>
       </div>

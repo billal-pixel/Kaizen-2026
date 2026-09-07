@@ -1,91 +1,24 @@
 <!doctype html>
-<html lang="en" class="light-theme">
+<html lang="en" class="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.svg" />
-    <title>KAIZEN Operations Dashboard | 10 Minute School</title>
+    <title>Kaizen Team Leader Dashboard | Analytics & Operations</title>
+    <meta name="description" content="Centralized real-time performance tracking, task management, time tracking, and automated reporting for Stationed and Virtual advisor teams under Team Leader Muhammad Billal." />
+    <meta property="og:title" content="Kaizen Team Leader Dashboard | Analytics & Operations" />
+    <meta property="og:description" content="Centralized real-time performance tracking, task management, time tracking, and automated reporting for Stationed and Virtual advisor teams under Team Leader Muhammad Billal." />
     
-    <!-- Google Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
-              mono: ['JetBrains Mono', 'monospace'],
-            },
-            colors: {
-              brand: {
-                50: '#ecfeff',
-                100: '#cffaff',
-                500: '#06b6d4',
-                600: '#0891b2',
-                700: '#0e7490',
-                900: '#164e63',
-              }
-            }
-          }
-        }
-      }
-    </script>
-    
-    <!-- React & ReactDOM CDN -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    
-    <!-- Babel Standalone for in-browser JSX compilation -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <!-- PapaParse for CSV parsing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <style>
-      body {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        background-color: #f8fafc;
-        color: #0f172a;
-      }
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #f1f5f9;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #94a3b8;
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #64748b;
-      }
-    </style>
   </head>
-  <body class="bg-slate-100 text-slate-900 antialiased selection:bg-cyan-500/30 selection:text-cyan-900">
+  <body class="bg-[#F8FAFC] text-[#0F172A] antialiased selection:bg-[#2D6A65]/15 selection:text-[#2D6A65]">
     <div id="root"></div>
 
     <!-- Application Script Module -->
     <script type="module" src="/src/main.tsx"></script>
-
-    <!-- Standalone In-Browser Fallback Script for zero-build preview -->
-    <script type="text/babel">
-      // Fallback single-file entry for standalone CDN browser rendering
-      if (typeof window !== 'undefined' && window.React && window.ReactDOM) {
-        console.log("KAIZEN Operations Hub: Single-File React Environment Active");
-      }
-    </script>
   </body>
 </html>

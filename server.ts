@@ -7,19 +7,29 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const app = express();
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = 3000;
 
 app.use(express.json({ limit: "10mb" }));
 
-// Server-side Gemini initialization with User-Agent header
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  httpOptions: {
-    headers: {
-      "User-Agent": "aistudio-build",
-    },
-  },
-});
+// Server-side Gemini initialization with lazy initialization
+let aiClient: GoogleGenAI | null = null;
+function getAI(): GoogleGenAI {
+  if (!aiClient) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is not configured in environment variables.");
+    }
+    aiClient = new GoogleGenAI({
+      apiKey,
+      httpOptions: {
+        headers: {
+          "User-Agent": "aistudio-build",
+        },
+      },
+    });
+  }
+  return aiClient;
+}
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
@@ -59,7 +69,7 @@ Return JSON with the following structure:
 }
 `;
 
-    const response = await ai.models.generateContent({
+    const response = await getAI().models.generateContent({
       model: "gemini-2.5-flash",
       contents: prompt,
       config: {
@@ -82,6 +92,79 @@ Return JSON with the following structure:
     res.status(500).json({
       success: false,
       error: error?.message || "Failed to generate AI performance report.",
+    });
+  }
+});
+
+// AI Auto-Generate Follow-Up Tasks Endpoint for Underperforming Advisors
+app.post("/api/ai-generate-tasks", async (req, res) => {
+  try {
+    const { stationedData = [], virtualData = [], existingTasks = [], teamLeader = "Muhammad Billal" } = req.body;
+
+    const prompt = `
+You are an expert Sales Operations Coach and AI Task Strategist working for Team Leader ${teamLeader} at KAIZEN TEAM (10 Minute School).
+Analyze the performance dataset below to identify all underperforming or at-risk advisors (low KPI < 80%, PIP/D grade, exam mark < 75%, low reach call volume, low CE audit, high idle break times).
+
+For each underperforming advisor identified, generate 1 to 2 highly actionable, specific, tactical follow-up tasks to rectify their gaps within 1-5 days.
+
+STATIONED ADVISORS DATA:
+${JSON.stringify(stationedData, null, 2)}
+
+VIRTUAL ADVISORS DATA:
+${JSON.stringify(virtualData, null, 2)}
+
+EXISTING TASKS:
+${JSON.stringify(existingTasks.slice(0, 15), null, 2)}
+
+Return a clean JSON object adhering exactly to this structure:
+{
+  "aiNotes": "Executive summary of underperformance bottlenecks detected across teams.",
+  "tasks": [
+    {
+      "title": "Clear action-oriented task title (e.g., 'Exam Calibration: Product Knowledge Drill for Advisor Name')",
+      "description": "Clear step-by-step coaching instruction with metrics, targets, and expected outcome.",
+      "team": "stationed" | "virtual",
+      "assignedAdvisorId": "Advisor ID matching the data (e.g. st-1, vt-1)",
+      "assignedAdvisorName": "Exact Advisor Name",
+      "priority": "urgent" | "high" | "medium",
+      "category": "Calling Push" | "Exam Preparation" | "CE Audit" | "Briefing" | "Sales Closing" | "Training",
+      "dueDate": "YYYY-MM-DD (e.g. 2 to 4 days from today)",
+      "underperformanceReason": "Concise root cause explanation (e.g., 'Exam score is 55% (<80% benchmark)')",
+      "metricTrigger": "Exam Score" | "Overall KPI / PIP" | "Dialing Volume" | "Briefing Mark" | "CE Audit" | "Conversion Rate",
+      "recommendedFocus": "Short focus area (e.g. 'Product Pitch & Objections')",
+      "suggestedAction": "Tactical action step for Team Leader Billal"
+    }
+  ]
+}
+`;
+
+    const response = await getAI().models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+      },
+    });
+
+    let resultJson: any = { tasks: [] };
+    if (response.text) {
+      try {
+        resultJson = JSON.parse(response.text.trim());
+      } catch {
+        resultJson = { tasks: [] };
+      }
+    }
+
+    res.json({
+      success: true,
+      tasks: resultJson.tasks || [],
+      aiNotes: resultJson.aiNotes || "AI-generated follow-up tasks prepared for underperforming advisors.",
+    });
+  } catch (error: any) {
+    console.error("AI Task Generation error:", error);
+    res.status(500).json({
+      success: false,
+      error: error?.message || "Failed to auto-generate tasks with AI.",
     });
   }
 });
@@ -198,14 +281,14 @@ app.get("/api/sheets-sync-all", async (req, res) => {
     }
 
     const userGidMatch = sheetUrl ? sheetUrl.match(/gid=([0-9]+)/) : null;
-    const userGid = userGidMatch ? userGidMatch[1] : null;
+    const userGid = userGidMatch ? userGidMatch[1] : "0";
 
-    // Fetch gid=0 (Stationed) and gid=1487776310 (Virtual) plus userGid
-    const gidsToFetch = Array.from(new Set(["0", "1487776310", ...(userGid ? [userGid] : [])]));
+    // Fetch both primary tabs (Stationed gid=0 and Virtual gid=1487776310) as well as any custom requested userGid
+    const gidsToFetch = Array.from(new Set([userGid, "0", "1487776310"]));
 
     const sheetMap: Record<string, string> = {};
 
-    // Fetch specific GIDs in parallel (gid=0 for Stationed, gid=1487776310 for Virtual)
+    // Fetch specific GID
     const gidResults = await Promise.all(
       gidsToFetch.map(async (gid) => {
         const text = await fetchGoogleSheetCsv(docId, gid);

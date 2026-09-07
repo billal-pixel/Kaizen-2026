@@ -89,18 +89,16 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
   return (
     <div className="space-y-6">
       {/* Live Operational Stopwatch Card */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-[#30AFFF]/5 rounded-full blur-3xl pointer-events-none" />
-
+      <div className="main-card container-box bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div>
-            <span className="bg-[#30AFFF]/15 text-[#92EEFF] border border-[#30AFFF]/30 text-xs font-bold px-2.5 py-0.5 rounded-md uppercase">
+            <span className="bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-bold px-2.5 py-0.5 rounded-md uppercase font-mono">
               Operational Time Tracker
             </span>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-100 tracking-tight mt-1">
+            <h2 className="card-title text-xl sm:text-2xl font-black text-slate-900 tracking-tight mt-1">
               Live Activity & Break Timer
             </h2>
-            <p className="text-xs text-slate-400 mt-1 max-w-xl">
+            <p className="subtext text-xs text-slate-600 mt-1 max-w-xl font-medium">
               Log exact talktime, break durations, management (MGT) tasks, and team briefings to calculate precise daily average operational times.
             </p>
 
@@ -108,10 +106,10 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
             <div className="flex items-center gap-2 mt-4 flex-wrap">
               <button
                 onClick={() => setActiveType('talktime')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeType === 'talktime'
-                    ? 'bg-[#30AFFF] text-slate-950 shadow-md shadow-[#30AFFF]/20 font-bold'
-                    : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+                    ? 'bg-blue-600 text-white shadow-xs'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
                 }`}
               >
                 <PhoneCall className="w-3.5 h-3.5" />
@@ -120,10 +118,10 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
 
               <button
                 onClick={() => setActiveType('break')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeType === 'break'
-                    ? 'bg-[#92EEFF] text-slate-950 shadow-md shadow-[#92EEFF]/20 font-bold'
-                    : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+                    ? 'bg-amber-600 text-white shadow-xs'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
                 }`}
               >
                 <Coffee className="w-3.5 h-3.5" />
@@ -132,10 +130,10 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
 
               <button
                 onClick={() => setActiveType('meeting')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeType === 'meeting'
-                    ? 'bg-[#C4F7CA] text-slate-950 shadow-md shadow-[#C4F7CA]/20 font-bold'
-                    : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+                    ? 'bg-indigo-600 text-white shadow-xs'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
                 }`}
               >
                 <Users className="w-3.5 h-3.5" />
@@ -144,10 +142,10 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
 
               <button
                 onClick={() => setActiveType('mgt')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeType === 'mgt'
-                    ? 'bg-[#D8FFC5] text-slate-950 shadow-md shadow-[#D8FFC5]/20 font-bold'
-                    : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
                 }`}
               >
                 <Briefcase className="w-3.5 h-3.5" />
@@ -157,30 +155,30 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
           </div>
 
           {/* Stopwatch Display */}
-          <div className="bg-slate-950/90 border border-slate-800/90 rounded-2xl p-6 flex flex-col items-center justify-center min-w-[280px] shadow-2xl relative">
+          <div className="kpi-card metric-box bg-slate-50/90 border border-slate-200 rounded-2xl p-6 flex flex-col items-center justify-center min-w-[280px] shadow-xs relative">
             {isRunning && (
               <span className="absolute top-3 right-3 flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#30AFFF] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#30AFFF]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-500 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-600"></span>
               </span>
             )}
-            <span className="text-4xl sm:text-5xl font-mono font-black tracking-wider text-[#92EEFF] drop-shadow-[0_0_15px_rgba(48,175,255,0.3)]">
+            <span className="metric-value text-4xl sm:text-5xl font-mono font-black tracking-wider text-slate-900">
               {formatSeconds(seconds)}
             </span>
-            <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mt-2 flex items-center gap-1.5 bg-slate-900 px-2.5 py-0.5 rounded-full border border-slate-800">
-              Active Session: <strong className="text-[#92EEFF]">{activeType.toUpperCase()}</strong>
+            <span className="text-[10px] uppercase font-bold tracking-widest text-slate-600 mt-2 flex items-center gap-1.5 bg-white px-2.5 py-0.5 rounded-full border border-slate-200 shadow-2xs">
+              Active Session: <strong className="text-indigo-600">{activeType.toUpperCase()}</strong>
             </span>
 
             <div className="flex items-center gap-2.5 mt-5">
               <button
                 onClick={() => setIsRunning(!isRunning)}
-                className={`px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 transition-all active:scale-95 cursor-pointer ${
+                className={`px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 transition-all active:scale-95 cursor-pointer shadow-xs ${
                   isRunning
-                    ? 'bg-[#C4F7CA] hover:bg-[#D8FFC5] text-slate-950 shadow-lg shadow-[#C4F7CA]/20'
-                    : 'bg-gradient-to-r from-[#30AFFF] via-[#92EEFF] to-[#C4F7CA] hover:brightness-110 text-slate-950 shadow-lg shadow-[#30AFFF]/25'
+                    ? 'bg-amber-500 hover:bg-amber-600 text-white'
+                    : 'bg-[#4F46E5] hover:bg-[#4338CA] text-white'
                 }`}
               >
-                {isRunning ? <Pause className="w-4 h-4 fill-slate-950" /> : <Play className="w-4 h-4 fill-slate-950" />}
+                {isRunning ? <Pause className="w-4 h-4 fill-white" /> : <Play className="w-4 h-4 fill-white" />}
                 <span>{isRunning ? 'Pause Timer' : 'Start Timer'}</span>
               </button>
 
@@ -189,7 +187,7 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
                   setIsRunning(false);
                   setSeconds(0);
                 }}
-                className="p-2.5 bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 rounded-xl transition-all active:scale-95 cursor-pointer"
+                className="p-2.5 bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 rounded-xl transition-all active:scale-95 cursor-pointer shadow-2xs"
                 title="Reset Timer"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -199,13 +197,13 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
         </div>
 
         {/* Advisor & Notes Assignment Bar */}
-        <div className="mt-6 pt-5 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+        <div className="mt-6 pt-5 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
           <div>
-            <label className="block text-slate-400 font-medium mb-1">Target Team</label>
+            <label className="label-text block text-slate-700 font-bold mb-1">Target Team</label>
             <select
               value={activeTeam}
               onChange={(e) => setActiveTeam(e.target.value as TeamType)}
-              className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg p-2 focus:outline-none"
+              className="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-xs text-slate-900 font-semibold focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer shadow-2xs"
             >
               <option value="stationed">Stationed Team</option>
               <option value="virtual">Virtual Team</option>
@@ -213,11 +211,11 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
           </div>
 
           <div>
-            <label className="block text-slate-400 font-medium mb-1">Select Advisor</label>
+            <label className="label-text block text-slate-700 font-bold mb-1">Select Advisor</label>
             <select
               value={selectedAdvisorId}
               onChange={(e) => setSelectedAdvisorId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg p-2 focus:outline-none"
+              className="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-xs text-slate-900 font-semibold focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer shadow-2xs"
             >
               <option value="">Select Advisor Name</option>
               {activeTeam === 'stationed'
@@ -231,19 +229,19 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
           </div>
 
           <div>
-            <label className="block text-slate-400 font-medium mb-1">Session Notes</label>
+            <label className="label-text block text-slate-700 font-bold mb-1">Session Notes</label>
             <div className="flex items-center gap-2">
               <input
                 type="text"
                 placeholder="e.g. Outbound call block 1"
                 value={logNotes}
                 onChange={(e) => setLogNotes(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-lg p-2 focus:outline-none"
+                className="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-xs text-slate-900 font-medium placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all shadow-2xs"
               />
               <button
                 onClick={handleSaveTimerLog}
                 disabled={seconds === 0}
-                className="bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-slate-950 font-bold px-3 py-2 rounded-lg text-xs whitespace-nowrap shadow-md"
+                className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold px-4 py-2.5 rounded-xl text-xs whitespace-nowrap shadow-xs cursor-pointer active:scale-95 transition-all"
               >
                 Log Session
               </button>
@@ -253,10 +251,10 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
       </div>
 
       {/* Time Tracking History Log Table */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
-        <div className="p-4 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between">
-          <h3 className="font-bold text-slate-200 text-xs uppercase tracking-wider flex items-center gap-2">
-            <Clock className="w-4 h-4 text-cyan-400" />
+      <div className="main-card container-box bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+        <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+          <h3 className="card-title font-bold text-slate-900 text-xs uppercase tracking-wider flex items-center gap-2">
+            <Clock className="w-4 h-4 text-indigo-600" />
             <span>Activity Logs & Operational Records ({logs.length})</span>
           </h3>
         </div>
@@ -264,7 +262,7 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-950/50 text-slate-400 border-b border-slate-800 uppercase tracking-wider font-medium">
+              <tr className="bg-slate-50 text-slate-600 border-b border-slate-200 uppercase tracking-wider font-bold text-[11px]">
                 <th className="p-3.5">Timestamp</th>
                 <th className="p-3.5">Advisor</th>
                 <th className="p-3.5">Team</th>
@@ -274,40 +272,41 @@ export const TimeTracker: React.FC<TimeTrackerProps> = ({
                 <th className="p-3.5 text-center">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 text-slate-300">
+            <tbody className="divide-y divide-slate-100 text-slate-800 font-medium">
               {logs.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-slate-500">
+                  <td colSpan={7} className="p-8 text-center text-slate-400 font-medium">
                     No activity logs recorded yet. Use the timer above to log operational sessions.
                   </td>
                 </tr>
               ) : (
                 logs.map((log) => (
-                  <tr key={log.id} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="p-3.5 text-slate-400 font-mono text-[11px]">{log.timestamp}</td>
-                    <td className="p-3.5 font-semibold text-slate-200">{log.advisorName}</td>
-                    <td className="p-3.5 uppercase text-cyan-400 font-medium text-[11px]">{log.team}</td>
+                  <tr key={log.id} className="hover:bg-slate-50/90 transition-colors">
+                    <td className="p-3.5 text-slate-600 font-mono text-[11px] font-medium">{log.timestamp}</td>
+                    <td className="p-3.5 font-bold text-slate-900">{log.advisorName}</td>
+                    <td className="p-3.5 uppercase text-indigo-600 font-bold text-[11px]">{log.team}</td>
                     <td className="p-3.5">
-                      <span className={`px-2 py-0.5 rounded font-bold text-[10px] uppercase ${
+                      <span className={`px-2 py-0.5 rounded-md font-bold text-[10px] uppercase border ${
                         log.type === 'talktime'
-                          ? 'bg-cyan-950 text-cyan-300 border border-cyan-800'
+                          ? 'bg-blue-50 text-blue-700 border-blue-200'
                           : log.type === 'break'
-                          ? 'bg-amber-950 text-amber-300 border border-amber-800'
+                          ? 'bg-amber-50 text-amber-800 border-amber-200'
                           : log.type === 'meeting'
-                          ? 'bg-purple-950 text-purple-300 border border-purple-800'
-                          : 'bg-emerald-950 text-emerald-300 border border-emerald-800'
+                          ? 'bg-purple-50 text-purple-700 border-purple-200'
+                          : 'bg-emerald-50 text-emerald-800 border-emerald-200'
                       }`}>
                         {log.type}
                       </span>
                     </td>
-                    <td className="p-3.5 text-right font-mono font-bold text-slate-100">
+                    <td className="p-3.5 text-right font-mono font-black text-slate-900">
                       {formatSeconds(log.durationSeconds)}
                     </td>
-                    <td className="p-3.5 text-slate-400">{log.notes}</td>
+                    <td className="p-3.5 text-slate-700 font-medium">{log.notes}</td>
                     <td className="p-3.5 text-center">
                       <button
                         onClick={() => onDeleteLog(log.id)}
-                        className="p-1 text-slate-500 hover:text-rose-400"
+                        className="p-1 text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
+                        title="Delete Log"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>

@@ -47,14 +47,19 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
   // Quick Sheet Presets
   const sheetPresets = [
     {
-      name: 'Primary Kaizen Live Sheet (TEAM KAIZEN)',
+      name: 'Primary Kaizen Live Sheet (Stationed & Virtual)',
       url: 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0',
-      badge: 'Main Live Sheet'
+      badge: 'All Teams Live'
     },
     {
-      name: 'Secondary Sheet (1OenfVVwq4xEk...)',
-      url: 'https://docs.google.com/spreadsheets/d/1OenfVVwq4xEk_8s-LoRwxBh2_vMEtwe9COUy9bNa8kM/edit?gid=0#gid=0',
-      badge: 'Archive Sheet'
+      name: 'Virtual Team Tab (gid=1487776310)',
+      url: 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=1487776310',
+      badge: 'Virtual Team'
+    },
+    {
+      name: 'Stationed Team Tab (gid=0)',
+      url: 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0',
+      badge: 'Stationed Team'
     }
   ];
   
@@ -233,39 +238,39 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4"
         >
           <motion.div
             initial={{ scale: 0.95, opacity: 0, y: 15 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 15 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative space-y-5 max-h-[90vh] overflow-y-auto"
+            className="bg-white border border-[#E2E8F0] rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative space-y-5 max-h-[90vh] overflow-y-auto"
           >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
           <div className="flex items-center gap-2.5">
             <KaizenLogo size="sm" />
             <div>
-              <h3 className="text-base font-bold text-slate-100">Sync Data from Google Sheets</h3>
-              <p className="text-[11px] text-slate-400">Kaizen Team Live Metrics & Advisory Performance Sync</p>
+              <h3 className="text-base font-bold text-[#0F172A]">Sync Data from Google Sheets</h3>
+              <p className="text-[11px] text-[#64748B]">Kaizen Team Live Metrics & Advisory Performance Sync</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-slate-500 hover:text-slate-200 p-1">
+          <button onClick={onClose} className="text-slate-400 hover:text-[#0F172A] p-1 cursor-pointer">
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Target Team & Sync Method Tabs */}
         <div className="space-y-3">
-          <div className="flex items-center justify-between bg-slate-950 p-2 rounded-xl border border-slate-800">
-            <span className="text-xs font-semibold text-slate-300">Target Advisory Team:</span>
+          <div className="flex items-center justify-between bg-[#F6F7F9] p-2 rounded-xl border border-[#E2E8F0]">
+            <span className="text-xs font-semibold text-[#0F172A]">Target Advisory Team:</span>
             <div className="flex items-center gap-1 text-xs">
               <button
                 type="button"
                 onClick={() => setTargetTeam('auto')}
-                className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-                  targetTeam === 'auto' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-slate-200'
+                className={`px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                  targetTeam === 'auto' ? 'bg-white text-[#3B7A75] border border-[#E2E8F0] shadow-xs' : 'text-[#64748B] hover:text-[#0F172A]'
                 }`}
               >
                 Auto Detect
@@ -273,8 +278,8 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
               <button
                 type="button"
                 onClick={() => setTargetTeam('stationed')}
-                className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-                  targetTeam === 'stationed' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-slate-200'
+                className={`px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                  targetTeam === 'stationed' ? 'bg-white text-[#3B7A75] border border-[#E2E8F0] shadow-xs' : 'text-[#64748B] hover:text-[#0F172A]'
                 }`}
               >
                 Stationed Team
@@ -282,8 +287,8 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
               <button
                 type="button"
                 onClick={() => setTargetTeam('virtual')}
-                className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-                  targetTeam === 'virtual' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-slate-200'
+                className={`px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
+                  targetTeam === 'virtual' ? 'bg-white text-[#3B7A75] border border-[#E2E8F0] shadow-xs' : 'text-[#64748B] hover:text-[#0F172A]'
                 }`}
               >
                 Virtual Team
@@ -291,32 +296,32 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800/80 text-xs font-semibold text-slate-400">
+          <div className="flex items-center gap-1 bg-[#F6F7F9] p-1 rounded-xl border border-[#E2E8F0] text-xs font-semibold text-[#64748B]">
             <button
               onClick={() => setSyncMode('paste')}
-              className={`flex-1 py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors ${
-                syncMode === 'paste' ? 'bg-slate-800 text-cyan-300 shadow-sm border border-cyan-500/30' : 'hover:text-slate-200'
+              className={`flex-1 py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+                syncMode === 'paste' ? 'bg-white text-[#3B7A75] shadow-xs border border-[#E2E8F0]' : 'hover:text-[#0F172A]'
               }`}
             >
-              <Clipboard className="w-3.5 h-3.5" />
+              <Clipboard className="w-3.5 h-3.5 text-[#3B7A75]" />
               <span>Paste Sheet Cells (Ctrl+C)</span>
             </button>
             <button
               onClick={() => setSyncMode('url')}
-              className={`flex-1 py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors ${
-                syncMode === 'url' ? 'bg-slate-800 text-cyan-300 shadow-sm border border-cyan-500/30' : 'hover:text-slate-200'
+              className={`flex-1 py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+                syncMode === 'url' ? 'bg-white text-[#3B7A75] shadow-xs border border-[#E2E8F0]' : 'hover:text-[#0F172A]'
               }`}
             >
-              <RefreshCw className="w-3.5 h-3.5" />
+              <RefreshCw className="w-3.5 h-3.5 text-[#3B7A75]" />
               <span>Sheet Link URL</span>
             </button>
             <button
               onClick={() => setSyncMode('upload')}
-              className={`flex-1 py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors ${
-                syncMode === 'upload' ? 'bg-slate-800 text-cyan-300 shadow-sm border border-cyan-500/30' : 'hover:text-slate-200'
+              className={`flex-1 py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+                syncMode === 'upload' ? 'bg-white text-[#3B7A75] shadow-xs border border-[#E2E8F0]' : 'hover:text-[#0F172A]'
               }`}
             >
-              <Upload className="w-3.5 h-3.5" />
+              <Upload className="w-3.5 h-3.5 text-[#3B7A75]" />
               <span>Upload CSV</span>
             </button>
           </div>
@@ -326,13 +331,13 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
         {syncMode === 'url' && (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="block text-xs font-semibold text-slate-300">Google Sheet Shareable URL</label>
-              <span className="text-[10px] text-cyan-400 font-mono">Select preset or paste URL</span>
+              <label className="block text-xs font-semibold text-[#0F172A]">Google Sheet Shareable URL</label>
+              <span className="text-[10px] text-[#3B7A75] font-mono font-bold">Select preset or paste URL</span>
             </div>
 
             {/* Quick Sheet Link Presets */}
             <div className="space-y-1.5">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Available Connected Sheets:</span>
+              <span className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider block">Available Connected Sheets:</span>
               <div className="grid grid-cols-1 gap-1.5">
                 {sheetPresets.map((preset) => {
                   const isSelected = sheetUrl.includes(preset.url.split('/d/')[1]?.substring(0, 15) || '');
@@ -344,18 +349,18 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
                         setSheetUrl(preset.url);
                         handleFetchSheet(preset.url);
                       }}
-                      className={`text-left p-2.5 rounded-xl border flex items-center justify-between gap-2 transition-all text-xs ${
+                      className={`text-left p-2.5 rounded-xl border flex items-center justify-between gap-2 transition-all text-xs cursor-pointer ${
                         isSelected 
-                          ? 'bg-cyan-500/15 border-cyan-500/50 text-cyan-200' 
-                          : 'bg-slate-950/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-950'
+                          ? 'bg-teal-50/80 border-[#3B7A75] text-[#3B7A75] ring-1 ring-[#3B7A75]/30' 
+                          : 'bg-[#F6F7F9] border-[#E2E8F0] text-slate-700 hover:text-[#0F172A] hover:bg-slate-100'
                       }`}
                     >
                       <div className="flex items-center gap-2 min-w-0">
-                        <FileSpreadsheet className={`w-4 h-4 shrink-0 ${isSelected ? 'text-cyan-400' : 'text-slate-500'}`} />
-                        <span className="font-semibold truncate">{preset.name}</span>
+                        <FileSpreadsheet className={`w-4 h-4 shrink-0 ${isSelected ? 'text-[#3B7A75]' : 'text-slate-400'}`} />
+                        <span className="font-bold truncate">{preset.name}</span>
                       </div>
                       <span className={`text-[9px] px-2 py-0.5 rounded-md font-bold shrink-0 ${
-                        isSelected ? 'bg-cyan-500 text-slate-950' : 'bg-slate-800 text-slate-400'
+                        isSelected ? 'bg-[#3B7A75] text-white' : 'bg-white border border-[#E2E8F0] text-[#64748B]'
                       }`}>
                         {preset.badge}
                       </span>
@@ -371,19 +376,19 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
                 value={sheetUrl}
                 onChange={(e) => setSheetUrl(e.target.value)}
                 placeholder="https://docs.google.com/spreadsheets/d/..."
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-cyan-300 font-mono focus:outline-none focus:border-cyan-500"
+                className="w-full bg-white border border-[#E2E8F0] rounded-xl p-2.5 text-xs text-[#0F172A] font-mono focus:outline-none focus:border-[#3B7A75]"
               />
               <button
                 onClick={() => handleFetchSheet()}
                 disabled={syncing}
-                className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 whitespace-nowrap shadow-md transition-all shrink-0"
+                className="bg-[#3B7A75] hover:bg-[#326965] text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 whitespace-nowrap shadow-xs transition-all shrink-0 cursor-pointer"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} />
                 <span>Fetch Sheet</span>
               </button>
             </div>
-            <div className="flex items-start gap-2 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/60 text-[11px] text-slate-400">
-              <HelpCircle className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-2 bg-teal-50/60 p-2.5 rounded-lg border border-teal-200 text-[11px] text-[#0F172A]">
+              <HelpCircle className="w-4 h-4 text-[#3B7A75] shrink-0 mt-0.5" />
               <span>Ensure your Google Sheet link is set to <strong>"Anyone with the link can view"</strong>. If your sheet is internal/private, switch to the <strong>"Paste Sheet Cells"</strong> tab to copy-paste rows in 1 click!</span>
             </div>
           </div>
@@ -393,8 +398,8 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
         {syncMode === 'paste' && (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="block text-xs font-semibold text-slate-300">Copy & Paste Google Sheet Data</label>
-              <span className="text-[10px] text-emerald-400 font-mono">Select cells in Google Sheets -&gt; Ctrl+C -&gt; Paste below</span>
+              <label className="block text-xs font-semibold text-[#0F172A]">Copy & Paste Google Sheet Data</label>
+              <span className="text-[10px] text-[#3B7A75] font-mono font-bold">Select cells in Google Sheets -&gt; Ctrl+C -&gt; Paste below</span>
             </div>
             <textarea
               rows={5}
@@ -404,12 +409,12 @@ export const GoogleSheetSyncModal: React.FC<GoogleSheetSyncModalProps> = ({
 Example:
 Station Advisor	Avg Reach	Avg Talktime	CE Count	Avg Exam Mark	Final Sales Data
 Tariqul Islam	142	03:45:20	28	92.5	245000"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500"
+              className="w-full bg-white border border-[#E2E8F0] rounded-xl p-3 text-xs text-[#0F172A] font-mono focus:outline-none focus:border-[#3B7A75]"
             />
             <button
               onClick={handleParsePastedText}
               disabled={syncing || !pastedText.trim()}
-              className="w-full bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md transition-all"
+              className="w-full bg-[#3B7A75] hover:bg-[#326965] disabled:opacity-50 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
             >
               <Sparkles className="w-4 h-4" />
               <span>Parse & Process Copied Rows</span>
@@ -419,11 +424,11 @@ Tariqul Islam	142	03:45:20	28	92.5	245000"
 
         {/* Tab 3: CSV File Upload */}
         {syncMode === 'upload' && (
-          <div className="border-2 border-dashed border-slate-800 hover:border-cyan-500/50 rounded-xl p-6 text-center bg-slate-950/50 transition-colors space-y-2">
-            <Upload className="w-8 h-8 text-cyan-400 mx-auto" />
-            <p className="text-xs font-semibold text-slate-200">Upload CSV File directly</p>
-            <p className="text-[11px] text-slate-500">Supports exported .csv sheets matching Kaizen Team column names</p>
-            <label className="mt-2 inline-block bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-800/60 font-semibold px-4 py-2 rounded-xl text-xs cursor-pointer transition-all">
+          <div className="border-2 border-dashed border-[#E2E8F0] hover:border-[#3B7A75] rounded-xl p-6 text-center bg-[#F6F7F9] transition-colors space-y-2">
+            <Upload className="w-8 h-8 text-[#3B7A75] mx-auto" />
+            <p className="text-xs font-semibold text-[#0F172A]">Upload CSV File directly</p>
+            <p className="text-[11px] text-[#64748B]">Supports exported .csv sheets matching Kaizen Team column names</p>
+            <label className="mt-2 inline-block bg-white hover:bg-slate-100 text-[#3B7A75] border border-[#E2E8F0] font-bold px-4 py-2 rounded-xl text-xs cursor-pointer transition-all shadow-xs">
               Browse CSV File
               <input type="file" accept=".csv" onChange={handleFileUpload} className="hidden" />
             </label>
@@ -431,39 +436,39 @@ Tariqul Islam	142	03:45:20	28	92.5	245000"
         )}
 
         {/* Import Mode Selection */}
-        <div className="flex items-center justify-between bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-300">
-            <Layers className="w-4 h-4 text-cyan-400" />
+        <div className="flex items-center justify-between bg-[#F6F7F9] p-3 rounded-xl border border-[#E2E8F0]">
+          <div className="flex items-center gap-2 text-xs font-semibold text-[#0F172A]">
+            <Layers className="w-4 h-4 text-[#3B7A75]" />
             <span>Dashboard Sync Strategy:</span>
           </div>
           <div className="flex items-center gap-4 text-xs">
-            <label className="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+            <label className="flex items-center gap-1.5 cursor-pointer text-[#0F172A]">
               <input
                 type="radio"
                 name="importOption"
                 checked={importOption === 'replace'}
                 onChange={() => setImportOption('replace')}
-                className="text-cyan-500 focus:ring-0"
+                className="text-[#3B7A75] focus:ring-0"
               />
-              <span>Replace Existing Records</span>
+              <span className="font-medium">Replace Existing Records</span>
             </label>
-            <label className="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+            <label className="flex items-center gap-1.5 cursor-pointer text-[#0F172A]">
               <input
                 type="radio"
                 name="importOption"
                 checked={importOption === 'append'}
                 onChange={() => setImportOption('append')}
-                className="text-cyan-500 focus:ring-0"
+                className="text-[#3B7A75] focus:ring-0"
               />
-              <span>Append to Current Table</span>
+              <span className="font-medium">Append to Current Table</span>
             </label>
           </div>
         </div>
 
         {/* Notifications */}
         {errorMsg && (
-          <div className="p-3 rounded-xl bg-rose-950/80 border border-rose-800 text-rose-300 text-xs flex items-start gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+          <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
             <div className="space-y-1">
               <p className="font-semibold">{errorMsg}</p>
             </div>
@@ -471,46 +476,46 @@ Tariqul Islam	142	03:45:20	28	92.5	245000"
         )}
 
         {successMsg && (
-          <div className="p-3 rounded-xl bg-emerald-950/80 border border-emerald-800 text-emerald-300 text-xs flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
-            <span>{successMsg}</span>
+          <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+            <span className="font-medium">{successMsg}</span>
           </div>
         )}
 
         {/* Live Parsed Preview Table */}
         {(previewStationed || previewVirtual) && (
-          <div className="space-y-2 border border-slate-800 rounded-xl p-3 bg-slate-950">
-            <div className="flex items-center justify-between text-xs font-bold text-slate-200 pb-1 border-b border-slate-800">
-              <span className="flex items-center gap-1.5 text-cyan-400">
+          <div className="space-y-2 border border-[#E2E8F0] rounded-xl p-3 bg-[#F6F7F9]">
+            <div className="flex items-center justify-between text-xs font-bold text-[#0F172A] pb-1 border-b border-[#E2E8F0]">
+              <span className="flex items-center gap-1.5 text-[#3B7A75]">
                 <Eye className="w-3.5 h-3.5" />
                 <span>Parsed Data Preview ({previewStationed ? 'Stationed Team' : 'Virtual Team'})</span>
               </span>
-              <span className="text-[10px] text-slate-400">
+              <span className="text-[10px] text-[#64748B]">
                 {previewStationed ? `${previewStationed.length} rows` : `${previewVirtual?.length} rows`}
               </span>
             </div>
 
             <div className="max-h-40 overflow-y-auto space-y-1">
               {previewStationed && previewStationed.map((s, idx) => (
-                <div key={idx} className="flex items-center justify-between text-[11px] bg-slate-900/60 p-2 rounded border border-slate-800 text-slate-300">
-                  <span className="font-semibold text-white">{s.advisorName}</span>
-                  <div className="flex items-center gap-3 text-slate-400">
-                    <span>Reach: <strong className="text-slate-200">{s.avgReach}</strong></span>
-                    <span>Talktime: <strong className="text-slate-200">{s.avgTalktime}</strong></span>
-                    <span>Sales: <strong className="text-emerald-400">৳{s.finalSalesData.toLocaleString()}</strong></span>
-                    <span>KPI: <strong className="text-cyan-300">{formatKpiDisplay(s.totalKpiScore)} ({s.kpiGrade})</strong></span>
+                <div key={idx} className="flex items-center justify-between text-[11px] bg-white p-2 rounded border border-[#E2E8F0] text-slate-700">
+                  <span className="font-bold text-[#0F172A]">{s.advisorName}</span>
+                  <div className="flex items-center gap-3 text-[#64748B]">
+                    <span>Reach: <strong className="text-[#0F172A]">{s.avgReach}</strong></span>
+                    <span>Talktime: <strong className="text-[#0F172A]">{s.avgTalktime}</strong></span>
+                    <span>Sales: <strong className="text-emerald-700">৳{s.finalSalesData.toLocaleString()}</strong></span>
+                    <span>KPI: <strong className="text-[#3B7A75]">{formatKpiDisplay(s.totalKpiScore)} ({s.kpiGrade})</strong></span>
                   </div>
                 </div>
               ))}
 
               {previewVirtual && previewVirtual.map((v, idx) => (
-                <div key={idx} className="flex items-center justify-between text-[11px] bg-slate-900/60 p-2 rounded border border-slate-800 text-slate-300">
-                  <span className="font-semibold text-white">{v.advisorName}</span>
-                  <div className="flex items-center gap-3 text-slate-400">
-                    <span>Reach: <strong className="text-slate-200">{v.reachCall}</strong></span>
-                    <span>Sales: <strong className="text-emerald-400">৳{v.finalSales.toLocaleString()}</strong></span>
-                    <span>Salary: <strong className="text-amber-400">৳{v.totalSalary.toLocaleString()}</strong></span>
-                    <span>KPI: <strong className="text-cyan-300">{formatKpiDisplay(v.overallKpi)}</strong></span>
+                <div key={idx} className="flex items-center justify-between text-[11px] bg-white p-2 rounded border border-[#E2E8F0] text-slate-700">
+                  <span className="font-bold text-[#0F172A]">{v.advisorName}</span>
+                  <div className="flex items-center gap-3 text-[#64748B]">
+                    <span>Reach: <strong className="text-[#0F172A]">{v.reachCall}</strong></span>
+                    <span>Sales: <strong className="text-emerald-700">৳{v.finalSales.toLocaleString()}</strong></span>
+                    <span>Salary: <strong className="text-amber-800">৳{v.totalSalary.toLocaleString()}</strong></span>
+                    <span>KPI: <strong className="text-[#3B7A75]">{formatKpiDisplay(v.overallKpi)}</strong></span>
                   </div>
                 </div>
               ))}
@@ -522,7 +527,7 @@ Tariqul Islam	142	03:45:20	28	92.5	245000"
         <div className="flex justify-between items-center pt-2">
           <button
             onClick={onClose}
-            className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-4 py-2 rounded-xl text-xs"
+            className="bg-[#F6F7F9] hover:bg-slate-200 text-slate-700 border border-[#E2E8F0] font-semibold px-4 py-2 rounded-xl text-xs cursor-pointer"
           >
             Cancel
           </button>
@@ -530,7 +535,7 @@ Tariqul Islam	142	03:45:20	28	92.5	245000"
           {(previewStationed || previewVirtual) && (
             <button
               onClick={handleApplyImport}
-              className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-lg shadow-emerald-500/20"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-xs cursor-pointer"
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>Apply Data to Kaizen Dashboard</span>

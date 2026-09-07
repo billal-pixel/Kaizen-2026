@@ -2,7 +2,10 @@ import { StationedAdvisor, VirtualAdvisor } from '../types';
 import { parseCsvText } from './sheetParser';
 
 export const PRIMARY_DEFAULT_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0';
+export const VIRTUAL_DEFAULT_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=1487776310';
 export const PRIMARY_DOC_ID = '1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys';
+export const PRIMARY_STATIONED_GID = '0';
+export const PRIMARY_VIRTUAL_GID = '1487776310';
 
 export interface SyncSheetsResult {
   success: boolean;
@@ -20,12 +23,13 @@ export async function directBrowserFetchSheets(sheetUrl: string): Promise<Record
     if (match && match[1]) docId = match[1];
   }
   const userGidMatch = sheetUrl ? sheetUrl.match(/gid=([0-9]+)/) : null;
-  const userGid = userGidMatch ? userGidMatch[1] : null;
+  const userGid = userGidMatch ? userGidMatch[1] : '0';
 
-  const gids = Array.from(new Set(['0', '1487776310', ...(userGid ? [userGid] : [])]));
+  // Always fetch both primary tabs (Stationed gid=0 and Virtual gid=1487776310) plus user's requested GID
+  const gids = Array.from(new Set([userGid, PRIMARY_STATIONED_GID, PRIMARY_VIRTUAL_GID]));
   const sheetsMap: Record<string, string> = {};
 
-  // Fetch gids in parallel directly using Google Sheets gviz CORS endpoint
+  // Fetch gids directly using Google Sheets gviz CORS endpoint
   await Promise.all(
     gids.map(async (gid) => {
       const controller = new AbortController();
@@ -48,30 +52,6 @@ export async function directBrowserFetchSheets(sheetUrl: string): Promise<Record
       }
     })
   );
-
-  // Fallback to Primary Kaizen Sheet if custom docId returned nothing
-  if (Object.keys(sheetsMap).length === 0 && docId !== PRIMARY_DOC_ID) {
-    await Promise.all(
-      ['0', '1487776310'].map(async (gid) => {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
-        try {
-          const url = `https://docs.google.com/spreadsheets/d/${PRIMARY_DOC_ID}/gviz/tq?tqx=out:csv&gid=${gid}`;
-          const res = await fetch(url, { signal: controller.signal });
-          clearTimeout(timeoutId);
-          if (res.ok) {
-            const txt = await res.text();
-            if (txt && !txt.includes('<!DOCTYPE html>') && txt.length > 20) {
-              sheetsMap[gid] = txt;
-            }
-          }
-        } catch {
-          clearTimeout(timeoutId);
-          // Ignore
-        }
-      })
-    );
-  }
 
   return sheetsMap;
 }
