@@ -10,12 +10,52 @@
     <meta property="og:title" content="Kaizen Team Leader Dashboard | Analytics & Operations" />
     <meta property="og:description" content="Centralized real-time performance tracking, task management, time tracking, and automated reporting for Stationed and Virtual advisor teams under Team Leader Muhammad Billal." />
     
+    <!-- Early Performance API Guard (Prevents DataCloneError on performance.measure in React 19) -->
+    <script>
+      (function() {
+        if (typeof window !== 'undefined' && window.performance && typeof window.performance.measure === 'function') {
+          var perf = window.performance;
+          var origMeasure = perf.measure.bind(perf);
+          var count = 0;
+          perf.measure = function(name, opts, endMark) {
+            try {
+              count++;
+              if (count > 150) {
+                count = 0;
+                if (typeof perf.clearMeasures === 'function') perf.clearMeasures();
+                if (typeof perf.clearMarks === 'function') perf.clearMarks();
+              }
+              return origMeasure(name, opts, endMark);
+            } catch (e) {
+              try {
+                if (opts && typeof opts === 'object') {
+                  var safe = {};
+                  for (var k in opts) { if (k !== 'detail') safe[k] = opts[k]; }
+                  return origMeasure(name, safe, endMark);
+                }
+              } catch (e2) {
+                try { return origMeasure(name); } catch (e3) { return undefined; }
+              }
+              return undefined;
+            }
+          };
+          window.addEventListener('error', function(e) {
+            if (e && e.message && (e.message.indexOf("Failed to execute 'measure' on 'Performance'") !== -1 || e.message.indexOf("Data cannot be cloned") !== -1)) {
+              e.preventDefault();
+              e.stopPropagation();
+              return true;
+            }
+          });
+        }
+      })();
+    </script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-[#F8FAFC] text-[#0F172A] antialiased selection:bg-[#2D6A65]/15 selection:text-[#2D6A65]">
+  <body class="bg-[#E0F2FE] text-[#0F172A] antialiased selection:bg-[#0284C7]/20 selection:text-[#0369A1]">
     <div id="root"></div>
 
     <!-- Application Script Module -->

@@ -37,6 +37,43 @@ import { ThreeBackground, ThreeBgStyle, ThreeBgIntensity } from './components/Th
 import { ThreeBgModal } from './components/ThreeBgModal';
 import { ThreeBgWidget } from './components/ThreeBgWidget';
 
+const TAB_KEYS = ['overview', 'stationed', 'virtual', 'call_records', 'tasks', 'time', 'ai_report'] as const;
+type NavigationTab = (typeof TAB_KEYS)[number];
+
+// Premium Apple-calibrated slide-fade variants with micro-blur and organic easing
+const tabMotionVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 18 : -18,
+    y: 6,
+    opacity: 0,
+    filter: 'blur(3px)',
+  }),
+  center: {
+    x: 0,
+    y: 0,
+    opacity: 1,
+    filter: 'blur(0px)',
+    transition: {
+      x: { type: 'spring', stiffness: 360, damping: 30, mass: 0.75 },
+      y: { type: 'spring', stiffness: 360, damping: 30, mass: 0.75 },
+      opacity: { duration: 0.22, ease: [0.16, 1, 0.3, 1] },
+      filter: { duration: 0.20, ease: 'easeOut' },
+    },
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? -14 : 14,
+    y: -4,
+    opacity: 0,
+    filter: 'blur(2px)',
+    transition: {
+      x: { duration: 0.15, ease: [0.16, 1, 0.3, 1] },
+      y: { duration: 0.15, ease: [0.16, 1, 0.3, 1] },
+      opacity: { duration: 0.14, ease: 'easeIn' },
+      filter: { duration: 0.13 },
+    },
+  }),
+};
+
 export default function App() {
   const teamLeaderName = "Muhammad Billal";
 
@@ -62,8 +99,21 @@ export default function App() {
     localStorage.setItem('kaizen_sheet_url', newUrl);
   };
 
-  // Active Navigation Tab
-  const [activeTab, setActiveTab] = useState<'overview' | 'stationed' | 'virtual' | 'tasks' | 'time' | 'call_records' | 'ai_report'>('overview');
+  // Active Navigation Tab with directional tracking for smooth slide-fade transitions
+  const [activeTab, setActiveTabState] = useState<NavigationTab>('overview');
+  const [tabDirection, setTabDirection] = useState<number>(1);
+
+  const setActiveTab = useCallback((nextTabOrFn: NavigationTab | ((prev: NavigationTab) => NavigationTab)) => {
+    setActiveTabState((currentTab) => {
+      const nextTab = typeof nextTabOrFn === 'function' ? nextTabOrFn(currentTab) : nextTabOrFn;
+      if (currentTab !== nextTab) {
+        const currentIdx = TAB_KEYS.indexOf(currentTab);
+        const nextIdx = TAB_KEYS.indexOf(nextTab);
+        setTabDirection(nextIdx >= currentIdx ? 1 : -1);
+      }
+      return nextTab;
+    });
+  }, []);
 
   // User Selected Theme State ('light' or 'dark') - explicitly set to light theme
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
@@ -456,7 +506,7 @@ export default function App() {
   const avgKpi = totalAdvisorCount > 0 ? ((avgStationedKpi * stationedAdvisors.length) + (avgVirtualKpi * virtualAdvisors.length)) / totalAdvisorCount : 0;
 
   return (
-    <div className="relative min-h-screen font-sans bg-[#F8FAFC]/80 dark:bg-[#071324]/80 text-[#0F172A] dark:text-slate-100 selection:bg-[#2D6A65]/15 selection:text-[#2D6A65] transition-colors duration-200 overflow-x-hidden">
+    <div className="relative min-h-screen font-sans bg-[#E0F2FE] dark:bg-[#071324] text-[#0F172A] dark:text-slate-100 selection:bg-[#0284C7]/20 selection:text-[#0369A1] transition-colors duration-200 overflow-x-hidden">
       {/* 3D WebGL Background Simulation Canvas Layer */}
       <ThreeBackground
         style={threeBgStyle}
@@ -497,7 +547,7 @@ export default function App() {
         />
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 sm:pb-28">
         {/* Visual Error Alert Banner when Google Sheet Auto-Refresh Fails */}
         <SyncErrorAlert
           errorMessage={autoRefreshError}
@@ -511,15 +561,19 @@ export default function App() {
           onDismiss={dismissAutoRefreshError}
         />
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-          >
-            {activeTab === 'overview' && (
+        {/* Main Dynamic Tab View with Silky Smooth Slide-Fade Transition */}
+        <div className="w-full overflow-x-clip min-h-[500px]">
+          <AnimatePresence mode="wait" custom={tabDirection} initial={false}>
+            <motion.div
+              key={activeTab}
+              custom={tabDirection}
+              variants={tabMotionVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="w-full"
+            >
+              {activeTab === 'overview' && (
               <ExecutiveOverview
                 stationedAdvisors={stationedAdvisors}
                 virtualAdvisors={virtualAdvisors}
@@ -600,6 +654,7 @@ export default function App() {
             )}
           </motion.div>
         </AnimatePresence>
+        </div>
 
         {/* Sleek System Footer */}
         <footer className="flex flex-col sm:flex-row justify-between items-center text-[11px] text-[#475569] font-medium bg-white px-6 py-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs backdrop-blur-md mt-10 gap-2">

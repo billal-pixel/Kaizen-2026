@@ -248,13 +248,13 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
       : 'Past 7 Days (Weekly Actual)';
 
   return (
-    <div className="top-3-advisors-spotlight bg-white dark:bg-[#1B3836] border border-[#E2E8F0] dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xs space-y-4 relative overflow-hidden transition-all">
+    <div className="top-3-advisors-spotlight bg-white dark:bg-[#1B3836] border border-[#BAE6FD] dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xs space-y-4 relative overflow-hidden transition-all">
       {/* Background Subtle Ambient Light */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/5 dark:bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-10 w-80 h-80 bg-teal-500/5 dark:bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header with Title, Live Indicator & Multi-Timeframe Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 relative z-10 border-b border-[#E2E8F0] dark:border-slate-800 pb-3.5">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 relative z-10 border-b border-[#BAE6FD]/80 dark:border-slate-800 pb-3.5">
         <div className="flex items-center gap-3">
           <motion.div 
             whileHover={{ scale: 1.1, rotate: [0, -8, 8, 0] }}

@@ -13,7 +13,7 @@ interface ThreeBackgroundProps {
   enabled?: boolean;
 }
 
-export const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
+export const ThreeBackground: React.FC<ThreeBackgroundProps> = React.memo(({
   style = 'cyber_grid',
   intensity = 'balanced',
   speed = 1,
@@ -62,7 +62,7 @@ export const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
     const primaryColor = isDark ? 0x22d3ee : 0x0d9488; // cyan-400 : teal-600
     const secondaryColor = isDark ? 0x38bdf8 : 0x0284c7; // sky-400 : sky-600
     const accentColor = isDark ? 0x818cf8 : 0x4f46e5; // indigo-400 : indigo-600
-    const fogColor = isDark ? 0x071324 : 0xf8fafc;
+    const fogColor = isDark ? 0x071324 : 0xe0f2fe;
 
     scene.fog = new THREE.FogExp2(fogColor, 0.018);
 
@@ -517,4 +517,4 @@ export const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
       className={`fixed inset-0 pointer-events-none z-0 overflow-hidden transition-opacity duration-700 ease-in-out ${opacityClass}`}
     />
   );
-};
+});

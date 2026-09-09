@@ -369,44 +369,44 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
   return (
     <div className="space-y-5 animate-fadeIn">
       {/* Executive Overview Header Card */}
-      <div className="executive-hub-card main-card container-box bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-6 shadow-[0_1px_3px_0_rgba(15,23,42,0.03),0_6px_16px_rgba(15,23,42,0.02)] relative overflow-visible transition-all">
+      <div className="executive-hub-card main-card container-box bg-white dark:bg-[#0F223D] border border-[#BAE6FD] dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xs relative overflow-visible transition-all">
         
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="flex flex-col items-start gap-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-teal-50 border border-teal-200/80">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-teal-50 dark:bg-teal-950/80 border border-teal-200/80 dark:border-teal-700/60 shadow-2xs">
                 <span className="relative flex h-2 w-2">
                   <motion.span
                     animate={{ scale: [1, 2, 1], opacity: [0.8, 0, 0.8] }}
                     transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                    className="absolute inline-flex h-full w-full rounded-full bg-[#2D6A65]"
+                    className="absolute inline-flex h-full w-full rounded-full bg-[#2D6A65] dark:bg-teal-400"
                   />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2D6A65]" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2D6A65] dark:bg-teal-400" />
                 </span>
-                <span className="text-[#2D6A65] text-[11px] font-bold uppercase tracking-wider">
+                <span className="text-[#2D6A65] dark:text-teal-300 text-[11px] font-extrabold uppercase tracking-wider">
                   Live Operational Telemetry
                 </span>
               </div>
             </div>
-            <h1 className="card-title text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight leading-tight">
+            <h1 className="card-title text-xl sm:text-2xl font-black text-[#0F172A] dark:text-white tracking-tight leading-tight mt-1">
               Executive Performance Hub
             </h1>
-            <p className="subtext text-xs sm:text-sm text-slate-600 max-w-3xl leading-normal py-0.5">
+            <p className="subtext text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-normal mt-0.5">
               Consolidated real-time operational telemetry and sales performance benchmarks for Team Kaizen.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto shrink-0 justify-between md:justify-end">
+          <div className="flex flex-wrap items-center gap-2.5 w-full lg:w-auto shrink-0 justify-between lg:justify-end self-start lg:self-center">
             {/* View Mode Density Toggle: Cards vs Condensed Table */}
-            <div id="executive-view-mode-toggle" className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-2xl border border-slate-200/90">
+            <div id="executive-view-mode-toggle" className="flex items-center gap-1 bg-slate-100 dark:bg-[#071324] p-1 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-2xs">
               <button
                 id="view-mode-btn-card"
                 type="button"
                 onClick={() => handleToggleViewMode('card')}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 h-8 px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   viewMode === 'card'
                     ? 'bg-[#2D6A65] text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/90'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800'
                 }`}
                 title="Card View: Visual Charts, Division Cards, & Analytics Widgets"
               >
@@ -417,10 +417,10 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 id="view-mode-btn-table"
                 type="button"
                 onClick={() => handleToggleViewMode('table')}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 h-8 px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   viewMode === 'table'
                     ? 'bg-[#2D6A65] text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/90'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800'
                 }`}
                 title="Table View: Condensed High-Density Tabular Operational Matrix"
               >
@@ -433,22 +433,22 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => onNavigateTab('ai_report')}
-              className="min-h-[36px] bg-[#2D6A65] hover:bg-[#245652] text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+              className="h-8 bg-[#2D6A65] hover:bg-[#245652] text-white font-bold text-xs px-3.5 rounded-xl shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shrink-0"
             >
-              <Sparkles className="w-4 h-4 text-white fill-white shrink-0" />
+              <Sparkles className="w-3.5 h-3.5 text-white fill-white shrink-0" />
               <span>+ AI Audit Report</span>
             </motion.button>
           </div>
         </div>
 
-        {/* 4 Core Stat Metrics with Harmonious Light Multi-Colors */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 mt-4 pt-4 border-t border-slate-200/90">
+        {/* 4 Core Stat Metrics with Harmonious Light Multi-Colors & Perfect Alignment */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 mt-5 pt-5 border-t border-slate-200/90 dark:border-slate-800">
           
-          {/* Card 1: Total Sales Revenue (Soft Emerald Light Palette) */}
-          <div className="kpi-card metric-box bg-gradient-to-br from-emerald-50/60 via-white to-emerald-50/20 border border-emerald-200/90 rounded-2xl p-4 transition-all flex flex-col justify-between min-w-0 shadow-xs h-full">
+          {/* Card 1: Total Sales Revenue */}
+          <div className="kpi-card metric-box bg-gradient-to-br from-emerald-500/10 via-white dark:via-[#0F223D] to-emerald-500/5 border border-emerald-300/80 dark:border-emerald-500/30 rounded-2xl p-4 sm:p-5 transition-all flex flex-col justify-between min-w-0 shadow-xs h-full">
             {/* Row 1: Header */}
-            <div className="h-6 flex items-center justify-between gap-1.5">
-              <span className="label-text text-[11px] font-black text-emerald-900 uppercase tracking-wider block truncate">
+            <div className="h-7 flex items-center justify-between gap-2">
+              <span className="label-text text-xs sm:text-sm font-black text-emerald-950 dark:text-emerald-200 uppercase tracking-wider block truncate">
                 Total Sales Revenue
               </span>
               {topAdvisorBySales && (
@@ -457,39 +457,39 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     e.stopPropagation();
                     onSelectAdvisor(topAdvisorBySales.raw, topAdvisorBySales.type);
                   }}
-                  className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-[#FEF3C7] border border-[#FDE68A] text-[#92400E] text-[9px] font-black cursor-pointer hover:scale-105 transition-transform shrink-0 shadow-2xs"
+                  className="h-6.5 inline-flex items-center gap-1 px-2 rounded-lg bg-[#FEF3C7] dark:bg-amber-950/80 border border-[#FDE68A] dark:border-amber-700/60 text-[#92400E] dark:text-amber-200 text-xs font-black cursor-pointer hover:scale-105 transition-transform shrink-0 shadow-2xs"
                   title={`Rank #1 Sales Champion: ${topAdvisorBySales.name} (৳${topAdvisorBySales.val.toLocaleString('en-BD')})`}
                 >
-                  <Crown className="w-2.5 h-2.5 text-amber-600 fill-amber-500 shrink-0" />
+                  <Crown className="w-3 h-3 text-amber-600 fill-amber-500 shrink-0" />
                   <span className="font-mono font-bold">#1</span>
                 </div>
               )}
             </div>
 
             {/* Row 2: Main Metric Number + Sub-Benchmark Alignment */}
-            <div className="h-9 flex items-baseline justify-between gap-2 my-1.5 w-full">
-              <span className="metric-value text-2xl sm:text-3xl font-black text-emerald-950 font-mono tracking-tight truncate">
+            <div className="flex items-baseline justify-between gap-2 my-2 w-full">
+              <span className="metric-value text-2xl sm:text-3xl font-black text-emerald-950 dark:text-emerald-100 font-mono tracking-tight truncate">
                 <AnimatedCounter value={totalSales} prefix="৳" />
               </span>
-              <span className="text-[11px] font-bold text-emerald-700 font-mono shrink-0">
+              <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 font-mono shrink-0">
                 All Teams
               </span>
             </div>
 
             {/* Row 3: Standardized Context / Progress Indicator */}
-            <div className="h-3.5 w-full flex items-center mb-1">
-              <span className="text-[10px] text-emerald-700/80 font-semibold truncate">
+            <div className="w-full h-6 flex items-center mb-2.5">
+              <span className="text-xs text-emerald-800/90 dark:text-emerald-300/80 font-semibold truncate">
                 Consolidated MTD Revenue
               </span>
             </div>
 
             {/* Row 4: Footer Tags Row */}
-            <div className="pt-2 border-t border-emerald-100 flex items-center gap-1.5 flex-nowrap overflow-hidden">
-              <span className="h-6 text-[10px] sm:text-[11px] font-extrabold text-[#15803D] uppercase tracking-wider inline-flex items-center gap-1.5 bg-[#DCFCE7] px-2 py-0.5 rounded-md border border-[#BBF7D0] shrink-0 select-none cursor-default">
-                <span className="relative flex h-2 w-2">
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#15803D]" />
+            <div className="pt-2.5 border-t border-emerald-100 dark:border-emerald-900/40 flex items-center justify-between gap-1.5 overflow-hidden">
+              <span className="h-6.5 text-[11px] font-extrabold text-[#15803D] dark:text-emerald-300 uppercase tracking-wider inline-flex items-center gap-1 bg-[#DCFCE7] dark:bg-emerald-950/80 px-2 py-0.5 rounded-lg border border-[#BBF7D0] dark:border-emerald-800/60 shrink-0 select-none cursor-default">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#15803D] dark:bg-emerald-400" />
                 </span>
-                <span>MTD Total</span>
+                <span>MTD</span>
               </span>
               {topAdvisorBySales && (
                 <span 
@@ -497,21 +497,21 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     e.stopPropagation();
                     onSelectAdvisor(topAdvisorBySales.raw, topAdvisorBySales.type);
                   }}
-                  className="h-6 text-[10px] font-bold text-slate-700 inline-flex items-center gap-1 bg-white px-2 py-0.5 rounded-md border border-emerald-200 shrink-0 cursor-pointer hover:border-amber-400 transition-colors"
+                  className="h-6.5 text-[11px] font-bold text-slate-700 dark:text-slate-200 inline-flex items-center gap-1 bg-white dark:bg-[#162D4E] px-2 py-0.5 rounded-lg border border-emerald-200 dark:border-emerald-700/50 min-w-0 max-w-[155px] sm:max-w-[170px] truncate shrink cursor-pointer hover:border-amber-400 transition-colors"
                   title={`Lead: ${topAdvisorBySales.name}`}
                 >
-                  <span className="text-slate-500">Lead:</span>
-                  <strong className="text-amber-700 truncate max-w-[140px] sm:max-w-[160px]">{topAdvisorBySales.name}</strong>
+                  <span className="text-slate-500 dark:text-slate-400 shrink-0">Lead:</span>
+                  <strong className="text-amber-700 dark:text-amber-300 truncate">{topAdvisorBySales.name}</strong>
                 </span>
               )}
             </div>
           </div>
 
-          {/* Card 2: Overall Team KPI (Soft Teal / Leadership Light Palette) */}
-          <div className="kpi-card metric-box bg-gradient-to-br from-teal-50/60 via-white to-teal-50/20 border border-teal-200/90 rounded-2xl p-4 transition-all flex flex-col justify-between min-w-0 shadow-xs h-full">
+          {/* Card 2: Overall Team KPI */}
+          <div className="kpi-card metric-box bg-gradient-to-br from-teal-500/10 via-white dark:via-[#0F223D] to-teal-500/5 border border-teal-300/80 dark:border-teal-500/30 rounded-2xl p-4 sm:p-5 transition-all flex flex-col justify-between min-w-0 shadow-xs h-full">
             {/* Row 1: Header */}
-            <div className="h-6 flex items-center justify-between gap-1.5">
-              <span className="label-text text-[11px] font-black text-teal-900 uppercase tracking-wider block truncate">
+            <div className="h-7 flex items-center justify-between gap-2">
+              <span className="label-text text-xs sm:text-sm font-black text-teal-950 dark:text-teal-200 uppercase tracking-wider block truncate">
                 Overall Team KPI
               </span>
               {topAdvisorByKpi && (
@@ -520,41 +520,46 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     e.stopPropagation();
                     onSelectAdvisor(topAdvisorByKpi.raw, topAdvisorByKpi.type);
                   }}
-                  className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-teal-50 border border-teal-200 text-teal-800 text-[9px] font-black cursor-pointer hover:scale-105 transition-transform shrink-0 shadow-2xs"
+                  className="h-6.5 inline-flex items-center gap-1 px-2 rounded-lg bg-teal-50 dark:bg-teal-950/80 border border-teal-300 dark:border-teal-700/60 text-teal-900 dark:text-teal-200 text-xs font-black cursor-pointer hover:scale-105 transition-transform shrink-0 shadow-2xs"
                   title={`Rank #1 KPI Leader: ${topAdvisorByKpi.name} (${topAdvisorByKpi.val.toFixed(1)}%)`}
                 >
-                  <Award className="w-2.5 h-2.5 text-teal-600 shrink-0" />
+                  <Award className="w-3 h-3 text-teal-600 dark:text-teal-400 shrink-0" />
                   <span className="font-mono font-bold">#1</span>
                 </div>
               )}
             </div>
 
             {/* Row 2: Main Metric Number + Sub-Benchmark Alignment */}
-            <div className="h-9 flex items-baseline justify-between gap-2 my-1.5 w-full">
-              <span className="metric-value text-2xl sm:text-3xl font-black text-teal-950 font-mono tracking-tight truncate">
+            <div className="flex items-baseline justify-between gap-2 my-2 w-full">
+              <span className="metric-value text-2xl sm:text-3xl font-black text-teal-950 dark:text-teal-100 font-mono tracking-tight truncate">
                 <AnimatedCounter value={overallTeamKpi} decimals={1} suffix="%" />
               </span>
-              <span className="text-[11px] font-bold text-teal-700 font-mono shrink-0">
+              <span className="text-xs font-bold text-teal-700 dark:text-teal-400 font-mono shrink-0">
                 Target: 98%
               </span>
             </div>
 
-            {/* Row 3: Visual Benchmark Progress Bar Container */}
-            <div className="h-3.5 w-full flex items-center mb-1">
-              <div className="w-full h-2 bg-teal-100/70 rounded-full overflow-hidden border border-teal-200/80">
-                <div 
-                  className={`h-full rounded-full transition-all duration-500 ${
-                    overallTeamKpi >= 90 ? 'bg-[#2D6A65]' : 'bg-teal-600'
-                  }`}
-                  style={{ width: `${Math.min(100, Math.max(5, (overallTeamKpi / 98) * 100))}%` }}
-                />
+            {/* Row 3: Visual Benchmark Progress Bar Container with Exact Aligned Height */}
+            <div className="w-full h-6 flex items-center mb-2.5">
+              <div className="w-full flex items-center gap-2">
+                <div className="flex-1 h-2 bg-teal-100/80 dark:bg-teal-950/60 rounded-full overflow-hidden border border-teal-200 dark:border-teal-800/60">
+                  <div 
+                    className={`h-full rounded-full transition-all duration-500 ${
+                      overallTeamKpi >= 90 ? 'bg-gradient-to-r from-teal-600 to-emerald-500' : 'bg-teal-600'
+                    }`}
+                    style={{ width: `${Math.min(100, Math.max(5, (overallTeamKpi / 98) * 100))}%` }}
+                  />
+                </div>
+                <span className="text-[11px] font-bold text-teal-700 dark:text-teal-400 font-mono shrink-0">
+                  {Math.round((overallTeamKpi / 98) * 100)}%
+                </span>
               </div>
             </div>
 
             {/* Row 4: Footer Tags Row */}
-            <div className="pt-2 border-t border-teal-100 flex items-center gap-1.5 flex-nowrap overflow-hidden">
-              <span className="h-6 text-[10px] sm:text-[11px] font-extrabold text-teal-800 uppercase tracking-wider inline-flex items-center gap-1 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200 shrink-0 select-none cursor-default">
-                {Math.round((overallTeamKpi / 98) * 100)}% of Goal
+            <div className="pt-2.5 border-t border-teal-100 dark:border-teal-900/40 flex items-center justify-between gap-1.5 overflow-hidden">
+              <span className="h-6.5 text-[11px] font-extrabold text-teal-800 dark:text-teal-300 uppercase tracking-wider inline-flex items-center gap-1 bg-teal-50 dark:bg-teal-950/80 px-2 py-0.5 rounded-lg border border-teal-300 dark:border-teal-800/60 shrink-0 select-none cursor-default">
+                Goal 98%
               </span>
               {topAdvisorByKpi && (
                 <span 
@@ -562,24 +567,24 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     e.stopPropagation();
                     onSelectAdvisor(topAdvisorByKpi.raw, topAdvisorByKpi.type);
                   }}
-                  className="h-6 text-[10px] font-bold text-slate-700 inline-flex items-center gap-1 bg-white px-2 py-0.5 rounded-md border border-teal-200 shrink-0 cursor-pointer hover:border-teal-400 transition-colors"
+                  className="h-6.5 text-[11px] font-bold text-slate-700 dark:text-slate-200 inline-flex items-center gap-1 bg-white dark:bg-[#162D4E] px-2 py-0.5 rounded-lg border border-teal-200 dark:border-teal-700/50 min-w-0 max-w-[155px] sm:max-w-[170px] truncate shrink cursor-pointer hover:border-teal-400 transition-colors"
                   title={`Best: ${topAdvisorByKpi.name}`}
                 >
-                  <span className="text-slate-500">Best:</span>
-                  <strong className="text-teal-700 truncate max-w-[140px] sm:max-w-[160px]">{topAdvisorByKpi.name}</strong>
+                  <span className="text-slate-500 dark:text-slate-400 shrink-0">Best:</span>
+                  <strong className="text-teal-700 dark:text-teal-300 truncate">{topAdvisorByKpi.name}</strong>
                 </span>
               )}
             </div>
           </div>
 
-          {/* Card 3: Total Reach Calls (Soft Sky Blue Light Palette) */}
+          {/* Card 3: Total Reach Calls */}
           <div 
             onClick={() => onNavigateTab('call_records')}
-            className="kpi-card metric-box bg-gradient-to-br from-sky-50/60 via-white to-sky-50/20 border border-sky-200/90 rounded-2xl p-4 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-xs h-full"
+            className="kpi-card metric-box bg-gradient-to-br from-sky-500/10 via-white dark:via-[#0F223D] to-sky-500/5 border border-sky-300/80 dark:border-sky-500/30 rounded-2xl p-4 sm:p-5 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-xs h-full"
           >
             {/* Row 1: Header */}
-            <div className="h-6 flex items-center justify-between gap-1.5">
-              <span className="label-text text-[11px] font-black text-sky-900 uppercase tracking-wider group-hover:text-sky-700 transition-colors flex items-center gap-1 truncate">
+            <div className="h-7 flex items-center justify-between gap-2">
+              <span className="label-text text-xs sm:text-sm font-black text-sky-950 dark:text-sky-200 uppercase tracking-wider group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors flex items-center gap-1 truncate">
                 <span className="truncate">Total Reach Calls</span>
                 <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
               </span>
@@ -589,35 +594,35 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     e.stopPropagation();
                     onSelectAdvisor(topAdvisorByReach.raw, topAdvisorByReach.type);
                   }}
-                  className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-[#E0F2FE] border border-[#BAE6FD] text-[#0369A1] text-[9px] font-black cursor-pointer hover:scale-105 transition-transform shrink-0 shadow-2xs"
+                  className="h-6.5 inline-flex items-center gap-1 px-2 rounded-lg bg-[#E0F2FE] dark:bg-sky-950/80 border border-[#BAE6FD] dark:border-sky-700/60 text-[#0369A1] dark:text-sky-200 text-xs font-black cursor-pointer hover:scale-105 transition-transform shrink-0 shadow-2xs"
                   title={`Rank #1 Outreach Star: ${topAdvisorByReach.name} (${topAdvisorByReach.val} calls)`}
                 >
-                  <PhoneCall className="w-2.5 h-2.5 text-[#0284C7] shrink-0" />
+                  <PhoneCall className="w-3 h-3 text-[#0284C7] dark:text-sky-400 shrink-0" />
                   <span className="font-mono font-bold">#1</span>
                 </div>
               )}
             </div>
 
             {/* Row 2: Main Metric Number + Sub-Benchmark Alignment */}
-            <div className="h-9 flex items-baseline justify-between gap-2 my-1.5 w-full">
-              <span className="metric-value text-2xl sm:text-3xl font-black text-sky-950 font-mono tracking-tight truncate">
+            <div className="flex items-baseline justify-between gap-2 my-2 w-full">
+              <span className="metric-value text-2xl sm:text-3xl font-black text-sky-950 dark:text-sky-100 font-mono tracking-tight truncate">
                 <AnimatedCounter value={totalReachCalls} />
               </span>
-              <span className="text-[11px] font-bold text-sky-700 font-mono shrink-0">
+              <span className="text-xs font-bold text-sky-700 dark:text-sky-400 font-mono shrink-0">
                 Telephony
               </span>
             </div>
 
             {/* Row 3: Standardized Context Indicator */}
-            <div className="h-3.5 w-full flex items-center mb-1">
-              <span className="text-[10px] text-sky-700/80 font-semibold truncate">
+            <div className="w-full h-6 flex items-center mb-2.5">
+              <span className="text-xs text-sky-800/90 dark:text-sky-300/80 font-semibold truncate">
                 Total Outreach Connections
               </span>
             </div>
 
             {/* Row 4: Footer Tags Row */}
-            <div className="pt-2 border-t border-sky-100 flex items-center gap-1.5 flex-nowrap overflow-hidden">
-              <span className="h-6 text-[10px] sm:text-[11px] font-extrabold text-[#0284C7] uppercase tracking-wider inline-flex items-center gap-1 bg-[#E0F2FE] px-2 py-0.5 rounded-md border border-[#BAE6FD] shrink-0">
+            <div className="pt-2.5 border-t border-sky-100 dark:border-sky-900/40 flex items-center justify-between gap-1.5 overflow-hidden">
+              <span className="h-6.5 text-[11px] font-extrabold text-[#0284C7] dark:text-sky-300 uppercase tracking-wider inline-flex items-center gap-1 bg-[#E0F2FE] dark:bg-sky-950/80 px-2 py-0.5 rounded-lg border border-[#BAE6FD] dark:border-sky-800/60 shrink-0">
                 View Log →
               </span>
               {topAdvisorByReach && (
@@ -626,55 +631,60 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     e.stopPropagation();
                     onSelectAdvisor(topAdvisorByReach.raw, topAdvisorByReach.type);
                   }}
-                  className="h-6 text-[10px] font-bold text-slate-700 inline-flex items-center gap-1 bg-white px-2 py-0.5 rounded-md border border-sky-200 shrink-0 cursor-pointer hover:border-cyan-400 transition-colors"
+                  className="h-6.5 text-[11px] font-bold text-slate-700 dark:text-slate-200 inline-flex items-center gap-1 bg-white dark:bg-[#162D4E] px-2 py-0.5 rounded-lg border border-sky-200 dark:border-sky-700/50 min-w-0 max-w-[155px] sm:max-w-[170px] truncate shrink cursor-pointer hover:border-cyan-400 transition-colors"
                   title={`Top: ${topAdvisorByReach.name}`}
                 >
-                  <span className="text-slate-500">Top:</span>
-                  <strong className="text-sky-700 truncate max-w-[140px] sm:max-w-[160px]">{topAdvisorByReach.name}</strong>
+                  <span className="text-slate-500 dark:text-slate-400 shrink-0">Top:</span>
+                  <strong className="text-sky-700 dark:text-sky-300 truncate">{topAdvisorByReach.name}</strong>
                 </span>
               )}
             </div>
           </div>
 
-          {/* Card 4: Active Tasks (Soft Indigo Light Palette) */}
+          {/* Card 4: Active Tasks */}
           <div 
             onClick={() => onNavigateTab('tasks')}
-            className="kpi-card metric-box bg-gradient-to-br from-indigo-50/60 via-white to-indigo-50/20 border border-indigo-200/90 rounded-2xl p-4 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-xs h-full"
+            className="kpi-card metric-box bg-gradient-to-br from-indigo-500/10 via-white dark:via-[#0F223D] to-indigo-500/5 border border-indigo-300/80 dark:border-indigo-500/30 rounded-2xl p-4 sm:p-5 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-xs h-full"
           >
             {/* Row 1: Header */}
-            <div className="h-6 flex items-center justify-between gap-1.5">
-              <span className="label-text text-[11px] font-black text-indigo-900 uppercase tracking-wider group-hover:text-indigo-700 transition-colors flex items-center gap-1 truncate">
+            <div className="h-7 flex items-center justify-between gap-2">
+              <span className="label-text text-xs sm:text-sm font-black text-indigo-950 dark:text-indigo-200 uppercase tracking-wider group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors flex items-center gap-1 truncate">
                 <span className="truncate">Active Tasks</span>
                 <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
               </span>
-              <span className="text-[10px] font-bold text-indigo-700 font-mono">Pipeline</span>
+              <div 
+                className="h-6.5 inline-flex items-center gap-1 px-2 rounded-lg bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-200 dark:border-indigo-700/60 text-indigo-700 dark:text-indigo-200 text-xs font-black shrink-0 shadow-2xs"
+              >
+                <CheckCircle2 className="w-3 h-3 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                <span className="font-mono font-bold">Queue</span>
+              </div>
             </div>
 
             {/* Row 2: Main Metric Number + Sub-Benchmark Alignment */}
-            <div className="h-9 flex items-baseline justify-between gap-2 my-1.5 w-full">
-              <span className="metric-value text-2xl sm:text-3xl font-black text-indigo-950 font-mono tracking-tight truncate">
+            <div className="flex items-baseline justify-between gap-2 my-2 w-full">
+              <span className="metric-value text-2xl sm:text-3xl font-black text-indigo-950 dark:text-indigo-100 font-mono tracking-tight truncate">
                 <AnimatedCounter value={tasks.filter(t => t.status !== 'completed').length || 4} />
               </span>
-              <span className="text-[11px] font-bold text-indigo-700 font-mono shrink-0">
-                Pipeline
+              <span className="text-xs font-bold text-indigo-700 dark:text-indigo-400 font-mono shrink-0">
+                In Pipeline
               </span>
             </div>
 
             {/* Row 3: Standardized Context Indicator */}
-            <div className="h-3.5 w-full flex items-center mb-1">
-              <span className="text-[10px] text-indigo-700/80 font-semibold truncate">
+            <div className="w-full h-6 flex items-center mb-2.5">
+              <span className="text-xs text-indigo-800/90 dark:text-indigo-300/80 font-semibold truncate">
                 Operational Task Queue
               </span>
             </div>
 
             {/* Row 4: Footer Tags Row */}
-            <div className="pt-2 border-t border-indigo-100 flex items-center gap-1.5 flex-nowrap overflow-hidden">
-              <span className="h-6 text-[10px] sm:text-[11px] font-extrabold text-indigo-700 uppercase tracking-wider inline-flex items-center gap-1 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200 shrink-0 select-none cursor-default">
-                In Pipeline
+            <div className="pt-2.5 border-t border-indigo-100 dark:border-indigo-900/40 flex items-center justify-between gap-1.5 overflow-hidden">
+              <span className="h-6.5 text-[11px] font-extrabold text-indigo-700 dark:text-indigo-300 uppercase tracking-wider inline-flex items-center gap-1 bg-indigo-50 dark:bg-indigo-950/80 px-2 py-0.5 rounded-lg border border-indigo-200 dark:border-indigo-800/60 shrink-0 select-none cursor-default">
+                Pipeline
               </span>
-              <span className="h-6 text-[10px] font-bold text-slate-700 inline-flex items-center gap-1 bg-white px-2 py-0.5 rounded-md border border-indigo-200 shrink-0 select-none cursor-default">
-                <span className="text-slate-500">Due Today:</span>
-                <strong className="text-indigo-800">{tasks.filter(t => t.priority === 'urgent' || t.priority === 'high').length || 3}</strong>
+              <span className="h-6.5 text-[11px] font-bold text-slate-700 dark:text-slate-200 inline-flex items-center gap-1 bg-white dark:bg-[#162D4E] px-2 py-0.5 rounded-lg border border-indigo-200 dark:border-indigo-800/50 shrink-0 select-none cursor-default">
+                <span className="text-slate-500 dark:text-slate-400 shrink-0">Due Today:</span>
+                <strong className="text-indigo-800 dark:text-indigo-300">{tasks.filter(t => t.priority === 'urgent' || t.priority === 'high').length || 3}</strong>
               </span>
             </div>
           </div>

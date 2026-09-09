@@ -1,66 +1,70 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
-    /* Primary Brand Teal (Continuous Improvement & Precision) */
-    --brand-primary: #2D6A65;
-    --brand-primary-light: #3B7A75;
-    --brand-primary-dark: #21514D;
-    --brand-teal: #2D6A65;
+    /* Primary Brand Teal & Emerald Palette (Continuous Improvement & Precision) */
+    --brand-primary: #0F766E;
+    --brand-primary-light: #14B8A6;
+    --brand-primary-dark: #115E59;
+    --brand-teal: #0F766E;
     --brand-teal-light: #F0FDF9;
     --brand-teal-border: #99F6E4;
 
-    /* Light Theme Core Surfaces */
-    --bg-canvas: #F8FAFC;
-    --bg-canvas-subtle: #F1F5F9;
+    /* Light Theme Core Surfaces (Light Sky Blue Canvas) */
+    --bg-canvas: #E0F2FE;
+    --bg-canvas-subtle: #EAF4FE;
     --card-surface: #FFFFFF;
-    --card-border: #E2E8F0;
-    --card-border-subtle: #EDF2F7;
-    --well-surface: #F8FAFC;
+    --card-border: #BAE6FD;
+    --card-border-subtle: #E0F2FE;
+    --well-surface: #EAF4FE;
 
-    /* Typography Contrast */
+    /* High-Contrast Typography */
     --text-primary: #0F172A;
-    --text-secondary: #475569;
-    --text-muted: #64748B;
-    --text-faint: #94A3B8;
+    --text-secondary: #334155;
+    --text-muted: #475569;
+    --text-faint: #64748B;
 
-    /* Semantic Light Palettes (Soft pastels with high-contrast text) */
+    /* Semantic Rich Color Palettes (Vibrant, high-contrast, accessible) */
     --palette-emerald-bg: #ECFDF5;
-    --palette-emerald-border: #A7F3D0;
+    --palette-emerald-border: #6EE7B7;
     --palette-emerald-text: #065F46;
 
     --palette-blue-bg: #EFF6FF;
-    --palette-blue-border: #BFDBFE;
-    --palette-blue-text: #1E40AF;
+    --palette-blue-border: #93C5FD;
+    --palette-blue-text: #1D4ED8;
 
     --palette-sky-bg: #F0F9FF;
-    --palette-sky-border: #BAE6FD;
+    --palette-sky-border: #7DD3FC;
     --palette-sky-text: #0369A1;
 
     --palette-amber-bg: #FFFBEB;
-    --palette-amber-border: #FDE68A;
+    --palette-amber-border: #FCD34D;
     --palette-amber-text: #92400E;
 
-    --palette-purple-bg: #F5F3FF;
-    --palette-purple-border: #DDD6FE;
-    --palette-purple-text: #5B21B6;
+    --palette-purple-bg: #FAF5FF;
+    --palette-purple-border: #D8B4FE;
+    --palette-purple-text: #6B21A8;
 
     --palette-rose-bg: #FFF1F2;
-    --palette-rose-border: #FECDD3;
+    --palette-rose-border: #FDA4AF;
     --palette-rose-text: #9F1239;
 
     --palette-slate-bg: #F8FAFC;
-    --palette-slate-border: #E2E8F0;
-    --palette-slate-text: #334155;
+    --palette-slate-border: #CBD5E1;
+    --palette-slate-text: #1E293B;
   }
 
   body {
     font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #F8FAFC;
+    font-size: 14px;
+    line-height: 1.55;
+    background-color: #E0F2FE;
     background-image: 
-      radial-gradient(at 15% 0%, rgba(45, 106, 101, 0.035) 0px, transparent 40%),
-      radial-gradient(at 85% 0%, rgba(37, 99, 235, 0.03) 0px, transparent 45%),
-      radial-gradient(at 50% 100%, rgba(248, 250, 252, 1) 0px, transparent 100%);
+      radial-gradient(at 10% 0%, rgba(56, 189, 248, 0.22) 0px, transparent 45%),
+      radial-gradient(at 90% 5%, rgba(14, 165, 233, 0.16) 0px, transparent 45%),
+      radial-gradient(at 50% 100%, rgba(224, 242, 254, 1) 0px, transparent 100%);
     background-attachment: fixed;
     color: #0F172A;
     -webkit-font-smoothing: antialiased;
@@ -71,24 +75,30 @@
   html.dark body {
     background-color: #071324;
     background-image: 
-      radial-gradient(at 15% 0%, rgba(13, 148, 136, 0.10) 0px, transparent 40%),
-      radial-gradient(at 85% 0%, rgba(37, 99, 235, 0.08) 0px, transparent 45%),
+      radial-gradient(at 15% 0%, rgba(20, 184, 166, 0.12) 0px, transparent 40%),
+      radial-gradient(at 85% 0%, rgba(59, 130, 246, 0.10) 0px, transparent 45%),
       radial-gradient(at 50% 100%, rgba(7, 19, 36, 1) 0px, transparent 100%);
-    color: #F1F5F9;
+    color: #F8FAFC;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     letter-spacing: -0.025em;
     color: #0F172A;
+    font-weight: 800;
+  }
+
+  html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark h5, html.dark h6 {
+    color: #F8FAFC;
   }
 
   .font-mono, .tabular-nums {
     font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
   }
 }
 
-/* Light Mode Card & Container Elevation Utilities */
+/* Card & Container Elevation Utilities with Full Dark Mode Fidelity */
 .page-bg {
   background-color: transparent;
 }
@@ -96,11 +106,21 @@
 .main-card, .container-box {
   background-color: #FFFFFF;
   border: 1px solid rgba(226, 232, 240, 0.95);
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+}
+
+html.dark .main-card, html.dark .container-box, html.dark .executive-hub-card {
+  background-color: #0F223D !important;
+  border: 1px solid rgba(30, 58, 95, 0.85) !important;
+  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.35);
 }
 
 .main-card:hover, .container-box:hover {
-  border-color: rgba(203, 213, 225, 0.9);
+  border-color: rgba(203, 213, 225, 0.95);
+}
+
+html.dark .main-card:hover, html.dark .container-box:hover {
+  border-color: rgba(43, 78, 126, 0.95);
 }
 
 .kpi-card, .metric-box {
@@ -110,14 +130,30 @@
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+html.dark .kpi-card, html.dark .metric-box {
+  background-color: #0F223D;
+  border: 1px solid rgba(30, 58, 95, 0.85);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
 .kpi-card:hover, .metric-box:hover {
-  box-shadow: 0 4px 12px 0 rgba(15, 23, 42, 0.05), 0 2px 4px -1px rgba(15, 23, 42, 0.02);
+  box-shadow: 0 6px 16px 0 rgba(15, 23, 42, 0.07), 0 2px 4px -1px rgba(15, 23, 42, 0.03);
+}
+
+html.dark .kpi-card:hover, html.dark .metric-box:hover {
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+  border-color: rgba(56, 189, 248, 0.3);
 }
 
 /* Sub-wells (inner containers inside cards) */
 .inner-well {
   background-color: #F8FAFC;
   border: 1px solid rgba(226, 232, 240, 0.85);
+}
+
+html.dark .inner-well {
+  background-color: #0B192C;
+  border: 1px solid rgba(26, 49, 84, 0.85);
 }
 
 /* Custom Scrollbar Styling - Clean Light Minimal */
@@ -139,12 +175,15 @@
   background: #94A3B8;
 }
 
-/* Hide scrollbar for clean horizontal ribbon */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+/* Hide scrollbar for clean horizontal ribbon and smooth scrolling */
 .no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 

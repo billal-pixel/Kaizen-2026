@@ -225,91 +225,103 @@ export const Header: React.FC<HeaderProps> = React.memo(({
     }
   ];
 
+  const formatSyncTimeDisplay = (timeStr: string) => {
+    if (!timeStr) return '--:--';
+    const ampmMatch = timeStr.match(/(AM|PM|am|pm)/i);
+    const ampm = ampmMatch ? ` ${ampmMatch[0].toUpperCase()}` : '';
+    const cleanTime = timeStr.replace(/(AM|PM|am|pm)/i, '').trim();
+    const parts = cleanTime.split(':');
+    if (parts.length >= 2) {
+      return `${parts[0]}:${parts[1]}${ampm}`;
+    }
+    return timeStr;
+  };
+
   return (
-    <header className="sticky top-0 z-40 bg-[#0A1628] border-b border-[#1A3154] shadow-xl transition-colors duration-200">
+    <header className="sticky top-0 z-40 bg-[#E0F2FE]/95 dark:bg-[#0A1628] backdrop-blur-md border-b border-[#BAE6FD] dark:border-[#1A3154] shadow-md dark:shadow-xl transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 space-y-2">
         
         {/* Tier 1: Unified Executive Command Bar */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
+        <div className="flex flex-col lg:flex-row lg:items-stretch justify-between gap-2">
           
           {/* Top-Left: Brand Identity & Team Leader Tag */}
-          <div className="flex items-center gap-2.5 bg-[#0F223D] border border-[#1E3A5F] px-3 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px]">
+          <div className="flex items-center gap-2 bg-white/95 dark:bg-[#0F223D] border border-[#BAE6FD] dark:border-[#1E3A5F] px-2.5 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[48px] lg:h-[48px]">
             <div 
               onClick={() => setActiveTab('overview')}
-              className="w-8 h-8 bg-[#0B1A30] border border-[#234575] p-1 rounded-lg shadow-inner flex items-center justify-center cursor-pointer hover:scale-105 transition-transform shrink-0"
+              className="w-8 h-8 bg-sky-50 dark:bg-[#0B1A30] border border-sky-200 dark:border-[#234575] p-1 rounded-lg shadow-inner flex items-center justify-center cursor-pointer hover:scale-105 transition-transform shrink-0"
               title="Team Kaizen Operations Dashboard"
             >
               <KaizenLogo size="sm" />
             </div>
 
-            <div className="flex items-center gap-2.5 min-w-0 pr-0.5">
+            <div className="flex items-center gap-2 min-w-0 pr-0.5">
               <h1 
                 onClick={() => setActiveTab('overview')}
-                className="text-sm sm:text-base font-black tracking-tight text-white uppercase cursor-pointer hover:text-sky-300 transition-colors leading-none"
+                className="text-sm sm:text-base font-black tracking-wider text-slate-900 dark:text-white uppercase cursor-pointer hover:text-teal-600 dark:hover:text-teal-300 transition-colors leading-tight shrink-0 select-none"
               >
                 TEAM KAIZEN
               </h1>
               
-              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#162D4E] border border-[#2B4E7E]">
-                <ShieldCheck className="w-3 h-3 text-sky-400 stroke-[2.4] shrink-0" />
-                <span className="text-[9px] font-bold text-sky-300/80 uppercase tracking-wider">TL:</span>
-                <span className="text-[11px] font-black text-white truncate max-w-[130px]">{teamLeaderName}</span>
+              <div className="h-8 inline-flex items-center gap-1.5 px-2.5 rounded-lg bg-sky-50/90 dark:bg-[#162D4E] border border-sky-200 dark:border-[#2B4E7E] shrink-0">
+                <ShieldCheck className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400 stroke-[2.5] shrink-0" />
+                <span className="text-[11px] font-bold text-teal-700 dark:text-teal-300 uppercase tracking-wider leading-none">TL:</span>
+                <span className="text-xs font-black text-slate-900 dark:text-white whitespace-nowrap leading-none">{teamLeaderName}</span>
               </div>
             </div>
           </div>
 
-          {/* Center: Live Google Sheet Sync Status Pill (High-Precision, No Overflow) */}
-          <div className="flex-1 bg-[#0F223D] border border-[#1E3A5F] rounded-xl px-3 py-1.5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 shadow-xs min-h-[46px]">
+          {/* Center: Live Google Sheet Sync Status Pill (Fluid, No Overflow, Crisp Alignment) */}
+          <div className="flex-1 min-w-0 bg-white/95 dark:bg-[#0F223D] border border-[#BAE6FD] dark:border-[#1E3A5F] rounded-xl px-2.5 sm:px-3 py-1.5 flex items-center justify-between gap-2 shadow-xs min-h-[48px] lg:h-[48px]">
             {/* Sync Left Info (Zap + Title + Live badge + Substatus) */}
-            <div className="flex items-center gap-2.5 shrink-0">
-              <div className="w-7 h-7 rounded-lg bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 flex items-center justify-center shrink-0 shadow-inner">
-                <Zap className="w-3.5 h-3.5 fill-emerald-400/20 text-emerald-400 stroke-[2.5]" />
+            <div className="flex items-center gap-2 min-w-0 shrink">
+              <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-300 dark:border-emerald-500/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 shadow-inner">
+                <Zap className="w-4 h-4 fill-emerald-500/20 text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
               </div>
 
-              <div className="flex flex-col justify-center">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-black text-white whitespace-nowrap">Google Sheet Sync</span>
-                  <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded-full text-[9px] font-black bg-emerald-950/70 text-emerald-300 border border-emerald-500/40 select-none cursor-default">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <div className="flex flex-col justify-center min-w-0">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <span className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white whitespace-nowrap leading-tight">Google Sheet Sync</span>
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px] font-black bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/50 tracking-wider select-none shrink-0 leading-none">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span>LIVE</span>
                   </span>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-[11px] text-slate-300 font-semibold leading-none mt-0.5 whitespace-nowrap">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-400 stroke-[2.5] shrink-0" />
-                  <span className="font-bold text-emerald-300">
+                <div className="flex items-center gap-1.5 text-[11px] text-slate-600 dark:text-slate-300 font-semibold leading-none mt-0.5 whitespace-nowrap">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 stroke-[2.5] shrink-0" />
+                  <span className="font-bold text-emerald-700 dark:text-emerald-300 shrink-0">
                     {syncedAdvisorsCount} synced
                   </span>
-                  <span className="text-slate-500">•</span>
-                  <span className="text-slate-300 text-[10px]">{lastSyncTime}</span>
-                  <span className="text-slate-500">•</span>
-                  <span className="text-slate-400 font-medium text-[10px]">{isPaused ? 'Paused' : `Poll: ${countdown}s`}</span>
+                  <span className="text-slate-300 dark:text-slate-600 shrink-0">•</span>
+                  <span className="text-slate-600 dark:text-slate-300 font-medium shrink-0">{formatSyncTimeDisplay(lastSyncTime)}</span>
+                  <span className="text-slate-300 dark:text-slate-600 shrink-0">•</span>
+                  <span className="text-slate-500 dark:text-slate-400 font-medium shrink-0">{isPaused ? 'Paused' : `${countdown}s`}</span>
                 </div>
               </div>
             </div>
 
             {/* Sync Action Buttons Group */}
-            <div className="flex items-center gap-1.5 shrink-0 ml-auto sm:ml-0">
+            <div className="flex items-center gap-1 shrink-0">
               {/* Pause / Play Button */}
               <button
                 type="button"
                 onClick={togglePause}
                 title={isPaused ? "Resume auto polling" : "Pause auto polling"}
-                className={`h-7 px-2 rounded-lg text-[11px] font-bold flex items-center gap-1 shadow-xs cursor-pointer active:scale-95 transition-all border ${
+                className={`h-8 px-2.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
                   isPaused 
-                    ? 'bg-amber-950/60 hover:bg-amber-900/80 text-amber-200 border-amber-500/50' 
-                    : 'bg-[#162D4E] hover:bg-[#1E3E6B] text-slate-200 border-[#2B4E7E]'
+                    ? 'bg-amber-100 hover:bg-amber-200 text-amber-900 border-amber-300 dark:bg-amber-950/70 dark:hover:bg-amber-900/90 dark:text-amber-200 dark:border-amber-500/60' 
+                    : 'bg-sky-50 hover:bg-sky-100 text-slate-700 border-sky-200 dark:bg-[#162D4E] dark:hover:bg-[#1E3E6B] dark:text-slate-200 dark:border-[#2B4E7E]'
                 }`}
               >
                 {isPaused ? (
                   <>
-                    <Play className="w-3 h-3 text-amber-400 fill-amber-400" />
-                    <span>Resume</span>
+                    <Play className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 fill-amber-500 shrink-0" />
+                    <span className="hidden sm:inline">Resume</span>
                   </>
                 ) : (
                   <>
-                    <Pause className="w-3 h-3 text-slate-300" />
-                    <span>Pause</span>
+                    <Pause className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300 shrink-0" />
+                    <span className="hidden sm:inline">Pause</span>
                   </>
                 )}
               </button>
@@ -320,10 +332,10 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 onClick={executeSync}
                 disabled={isSyncing}
                 title="Fetch latest data from Google Sheet now"
-                className="h-7 px-2.5 bg-[#162D4E] hover:bg-[#1E3E6B] hover:text-sky-300 border border-[#2B4E7E] rounded-lg text-[11px] font-bold text-slate-200 flex items-center gap-1 shadow-xs cursor-pointer active:scale-95 transition-all disabled:opacity-50"
+                className="h-8 px-2.5 bg-sky-50 hover:bg-sky-100 hover:text-teal-700 border border-sky-200 text-slate-700 dark:bg-[#162D4E] dark:hover:bg-[#1E3E6B] dark:hover:text-teal-300 dark:border-[#2B4E7E] dark:text-slate-200 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95 transition-all disabled:opacity-50 shrink-0"
               >
-                <RefreshCw className={`w-3 h-3 stroke-[2.5] ${isSyncing ? 'animate-spin text-sky-400' : 'text-slate-300'}`} />
-                <span>Sync Now</span>
+                <RefreshCw className={`w-3.5 h-3.5 stroke-[2.5] shrink-0 ${isSyncing ? 'animate-spin text-teal-600 dark:text-teal-400' : 'text-slate-600 dark:text-slate-300'}`} />
+                <span>Sync</span>
               </button>
 
               {/* Sheet Config Modal Trigger */}
@@ -331,27 +343,26 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 type="button"
                 onClick={onOpenSheetSync}
                 title="Configure Google Sheet URL and Auto-Refresh Settings"
-                className="h-7 px-2 bg-[#162D4E] hover:bg-[#1E3E6B] hover:border-emerald-500/50 hover:text-emerald-300 border border-[#2B4E7E] rounded-lg text-[11px] font-bold text-emerald-400 flex items-center gap-1 shadow-xs cursor-pointer active:scale-95 transition-all"
+                className="h-8 px-2.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 dark:bg-[#162D4E] dark:hover:bg-[#1E3E6B] dark:hover:border-emerald-500/60 dark:hover:text-emerald-300 dark:border-[#2B4E7E] dark:text-emerald-400 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95 transition-all shrink-0"
               >
-                <FileSpreadsheet className="w-3 h-3 text-emerald-400 stroke-[2.5]" />
-                <span>Config</span>
+                <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400 stroke-[2.5] shrink-0" />
+                <span className="hidden sm:inline">Config</span>
               </button>
             </div>
           </div>
 
-          {/* Right Action Controls: Quick Search + Light/Dark Mode + Add Advisor (Structured in a matching 46px card) */}
-          <div className="flex items-center gap-1.5 bg-[#0F223D] border border-[#1E3A5F] px-2.5 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px]">
+          {/* Right Action Controls: Quick Search + Light/Dark Mode + 3D FX + Add Advisor */}
+          <div className="flex items-center gap-1.5 bg-white/95 dark:bg-[#0F223D] border border-[#BAE6FD] dark:border-[#1E3A5F] px-2 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[48px] lg:h-[48px]">
             {/* Quick Search Trigger (⌘K) */}
             {onOpenCommandPalette && (
               <button
                 type="button"
                 onClick={onOpenCommandPalette}
                 title="Search advisors, tasks, tabs, or actions (⌘K / Ctrl+K)"
-                className="h-7 px-2.5 bg-[#162D4E] hover:bg-[#1E3E6B] border border-[#2B4E7E] hover:border-sky-500/60 text-slate-200 hover:text-white text-xs font-bold rounded-lg flex items-center gap-1.5 shadow-xs cursor-pointer transition-all active:scale-95 group"
+                className="h-8 px-2.5 bg-sky-50 hover:bg-sky-100 border border-sky-200 hover:border-sky-400 text-slate-700 hover:text-slate-900 dark:bg-[#162D4E] dark:hover:bg-[#1E3E6B] dark:border-[#2B4E7E] dark:hover:border-sky-500/60 dark:text-slate-200 dark:hover:text-white text-xs font-bold rounded-lg flex items-center gap-1.5 shadow-xs cursor-pointer transition-all active:scale-95 shrink-0 group"
               >
-                <Search className="w-3.5 h-3.5 text-sky-400 group-hover:text-sky-300 stroke-[2.5]" />
-                <span className="hidden xl:inline">Search</span>
-                <kbd className="hidden sm:inline-block text-[9px] font-mono px-1 py-0.2 bg-[#0A1628] border border-slate-700 text-slate-400 rounded">⌘K</kbd>
+                <Search className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 group-hover:text-sky-700 dark:group-hover:text-sky-300 stroke-[2.5] shrink-0" />
+                <kbd className="text-[10px] font-mono px-1.5 py-0.5 bg-sky-100 dark:bg-[#0A1628] border border-sky-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded font-bold shrink-0">⌘K</kbd>
               </button>
             )}
 
@@ -362,18 +373,12 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 onClick={onToggleTheme}
                 title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
                 aria-label="Toggle Theme"
-                className="h-7 px-2.5 rounded-lg bg-[#162D4E] hover:bg-[#1E3E6B] border border-[#2B4E7E] text-amber-300 text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95 transition-all"
+                className="h-8 w-8 rounded-lg bg-sky-50 hover:bg-sky-100 border border-sky-200 text-slate-700 dark:bg-[#162D4E] dark:hover:bg-[#1E3E6B] dark:border-[#2B4E7E] dark:text-amber-300 flex items-center justify-center shadow-xs cursor-pointer active:scale-95 transition-all shrink-0"
               >
                 {theme === 'light' ? (
-                  <>
-                    <Sun className="w-3.5 h-3.5 text-amber-400 stroke-[2.5]" />
-                    <span className="hidden xl:inline">Light</span>
-                  </>
+                  <Moon className="w-4 h-4 text-slate-700 stroke-[2.2]" />
                 ) : (
-                  <>
-                    <Moon className="w-3.5 h-3.5 text-amber-400 stroke-[2.5]" />
-                    <span className="hidden xl:inline">Dark</span>
-                  </>
+                  <Sun className="w-4 h-4 text-amber-400 stroke-[2.5]" />
                 )}
               </button>
             )}
@@ -384,133 +389,134 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 type="button"
                 onClick={onOpenThreeBgModal}
                 title={`Configure 3D Background (${threeBgEnabled ? threeBgStyle : 'Disabled'})`}
-                className={`h-7 px-2.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95 transition-all group ${
+                className={`h-8 px-2.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95 transition-all shrink-0 group ${
                   threeBgEnabled
-                    ? 'bg-[#162D4E] hover:bg-[#1E3E6B] border-teal-500/50 text-teal-300 hover:text-white'
-                    : 'bg-[#162D4E] hover:bg-[#1E3E6B] border-[#2B4E7E] text-slate-400 hover:text-slate-200'
+                    ? 'bg-teal-50 hover:bg-teal-100 border-teal-300 text-teal-800 dark:bg-[#162D4E] dark:hover:bg-[#1E3E6B] dark:border-teal-500/60 dark:text-teal-300'
+                    : 'bg-sky-50 hover:bg-sky-100 border-sky-200 text-slate-700 dark:bg-[#162D4E] dark:hover:bg-[#1E3E6B] dark:border-[#2B4E7E] dark:text-slate-300'
                 }`}
               >
-                <Box className={`w-3.5 h-3.5 ${threeBgEnabled ? 'text-teal-400' : 'text-slate-400'} stroke-[2.5]`} />
-                <span className="hidden xl:inline">3D FX</span>
+                <Box className={`w-3.5 h-3.5 ${threeBgEnabled ? 'text-teal-600 dark:text-teal-400' : 'text-slate-500 dark:text-slate-400'} stroke-[2.5] shrink-0`} />
+                <span>3D FX</span>
                 {threeBgEnabled && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse shrink-0"></span>
                 )}
               </button>
             )}
 
-            {/* + Add Advisor Button (Refined Primary Button) */}
+            {/* + Add Advisor Button (Vibrant Emerald Primary Button) */}
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.96 }}
               type="button"
               onClick={onOpenAddModal}
-              className="h-7 px-3 bg-[#2D6A65] hover:bg-[#255753] active:bg-[#1C4340] border border-teal-500/40 text-white font-black text-xs rounded-lg flex items-center gap-1.5 shadow-sm shadow-black/20 cursor-pointer shrink-0 transition-all"
+              className="h-8 px-3 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 active:from-teal-700 active:to-emerald-700 border border-teal-400/50 text-white font-black text-xs rounded-lg flex items-center gap-1.5 shadow-md shadow-emerald-950/20 cursor-pointer shrink-0 transition-all whitespace-nowrap"
             >
-              <Plus className="w-3.5 h-3.5 stroke-[3]" />
-              <span className="whitespace-nowrap font-black tracking-wide text-white">Add Advisor</span>
+              <Plus className="w-3.5 h-3.5 stroke-[3] shrink-0" />
+              <span className="font-black tracking-wide text-white">Add Advisor</span>
             </motion.button>
           </div>
 
         </div>
 
-        {/* Tier 2: Payment Copy & Team Resources Ribbon (All items directly accessible, zero dropdown, zero hidden) */}
-        <div className="bg-[#0D1E36] border border-[#1E3A5F] rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-2 shadow-inner overflow-x-auto scrollbar-none">
-          
-          {/* Left Cluster: 1-Click Payments (Antu, Kayes, Payment Hub) */}
-          <div className="flex items-center gap-1.5 shrink-0">
-            {/* Antu 1-Click Copy */}
-            <button
-              type="button"
-              onClick={() => handleQuickCopy('আসসালামু আলাইকুম, আমি অন্তু  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01850890778 ধন্যবাদ।', 'antu_quick', 'Antu')}
-              className={`group h-7 px-2.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 whitespace-nowrap shadow-xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
-                copiedQuickId === 'antu_quick'
-                  ? 'bg-emerald-600 text-white border-emerald-400'
-                  : 'bg-rose-950/70 hover:bg-rose-900/80 text-rose-200 hover:text-white border-rose-500/40'
-              }`}
-              title="1-Click copy Bengali bKash message for Antu (01850890778)"
-            >
-              {copiedQuickId === 'antu_quick' ? (
-                <>
-                  <Check className="w-3 h-3 text-white stroke-[3]" />
-                  <span className="font-extrabold text-white">Copied Antu!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3 h-3 text-rose-400 group-hover:text-rose-300 stroke-[2.5]" />
-                  <span>Antu (01850890778)</span>
-                </>
-              )}
-            </button>
-
-            {/* Kayes 1-Click Copy */}
-            <button
-              type="button"
-              onClick={() => handleQuickCopy('আসসালামু আলাইকুম, আমি কায়েস ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা  নগদ  করুন  এই নাম্বারে 01644336738 ধন্যবাদ.', 'kayes_quick', 'Kayes')}
-              className={`group h-7 px-2.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 whitespace-nowrap shadow-xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
-                copiedQuickId === 'kayes_quick'
-                  ? 'bg-emerald-600 text-white border-emerald-400'
-                  : 'bg-amber-950/70 hover:bg-amber-900/80 text-amber-200 hover:text-white border-amber-500/40'
-              }`}
-              title="1-Click copy Bengali bKash message for Kayes (01644336738)"
-            >
-              {copiedQuickId === 'kayes_quick' ? (
-                <>
-                  <Check className="w-3 h-3 text-white stroke-[3]" />
-                  <span className="font-extrabold text-white">Copied Kayes!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3 h-3 text-amber-400 group-hover:text-amber-300 stroke-[2.5]" />
-                  <span>Kayes (01644336738)</span>
-                </>
-              )}
-            </button>
-
-            {/* Payment Hub Modal Trigger */}
-            {onOpenPaymentModal && (
+        {/* Tier 2: Payment Copy & Team Resources Ribbon (Zero Cutoff, Seamless Alignment, Invisible Scrollbar) */}
+        <div className="bg-[#D7ECFD]/95 dark:bg-[#0D1E36] border border-[#BAE6FD] dark:border-[#1E3A5F] rounded-xl px-2 sm:px-2.5 py-1.5 overflow-x-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden shadow-inner">
+          <div className="flex items-center justify-between gap-1.5 sm:gap-2 min-w-max lg:min-w-0 w-full">
+            {/* Left Cluster: 1-Click Payments (Antu, Kayes, Payment Hub) */}
+            <div className="flex items-center gap-1.5 shrink-0">
+              {/* Antu 1-Click Copy */}
               <button
                 type="button"
-                onClick={onOpenPaymentModal}
-                title="Open Full Payment Hub & Message Templates"
-                className="group h-7 px-2.5 bg-rose-950/50 hover:bg-rose-900/80 border border-rose-500/40 hover:border-rose-400 rounded-lg text-[11px] font-bold text-rose-200 hover:text-white flex items-center gap-1.5 whitespace-nowrap shadow-xs cursor-pointer active:scale-95 transition-all shrink-0"
+                onClick={() => handleQuickCopy('আসসালামু আলাইকুম, আমি অন্তু  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01850890778 ধন্যবাদ।', 'antu_quick', 'Antu')}
+                className={`group h-8 px-2.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 whitespace-nowrap shadow-xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
+                  copiedQuickId === 'antu_quick'
+                    ? 'bg-emerald-600 text-white border-emerald-400'
+                    : 'bg-rose-100/90 hover:bg-rose-200 text-rose-900 border-rose-300 dark:bg-rose-950/80 dark:hover:bg-rose-900 dark:text-rose-100 dark:border-rose-500/50'
+                }`}
+                title="1-Click copy Bengali bKash message for Antu (01850890778)"
               >
-                <CreditCard className="w-3 h-3 text-rose-400 stroke-[2.5]" />
-                <span className="hidden sm:inline">Payment Hub</span>
-                <span className="inline sm:hidden">Pay Hub</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse"></span>
+                {copiedQuickId === 'antu_quick' ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-white stroke-[3] shrink-0" />
+                    <span className="font-extrabold text-white">Copied Antu!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5 text-rose-700 dark:text-rose-400 group-hover:text-rose-900 dark:group-hover:text-rose-300 stroke-[2.5] shrink-0" />
+                    <span>Antu</span>
+                    <span className="hidden 2xl:inline font-mono text-[10px] opacity-75">(01850890778)</span>
+                  </>
+                )}
               </button>
-            )}
-          </div>
 
-          {/* Clean Vertical Divider */}
-          <div className="h-5 w-px bg-slate-700/80 shrink-0 mx-1 hidden md:block" />
+              {/* Kayes 1-Click Copy */}
+              <button
+                type="button"
+                onClick={() => handleQuickCopy('আসসালামু আলাইকুম, আমি কায়েস ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা  নগদ  করুন  এই নাম্বারে 01644336738 ধন্যবাদ.', 'kayes_quick', 'Kayes')}
+                className={`group h-8 px-2.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 whitespace-nowrap shadow-xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
+                  copiedQuickId === 'kayes_quick'
+                    ? 'bg-emerald-600 text-white border-emerald-400'
+                    : 'bg-amber-100/90 hover:bg-amber-200 text-amber-900 border-amber-300 dark:bg-amber-950/80 dark:hover:bg-amber-900 dark:text-amber-100 dark:border-amber-500/50'
+                }`}
+                title="1-Click copy Bengali bKash message for Kayes (01644336738)"
+              >
+                {copiedQuickId === 'kayes_quick' ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-white stroke-[3] shrink-0" />
+                    <span className="font-extrabold text-white">Copied Kayes!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400 group-hover:text-amber-900 dark:group-hover:text-amber-300 stroke-[2.5] shrink-0" />
+                    <span>Kayes</span>
+                    <span className="hidden 2xl:inline font-mono text-[10px] opacity-75">(01644336738)</span>
+                  </>
+                )}
+              </button>
 
-          {/* Right Cluster: All 7 Team Resource Links (Directly visible, no dropdown) */}
-          <div className="flex items-center gap-1.5 shrink-0">
-            {teamResources.map((res, i) => {
-              const Icon = res.icon;
-              return (
-                <a
-                  key={i}
-                  href={res.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group h-7 px-2 bg-[#132845] hover:bg-[#1A365D] border border-[#234575] hover:border-sky-400/50 rounded-lg text-[11px] font-semibold text-slate-200 hover:text-white flex items-center gap-1 whitespace-nowrap shadow-xs transition-colors shrink-0"
-                  title={`Open ${res.label}`}
+              {/* Payment Hub Modal Trigger */}
+              {onOpenPaymentModal && (
+                <button
+                  type="button"
+                  onClick={onOpenPaymentModal}
+                  title="Open Full Payment Hub & Message Templates"
+                  className="group h-8 px-2.5 bg-rose-100/90 hover:bg-rose-200 border border-rose-300 dark:bg-rose-950/60 dark:hover:bg-rose-900 dark:border-rose-500/50 dark:hover:border-rose-400 rounded-lg text-[11px] font-bold text-rose-900 dark:text-rose-200 hover:text-rose-950 dark:hover:text-white flex items-center gap-1.5 whitespace-nowrap shadow-xs cursor-pointer active:scale-95 transition-all shrink-0"
                 >
-                  <Icon className={`w-3 h-3 ${res.color} stroke-[2.4] shrink-0`} />
-                  <span>{res.label}</span>
-                  <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-sky-300 stroke-[2] shrink-0" />
-                </a>
-              );
-            })}
-          </div>
+                  <CreditCard className="w-3.5 h-3.5 text-rose-700 dark:text-rose-400 stroke-[2.5] shrink-0" />
+                  <span>Payment Hub</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500 dark:bg-rose-400 animate-pulse shrink-0"></span>
+                </button>
+              )}
+            </div>
 
+            {/* Subtle Divider */}
+            <div className="h-4 w-px bg-[#93C5FD] dark:bg-[#234575] shrink-0 mx-0.5" />
+
+            {/* Right Cluster: All 7 Team Resource Links (Directly visible, clean alignment, zero cutoff) */}
+            <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+              {teamResources.map((res, i) => {
+                const Icon = res.icon;
+                return (
+                  <a
+                    key={i}
+                    href={res.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group h-8 px-2 sm:px-2.5 bg-white/95 hover:bg-white border border-[#BAE6FD] hover:border-teal-500/60 dark:bg-[#132845] dark:hover:bg-[#1A365D] dark:border-[#234575] dark:hover:border-teal-400/50 rounded-lg text-[11px] font-bold text-slate-700 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white flex items-center gap-1 whitespace-nowrap shadow-xs transition-colors shrink-0"
+                    title={`Open ${res.label}`}
+                  >
+                    <Icon className={`w-3.5 h-3.5 ${res.color} stroke-[2.4] shrink-0`} />
+                    <span>{res.label}</span>
+                    <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-300 stroke-[2] shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        {/* Tier 3: Core Navigation Tabs (Balanced, Zero Descender Clipping, No Overflow Clipping) */}
-        <nav className="w-full overflow-hidden" aria-label="Main Navigation">
-          <div className="bg-[#071324] p-1.5 rounded-xl border border-[#162A47] shadow-inner w-full">
+        {/* Tier 3: Core Navigation Tabs (Balanced, Zero Truncation/Ellipses, High Contrast) */}
+        <nav className="w-full" aria-label="Main Navigation">
+          <div className="bg-[#D0E7FC]/90 dark:bg-[#071324] p-1.5 rounded-xl border border-[#BAE6FD] dark:border-[#162A47] shadow-inner w-full">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-1.5 w-full">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;
@@ -524,28 +530,28 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     onClick={() => setActiveTab(tab.id as any)}
                     aria-current={isActive ? 'page' : undefined}
                     title={`${tab.label} (Press ${tab.keyNum} to jump)`}
-                    className={`group relative h-9 px-1.5 sm:px-2 rounded-lg text-xs flex items-center justify-center gap-1.5 transition-all duration-150 cursor-pointer select-none w-full min-w-0 ${
+                    className={`group relative h-9.5 px-2 rounded-xl text-xs xl:text-[13px] flex items-center justify-center gap-1.5 transition-all duration-150 cursor-pointer select-none w-full min-w-0 whitespace-nowrap ${
                       isActive
-                        ? 'bg-blue-600 text-white font-black shadow-md shadow-blue-950/60 border border-blue-400/50'
-                        : 'bg-[#0F223D] hover:bg-[#162D4E] text-slate-200 hover:text-white font-bold border border-[#1E3A5F] hover:border-sky-400/50 shadow-xs hover:shadow-sm'
+                        ? 'bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold shadow-md border border-teal-500'
+                        : 'bg-white/95 hover:bg-white text-slate-700 hover:text-slate-950 font-semibold border border-[#BAE6FD] hover:border-teal-500/50 shadow-xs dark:bg-[#0F223D] dark:hover:bg-[#162D4E] dark:text-slate-200 dark:hover:text-white dark:border-[#1E3A5F] dark:hover:border-teal-400/40'
                     }`}
                   >
-                    <Icon className={`w-3.5 h-3.5 shrink-0 transition-colors ${
+                    <Icon className={`w-4 h-4 shrink-0 transition-colors ${
                       isActive
-                        ? 'text-white stroke-[2.5]'
-                        : 'text-sky-400 group-hover:text-sky-300 stroke-[2]'
+                        ? 'text-white stroke-[2.4]'
+                        : 'text-teal-600 dark:text-teal-400 group-hover:text-teal-700 dark:group-hover:text-teal-300 stroke-[2]'
                     }`} />
 
-                    <span className={`truncate min-w-0 leading-normal pt-0.5 ${isActive ? 'font-black text-white' : 'font-bold text-slate-200 group-hover:text-white'}`}>
-                      <span className="hidden xl:inline">{tab.label}</span>
-                      <span className="inline xl:hidden">{tab.shortLabel}</span>
+                    <span className={`leading-none whitespace-nowrap ${isActive ? 'font-bold text-white' : 'font-semibold text-slate-700 group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white'}`}>
+                      <span className="hidden 2xl:inline">{tab.label}</span>
+                      <span className="inline 2xl:hidden">{tab.shortLabel}</span>
                     </span>
 
                     {tab.isAi && (
-                      <span className={`text-[9px] font-black px-1.5 py-0.5 rounded font-mono leading-none shrink-0 transition-colors ${
+                      <span className={`text-[10px] font-black px-1.5 h-[18px] rounded-full font-mono leading-none flex items-center justify-center shrink-0 transition-colors ${
                         isActive
-                          ? 'bg-white/20 text-white border border-white/30'
-                          : 'bg-purple-900/60 text-purple-200 border border-purple-400/40 group-hover:bg-purple-800'
+                          ? 'bg-white/25 text-white border border-white/40'
+                          : 'bg-purple-100 text-purple-900 border border-purple-300 dark:bg-purple-900/70 dark:text-purple-200 dark:border-purple-400/50 group-hover:bg-purple-200'
                       }`}>
                         AI
                       </span>
@@ -553,10 +559,10 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
                     {tab.badge !== undefined && (
                       <span
-                        className={`text-[10px] px-1.5 min-w-[20px] h-4 rounded-full font-black font-mono transition-colors leading-none flex items-center justify-center border shrink-0 ${
+                        className={`text-[11px] px-1.5 min-w-[20px] h-[18px] rounded-full font-black font-mono transition-colors leading-none flex items-center justify-center border shrink-0 ${
                           isActive
-                            ? 'bg-white/20 text-white border border-white/25'
-                            : 'bg-[#071324] group-hover:bg-[#0B1A30] text-sky-300 group-hover:text-sky-200 border border-[#234575] group-hover:border-sky-400/50'
+                            ? 'bg-white/25 text-white border border-white/30'
+                            : 'bg-sky-100 dark:bg-[#071324] text-teal-800 dark:text-teal-300 border border-sky-300 dark:border-[#234575] group-hover:border-teal-400/50'
                         }`}
                       >
                         {tab.badge}
