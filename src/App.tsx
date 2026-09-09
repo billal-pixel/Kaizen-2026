@@ -506,7 +506,7 @@ export default function App() {
   const avgKpi = totalAdvisorCount > 0 ? ((avgStationedKpi * stationedAdvisors.length) + (avgVirtualKpi * virtualAdvisors.length)) / totalAdvisorCount : 0;
 
   return (
-    <div className="relative min-h-screen font-sans bg-[#E0F2FE] dark:bg-[#071324] text-[#0F172A] dark:text-slate-100 selection:bg-[#0284C7]/20 selection:text-[#0369A1] transition-colors duration-200 overflow-x-hidden">
+    <div className="relative min-h-screen font-sans bg-sky-100 dark:bg-[#082F49] text-slate-900 dark:text-slate-100 selection:bg-teal-500/20 selection:text-teal-900 transition-colors duration-200 overflow-x-hidden">
       {/* 3D WebGL Background Simulation Canvas Layer */}
       <ThreeBackground
         style={threeBgStyle}

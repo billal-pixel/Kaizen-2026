@@ -52,7 +52,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 shadow-xs space-y-4 flex flex-col justify-between relative overflow-hidden group/card hover:border-amber-400/60 transition-all duration-300"
+      className="bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xs space-y-4 flex flex-col justify-between relative overflow-hidden group/card hover:border-amber-400/60 dark:hover:border-amber-500/40 transition-all duration-300"
     >
       {/* Subtle Ambient Golden Corner Glow */}
       <div className="absolute -top-16 -right-16 w-36 h-36 rounded-full bg-gradient-to-br from-amber-300/20 via-indigo-200/10 to-transparent blur-2xl pointer-events-none transition-opacity duration-500 group-hover/card:opacity-100 opacity-60" />
@@ -65,7 +65,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
             <motion.div 
               whileHover={{ rotate: [-5, 5, -5, 0], scale: 1.1 }}
               transition={{ duration: 0.4 }}
-              className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-600 shrink-0 flex items-center justify-center shadow-xs relative"
+              className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800/60 text-amber-600 dark:text-amber-400 shrink-0 flex items-center justify-center shadow-xs relative"
             >
               <Trophy className="w-4 h-4 text-amber-500 drop-shadow-xs" />
               <motion.div
@@ -84,7 +84,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
 
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <h3 className="font-black text-xs sm:text-sm uppercase tracking-wider text-slate-900 truncate">
+                <h3 className="font-extrabold text-xs sm:text-sm uppercase tracking-wider text-slate-900 dark:text-white truncate">
                   Top Advisors Leaderboard
                 </h3>
                 <motion.span
@@ -94,7 +94,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                   <Sparkles className="w-3 h-3 text-amber-400 fill-amber-400/50 shrink-0" />
                 </motion.span>
               </div>
-              <p className="text-[10px] text-slate-500 font-medium truncate">
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">
                 Merit Rankings (Based on Sales Revenue)
               </p>
             </div>
@@ -103,7 +103,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
           {/* Animated Top 5 Badge */}
           <motion.div 
             whileHover={{ scale: 1.05 }}
-            className="flex items-center gap-1 bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-black px-2.5 py-1 rounded-lg font-mono shrink-0 shadow-2xs"
+            className="flex items-center gap-1 bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 text-[10px] font-black px-2.5 py-1 rounded-lg font-mono shrink-0 shadow-2xs"
           >
             <Flame className="w-3 h-3 text-amber-500 fill-amber-500 animate-pulse shrink-0" />
             <span>Top 5</span>
@@ -111,7 +111,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
         </div>
 
         {/* Liquid Animated Segmented Filter Bar */}
-        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner w-full h-9 sm:h-10 relative">
+        <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#1E293B] p-1 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner w-full h-9 sm:h-10 relative">
           {(['combined', 'stationed', 'virtual'] as const).map((tabKey) => {
             const isActive = leaderboardFilter === tabKey;
             const label = tabKey === 'combined' ? 'Combined' : tabKey === 'stationed' ? 'Stationed' : 'Virtual';
@@ -125,7 +125,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                 className={`relative flex-1 py-1 rounded-lg text-xs font-extrabold transition-colors text-center cursor-pointer z-10 flex items-center justify-center gap-1.5 ${
                   isActive
                     ? 'text-white'
-                    : 'text-slate-500 hover:text-slate-800'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
                 }`}
               >
                 {/* Active Sliding Pill Background */}
@@ -135,7 +135,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                     transition={{ type: 'spring', stiffness: 450, damping: 32 }}
                     className={`absolute inset-0 rounded-lg shadow-sm border ${
                       tabKey === 'combined'
-                        ? 'bg-[#3B7A75] border-[#3B7A75] text-white'
+                        ? 'bg-teal-700 border-teal-700 text-white'
                         : tabKey === 'stationed'
                         ? 'bg-indigo-600 text-white border-indigo-600'
                         : 'bg-emerald-600 text-white border-emerald-600'
@@ -146,7 +146,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                 <span className={`relative z-10 text-[9px] font-mono font-bold px-1 rounded ${
                   isActive 
                     ? 'bg-white/20 text-white' 
-                    : 'bg-slate-200 text-slate-600'
+                    : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
                 }`}>
                   {count}
                 </span>
@@ -165,7 +165,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="text-xs text-slate-500 text-center py-8"
+              className="text-xs text-slate-500 dark:text-slate-400 text-center py-8"
             >
               No advisors found in this division.
             </motion.div>
@@ -205,12 +205,12 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                     onClick={() => onSelectAdvisor(item.raw, item.team.toLowerCase() as any)}
                     className={`relative p-2.5 rounded-xl border flex flex-col justify-between gap-1.5 cursor-pointer transition-all duration-200 group/item shadow-2xs hover:shadow-md overflow-hidden ${
                       isChampion
-                        ? 'bg-gradient-to-r from-amber-50 via-amber-50/50 to-white border-amber-300 hover:border-amber-400 ring-1 ring-amber-400/30'
+                        ? 'bg-gradient-to-r from-amber-50 via-amber-50/50 to-white dark:from-amber-950/30 dark:via-slate-800/80 dark:to-slate-900 border-amber-300 dark:border-amber-700/60 hover:border-amber-400 dark:hover:border-amber-500 ring-1 ring-amber-400/30'
                         : isSecond
-                        ? 'bg-slate-50 border-slate-200 hover:border-indigo-300'
+                        ? 'bg-slate-50 dark:bg-slate-800/70 border-slate-200 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-500/50'
                         : isThird
-                        ? 'bg-slate-50 border-slate-200 hover:border-amber-400'
-                        : 'bg-slate-50/70 border-slate-200 hover:border-indigo-300'
+                        ? 'bg-slate-50 dark:bg-slate-800/70 border-slate-200 dark:border-slate-700 hover:border-amber-400 dark:hover:border-amber-500/50'
+                        : 'bg-slate-50/70 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/80 hover:border-indigo-300 dark:hover:border-indigo-500/50'
                     }`}
                   >
                     {/* Top Performer Radiant Sweep on Champion */}
@@ -242,7 +242,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                               ? 'bg-gradient-to-br from-slate-200 via-slate-300 to-slate-400 text-slate-950 shadow-xs ring-1 ring-slate-300/40' 
                               : isThird 
                               ? 'bg-gradient-to-br from-amber-600 via-amber-700 to-amber-800 text-amber-100 shadow-xs ring-1 ring-amber-600/30' 
-                              : 'bg-white border border-slate-200 text-slate-700 font-mono font-extrabold'
+                              : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-mono font-extrabold'
                           }`}
                         >
                           {isChampion ? (
@@ -269,7 +269,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                         {/* Name & Division Tag */}
                         <div className="min-w-0 flex-1 space-y-0.5">
                           <div className="flex items-center gap-1.5">
-                            <h4 className="font-black text-slate-900 text-xs sm:text-sm group-hover/item:text-indigo-600 transition-colors truncate leading-tight">
+                            <h4 className="font-bold text-slate-900 dark:text-white text-xs sm:text-sm group-hover/item:text-indigo-600 dark:group-hover/item:text-indigo-400 transition-colors truncate leading-tight">
                               {item.name}
                             </h4>
                             {isChampion && (
@@ -295,8 +295,8 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                           <div className="flex items-center gap-1.5">
                             <span className={`inline-flex items-center gap-1 text-[9px] font-black uppercase px-1.5 py-0.2 rounded border font-mono tracking-tight whitespace-nowrap transition-transform duration-200 group-hover/item:scale-105 ${
                               item.team === 'Stationed'
-                                ? 'bg-indigo-50 text-indigo-700 border-indigo-200'
-                                : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800/60'
+                                : 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60'
                             }`}>
                               <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.team === 'Stationed' ? 'bg-indigo-600' : 'bg-emerald-500'}`} />
                               {item.team}
@@ -310,7 +310,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                         <div className="flex items-center gap-1">
                           <motion.span 
                             whileHover={{ scale: 1.05 }}
-                            className="text-xs sm:text-sm font-black text-slate-900 font-mono tracking-tight whitespace-nowrap"
+                            className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-mono tracking-tight whitespace-nowrap"
                           >
                             ৳{item.sales.toLocaleString('en-BD')}
                           </motion.span>
@@ -319,21 +319,21 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
 
                         <div className="flex items-center gap-1 justify-end">
                           {/* KPI Badge */}
-                          <span className="font-black text-[9px] sm:text-[10px] font-mono tracking-tight bg-blue-50 text-blue-700 border border-blue-200 px-1.5 py-0.5 rounded whitespace-nowrap shadow-2xs">
+                          <span className="font-black text-[9px] sm:text-[10px] font-mono tracking-tight bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/60 px-1.5 py-0.5 rounded whitespace-nowrap shadow-2xs">
                             {item.kpiDisplay} KPI
                           </span>
 
                           {/* Grade Badge */}
                           <span className={`text-[9px] sm:text-[10px] font-black font-mono px-1.5 py-0.5 rounded border uppercase tracking-wide whitespace-nowrap shadow-2xs ${
                             item.grade === 'A'
-                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                              ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60'
                               : item.grade === 'B'
-                              ? 'bg-blue-50 text-blue-700 border-blue-200'
+                              ? 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/60'
                               : item.grade === 'C'
-                              ? 'bg-purple-50 text-purple-700 border-purple-200'
+                              ? 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800/60'
                               : item.grade === 'D'
-                              ? 'bg-orange-50 text-orange-700 border-orange-200'
-                              : 'bg-rose-50 text-rose-700 border-rose-200'
+                              ? 'bg-orange-50 dark:bg-orange-950/60 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-800/60'
+                              : 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/60'
                           }`}>
                             {item.grade} GRADE
                           </span>
@@ -342,7 +342,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                     </div>
 
                     {/* Comparative Relative Revenue Micro-Meter Bar */}
-                    <div className="w-full bg-slate-200/60 h-1 rounded-full overflow-hidden relative">
+                    <div className="w-full bg-slate-200/60 dark:bg-slate-700/60 h-1 rounded-full overflow-hidden relative">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${relativeFillPct}%` }}

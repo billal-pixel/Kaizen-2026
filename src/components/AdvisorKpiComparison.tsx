@@ -453,16 +453,16 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
   const getGradeStyle = (grade: string) => {
     switch (grade) {
       case 'A':
-        return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+        return 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30';
       case 'B':
-        return 'bg-sky-50 text-sky-700 border-sky-200';
+        return 'bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-500/30';
       case 'C':
-        return 'bg-indigo-50 text-indigo-700 border-indigo-200';
+        return 'bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-500/30';
       case 'D':
-        return 'bg-amber-50 text-amber-800 border-amber-200';
+        return 'bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-500/30';
       case 'PIP':
       default:
-        return 'bg-rose-50 text-rose-700 border-rose-200';
+        return 'bg-rose-50 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-500/30';
     }
   };
 
@@ -479,27 +479,27 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 shadow-xs space-y-6 relative overflow-hidden transition-all"
+      className="bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xs space-y-6 relative overflow-hidden transition-all"
     >
       {/* Background Ambient Gradient Accents */}
-      <div className="absolute top-0 right-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-80 h-80 bg-indigo-500/5 dark:bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Section Header */}
-      <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+      <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
         <div className="flex flex-col items-start gap-1.5">
           <div className="flex items-center gap-2 flex-wrap">
-            <div className="p-2 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 shrink-0">
+            <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60 text-indigo-700 dark:text-indigo-400 shrink-0">
               <SlidersHorizontal className="w-4 h-4" />
             </div>
-            <h2 className="text-base sm:text-lg font-black text-slate-900 tracking-tight flex items-center gap-2">
+            <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
               Advisor KPI Head-to-Head Comparison
             </h2>
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-md border border-indigo-200 font-mono shadow-2xs">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-0.5 rounded-md border border-indigo-200 dark:border-indigo-800/60 font-mono shadow-2xs">
               Side-by-Side Analytics
             </span>
           </div>
-          <p className="text-xs text-slate-600 max-w-2xl leading-relaxed">
+          <p className="text-xs text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
             Select any two advisors across Stationed and Virtual divisions to contrast overall KPI performance scores, sales revenue, and operational velocity.
           </p>
         </div>
@@ -511,7 +511,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
           <button
             type="button"
             onClick={handleSelectTop2}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-all cursor-pointer shadow-2xs"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-[#1E293B] hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs"
             title="Compare the #1 and #2 overall performers"
           >
             <Trophy className="w-3.5 h-3.5 text-amber-500" />
@@ -521,27 +521,27 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
           <button
             type="button"
             onClick={handleSelectStationedVsVirtual}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-all cursor-pointer shadow-2xs"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-[#1E293B] hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs"
             title="Compare Top Stationed Performer vs Top Virtual Performer"
           >
-            <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
+            <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
             <span>ST #1 vs VT #1</span>
           </button>
 
           <button
             type="button"
             onClick={handleRandomMatchup}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-all cursor-pointer shadow-2xs"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-[#1E293B] hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs"
             title="Pick a random pair of advisors"
           >
-            <Shuffle className="w-3.5 h-3.5 text-emerald-600" />
+            <Shuffle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>Random</span>
           </button>
 
           <button
             type="button"
             onClick={handleSwapAdvisors}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 transition-all cursor-pointer shadow-2xs"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60 transition-all cursor-pointer shadow-2xs"
             title="Swap Advisor 1 and Advisor 2"
           >
             <ArrowLeftRight className="w-3.5 h-3.5" />
@@ -554,7 +554,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-11 gap-4 items-center">
         {/* Advisor 1 Selector & Card (Left Column - 5 Cols) */}
         <div className="md:col-span-5 relative" ref={dropdownRef1}>
-          <div className="bg-white border-2 border-sky-300 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs relative overflow-hidden transition-all">
+          <div className="bg-white dark:bg-[#1E293B] border-2 border-sky-300 dark:border-sky-600/60 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs relative overflow-hidden transition-all">
             {/* Top Accent Stripe */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-sky-500 to-cyan-400" />
 
@@ -563,7 +563,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                 <span className="w-6 h-6 rounded-full bg-sky-600 text-white font-black text-xs flex items-center justify-center shadow-xs">
                   1
                 </span>
-                <span className="text-xs font-extrabold uppercase tracking-wider text-sky-700">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-sky-700 dark:text-sky-300">
                   Primary Advisor
                 </span>
               </div>
@@ -577,23 +577,23 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
               type="button"
               id="advisor-1-selector-btn"
               onClick={() => setOpenSelector(openSelector === 'adv1' ? 'none' : 'adv1')}
-              className="w-full flex items-center justify-between gap-3 bg-slate-50 border border-slate-200 hover:border-sky-400 p-3 rounded-xl shadow-2xs text-left cursor-pointer transition-all group"
+              className="w-full flex items-center justify-between gap-3 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 hover:border-sky-400 dark:hover:border-sky-400 p-3 rounded-xl shadow-2xs text-left cursor-pointer transition-all group"
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-sky-100 border border-sky-200 text-sky-700 font-black text-sm flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-sky-100 dark:bg-sky-950/70 border border-sky-200 dark:border-sky-800/70 text-sky-700 dark:text-sky-300 font-black text-sm flex items-center justify-center shrink-0">
                   {advisor1.name.charAt(0)}
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-black text-sm text-slate-900 truncate group-hover:text-sky-700 transition-colors">
+                    <span className="font-black text-sm text-slate-900 dark:text-white truncate group-hover:text-sky-700 dark:group-hover:text-sky-400 transition-colors">
                       {advisor1.name}
                     </span>
                     <span className="text-[10px] font-mono text-slate-400">
                       ({advisor1.employeeId})
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-[11px] text-slate-500 truncate">
-                    <span className="capitalize text-sky-700 font-bold">{advisor1.team} Team</span>
+                  <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                    <span className="capitalize text-sky-700 dark:text-sky-400 font-bold">{advisor1.team} Team</span>
                     <span>•</span>
                     <span className="truncate">{advisor1.designation}</span>
                   </div>
@@ -604,17 +604,17 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
 
             {/* Quick Metrics Bar for Advisor 1 */}
             <div className="grid grid-cols-3 gap-2 pt-1 text-center">
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                <span className="text-[10px] text-slate-500 font-bold uppercase block">KPI Score</span>
-                <span className="text-base font-black text-sky-700 font-mono">{advisor1.kpiDisplay}</span>
+              <div className="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase block">KPI Score</span>
+                <span className="text-base font-black text-sky-700 dark:text-sky-400 font-mono">{advisor1.kpiDisplay}</span>
               </div>
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                <span className="text-[10px] text-slate-500 font-bold uppercase block">Sales</span>
-                <span className="text-sm font-black text-slate-900 font-mono truncate block">৳{(advisor1.sales / 1000).toFixed(0)}k</span>
+              <div className="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase block">Sales</span>
+                <span className="text-sm font-black text-slate-900 dark:text-white font-mono truncate block">৳{(advisor1.sales / 1000).toFixed(0)}k</span>
               </div>
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                <span className="text-[10px] text-slate-500 font-bold uppercase block">Reach</span>
-                <span className="text-sm font-black text-slate-900 font-mono">{advisor1.reach}</span>
+              <div className="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase block">Reach</span>
+                <span className="text-sm font-black text-slate-900 dark:text-white font-mono">{advisor1.reach}</span>
               </div>
             </div>
 
@@ -623,7 +623,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
               <button
                 type="button"
                 onClick={() => onSelectAdvisor(advisor1.raw, advisor1.team)}
-                className="w-full flex items-center justify-center gap-1.5 py-1.5 text-xs font-bold text-sky-700 hover:text-sky-800 transition-colors cursor-pointer"
+                className="w-full flex items-center justify-center gap-1.5 py-1.5 text-xs font-bold text-sky-700 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 transition-colors cursor-pointer"
               >
                 <span>View Full Advisor Dossier</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -639,7 +639,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 8, scale: 0.98 }}
                 transition={{ duration: 0.15 }}
-                className="absolute top-full left-0 right-0 mt-2 z-50 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden p-3 space-y-2.5 max-h-96 flex flex-col"
+                className="absolute top-full left-0 right-0 mt-2 z-50 bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl overflow-hidden p-3 space-y-2.5 max-h-96 flex flex-col"
               >
                 {/* Search Bar */}
                 <div className="relative">
@@ -649,18 +649,18 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                     value={searchQuery1}
                     onChange={(e) => setSearchQuery1(e.target.value)}
                     placeholder="Search advisor by name or ID..."
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:border-sky-500"
+                    className="w-full pl-9 pr-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-hidden focus:border-sky-500"
                     autoFocus
                   />
                 </div>
 
                 {/* Team Filter Pills */}
-                <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-lg text-xs font-bold">
+                <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-lg text-xs font-bold">
                   <button
                     type="button"
                     onClick={() => setTeamFilter1('all')}
                     className={`flex-1 py-1 rounded-md text-[11px] font-extrabold transition-all ${
-                      teamFilter1 === 'all' ? 'bg-white text-sky-700 shadow-xs' : 'text-slate-500'
+                      teamFilter1 === 'all' ? 'bg-white dark:bg-slate-700 text-sky-700 dark:text-sky-300 shadow-xs' : 'text-slate-500 dark:text-slate-400'
                     }`}
                   >
                     All ({allAdvisors.length})
@@ -669,7 +669,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                     type="button"
                     onClick={() => setTeamFilter1('stationed')}
                     className={`flex-1 py-1 rounded-md text-[11px] font-extrabold transition-all ${
-                      teamFilter1 === 'stationed' ? 'bg-white text-sky-700 shadow-xs' : 'text-slate-500'
+                      teamFilter1 === 'stationed' ? 'bg-white dark:bg-slate-700 text-sky-700 dark:text-sky-300 shadow-xs' : 'text-slate-500 dark:text-slate-400'
                     }`}
                   >
                     Stationed ({stationedAdvisors.length})
@@ -678,7 +678,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                     type="button"
                     onClick={() => setTeamFilter1('virtual')}
                     className={`flex-1 py-1 rounded-md text-[11px] font-extrabold transition-all ${
-                      teamFilter1 === 'virtual' ? 'bg-white text-cyan-700 shadow-xs' : 'text-slate-500'
+                      teamFilter1 === 'virtual' ? 'bg-white dark:bg-slate-700 text-cyan-700 dark:text-cyan-300 shadow-xs' : 'text-slate-500 dark:text-slate-400'
                     }`}
                   >
                     Virtual ({virtualAdvisors.length})
@@ -702,12 +702,12 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                         }}
                         className={`w-full flex items-center justify-between p-2 rounded-xl text-left text-xs transition-all cursor-pointer ${
                           adv.id === advisor1Id
-                            ? 'bg-sky-50 text-sky-800 border border-sky-200 font-bold'
-                            : 'hover:bg-slate-100 text-slate-700'
+                            ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800/60 font-bold'
+                            : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
                         }`}
                       >
                         <div className="flex items-center gap-2 min-w-0">
-                          <span className="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 font-bold text-xs flex items-center justify-center shrink-0">
+                          <span className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 font-bold text-xs flex items-center justify-center shrink-0">
                             {adv.name.charAt(0)}
                           </span>
                           <div className="min-w-0">
@@ -718,7 +718,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                           </div>
                         </div>
                         {adv.id === advisor1Id && (
-                          <Check className="w-4 h-4 text-sky-600 shrink-0" />
+                          <Check className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />
                         )}
                       </button>
                     ))
@@ -732,7 +732,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
         {/* Center VS Matchup Badge (Center Column - 1 Col) */}
         <div className="md:col-span-1 flex flex-col items-center justify-center py-2 md:py-0">
           <div className="relative flex items-center justify-center">
-            <div className="w-12 h-12 rounded-2xl bg-slate-900 border-2 border-slate-200 text-amber-400 font-black text-xs flex items-center justify-center shadow-lg transform rotate-45">
+            <div className="w-12 h-12 rounded-2xl bg-slate-900 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-amber-400 font-black text-xs flex items-center justify-center shadow-lg transform rotate-45">
               <span className="transform -rotate-45 font-mono tracking-tighter">VS</span>
             </div>
             <motion.div
@@ -746,7 +746,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block font-mono">
               Score
             </span>
-            <span className="text-xs font-black text-slate-900 font-mono">
+            <span className="text-xs font-black text-slate-900 dark:text-white font-mono">
               {headToHead.wins1} - {headToHead.wins2}
             </span>
           </div>
@@ -754,7 +754,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
 
         {/* Advisor 2 Selector & Card (Right Column - 5 Cols) */}
         <div className="md:col-span-5 relative" ref={dropdownRef2}>
-          <div className="bg-white border-2 border-emerald-300 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs relative overflow-hidden transition-all">
+          <div className="bg-white dark:bg-[#1E293B] border-2 border-emerald-300 dark:border-emerald-600/60 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs relative overflow-hidden transition-all">
             {/* Top Accent Stripe */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 to-teal-400" />
 
@@ -763,7 +763,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                 <span className="w-6 h-6 rounded-full bg-emerald-600 text-white font-black text-xs flex items-center justify-center shadow-xs">
                   2
                 </span>
-                <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
                   Comparison Advisor
                 </span>
               </div>
@@ -777,23 +777,23 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
               type="button"
               id="advisor-2-selector-btn"
               onClick={() => setOpenSelector(openSelector === 'adv2' ? 'none' : 'adv2')}
-              className="w-full flex items-center justify-between gap-3 bg-slate-50 border border-slate-200 hover:border-emerald-400 p-3 rounded-xl shadow-2xs text-left cursor-pointer transition-all group"
+              className="w-full flex items-center justify-between gap-3 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 hover:border-emerald-400 dark:hover:border-emerald-400 p-3 rounded-xl shadow-2xs text-left cursor-pointer transition-all group"
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-emerald-100 border border-emerald-200 text-emerald-700 font-black text-sm flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-800/70 text-emerald-700 dark:text-emerald-300 font-black text-sm flex items-center justify-center shrink-0">
                   {advisor2.name.charAt(0)}
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-black text-sm text-slate-900 truncate group-hover:text-emerald-700 transition-colors">
+                    <span className="font-black text-sm text-slate-900 dark:text-white truncate group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                       {advisor2.name}
                     </span>
                     <span className="text-[10px] font-mono text-slate-400">
                       ({advisor2.employeeId})
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-[11px] text-slate-500 truncate">
-                    <span className="capitalize text-emerald-700 font-bold">{advisor2.team} Team</span>
+                  <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                    <span className="capitalize text-emerald-700 dark:text-emerald-400 font-bold">{advisor2.team} Team</span>
                     <span>•</span>
                     <span className="truncate">{advisor2.designation}</span>
                   </div>
@@ -804,17 +804,17 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
 
             {/* Quick Metrics Bar for Advisor 2 */}
             <div className="grid grid-cols-3 gap-2 pt-1 text-center">
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                <span className="text-[10px] text-slate-500 font-bold uppercase block">KPI Score</span>
-                <span className="text-base font-black text-emerald-700 font-mono">{advisor2.kpiDisplay}</span>
+              <div className="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase block">KPI Score</span>
+                <span className="text-base font-black text-emerald-700 dark:text-emerald-400 font-mono">{advisor2.kpiDisplay}</span>
               </div>
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                <span className="text-[10px] text-slate-500 font-bold uppercase block">Sales</span>
-                <span className="text-sm font-black text-slate-900 font-mono truncate block">৳{(advisor2.sales / 1000).toFixed(0)}k</span>
+              <div className="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase block">Sales</span>
+                <span className="text-sm font-black text-slate-900 dark:text-white font-mono truncate block">৳{(advisor2.sales / 1000).toFixed(0)}k</span>
               </div>
-              <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                <span className="text-[10px] text-slate-500 font-bold uppercase block">Reach</span>
-                <span className="text-sm font-black text-slate-900 font-mono">{advisor2.reach}</span>
+              <div className="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase block">Reach</span>
+                <span className="text-sm font-black text-slate-900 dark:text-white font-mono">{advisor2.reach}</span>
               </div>
             </div>
 
@@ -823,7 +823,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
               <button
                 type="button"
                 onClick={() => onSelectAdvisor(advisor2.raw, advisor2.team)}
-                className="w-full flex items-center justify-center gap-1.5 py-1.5 text-xs font-bold text-emerald-700 hover:text-emerald-800 transition-colors cursor-pointer"
+                className="w-full flex items-center justify-center gap-1.5 py-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 transition-colors cursor-pointer"
               >
                 <span>View Full Advisor Dossier</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -839,7 +839,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 8, scale: 0.98 }}
                 transition={{ duration: 0.15 }}
-                className="absolute top-full left-0 right-0 mt-2 z-50 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden p-3 space-y-2.5 max-h-96 flex flex-col"
+                className="absolute top-full left-0 right-0 mt-2 z-50 bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl overflow-hidden p-3 space-y-2.5 max-h-96 flex flex-col"
               >
                 {/* Search Bar */}
                 <div className="relative">
@@ -849,18 +849,18 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                     value={searchQuery2}
                     onChange={(e) => setSearchQuery2(e.target.value)}
                     placeholder="Search advisor by name or ID..."
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:border-emerald-500"
+                    className="w-full pl-9 pr-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-hidden focus:border-emerald-500"
                     autoFocus
                   />
                 </div>
 
                 {/* Team Filter Pills */}
-                <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-lg text-xs font-bold">
+                <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-lg text-xs font-bold">
                   <button
                     type="button"
                     onClick={() => setTeamFilter2('all')}
                     className={`flex-1 py-1 rounded-md text-[11px] font-extrabold transition-all ${
-                      teamFilter2 === 'all' ? 'bg-white text-emerald-700 shadow-xs' : 'text-slate-500'
+                      teamFilter2 === 'all' ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-300 shadow-xs' : 'text-slate-500 dark:text-slate-400'
                     }`}
                   >
                     All ({allAdvisors.length})
@@ -869,7 +869,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                     type="button"
                     onClick={() => setTeamFilter2('stationed')}
                     className={`flex-1 py-1 rounded-md text-[11px] font-extrabold transition-all ${
-                      teamFilter2 === 'stationed' ? 'bg-white text-sky-700 shadow-xs' : 'text-slate-500'
+                      teamFilter2 === 'stationed' ? 'bg-white dark:bg-slate-700 text-sky-700 dark:text-sky-300 shadow-xs' : 'text-slate-500 dark:text-slate-400'
                     }`}
                   >
                     Stationed ({stationedAdvisors.length})
@@ -878,7 +878,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                     type="button"
                     onClick={() => setTeamFilter2('virtual')}
                     className={`flex-1 py-1 rounded-md text-[11px] font-extrabold transition-all ${
-                      teamFilter2 === 'virtual' ? 'bg-white text-cyan-700 shadow-xs' : 'text-slate-500'
+                      teamFilter2 === 'virtual' ? 'bg-white dark:bg-slate-700 text-cyan-700 dark:text-cyan-300 shadow-xs' : 'text-slate-500 dark:text-slate-400'
                     }`}
                   >
                     Virtual ({virtualAdvisors.length})
@@ -902,12 +902,12 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                         }}
                         className={`w-full flex items-center justify-between p-2 rounded-xl text-left text-xs transition-all cursor-pointer ${
                           adv.id === advisor2Id
-                            ? 'bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold'
-                            : 'hover:bg-slate-100 text-slate-700'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 font-bold'
+                            : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
                         }`}
                       >
                         <div className="flex items-center gap-2 min-w-0">
-                          <span className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 font-bold text-xs flex items-center justify-center shrink-0">
+                          <span className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center justify-center shrink-0">
                             {adv.name.charAt(0)}
                           </span>
                           <div className="min-w-0">
@@ -918,7 +918,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                           </div>
                         </div>
                         {adv.id === advisor2Id && (
-                          <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                          <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                         )}
                       </button>
                     ))
@@ -931,28 +931,28 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
       </div>
 
       {/* Main Side-by-Side Bar Chart Component */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+      <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
           <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-indigo-600 shrink-0" />
-            <h3 className="font-extrabold text-xs sm:text-sm uppercase tracking-wider text-slate-900">
+            <TrendingUp className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <h3 className="font-extrabold text-xs sm:text-sm uppercase tracking-wider text-slate-900 dark:text-white">
               Comparative KPI Metrics Chart
             </h3>
-            <span className="text-[10px] text-slate-500 font-mono">
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
               ({chartMode === 'normalized' ? '0-100% Normalized Scale' : 'Raw Values Scale'})
             </span>
           </div>
 
           {/* Chart Mode Controls */}
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center p-0.5 bg-slate-100 rounded-lg border border-slate-200 shadow-2xs">
+            <div className="flex items-center p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-2xs">
               <button
                 type="button"
                 onClick={() => setChartMode('normalized')}
                 className={`px-2.5 py-1 rounded-md text-[11px] font-extrabold transition-all cursor-pointer ${
                   chartMode === 'normalized'
-                    ? 'bg-[#3B7A75] text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-emerald-700 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
                 title="Normalized 0-100% scale for direct multi-KPI comparison"
               >
@@ -963,8 +963,8 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                 onClick={() => setChartMode('absolute')}
                 className={`px-2.5 py-1 rounded-md text-[11px] font-extrabold transition-all cursor-pointer ${
                   chartMode === 'absolute'
-                    ? 'bg-[#3B7A75] text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-emerald-700 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
                 title="Raw operational numbers"
               >
@@ -997,12 +997,12 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
               <XAxis
                 dataKey="metric"
                 stroke="#64748b"
-                tick={{ fill: '#475569', fontSize: 11, fontWeight: 700 }}
+                tick={{ fill: '#64748b', fontSize: 11, fontWeight: 700 }}
                 tickLine={false}
               />
               <YAxis
                 stroke="#64748b"
-                tick={{ fill: '#475569', fontSize: 10, fontWeight: 600 }}
+                tick={{ fill: '#64748b', fontSize: 10, fontWeight: 600 }}
                 tickLine={false}
                 domain={chartMode === 'normalized' ? [0, 100] : ['auto', 'auto']}
                 unit={chartMode === 'normalized' ? '%' : ''}
@@ -1017,40 +1017,40 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                     const isAdv2Leader = Number(val2) > Number(val1);
 
                     return (
-                      <div className="bg-white border border-slate-200 rounded-xl p-3 shadow-xl text-xs space-y-2 max-w-xs text-slate-900">
-                        <div className="font-extrabold text-slate-800 border-b border-slate-100 pb-1.5 flex items-center justify-between">
+                      <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl p-3 shadow-xl text-xs space-y-2 max-w-xs text-slate-900 dark:text-white">
+                        <div className="font-extrabold text-slate-800 dark:text-slate-100 border-b border-slate-100 dark:border-slate-700 pb-1.5 flex items-center justify-between">
                           <span>{itemData.metricFull || label}</span>
-                          <span className="text-[10px] text-slate-500 font-mono">{itemData.unit}</span>
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">{itemData.unit}</span>
                         </div>
 
                         <div className="space-y-1.5">
                           <div className="flex items-center justify-between gap-3">
-                            <div className="flex items-center gap-1.5 text-sky-700 font-bold">
+                            <div className="flex items-center gap-1.5 text-sky-700 dark:text-sky-400 font-bold">
                               <span className="w-2.5 h-2.5 rounded-full bg-sky-600" />
                               <span>{advisor1.name}:</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <span className="font-mono font-black text-slate-900">{itemData.val1}</span>
+                              <span className="font-mono font-black text-slate-900 dark:text-white">{itemData.val1}</span>
                               {isAdv1Leader && <Crown className="w-3 h-3 text-amber-500 fill-amber-400 inline" />}
                             </div>
                           </div>
 
                           <div className="flex items-center justify-between gap-3">
-                            <div className="flex items-center gap-1.5 text-emerald-700 font-bold">
+                            <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-bold">
                               <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
                               <span>{advisor2.name}:</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <span className="font-mono font-black text-slate-900">{itemData.val2}</span>
+                              <span className="font-mono font-black text-slate-900 dark:text-white">{itemData.val2}</span>
                               {isAdv2Leader && <Crown className="w-3 h-3 text-amber-500 fill-amber-400 inline" />}
                             </div>
                           </div>
                         </div>
 
                         {/* Delta Advantage Indicator */}
-                        <div className="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono">
-                          <span className="text-slate-500">Difference:</span>
-                          <span className={Number(val1) >= Number(val2) ? 'text-sky-700 font-bold' : 'text-emerald-700 font-bold'}>
+                        <div className="pt-1.5 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-[11px] font-mono">
+                          <span className="text-slate-500 dark:text-slate-400">Difference:</span>
+                          <span className={Number(val1) >= Number(val2) ? 'text-sky-700 dark:text-sky-400 font-bold' : 'text-emerald-700 dark:text-emerald-400 font-bold'}>
                             {Number(val1) > Number(val2) 
                               ? `${advisor1.name.split(' ')[0]} +${Math.abs(Number(val1) - Number(val2)).toFixed(1)}${itemData.unit === '%' ? '%' : ''}`
                               : Number(val2) > Number(val1)
@@ -1096,37 +1096,37 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
       </div>
 
       {/* Head-to-Head Detailed KPI Scorecard Matrix */}
-      <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-xs">
+      <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
         <table className="w-full text-xs text-left">
-          <thead className="bg-slate-100/90 text-[10px] font-extrabold uppercase tracking-wider text-slate-600 border-b border-slate-200">
+          <thead className="bg-slate-100/90 dark:bg-slate-800/90 text-[10px] font-extrabold uppercase tracking-wider text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
             <tr>
               <th className="py-3 px-4">Performance Metric</th>
-              <th className="py-3 px-4 text-sky-700 font-black">
+              <th className="py-3 px-4 text-sky-700 dark:text-sky-400 font-black">
                 {advisor1.name} <span className="font-normal font-mono opacity-80">({advisor1.team})</span>
               </th>
-              <th className="py-3 px-4 text-emerald-700 font-black">
+              <th className="py-3 px-4 text-emerald-700 dark:text-emerald-400 font-black">
                 {advisor2.name} <span className="font-normal font-mono opacity-80">({advisor2.team})</span>
               </th>
               <th className="py-3 px-4 text-center">Variance / Delta</th>
               <th className="py-3 px-4 text-right">Advantage</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200 font-medium">
+          <tbody className="divide-y divide-slate-200 dark:divide-slate-800 font-medium">
             {/* 1. Overall KPI */}
-            <tr className="hover:bg-slate-50 transition-colors">
-              <td className="py-3 px-4 flex items-center gap-2 font-bold text-slate-900">
+            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <td className="py-3 px-4 flex items-center gap-2 font-bold text-slate-900 dark:text-white">
                 <Award className="w-4 h-4 text-amber-500 shrink-0" />
                 <span>Overall KPI Score</span>
               </td>
-              <td className="py-3 px-4 font-mono font-bold text-sky-700">
+              <td className="py-3 px-4 font-mono font-bold text-sky-700 dark:text-sky-400">
                 {advisor1.kpiDisplay}
               </td>
-              <td className="py-3 px-4 font-mono font-bold text-emerald-700">
+              <td className="py-3 px-4 font-mono font-bold text-emerald-700 dark:text-emerald-400">
                 {advisor2.kpiDisplay}
               </td>
               <td className="py-3 px-4 text-center font-mono font-bold">
                 {advisor1.kpiScore !== advisor2.kpiScore ? (
-                  <span className={advisor1.kpiScore > advisor2.kpiScore ? 'text-sky-700' : 'text-emerald-700'}>
+                  <span className={advisor1.kpiScore > advisor2.kpiScore ? 'text-sky-700 dark:text-sky-400' : 'text-emerald-700 dark:text-emerald-400'}>
                     {advisor1.kpiScore > advisor2.kpiScore ? '+' : ''}{(advisor1.kpiScore - advisor2.kpiScore).toFixed(1)}%
                   </span>
                 ) : (
@@ -1135,11 +1135,11 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
               </td>
               <td className="py-3 px-4 text-right">
                 {advisor1.kpiScore > advisor2.kpiScore ? (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-sky-800 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-sky-800 dark:text-sky-300 bg-sky-50 dark:bg-sky-500/15 px-2 py-0.5 rounded-md border border-sky-200 dark:border-sky-500/30">
                     <Crown className="w-3 h-3 text-amber-400" /> {advisor1.name.split(' ')[0]} (+{(advisor1.kpiScore - advisor2.kpiScore).toFixed(1)}%)
                   </span>
                 ) : advisor2.kpiScore > advisor1.kpiScore ? (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-500/15 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-500/30">
                     <Crown className="w-3 h-3 text-amber-400" /> {advisor2.name.split(' ')[0]} (+{(advisor2.kpiScore - advisor1.kpiScore).toFixed(1)}%)
                   </span>
                 ) : (
@@ -1149,20 +1149,20 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
             </tr>
 
             {/* 2. Sales Revenue */}
-            <tr className="hover:bg-slate-50 transition-colors">
-              <td className="py-3 px-4 flex items-center gap-2 font-bold text-slate-900">
-                <DollarSign className="w-4 h-4 text-emerald-600 shrink-0" />
+            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <td className="py-3 px-4 flex items-center gap-2 font-bold text-slate-900 dark:text-white">
+                <DollarSign className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                 <span>Final Sales Revenue</span>
               </td>
-              <td className="py-3 px-4 font-mono font-bold text-slate-900">
+              <td className="py-3 px-4 font-mono font-bold text-slate-900 dark:text-white">
                 ৳{advisor1.sales.toLocaleString('en-BD')}
               </td>
-              <td className="py-3 px-4 font-mono font-bold text-slate-900">
+              <td className="py-3 px-4 font-mono font-bold text-slate-900 dark:text-white">
                 ৳{advisor2.sales.toLocaleString('en-BD')}
               </td>
               <td className="py-3 px-4 text-center font-mono font-bold">
                 {advisor1.sales !== advisor2.sales ? (
-                  <span className={advisor1.sales > advisor2.sales ? 'text-sky-700' : 'text-emerald-700'}>
+                  <span className={advisor1.sales > advisor2.sales ? 'text-sky-700 dark:text-sky-400' : 'text-emerald-700 dark:text-emerald-400'}>
                     {advisor1.sales > advisor2.sales ? '+' : ''}৳{(advisor1.sales - advisor2.sales).toLocaleString('en-BD')}
                   </span>
                 ) : (
@@ -1171,11 +1171,11 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
               </td>
               <td className="py-3 px-4 text-right">
                 {advisor1.sales > advisor2.sales ? (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-sky-800 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-sky-800 dark:text-sky-300 bg-sky-50 dark:bg-sky-500/15 px-2 py-0.5 rounded-md border border-sky-200 dark:border-sky-500/30">
                     <Crown className="w-3 h-3 text-amber-400" /> {advisor1.name.split(' ')[0]} (+৳{(advisor1.sales - advisor2.sales).toLocaleString('en-BD')})
                   </span>
                 ) : advisor2.sales > advisor1.sales ? (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-500/15 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-500/30">
                     <Crown className="w-3 h-3 text-amber-400" /> {advisor2.name.split(' ')[0]} (+৳{(advisor2.sales - advisor1.sales).toLocaleString('en-BD')})
                   </span>
                 ) : (
@@ -1185,20 +1185,20 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
             </tr>
 
             {/* 3. Reach Calls */}
-            <tr className="hover:bg-slate-50 transition-colors">
-              <td className="py-3 px-4 flex items-center gap-2 font-bold text-slate-900">
-                <PhoneCall className="w-4 h-4 text-sky-600 shrink-0" />
+            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <td className="py-3 px-4 flex items-center gap-2 font-bold text-slate-900 dark:text-white">
+                <PhoneCall className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />
                 <span>Reach Call Count</span>
               </td>
-              <td className="py-3 px-4 font-mono font-bold text-slate-900">
+              <td className="py-3 px-4 font-mono font-bold text-slate-900 dark:text-white">
                 {advisor1.reach} calls
               </td>
-              <td className="py-3 px-4 font-mono font-bold text-slate-900">
+              <td className="py-3 px-4 font-mono font-bold text-slate-900 dark:text-white">
                 {advisor2.reach} calls
               </td>
               <td className="py-3 px-4 text-center font-mono font-bold">
                 {advisor1.reach !== advisor2.reach ? (
-                  <span className={advisor1.reach > advisor2.reach ? 'text-sky-700' : 'text-emerald-700'}>
+                  <span className={advisor1.reach > advisor2.reach ? 'text-sky-700 dark:text-sky-400' : 'text-emerald-700 dark:text-emerald-400'}>
                     {advisor1.reach > advisor2.reach ? '+' : ''}{advisor1.reach - advisor2.reach}
                   </span>
                 ) : (
@@ -1207,11 +1207,11 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
               </td>
               <td className="py-3 px-4 text-right">
                 {advisor1.reach > advisor2.reach ? (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-sky-800 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-sky-800 dark:text-sky-300 bg-sky-50 dark:bg-sky-500/15 px-2 py-0.5 rounded-md border border-sky-200 dark:border-sky-500/30">
                     <Crown className="w-3 h-3 text-amber-400" /> {advisor1.name.split(' ')[0]} (+{advisor1.reach - advisor2.reach})
                   </span>
                 ) : advisor2.reach > advisor1.reach ? (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-500/15 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-500/30">
                     <Crown className="w-3 h-3 text-amber-400" /> {advisor2.name.split(' ')[0]} (+{advisor2.reach - advisor1.reach})
                   </span>
                 ) : (
@@ -1221,20 +1221,20 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
             </tr>
 
             {/* 4. Exam / Knowledge Audit */}
-            <tr className="hover:bg-slate-50 transition-colors">
-              <td className="py-3 px-4 flex items-center gap-2 font-bold text-slate-900">
-                <GraduationCap className="w-4 h-4 text-indigo-600 shrink-0" />
+            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <td className="py-3 px-4 flex items-center gap-2 font-bold text-slate-900 dark:text-white">
+                <GraduationCap className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
                 <span>Exam Mark</span>
               </td>
-              <td className="py-3 px-4 font-mono font-bold text-slate-900">
+              <td className="py-3 px-4 font-mono font-bold text-slate-900 dark:text-white">
                 {advisor1.examMark}%
               </td>
-              <td className="py-3 px-4 font-mono font-bold text-slate-900">
+              <td className="py-3 px-4 font-mono font-bold text-slate-900 dark:text-white">
                 {advisor2.examMark}%
               </td>
               <td className="py-3 px-4 text-center font-mono font-bold">
                 {advisor1.examMark !== advisor2.examMark ? (
-                  <span className={advisor1.examMark > advisor2.examMark ? 'text-sky-700' : 'text-emerald-700'}>
+                  <span className={advisor1.examMark > advisor2.examMark ? 'text-sky-700 dark:text-sky-400' : 'text-emerald-700 dark:text-emerald-400'}>
                     {advisor1.examMark > advisor2.examMark ? '+' : ''}{(advisor1.examMark - advisor2.examMark).toFixed(0)}%
                   </span>
                 ) : (
@@ -1243,11 +1243,11 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
               </td>
               <td className="py-3 px-4 text-right">
                 {advisor1.examMark > advisor2.examMark ? (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-sky-800 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-sky-800 dark:text-sky-300 bg-sky-50 dark:bg-sky-500/15 px-2 py-0.5 rounded-md border border-sky-200 dark:border-sky-500/30">
                     <Crown className="w-3 h-3 text-amber-400" /> {advisor1.name.split(' ')[0]} (+{(advisor1.examMark - advisor2.examMark).toFixed(0)}%)
                   </span>
                 ) : advisor2.examMark > advisor1.examMark ? (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-500/15 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-500/30">
                     <Crown className="w-3 h-3 text-amber-400" /> {advisor2.name.split(' ')[0]} (+{(advisor2.examMark - advisor1.examMark).toFixed(0)}%)
                   </span>
                 ) : (
@@ -1257,9 +1257,9 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
             </tr>
 
             {/* 5. Performance Grade */}
-            <tr className="hover:bg-slate-50 transition-colors">
-              <td className="py-3 px-4 flex items-center gap-2 font-bold text-slate-900">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <td className="py-3 px-4 flex items-center gap-2 font-bold text-slate-900 dark:text-white">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                 <span>Performance Tier / Grade</span>
               </td>
               <td className="py-3 px-4">
@@ -1272,16 +1272,16 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                   Grade {advisor2.grade}
                 </span>
               </td>
-              <td className="py-3 px-4 text-center font-mono text-slate-500 text-[11px]">
+              <td className="py-3 px-4 text-center font-mono text-slate-500 dark:text-slate-400 text-[11px]">
                 {advisor1.grade === advisor2.grade ? 'Same Tier' : `${advisor1.grade} vs ${advisor2.grade}`}
               </td>
               <td className="py-3 px-4 text-right">
                 {advisor1.grade < advisor2.grade ? (
-                  <span className="text-sky-700 font-bold text-[11px]">
+                  <span className="text-sky-700 dark:text-sky-400 font-bold text-[11px]">
                     {advisor1.name.split(' ')[0]} Higher Tier
                   </span>
                 ) : advisor2.grade < advisor1.grade ? (
-                  <span className="text-emerald-700 font-bold text-[11px]">
+                  <span className="text-emerald-700 dark:text-emerald-400 font-bold text-[11px]">
                     {advisor2.name.split(' ')[0]} Higher Tier
                   </span>
                 ) : (

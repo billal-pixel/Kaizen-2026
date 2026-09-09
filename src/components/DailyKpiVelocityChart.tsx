@@ -224,19 +224,19 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
   }, [displayedData, divisionFilter]);
 
   return (
-    <div className="bg-white dark:bg-[#10192e] border border-slate-200 dark:border-[#1e2c4a] rounded-2xl p-5 sm:p-6 shadow-sm dark:shadow-2xl space-y-5 relative overflow-hidden transition-all">
+    <div className="bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xs space-y-5 relative overflow-hidden transition-all">
       {/* Dynamic Ambient Background Glow */}
       <div className="absolute top-0 right-1/4 w-80 h-80 bg-indigo-500/5 dark:bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-10 w-72 h-72 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header: Title, Description & Interactive Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 dark:border-[#1e2c4a] pb-4 relative z-10">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4 relative z-10">
         <div className="flex flex-col items-start gap-1.5 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <div className="p-2 bg-gradient-to-br from-indigo-500/20 to-emerald-500/20 border border-indigo-500/40 text-indigo-600 dark:text-indigo-400 rounded-xl shadow-xs shrink-0 flex items-center justify-center">
+            <div className="p-2 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60 text-indigo-600 dark:text-indigo-400 rounded-xl shadow-xs shrink-0 flex items-center justify-center">
               <Activity className="w-4 h-4" />
             </div>
-            <h3 className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-slate-100 tracking-tight flex items-center gap-2">
+            <h3 className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
               Aggregate 30-Day Team KPI Velocity
             </h3>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-[10px] font-black uppercase tracking-wider">
@@ -252,13 +252,13 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
         {/* Action Controls: Time Range & Division View */}
         <div className="flex flex-wrap items-center gap-2.5">
           {/* Time Range Selector */}
-          <div className="flex items-center p-1 bg-slate-100 dark:bg-[#15223c] rounded-xl border border-slate-200 dark:border-[#24355a] shadow-inner">
+          <div className="flex items-center p-1 bg-slate-100 dark:bg-[#1E293B] rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner">
             <button
               type="button"
               onClick={() => setTimeRange('7d')}
               className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 timeRange === '7d'
-                  ? 'bg-white dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-slate-200 dark:border-indigo-500/40 shadow-xs'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 border border-slate-200 dark:border-slate-600 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
@@ -270,7 +270,7 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
               onClick={() => setTimeRange('14d')}
               className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 timeRange === '14d'
-                  ? 'bg-white dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-slate-200 dark:border-indigo-500/40 shadow-xs'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 border border-slate-200 dark:border-slate-600 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
@@ -282,7 +282,7 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
               onClick={() => setTimeRange('30d')}
               className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 timeRange === '30d'
-                  ? 'bg-white dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-slate-200 dark:border-indigo-500/40 shadow-xs'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 border border-slate-200 dark:border-slate-600 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
@@ -292,13 +292,13 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
           </div>
 
           {/* Division Line Filter */}
-          <div className="flex items-center p-1 bg-slate-100 dark:bg-[#15223c] rounded-xl border border-slate-200 dark:border-[#24355a] shadow-inner">
+          <div className="flex items-center p-1 bg-slate-100 dark:bg-[#1E293B] rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner">
             <button
               type="button"
               onClick={() => setTrendDivisionFilter('combined')}
               className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 divisionFilter === 'combined'
-                  ? 'bg-white dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-slate-200 dark:border-emerald-500/40 shadow-xs'
+                  ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-300 border border-slate-200 dark:border-slate-600 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
@@ -309,7 +309,7 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
               onClick={() => setTrendDivisionFilter('stationed')}
               className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 divisionFilter === 'stationed'
-                  ? 'bg-white dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-slate-200 dark:border-indigo-500/40 shadow-xs'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 border border-slate-200 dark:border-slate-600 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
@@ -320,7 +320,7 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
               onClick={() => setTrendDivisionFilter('virtual')}
               className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 divisionFilter === 'virtual'
-                  ? 'bg-white dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-slate-200 dark:border-sky-500/40 shadow-xs'
+                  ? 'bg-white dark:bg-slate-700 text-sky-700 dark:text-sky-300 border border-slate-200 dark:border-slate-600 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
@@ -331,7 +331,7 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
               onClick={() => setTrendDivisionFilter('all_lines')}
               className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 divisionFilter === 'all_lines'
-                  ? 'bg-white dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-slate-200 dark:border-purple-500/40 shadow-xs'
+                  ? 'bg-white dark:bg-slate-700 text-purple-700 dark:text-purple-300 border border-slate-200 dark:border-slate-600 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
@@ -346,7 +346,7 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
             className={`px-2.5 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
               showMovingAvg
                 ? 'bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-500/30'
-                : 'bg-slate-100 dark:bg-[#15223c] text-slate-500 dark:text-slate-400 border-slate-200 dark:border-[#24355a]'
+                : 'bg-slate-100 dark:bg-[#1E293B] text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700'
             }`}
             title="Toggle 7-Day Rolling Moving Average Trendline"
           >
@@ -359,29 +359,29 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
       {/* 4 Velocity Diagnostic Scorecard Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 relative z-10">
         {/* Scorecard 1: Period Average KPI */}
-        <div className="bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] rounded-xl p-3.5 sm:p-4 flex flex-col justify-between shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all">
           <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block truncate">
             {timeRange === '7d' ? '7-Day' : timeRange === '14d' ? '14-Day' : '30-Day'} Avg KPI Score
           </span>
           <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
-            <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100 font-mono tracking-tight">
+            <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
               {velocitySummary.avgKpi.toFixed(1)}%
             </span>
             <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1 truncate">
               <span>Overall Target:</span>
-              <strong className="text-indigo-600 dark:text-indigo-300 font-mono">90.0%</strong>
+              <strong className="text-indigo-600 dark:text-indigo-400 font-mono">90.0%</strong>
             </span>
           </div>
         </div>
 
         {/* Scorecard 2: Performance Velocity Acceleration */}
-        <div className="bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] rounded-xl p-3.5 sm:p-4 flex flex-col justify-between shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all">
           <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block truncate">
             KPI Velocity Trajectory
           </span>
           <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
             <span className={`text-xl sm:text-2xl font-black font-mono tracking-tight flex items-center gap-1 ${
-              velocitySummary.velocityRate >= 0 ? 'text-[#15803D] dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
+              velocitySummary.velocityRate >= 0 ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
             }`}>
               {velocitySummary.velocityRate >= 0 ? (
                 <TrendingUp className="w-5 h-5" />
@@ -390,19 +390,19 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
               )}
               <span>{velocitySummary.velocityRate >= 0 ? '+' : ''}{velocitySummary.velocityRate.toFixed(1)}%</span>
             </span>
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#15803D] dark:text-emerald-300 bg-[#DCFCE7] dark:bg-emerald-500/15 px-2 py-0.5 rounded-md border border-[#BBF7D0] dark:border-emerald-500/30 shrink-0">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-500/15 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-500/30 shrink-0">
               {velocitySummary.velocityRate >= 0 ? 'Accelerating' : 'Decelerating'} Velocity
             </span>
           </div>
         </div>
 
         {/* Scorecard 3: Peak Daily Score */}
-        <div className="bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] rounded-xl p-3.5 sm:p-4 flex flex-col justify-between shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all">
           <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block truncate">
             Peak Daily Average
           </span>
           <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
-            <span className="text-xl sm:text-2xl font-black text-[#4F46E5] dark:text-indigo-300 font-mono tracking-tight">
+            <span className="text-xl sm:text-2xl font-black text-indigo-600 dark:text-indigo-400 font-mono tracking-tight">
               {velocitySummary.peakKpi.toFixed(1)}%
             </span>
             <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono font-medium truncate">
@@ -412,12 +412,12 @@ export const DailyKpiVelocityChart: React.FC<DailyKpiVelocityChartProps> = ({
         </div>
 
         {/* Scorecard 4: Days Above 90% Target */}
-        <div className="bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] rounded-xl p-3.5 sm:p-4 flex flex-col justify-between shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl p-3.5 sm:p-4 flex flex-col justify-between shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all">
           <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block truncate">
             Target Adherence (≥90%)
           </span>
           <div className="flex flex-col items-start gap-1 mt-2 min-w-0 w-full">
-            <span className="text-xl sm:text-2xl font-black text-[#15803D] dark:text-emerald-400 font-mono tracking-tight">
+            <span className="text-xl sm:text-2xl font-black text-emerald-700 dark:text-emerald-400 font-mono tracking-tight">
               {velocitySummary.daysAboveTarget} / {displayedData.length} Days
             </span>
             <span className="text-[10px] font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1 font-mono">
