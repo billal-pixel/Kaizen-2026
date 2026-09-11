@@ -43,13 +43,43 @@ interface VirtualTeamViewProps {
 }
 
 // Framer Motion variants for subtle staggered loading & entry effects
+const statContainerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.06,
+    },
+  },
+};
+
+const statCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 18,
+    scale: 0.96,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 260,
+      damping: 22,
+      mass: 0.6,
+    },
+  },
+};
+
 const cardGridVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.045,
-      delayChildren: 0.02,
+      staggerChildren: 0.05,
+      delayChildren: 0.06,
     },
   },
   exit: {
@@ -61,20 +91,18 @@ const cardGridVariants = {
 const advisorCardVariants = {
   hidden: {
     opacity: 0,
-    y: 16,
-    scale: 0.98,
-    filter: 'blur(3px)',
+    y: 22,
+    scale: 0.96,
   },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: 'blur(0px)',
     transition: {
       type: 'spring',
-      stiffness: 280,
-      damping: 24,
-      mass: 0.8,
+      stiffness: 260,
+      damping: 23,
+      mass: 0.7,
     },
   },
 };
@@ -91,7 +119,18 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
   const [kpiFilter, setKpiFilter] = useState<string>('all');
   const [sortField, setSortField] = useState<keyof VirtualAdvisor>('finalSales');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-  const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
+  const [viewMode, setViewMode] = useState<'table' | 'cards'>(() => {
+    return (localStorage.getItem('kaizen_virtual_view_mode') as 'table' | 'cards') || 'table';
+  });
+
+  const handleSetViewMode = (mode: 'table' | 'cards') => {
+    setViewMode(mode);
+    try {
+      localStorage.setItem('kaizen_virtual_view_mode', mode);
+    } catch {
+      // ignore
+    }
+  };
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<Partial<VirtualAdvisor>>({});
 
@@ -268,8 +307,14 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
         </div>
 
         {/* 4 Summary Stat Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6">
+        <motion.div 
+          variants={statContainerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6"
+        >
           <motion.div 
+            variants={statCardVariants}
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
             className="kpi-card metric-box bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] hover:border-rose-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors"
           >
@@ -285,6 +330,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
           </motion.div>
 
           <motion.div 
+            variants={statCardVariants}
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
             className="kpi-card metric-box bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] hover:border-emerald-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors"
           >
@@ -300,6 +346,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
           </motion.div>
 
           <motion.div 
+            variants={statCardVariants}
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
             className="kpi-card metric-box bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] hover:border-cyan-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors"
           >
@@ -315,6 +362,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
           </motion.div>
 
           <motion.div 
+            variants={statCardVariants}
             whileHover={{ y: -3, transition: { duration: 0.2 } }}
             className="kpi-card metric-box bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] hover:border-emerald-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors"
           >
@@ -328,7 +376,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
               </p>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </motion.div>
 
       {/* Filter & Control Bar */}
@@ -356,7 +404,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
           {/* Table / Cards View Mode Toggle */}
           <div className="flex items-center bg-slate-100 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] rounded-xl p-1 shrink-0">
             <button
-              onClick={() => setViewMode('table')}
+              onClick={() => handleSetViewMode('table')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 viewMode === 'table'
                   ? 'bg-white dark:bg-rose-600 text-slate-900 dark:text-white border border-slate-200 dark:border-rose-400/40 shadow-xs'
@@ -368,7 +416,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
               <span className="hidden sm:inline">Table</span>
             </button>
             <button
-              onClick={() => setViewMode('cards')}
+              onClick={() => handleSetViewMode('cards')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 viewMode === 'cards'
                   ? 'bg-white dark:bg-rose-600 text-slate-900 dark:text-white border border-slate-200 dark:border-rose-400/40 shadow-xs'
