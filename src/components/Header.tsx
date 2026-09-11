@@ -239,7 +239,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#082F49]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/80 shadow-xs transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 space-y-2">
+      <div className="max-w-[1680px] w-full mx-auto px-3 sm:px-5 lg:px-6 py-2.5 space-y-2">
         
         {/* Tier 1: Unified Executive Command Bar */}
         <div className="flex flex-col lg:flex-row lg:items-stretch justify-between gap-2">
@@ -418,11 +418,11 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
         </div>
 
-        {/* Tier 2: Payment Copy & Team Resources Ribbon (Zero Cutoff, Seamless Alignment, Invisible Scrollbar) */}
-        <div className="bg-slate-100/90 dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-xl px-2.5 py-1.5 overflow-x-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden shadow-2xs">
-          <div className="flex items-center justify-between gap-1.5 sm:gap-2 min-w-max w-full">
+        {/* Tier 2: Payment Copy & Team Resources Ribbon (Zero Cutoff, Seamless Responsive Alignment) */}
+        <div className="bg-slate-100/90 dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-xl px-2.5 py-1.5 shadow-2xs">
+          <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 w-full">
             {/* Left Cluster: 1-Click Payments (Antu, Kayes, Payment Hub) */}
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex flex-wrap items-center gap-1.5">
               {/* Antu 1-Click Copy */}
               <button
                 type="button"
@@ -444,7 +444,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
                     <Copy className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 group-hover:text-rose-600 dark:group-hover:text-rose-400 stroke-[2.2] shrink-0" />
                     <span>Antu</span>
-                    <span className="hidden 2xl:inline font-mono text-[10px] text-slate-500 dark:text-slate-400">(01850890778)</span>
+                    <span className="font-mono text-[10px] text-slate-500 dark:text-slate-400 opacity-80">(01850890778)</span>
                   </>
                 )}
               </button>
@@ -470,7 +470,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
                     <Copy className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 stroke-[2.2] shrink-0" />
                     <span>Kayes</span>
-                    <span className="hidden 2xl:inline font-mono text-[10px] text-slate-500 dark:text-slate-400">(01644336738)</span>
+                    <span className="font-mono text-[10px] text-slate-500 dark:text-slate-400 opacity-80">(01644336738)</span>
                   </>
                 )}
               </button>
@@ -490,11 +490,11 @@ export const Header: React.FC<HeaderProps> = React.memo(({
               )}
             </div>
 
-            {/* Subtle Divider */}
-            <div className="h-4 w-px bg-slate-200 dark:bg-slate-700 shrink-0 mx-0.5" />
+            {/* Subtle Divider (visible on wide screens) */}
+            <div className="hidden 2xl:block h-4 w-px bg-slate-200 dark:bg-slate-700 shrink-0 mx-0.5" />
 
             {/* Right Cluster: All 7 Team Resource Links (Directly visible, clean alignment, zero cutoff) */}
-            <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+            <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
               {teamResources.map((res, i) => {
                 const Icon = res.icon;
                 return (
@@ -503,7 +503,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     href={res.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="group h-7.5 px-2.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 rounded-lg text-[11px] font-bold text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white flex items-center gap-1 whitespace-nowrap shadow-2xs transition-colors shrink-0"
+                    className="group h-7.5 px-2 sm:px-2.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 rounded-lg text-[11px] font-bold text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white flex items-center gap-1 whitespace-nowrap shadow-2xs transition-colors shrink-0"
                     title={`Open ${res.label}`}
                   >
                     <Icon className={`w-3.5 h-3.5 ${res.color} stroke-[2.2] shrink-0`} />
@@ -545,8 +545,8 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     }`} />
 
                     <span className={`leading-none whitespace-nowrap ${isActive ? 'font-bold text-white' : 'font-semibold text-slate-700 group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white'}`}>
-                      <span className="hidden 2xl:inline">{tab.label}</span>
-                      <span className="inline 2xl:hidden">{tab.shortLabel}</span>
+                      <span className="hidden xl:inline">{tab.label}</span>
+                      <span className="inline xl:hidden">{tab.shortLabel}</span>
                     </span>
 
                     {tab.isAi && (

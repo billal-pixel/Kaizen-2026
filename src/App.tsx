@@ -547,7 +547,7 @@ export default function App() {
         />
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 sm:pb-28">
+      <main className="max-w-[1680px] w-full mx-auto px-3 sm:px-5 lg:px-6 py-6 pb-24 sm:pb-28">
         {/* Visual Error Alert Banner when Google Sheet Auto-Refresh Fails */}
         <SyncErrorAlert
           errorMessage={autoRefreshError}
