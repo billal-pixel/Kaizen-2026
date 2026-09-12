@@ -238,14 +238,14 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#082F49]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/80 shadow-xs transition-colors duration-200">
+    <header className="sticky top-0 z-40 bg-sky-400 dark:bg-[#082F49]/95 backdrop-blur-md border-b border-sky-500/50 dark:border-slate-800/80 shadow-xs transition-colors duration-200">
       <div className="max-w-[1680px] w-full mx-auto px-3 sm:px-5 lg:px-6 py-2.5 space-y-2">
         
         {/* Tier 1: Unified Executive Command Bar */}
         <div className="flex flex-col lg:flex-row lg:items-stretch justify-between gap-2">
           
           {/* Top-Left: Brand Identity & Team Leader Tag */}
-          <div className="flex items-center gap-2 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
+          <div className="flex items-center gap-2 bg-white dark:bg-[#0F172A] border border-white/80 dark:border-slate-800 px-3 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
             <div 
               onClick={() => setActiveTab('overview')}
               className="w-8 h-8 bg-slate-100 dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 p-1 rounded-lg shadow-2xs flex items-center justify-center cursor-pointer hover:scale-105 transition-transform shrink-0"
@@ -271,7 +271,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
           </div>
 
           {/* Center: Live Google Sheet Sync Status Pill (Fluid, No Overflow, Crisp Alignment) */}
-          <div className="flex-1 min-w-0 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-1.5 flex items-center justify-between gap-2 shadow-xs min-h-[46px] lg:h-[46px]">
+          <div className="flex-1 min-w-0 bg-white dark:bg-[#0F172A] border border-white/80 dark:border-slate-800 rounded-xl px-3 py-1.5 flex items-center justify-between gap-2 shadow-xs min-h-[46px] lg:h-[46px]">
             {/* Sync Left Info (Zap + Title + Live badge + Substatus) */}
             <div className="flex items-center gap-2.5 min-w-0 shrink">
               <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-500/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 shadow-2xs">
@@ -352,7 +352,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
           </div>
 
           {/* Right Action Controls: Quick Search + Light/Dark Mode + 3D FX + Add Advisor */}
-          <div className="flex items-center gap-1.5 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 px-2 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
+          <div className="flex items-center gap-1.5 bg-white dark:bg-[#0F172A] border border-white/80 dark:border-slate-800 px-2 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
             {/* Quick Search Trigger (⌘K) */}
             {onOpenCommandPalette && (
               <button
@@ -419,7 +419,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
         </div>
 
         {/* Tier 2: Payment Copy & Team Resources Ribbon (Zero Cutoff, Seamless Responsive Alignment) */}
-        <div className="bg-slate-100/90 dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-xl px-2.5 py-1.5 shadow-2xs">
+        <div className="bg-white/85 dark:bg-[#0F172A] backdrop-blur-xs border border-white/70 dark:border-slate-800 rounded-xl px-2.5 py-1.5 shadow-2xs">
           <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 w-full">
             {/* Left Cluster: 1-Click Payments (Antu, Kayes, Payment Hub) */}
             <div className="flex flex-wrap items-center gap-1.5">
@@ -518,7 +518,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
         {/* Tier 3: Core Navigation Tabs (Balanced, Zero Truncation/Ellipses, High Contrast) */}
         <nav className="w-full" aria-label="Main Navigation">
-          <div className="bg-slate-100/90 dark:bg-[#0F172A] p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-2xs w-full">
+          <div className="bg-white/85 dark:bg-[#0F172A] backdrop-blur-xs p-1.5 rounded-xl border border-white/70 dark:border-slate-800 shadow-2xs w-full">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-1.5 w-full">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;

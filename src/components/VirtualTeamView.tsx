@@ -449,6 +449,30 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
             </select>
           </div>
 
+          <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] px-3 py-2 rounded-xl shrink-0">
+            <ArrowUpDown className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+            <span className="shrink-0 font-semibold">Sort:</span>
+            <select
+              value={sortField}
+              onChange={(e) => setSortField(e.target.value as keyof VirtualAdvisor)}
+              className="bg-transparent text-rose-700 dark:text-rose-300 font-bold focus:outline-none cursor-pointer pr-1"
+            >
+              <option value="overallKpi" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Overall KPI</option>
+              <option value="finalSales" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Final Sales</option>
+              <option value="reachCall" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Avg Reach</option>
+              <option value="totalSalary" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Total Salary</option>
+              <option value="advisorName" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Advisor Name</option>
+            </select>
+            <button
+              type="button"
+              onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+              title={`Sort ${sortOrder === 'asc' ? 'Descending' : 'Ascending'}`}
+              className="ml-1 p-1 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 rounded text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 transition-colors cursor-pointer"
+            >
+              <ArrowUpDown className="w-3 h-3" />
+            </button>
+          </div>
+
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -773,154 +797,290 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
             exit="exit"
             className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5"
           >
-            {filteredAdvisors.map((advisor) => {
-              const numKpi = getNumericKpi(advisor.overallKpi);
-              const alertStatus = evaluateAdvisorKpiAlert(
-                advisor.id || advisor.advisorName,
-                advisor.advisorName,
-                advisor.overallKpi,
-                'virtual',
-                undefined,
-                advisor.finalSales,
-                advisor.exam
-              );
+            <AnimatePresence mode="popLayout">
+              {filteredAdvisors.map((advisor, index) => {
+                const isEditing = editingId === advisor.id;
+                const numKpi = getNumericKpi(advisor.overallKpi);
+                const alertStatus = evaluateAdvisorKpiAlert(
+                  advisor.id || advisor.advisorName,
+                  advisor.advisorName,
+                  advisor.overallKpi,
+                  'virtual',
+                  undefined,
+                  advisor.finalSales,
+                  advisor.exam
+                );
 
-              return (
-                <motion.div
-                  key={advisor.id}
-                  variants={advisorCardVariants}
-                  whileHover={{ y: -4, transition: { duration: 0.18, ease: "easeOut" } }}
-                  whileTap={{ scale: 0.99 }}
-                  onClick={() => onSelectAdvisor(advisor)}
-                  className={`rounded-2xl p-5 shadow-xs dark:shadow-lg relative overflow-hidden group cursor-pointer flex flex-col justify-between transition-all ${
-                    alertStatus.isTriggered
-                      ? 'bg-rose-50/60 dark:bg-rose-950/20 border-2 border-rose-400 dark:border-rose-500/80 shadow-md shadow-rose-500/10'
-                      : 'bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] hover:border-rose-400 dark:hover:border-rose-500/60'
-                  }`}
-                >
-                  <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl pointer-events-none transition-all ${
-                    alertStatus.isTriggered ? 'bg-rose-500/10 dark:bg-rose-500/20' : 'bg-rose-500/5 dark:bg-rose-500/10 group-hover:bg-rose-500/15'
-                  }`} />
+                if (isEditing) {
+                  return (
+                    <motion.div
+                      layout
+                      key={`edit-${advisor.id}`}
+                      initial={{ opacity: 0.85, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.94 }}
+                      transition={{
+                        layout: { type: 'spring', stiffness: 280, damping: 26, mass: 0.75 },
+                      }}
+                      className="rounded-2xl p-5 shadow-xl bg-white dark:bg-[#10192e] border-2 border-rose-500 flex flex-col justify-between space-y-3.5 z-20"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+                          <span className="text-xs font-black uppercase text-rose-600 dark:text-rose-400 tracking-wider">Quick Edit Advisor</span>
+                        </div>
+                        <span className="text-[10px] font-mono text-slate-400">ID: {advisor.employeeId || 'VT-ID'}</span>
+                      </div>
 
-                  <div className="space-y-4">
-                    {/* Top Header */}
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${
-                          alertStatus.isTriggered
-                            ? 'bg-rose-100 dark:bg-rose-500/20 border border-rose-300 dark:border-rose-500/40 text-rose-700 dark:text-rose-300'
-                            : 'bg-rose-50 dark:bg-rose-500/15 border border-rose-200 dark:border-rose-500/30 text-rose-600 dark:text-rose-400'
-                        }`}>
-                          {alertStatus.isTriggered ? (
-                            <ShieldAlert className="w-5 h-5 text-rose-600 dark:text-rose-400 animate-pulse" />
-                          ) : (
-                            advisor.advisorName.charAt(0)
+                      <div className="space-y-2 text-xs">
+                        <div>
+                          <label className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 block mb-1">Advisor Name</label>
+                          <input
+                            type="text"
+                            value={editForm.advisorName ?? ''}
+                            onChange={(e) => setEditForm({ ...editForm, advisorName: e.target.value })}
+                            className="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#15223c] font-bold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-rose-500 text-xs"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2">
+                          <div>
+                            <label className="text-[10px] uppercase font-bold text-rose-600 dark:text-rose-400 block mb-1">Overall KPI (%)</label>
+                            <input
+                              type="number"
+                              step="0.1"
+                              value={editForm.overallKpi !== undefined ? getNumericKpi(editForm.overallKpi) : ''}
+                              onChange={(e) => setEditForm({ ...editForm, overallKpi: Number(e.target.value) })}
+                              className="w-full px-2 py-1 rounded-lg border-2 border-rose-400/80 dark:border-rose-500 bg-rose-50/40 dark:bg-rose-950/30 font-mono font-black text-rose-700 dark:text-rose-300 focus:outline-none text-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 block mb-1">Final Sales (৳)</label>
+                            <input
+                              type="number"
+                              value={editForm.finalSales ?? 0}
+                              onChange={(e) => setEditForm({ ...editForm, finalSales: Number(e.target.value) })}
+                              className="w-full px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#15223c] font-mono font-bold text-slate-900 dark:text-slate-100 focus:outline-none text-xs"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2">
+                          <div>
+                            <label className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 block mb-1">Avg Reach</label>
+                            <input
+                              type="number"
+                              value={editForm.reachCall ?? 0}
+                              onChange={(e) => setEditForm({ ...editForm, reachCall: Number(e.target.value) })}
+                              className="w-full px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#15223c] font-mono text-slate-800 dark:text-slate-200 focus:outline-none text-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 block mb-1">Exam Mark (%)</label>
+                            <input
+                              type="number"
+                              value={editForm.exam ?? 0}
+                              onChange={(e) => setEditForm({ ...editForm, exam: Number(e.target.value) })}
+                              className="w-full px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#15223c] font-mono text-slate-800 dark:text-slate-200 focus:outline-none text-xs"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <button
+                          type="button"
+                          onClick={() => { setEditingId(null); setEditForm({}); }}
+                          className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleSaveEdit}
+                          className="px-3.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Save & Reorder</span>
+                        </button>
+                      </div>
+                    </motion.div>
+                  );
+                }
+
+                return (
+                  <motion.div
+                    layout
+                    key={advisor.id}
+                    variants={advisorCardVariants}
+                    transition={{
+                      layout: {
+                        type: 'spring',
+                        stiffness: 280,
+                        damping: 26,
+                        mass: 0.75,
+                      },
+                      opacity: { duration: 0.2 },
+                      scale: { duration: 0.2 },
+                    }}
+                    whileHover={{ y: -4, transition: { duration: 0.18, ease: "easeOut" } }}
+                    whileTap={{ scale: 0.99 }}
+                    onClick={() => onSelectAdvisor(advisor)}
+                    className={`rounded-2xl p-5 shadow-xs dark:shadow-lg relative overflow-hidden group cursor-pointer flex flex-col justify-between transition-colors transition-shadow duration-200 ${
+                      alertStatus.isTriggered
+                        ? 'bg-rose-50/60 dark:bg-rose-950/20 border-2 border-rose-400 dark:border-rose-500/80 shadow-md shadow-rose-500/10'
+                        : 'bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] hover:border-rose-400 dark:hover:border-rose-500/60'
+                    }`}
+                  >
+                    <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl pointer-events-none transition-all ${
+                      alertStatus.isTriggered ? 'bg-rose-500/10 dark:bg-rose-500/20' : 'bg-rose-500/5 dark:bg-rose-500/10 group-hover:bg-rose-500/15'
+                    }`} />
+
+                    <div className="space-y-4">
+                      {/* Top Header */}
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${
+                            alertStatus.isTriggered
+                              ? 'bg-rose-100 dark:bg-rose-500/20 border border-rose-300 dark:border-rose-500/40 text-rose-700 dark:text-rose-300'
+                              : 'bg-rose-50 dark:bg-rose-500/15 border border-rose-200 dark:border-rose-500/30 text-rose-600 dark:text-rose-400'
+                          }`}>
+                            {alertStatus.isTriggered ? (
+                              <ShieldAlert className="w-5 h-5 text-rose-600 dark:text-rose-400 animate-pulse" />
+                            ) : (
+                              advisor.advisorName.charAt(0)
+                            )}
+                          </div>
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-[10px] font-mono font-black px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0">
+                                #{index + 1}
+                              </span>
+                              <h4 className={`font-bold text-sm transition-colors truncate ${
+                                alertStatus.isTriggered ? 'text-rose-800 dark:text-rose-100' : 'text-slate-900 dark:text-slate-100 group-hover:text-rose-600 dark:group-hover:text-rose-400'
+                              }`}>
+                                {advisor.advisorName}
+                              </h4>
+                            </div>
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono truncate mt-0.5">
+                              {advisor.employeeId || 'VT-ID'} • TL: {advisor.tlTeam || 'Billal'}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col items-end gap-1 shrink-0">
+                          <span className={`px-2.5 py-1 rounded-lg font-black text-xs font-mono shrink-0 border ${
+                            alertStatus.isTriggered
+                              ? 'bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-800/80'
+                              : numKpi >= 90
+                              ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/40'
+                              : numKpi >= 80
+                              ? 'bg-blue-50 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-500/40'
+                              : 'bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-800/80'
+                          }`}>
+                            KPI {formatKpiDisplay(advisor.overallKpi)}
+                          </span>
+                          {alertStatus.isTriggered && (
+                            <span className="px-1.5 py-0.5 rounded bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-200 text-[9px] font-black font-mono border border-rose-300 dark:border-rose-700/80 animate-pulse">
+                              🚨 3x Alert
+                            </span>
                           )}
                         </div>
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-1.5">
-                            <h4 className={`font-bold text-sm transition-colors truncate ${
-                              alertStatus.isTriggered ? 'text-rose-800 dark:text-rose-100' : 'text-slate-900 dark:text-slate-100 group-hover:text-rose-600 dark:group-hover:text-rose-400'
-                            }`}>
-                              {advisor.advisorName}
-                            </h4>
+                      </div>
+
+                      {/* KPI & Sales Highlight */}
+                      <div className="grid grid-cols-2 gap-2.5 pt-2">
+                        <div className="bg-slate-50 dark:bg-[#15223c] p-3 rounded-xl border border-slate-200/90 dark:border-[#24355a]">
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase block">Final Sales</span>
+                          <span className="text-base font-black text-slate-900 dark:text-slate-100 font-mono mt-0.5 block">
+                            ৳{advisor.finalSales.toLocaleString('en-BD')}
+                          </span>
+                        </div>
+                        <div className="bg-slate-50 dark:bg-[#15223c] p-3 rounded-xl border border-slate-200/90 dark:border-[#24355a]">
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase block">Total Payroll</span>
+                          <div className="flex items-baseline gap-1.5 mt-0.5">
+                            <span className="text-base font-black text-emerald-600 dark:text-emerald-400 font-mono">
+                              ৳{advisor.totalSalary.toLocaleString('en-BD')}
+                            </span>
                           </div>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono truncate">
-                            {advisor.employeeId || 'VT-ID'} • TL: {advisor.tlTeam || 'Billal'}
-                          </p>
                         </div>
                       </div>
 
-                      <div className="flex flex-col items-end gap-1 shrink-0">
-                        <span className={`px-2.5 py-1 rounded-lg font-black text-xs font-mono shrink-0 border ${
-                          alertStatus.isTriggered
-                            ? 'bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-800/80'
-                            : numKpi >= 90
-                            ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/40'
-                            : numKpi >= 80
-                            ? 'bg-blue-50 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-500/40'
-                            : 'bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-800/80'
-                        }`}>
-                          KPI {formatKpiDisplay(advisor.overallKpi)}
-                        </span>
-                        {alertStatus.isTriggered && (
-                          <span className="px-1.5 py-0.5 rounded bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-200 text-[9px] font-black font-mono border border-rose-300 dark:border-rose-700/80 animate-pulse">
-                            🚨 3x Alert
-                          </span>
-                        )}
-                      </div>
-                    </div>
+                      {/* 30-Day Weekly KPI Performance Sparkline */}
+                      <AdvisorKpiSparkline
+                        advisorId={advisor.id || advisor.advisorName}
+                        kpiScore={advisor.overallKpi}
+                        sales={advisor.finalSales}
+                        examMark={advisor.exam}
+                        teamType="virtual"
+                      />
 
-                    {/* KPI & Sales Highlight */}
-                    <div className="grid grid-cols-2 gap-2.5 pt-2">
-                      <div className="bg-slate-50 dark:bg-[#15223c] p-3 rounded-xl border border-slate-200/90 dark:border-[#24355a]">
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase block">Final Sales</span>
-                        <span className="text-base font-black text-slate-900 dark:text-slate-100 font-mono mt-0.5 block">
-                          ৳{advisor.finalSales.toLocaleString('en-BD')}
-                        </span>
-                      </div>
-                      <div className="bg-slate-50 dark:bg-[#15223c] p-3 rounded-xl border border-slate-200/90 dark:border-[#24355a]">
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase block">Total Payroll</span>
-                        <div className="flex items-baseline gap-1.5 mt-0.5">
-                          <span className="text-base font-black text-emerald-600 dark:text-emerald-400 font-mono">
-                            ৳{advisor.totalSalary.toLocaleString('en-BD')}
-                          </span>
+                      {/* Secondary Stats: Operational Metrics & Breakdown with subtle reveal on hover */}
+                      <div className="space-y-2 pt-1 transition-all duration-300 ease-out">
+                        {/* Operational Metrics Row with smooth fade-in and hover illumination */}
+                        <div className="grid grid-cols-3 gap-2 text-center text-[11px] opacity-75 sm:opacity-50 dark:opacity-45 group-hover:opacity-100 transition-all duration-300 ease-out transform translate-y-0.5 group-hover:translate-y-0">
+                          <div className="bg-slate-50/80 dark:bg-[#15223c]/60 p-2 rounded-lg border border-slate-200/80 dark:border-[#24355a] group-hover:border-rose-300/70 dark:group-hover:border-rose-500/50 transition-colors" title="Accurate Reach Calls">
+                            <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase block font-semibold">Reach Call</span>
+                            <span className="font-bold text-rose-600 dark:text-rose-400 font-mono">{advisor.reachCall}</span>
+                          </div>
+                          <div className="bg-slate-50/80 dark:bg-[#15223c]/60 p-2 rounded-lg border border-slate-200/80 dark:border-[#24355a] group-hover:border-rose-300/70 dark:group-hover:border-rose-500/50 transition-colors">
+                            <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase block font-semibold">Talk Time</span>
+                            <span className="font-bold text-slate-800 dark:text-slate-200 font-mono">{advisor.talkTime || '0m'}</span>
+                          </div>
+                          <div className="bg-slate-50/80 dark:bg-[#15223c]/60 p-2 rounded-lg border border-slate-200/80 dark:border-[#24355a] group-hover:border-rose-300/70 dark:group-hover:border-rose-500/50 transition-colors">
+                            <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase block font-semibold">Incentive</span>
+                            <span className="font-bold text-cyan-600 dark:text-cyan-400 font-mono">৳{advisor.finalIncentive.toLocaleString('en-BD')}</span>
+                          </div>
+                        </div>
+
+                        {/* Extended Secondary Operational Details (Exam Mark, Base Pay, Call Pace) smoothly revealing on hover */}
+                        <div className="grid grid-cols-3 gap-1.5 text-center text-[10px] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out transform -translate-y-1 group-hover:translate-y-0 delay-75">
+                          <div className="py-1 px-1.5 rounded-md bg-rose-50/70 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200/60 dark:border-rose-800/50 font-mono">
+                            <span className="text-[9px] uppercase block opacity-75">Exam</span>
+                            <span className="font-bold">{advisor.exam || 0}%</span>
+                          </div>
+                          <div className="py-1 px-1.5 rounded-md bg-amber-50/70 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/50 font-mono">
+                            <span className="text-[9px] uppercase block opacity-75">Base Pay</span>
+                            <span className="font-bold">৳{advisor.salary.toLocaleString('en-BD')}</span>
+                          </div>
+                          <div className="py-1 px-1.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-mono">
+                            <span className="text-[9px] uppercase block opacity-75">Pace</span>
+                            <span className="font-bold">{Math.round(advisor.reachCall / 24)}/day</span>
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* 30-Day Weekly KPI Performance Sparkline */}
-                    <AdvisorKpiSparkline
-                      advisorId={advisor.id || advisor.advisorName}
-                      kpiScore={advisor.overallKpi}
-                      sales={advisor.finalSales}
-                      examMark={advisor.exam}
-                      teamType="virtual"
-                    />
+                    {/* Card Footer Actions */}
+                    <div className="flex items-center justify-between pt-4 mt-4 border-t border-slate-200/90 dark:border-[#1e2c4a] text-xs">
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors flex items-center gap-1 font-semibold">
+                        View Full Dossier <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                      </span>
 
-                    {/* Operational Metrics Row */}
-                    <div className="grid grid-cols-3 gap-2 text-center text-[11px] pt-1">
-                      <div className="bg-slate-50/80 dark:bg-[#15223c]/60 p-2 rounded-lg border border-slate-200/80 dark:border-[#24355a]">
-                        <span className="text-[10px] text-slate-500 uppercase block font-semibold">Reach</span>
-                        <span className="font-bold text-rose-600 dark:text-rose-400 font-mono">{advisor.reachCall}</span>
-                      </div>
-                      <div className="bg-slate-50/80 dark:bg-[#15223c]/60 p-2 rounded-lg border border-slate-200/80 dark:border-[#24355a]">
-                        <span className="text-[10px] text-slate-500 uppercase block font-semibold">Talk Time</span>
-                        <span className="font-bold text-slate-800 dark:text-slate-200 font-mono">{advisor.talkTime || '0m'}</span>
-                      </div>
-                      <div className="bg-slate-50/80 dark:bg-[#15223c]/60 p-2 rounded-lg border border-slate-200/80 dark:border-[#24355a]">
-                        <span className="text-[10px] text-slate-500 uppercase block font-semibold">Incentive</span>
-                        <span className="font-bold text-cyan-600 dark:text-cyan-400 font-mono">৳{advisor.finalIncentive.toLocaleString('en-BD')}</span>
+                      <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                        <button
+                          onClick={() => handleStartEdit(advisor)}
+                          className="p-1.5 hover:bg-slate-100 dark:hover:bg-[#1e2c4a] text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 rounded-lg transition-colors cursor-pointer"
+                          title="Edit Record"
+                        >
+                          <Edit2 className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          onClick={() => onDeleteAdvisor(advisor.id)}
+                          className="p-1.5 hover:bg-slate-100 dark:hover:bg-[#1e2c4a] text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 rounded-lg transition-colors cursor-pointer"
+                          title="Delete Record"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Card Footer Actions */}
-                  <div className="flex items-center justify-between pt-4 mt-4 border-t border-slate-200/90 dark:border-[#1e2c4a] text-xs">
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors flex items-center gap-1 font-semibold">
-                      View Full Dossier <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                    </span>
-
-                    <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        onClick={() => handleStartEdit(advisor)}
-                        className="p-1.5 hover:bg-slate-100 dark:hover:bg-[#1e2c4a] text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 rounded-lg transition-colors cursor-pointer"
-                        title="Edit Record"
-                      >
-                        <Edit2 className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => onDeleteAdvisor(advisor.id)}
-                        className="p-1.5 hover:bg-slate-100 dark:hover:bg-[#1e2c4a] text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 rounded-lg transition-colors cursor-pointer"
-                        title="Delete Record"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>

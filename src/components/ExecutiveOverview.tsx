@@ -45,7 +45,6 @@ import { AnimatedLeaderboard } from './AnimatedLeaderboard';
 import { AnimatedCounter } from './AnimatedCounter';
 import { AdvisorKpiComparison } from './AdvisorKpiComparison';
 import { TopRankAdvisorSpotlight } from './TopRankAdvisorSpotlight';
-import { DailyKpiVelocityChart } from './DailyKpiVelocityChart';
 
 interface ExecutiveOverviewProps {
   stationedAdvisors: StationedAdvisor[];
@@ -86,6 +85,9 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
   const totalStationedReach = stationedAdvisors.reduce((acc, c) => acc + c.avgReach, 0);
   const totalVirtualReach = virtualAdvisors.reduce((acc, c) => acc + c.reachCall, 0);
   const totalReachCalls = totalStationedReach + totalVirtualReach;
+  const avgDailyReachCalls = totalAdvisors > 0 
+    ? Math.round(totalReachCalls / totalAdvisors) 
+    : 0;
 
   // Grade Helper function
   const getAdvisorGrade = (kpiVal: any, rawGrade?: string): string => {
@@ -575,7 +577,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </div>
           </div>
 
-          {/* Card 3: Total Reach Calls */}
+          {/* Card 3: Avg Reach Calls */}
           <div 
             onClick={() => onNavigateTab('call_records')}
             className="kpi-card metric-box bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700/80 hover:border-sky-400 dark:hover:border-sky-500/50 rounded-xl p-4 sm:p-5 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-2xs h-full"
@@ -583,7 +585,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             {/* Row 1: Header */}
             <div className="h-6 flex items-center justify-between gap-2">
               <span className="label-text text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors flex items-center gap-1 truncate">
-                <span className="truncate">Total Reach Calls</span>
+                <span className="truncate">Avg Reach Calls</span>
                 <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
               </span>
               {topAdvisorByReach && (
@@ -593,7 +595,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     onSelectAdvisor(topAdvisorByReach.raw, topAdvisorByReach.type);
                   }}
                   className="h-6 inline-flex items-center gap-1 px-2 rounded-md bg-sky-50 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-700/60 text-sky-800 dark:text-sky-200 text-xs font-bold cursor-pointer hover:scale-105 transition-transform shrink-0 shadow-2xs"
-                  title={`Rank #1 Outreach Star: ${topAdvisorByReach.name} (${topAdvisorByReach.val} calls)`}
+                  title={`Rank #1 Outreach Star: ${topAdvisorByReach.name} (${topAdvisorByReach.val} avg calls)`}
                 >
                   <PhoneCall className="w-3 h-3 text-sky-600 dark:text-sky-400 shrink-0" />
                   <span className="font-mono font-bold">#1</span>
@@ -603,18 +605,19 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
             {/* Row 2: Main Metric Number + Sub-Benchmark Alignment */}
             <div className="flex items-baseline justify-between gap-2 my-2 w-full">
-              <span className="metric-value text-2xl sm:text-[28px] font-black text-slate-900 dark:text-white font-mono tracking-tight truncate">
-                <AnimatedCounter value={totalReachCalls} />
+              <span className="metric-value text-2xl sm:text-[28px] font-black text-slate-900 dark:text-white font-mono tracking-tight truncate flex items-baseline gap-1">
+                <AnimatedCounter value={avgDailyReachCalls} />
+                <span className="text-sm font-bold text-slate-400 dark:text-slate-500 font-mono">/day</span>
               </span>
               <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono shrink-0">
-                Telephony
+                Total: {totalReachCalls.toLocaleString()}
               </span>
             </div>
 
             {/* Row 3: Standardized Context Indicator */}
             <div className="w-full h-5 flex items-center mb-2.5">
               <span className="text-xs text-slate-600 dark:text-slate-400 font-medium truncate">
-                Total Outreach Connections
+                Team Average Outreach per Duty
               </span>
             </div>
 
@@ -1074,15 +1077,6 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           </ResponsiveContainer>
         </div>
       </div>
-
-      {/* Aggregate 30-Day Daily Average KPI Score & Performance Velocity Recharts Line Chart */}
-      <DailyKpiVelocityChart
-        stationedAdvisors={stationedAdvisors}
-        virtualAdvisors={virtualAdvisors}
-        overallTeamKpi={overallTeamKpi}
-        avgStationedKpi={avgStationedKpi}
-        avgVirtualKpi={avgVirtualKpi}
-      />
 
       {/* Visual Analytics Charts & Leaderboard Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">

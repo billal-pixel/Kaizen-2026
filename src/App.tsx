@@ -78,7 +78,7 @@ export default function App() {
   const teamLeaderName = "Muhammad Billal";
 
   const PRIMARY_LIVE_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0';
-  const DATA_VERSION = 'kaizen_v37_stationed_and_virtual_all_tabs_real_data';
+  const DATA_VERSION = 'kaizen_v38_accurate_avg_reach_and_talktime';
 
   // Snapshot initial version before any state initializers write to localStorage
   const initialSavedVersion = useMemo(() => localStorage.getItem('kaizen_data_version'), []);
