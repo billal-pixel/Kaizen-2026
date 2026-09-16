@@ -238,14 +238,14 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-sky-400 dark:bg-[#082F49]/95 backdrop-blur-md border-b border-sky-500/50 dark:border-slate-800/80 shadow-xs transition-colors duration-200">
+    <header className="sticky top-0 z-40 bg-gradient-to-r from-sky-400 via-sky-400 to-sky-300 dark:from-[#082F49] dark:via-[#0c3957] dark:to-[#082F49] backdrop-blur-md border-b border-sky-500/50 dark:border-slate-800/80 shadow-md shadow-sky-950/5 transition-colors duration-200">
       <div className="max-w-[1680px] w-full mx-auto px-3 sm:px-5 lg:px-6 py-2.5 space-y-2">
         
         {/* Tier 1: Unified Executive Command Bar */}
         <div className="flex flex-col lg:flex-row lg:items-stretch justify-between gap-2">
           
           {/* Top-Left: Brand Identity & Team Leader Tag */}
-          <div className="flex items-center gap-2 bg-white dark:bg-[#0F172A] border border-white/80 dark:border-slate-800 px-3 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
+          <div className="flex items-center gap-2 bg-white dark:bg-[#0F172A] border border-sky-200/90 dark:border-slate-800 px-3 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
             <div 
               onClick={() => setActiveTab('overview')}
               className="w-8 h-8 bg-slate-100 dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 p-1 rounded-lg shadow-2xs flex items-center justify-center cursor-pointer hover:scale-105 transition-transform shrink-0"
@@ -257,21 +257,21 @@ export const Header: React.FC<HeaderProps> = React.memo(({
             <div className="flex items-center gap-2 min-w-0 pr-0.5">
               <h1 
                 onClick={() => setActiveTab('overview')}
-                className="text-sm sm:text-base font-black tracking-wider text-slate-900 dark:text-white uppercase cursor-pointer hover:text-teal-600 dark:hover:text-teal-300 transition-colors leading-tight shrink-0 select-none"
+                className="text-sm sm:text-base font-black tracking-wider text-slate-900 dark:text-white uppercase cursor-pointer hover:text-sky-600 dark:hover:text-sky-300 transition-colors leading-tight shrink-0 select-none"
               >
                 TEAM KAIZEN
               </h1>
               
-              <div className="h-7.5 inline-flex items-center gap-1.5 px-2.5 rounded-lg bg-slate-100 dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 shrink-0">
-                <ShieldCheck className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400 stroke-[2.5] shrink-0" />
-                <span className="text-[11px] font-bold text-teal-700 dark:text-teal-400 uppercase tracking-wider leading-none">TL:</span>
-                <span className="text-xs font-black text-slate-900 dark:text-white whitespace-nowrap leading-none">{teamLeaderName}</span>
+              <div className="h-7.5 inline-flex items-center gap-1.5 px-2.5 rounded-lg bg-emerald-50/80 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/50 shrink-0">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 stroke-[2.5] shrink-0" />
+                <span className="text-[11px] font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-wider leading-none">TL:</span>
+                <span className="text-xs font-black text-slate-900 dark:text-emerald-100 whitespace-nowrap leading-none">{teamLeaderName}</span>
               </div>
             </div>
           </div>
 
           {/* Center: Live Google Sheet Sync Status Pill (Fluid, No Overflow, Crisp Alignment) */}
-          <div className="flex-1 min-w-0 bg-white dark:bg-[#0F172A] border border-white/80 dark:border-slate-800 rounded-xl px-3 py-1.5 flex items-center justify-between gap-2 shadow-xs min-h-[46px] lg:h-[46px]">
+          <div className="flex-1 min-w-0 bg-white dark:bg-[#0F172A] border border-sky-200/90 dark:border-slate-800 rounded-xl px-3 py-1.5 flex items-center justify-between gap-2 shadow-xs min-h-[46px] lg:h-[46px]">
             {/* Sync Left Info (Zap + Title + Live badge + Substatus) */}
             <div className="flex items-center gap-2.5 min-w-0 shrink">
               <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-500/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 shadow-2xs">
@@ -332,9 +332,9 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 onClick={executeSync}
                 disabled={isSyncing}
                 title="Fetch latest data from Google Sheet now"
-                className="h-7.5 px-2.5 bg-slate-50 hover:bg-slate-100 hover:text-teal-700 border border-slate-200 text-slate-700 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:hover:text-teal-300 dark:border-slate-700 dark:text-slate-200 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95 transition-all disabled:opacity-50 shrink-0"
+                className="h-7.5 px-2.5 bg-slate-50 hover:bg-slate-100 hover:text-sky-700 border border-slate-200 text-slate-700 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:hover:text-sky-300 dark:border-slate-700 dark:text-slate-200 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95 transition-all disabled:opacity-50 shrink-0"
               >
-                <RefreshCw className={`w-3.5 h-3.5 stroke-[2.5] shrink-0 ${isSyncing ? 'animate-spin text-teal-600 dark:text-teal-400' : 'text-slate-600 dark:text-slate-300'}`} />
+                <RefreshCw className={`w-3.5 h-3.5 stroke-[2.5] shrink-0 ${isSyncing ? 'animate-spin text-sky-600 dark:text-sky-400' : 'text-slate-600 dark:text-slate-300'}`} />
                 <span>Sync</span>
               </button>
 
@@ -352,7 +352,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
           </div>
 
           {/* Right Action Controls: Quick Search + Light/Dark Mode + 3D FX + Add Advisor */}
-          <div className="flex items-center gap-1.5 bg-white dark:bg-[#0F172A] border border-white/80 dark:border-slate-800 px-2 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
+          <div className="flex items-center gap-1.5 bg-white dark:bg-[#0F172A] border border-sky-200/90 dark:border-slate-800 px-2 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
             {/* Quick Search Trigger (⌘K) */}
             {onOpenCommandPalette && (
               <button
@@ -361,7 +361,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 title="Search advisors, tasks, tabs, or actions (⌘K / Ctrl+K)"
                 className="h-7.5 px-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 text-slate-700 hover:text-slate-900 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 dark:hover:border-slate-600 dark:text-slate-200 dark:hover:text-white text-xs font-bold rounded-lg flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all active:scale-95 shrink-0 group"
               >
-                <Search className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 stroke-[2.5] shrink-0" />
+                <Search className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 stroke-[2.5] shrink-0" />
                 <kbd className="text-[10px] font-mono px-1.5 py-0.5 bg-white dark:bg-[#0B132B] border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded font-bold shrink-0">⌘K</kbd>
               </button>
             )}
@@ -373,7 +373,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 onClick={onToggleTheme}
                 title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
                 aria-label="Toggle Theme"
-                className="h-7.5 w-7.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 dark:text-amber-300 flex items-center justify-center shadow-2xs cursor-pointer active:scale-95 transition-all shrink-0"
+                className="h-7.5 w-7.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 dark:text-amber-300 flex items-center justify-center shadow-2xs cursor-pointer active:scale-95 transition-transform hover:rotate-12 shrink-0"
               >
                 {theme === 'light' ? (
                   <Moon className="w-4 h-4 text-slate-700 stroke-[2.2]" />
@@ -391,7 +391,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 title={`Configure 3D Background (${threeBgEnabled ? threeBgStyle : 'Disabled'})`}
                 className={`h-7.5 px-2.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95 transition-all shrink-0 group ${
                   threeBgEnabled
-                    ? 'bg-sky-100 hover:bg-sky-200/80 border-sky-300 text-sky-900 dark:bg-sky-950/80 dark:hover:bg-sky-900/80 dark:border-sky-400/60 dark:text-sky-200'
+                    ? 'bg-sky-50 hover:bg-sky-100/90 border-sky-300 text-sky-900 dark:bg-sky-950/80 dark:hover:bg-sky-900/80 dark:border-sky-400/60 dark:text-sky-200'
                     : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 dark:text-slate-300'
                 }`}
               >
@@ -403,23 +403,23 @@ export const Header: React.FC<HeaderProps> = React.memo(({
               </button>
             )}
 
-            {/* + Add Advisor Button (Refined Teal Primary Button) */}
+            {/* + Add Advisor Button (High-Contrast Executive Button) */}
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.96 }}
               type="button"
               onClick={onOpenAddModal}
-              className="h-7.5 px-3 bg-teal-700 hover:bg-teal-800 active:bg-teal-900 border border-teal-800 text-white font-black text-xs rounded-lg flex items-center gap-1.5 shadow-xs cursor-pointer shrink-0 transition-all whitespace-nowrap"
+              className="h-7.5 px-3 bg-slate-900 hover:bg-slate-800 active:bg-black dark:bg-sky-500 dark:hover:bg-sky-400 dark:text-slate-950 text-white font-black text-xs rounded-lg flex items-center gap-1.5 shadow-xs cursor-pointer shrink-0 transition-all whitespace-nowrap"
             >
               <Plus className="w-3.5 h-3.5 stroke-[3] shrink-0" />
-              <span className="font-black tracking-wide text-white">Add Advisor</span>
+              <span className="font-black tracking-wide">Add Advisor</span>
             </motion.button>
           </div>
 
         </div>
 
         {/* Tier 2: Payment Copy & Team Resources Ribbon (Zero Cutoff, Seamless Responsive Alignment) */}
-        <div className="bg-white/85 dark:bg-[#0F172A] backdrop-blur-xs border border-white/70 dark:border-slate-800 rounded-xl px-2.5 py-1.5 shadow-2xs">
+        <div className="bg-white/95 dark:bg-[#0F172A]/95 backdrop-blur-xs border border-sky-200/90 dark:border-slate-800 rounded-xl px-2.5 py-1.5 shadow-2xs">
           <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 w-full">
             {/* Left Cluster: 1-Click Payments (Antu, Kayes, Payment Hub) */}
             <div className="flex flex-wrap items-center gap-1.5">
@@ -430,7 +430,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 className={`group h-7.5 px-2.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
                   copiedQuickId === 'antu_quick'
                     ? 'bg-emerald-600 text-white border-emerald-500'
-                    : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:text-slate-100 dark:border-slate-700'
+                    : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200 hover:border-rose-300 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:text-slate-100 dark:border-slate-700'
                 }`}
                 title="1-Click copy Bengali bKash message for Antu (01850890778)"
               >
@@ -456,7 +456,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 className={`group h-7.5 px-2.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
                   copiedQuickId === 'kayes_quick'
                     ? 'bg-emerald-600 text-white border-emerald-500'
-                    : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:text-slate-100 dark:border-slate-700'
+                    : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200 hover:border-amber-300 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:text-slate-100 dark:border-slate-700'
                 }`}
                 title="1-Click copy Bengali bKash message for Kayes (01644336738)"
               >
@@ -481,11 +481,11 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   type="button"
                   onClick={onOpenPaymentModal}
                   title="Open Full Payment Hub & Message Templates"
-                  className="group h-7.5 px-2.5 bg-white hover:bg-slate-50 border border-slate-200 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 rounded-lg text-[11px] font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all shrink-0"
+                  className="group h-7.5 px-2.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-sky-300 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 rounded-lg text-[11px] font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all shrink-0"
                 >
-                  <CreditCard className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400 stroke-[2.2] shrink-0" />
+                  <CreditCard className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 stroke-[2.2] shrink-0" />
                   <span>Payment Hub</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse shrink-0"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse shrink-0"></span>
                 </button>
               )}
             </div>
@@ -508,7 +508,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   >
                     <Icon className={`w-3.5 h-3.5 ${res.color} stroke-[2.2] shrink-0`} />
                     <span>{res.label}</span>
-                    <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-teal-600 dark:group-hover:text-teal-300 stroke-[2] shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
+                    <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-300 stroke-[2] shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
                   </a>
                 );
               })}
@@ -518,7 +518,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
         {/* Tier 3: Core Navigation Tabs (Balanced, Zero Truncation/Ellipses, High Contrast) */}
         <nav className="w-full" aria-label="Main Navigation">
-          <div className="bg-white/85 dark:bg-[#0F172A] backdrop-blur-xs p-1.5 rounded-xl border border-white/70 dark:border-slate-800 shadow-2xs w-full">
+          <div className="bg-white/95 dark:bg-[#0F172A]/95 backdrop-blur-xs p-1.5 rounded-xl border border-sky-200/90 dark:border-slate-800 shadow-2xs w-full">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-1.5 w-full">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;
@@ -532,19 +532,19 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     onClick={() => setActiveTab(tab.id as any)}
                     aria-current={isActive ? 'page' : undefined}
                     title={`${tab.label} (Press ${tab.keyNum} to jump)`}
-                    className={`group relative h-9 px-2 rounded-xl text-xs xl:text-[13px] flex items-center justify-center gap-1.5 transition-all duration-150 cursor-pointer select-none w-full min-w-0 whitespace-nowrap ${
+                    className={`group relative h-9 px-2 rounded-xl text-xs xl:text-[13px] flex items-center justify-center gap-1.5 transition-all duration-150 cursor-pointer select-none w-full min-w-0 whitespace-nowrap active:scale-[0.98] ${
                       isActive
-                        ? 'bg-teal-700 hover:bg-teal-800 text-white font-bold shadow-xs border border-teal-800'
-                        : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 font-semibold border border-slate-200 hover:border-slate-300 shadow-2xs dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:text-slate-200 dark:hover:text-white dark:border-slate-700 dark:hover:border-slate-600'
+                        ? 'bg-slate-900 text-white font-bold shadow-xs border border-slate-900 dark:bg-sky-500 dark:text-slate-950 dark:border-sky-400'
+                        : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-950 font-semibold border border-slate-200/80 hover:border-slate-300 shadow-2xs dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:text-slate-200 dark:hover:text-white dark:border-slate-700 dark:hover:border-slate-600'
                     }`}
                   >
                     <Icon className={`w-4 h-4 shrink-0 transition-colors ${
                       isActive
-                        ? 'text-white stroke-[2.4]'
-                        : 'text-teal-600 dark:text-teal-400 group-hover:text-teal-700 dark:group-hover:text-teal-300 stroke-[2]'
+                        ? 'text-white dark:text-slate-950 stroke-[2.4]'
+                        : 'text-sky-600 dark:text-sky-400 group-hover:text-sky-700 dark:group-hover:text-sky-300 stroke-[2]'
                     }`} />
 
-                    <span className={`leading-none whitespace-nowrap ${isActive ? 'font-bold text-white' : 'font-semibold text-slate-700 group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white'}`}>
+                    <span className={`leading-none whitespace-nowrap ${isActive ? 'font-bold text-white dark:text-slate-950' : 'font-semibold text-slate-700 group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white'}`}>
                       <span className="hidden xl:inline">{tab.label}</span>
                       <span className="inline xl:hidden">{tab.shortLabel}</span>
                     </span>
@@ -552,7 +552,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     {tab.isAi && (
                       <span className={`text-[10px] font-black px-1.5 h-[18px] rounded-full font-mono leading-none flex items-center justify-center shrink-0 transition-colors ${
                         isActive
-                          ? 'bg-white/25 text-white border border-white/40'
+                          ? 'bg-white/20 text-white dark:bg-slate-950/20 dark:text-slate-950 border border-white/30 dark:border-slate-950/30'
                           : 'bg-purple-100 text-purple-900 border border-purple-200 dark:bg-purple-900/70 dark:text-purple-200 dark:border-purple-400/50 group-hover:bg-purple-200'
                       }`}>
                         AI
@@ -563,13 +563,22 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                       <span
                         className={`text-[11px] px-1.5 min-w-[20px] h-[18px] rounded-full font-black font-mono transition-colors leading-none flex items-center justify-center border shrink-0 ${
                           isActive
-                            ? 'bg-white/25 text-white border border-white/30'
-                            : 'bg-slate-100 dark:bg-[#0B132B] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 group-hover:border-teal-500/50'
+                            ? 'bg-white/20 text-white dark:bg-slate-950/20 dark:text-slate-950 border border-white/30 dark:border-slate-950/30'
+                            : 'bg-slate-100 dark:bg-[#0B132B] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 group-hover:border-sky-400/50'
                         }`}
                       >
                         {tab.badge}
                       </span>
                     )}
+
+                    {/* Numeric Keyboard Shortcut Chip */}
+                    <span className={`hidden xl:inline-block text-[9px] font-mono px-1 py-0.5 rounded leading-none ${
+                      isActive
+                        ? 'bg-white/15 text-white/80 dark:bg-slate-950/15 dark:text-slate-900'
+                        : 'bg-slate-100 dark:bg-[#0B132B] text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300'
+                    }`}>
+                      {tab.keyNum}
+                    </span>
                   </button>
                 );
               })}

@@ -356,6 +356,15 @@ const Interactive3DCard: React.FC<{
         rotateX,
         rotateY,
       }}
+      whileHover={{
+        y: -5,
+        scale: 1.015,
+        transition: { type: 'spring', stiffness: 350, damping: 22 }
+      }}
+      whileTap={{
+        scale: 0.985,
+        transition: { type: 'spring', stiffness: 450, damping: 25 }
+      }}
       transition={{
         type: 'spring',
         stiffness: 320,
@@ -769,7 +778,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
   };
 
   return (
-    <div className="top-3-advisors-spotlight bg-white dark:bg-[#0F172A] border-2 border-amber-300/80 dark:border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xl space-y-6 relative overflow-hidden transition-all">
+    <div className="top-3-advisors-spotlight bg-white dark:bg-[#0F172A] border-2 border-amber-300/80 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 md:p-6 shadow-xl space-y-4 sm:space-y-6 relative overflow-hidden transition-all">
       {/* Studio Background Motion Graphics Mesh (Floating Diamonds, Concentric Gyros) */}
       <StudioBackgroundMotionGraphics />
 
@@ -1047,7 +1056,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
       {/* Top 3 Scorecards Grid with Dynamic 3D Tilt, Vivid Colors, Laser Shimmer & Micro-Interactions */}
       <motion.div 
         layout
-        className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 items-stretch relative z-10 pt-1"
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 items-stretch relative z-10 pt-1"
       >
         <AnimatePresence mode="popLayout">
           {displayedAdvisors.map((advisor) => {
@@ -1065,7 +1074,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
                 isChampion={isChampion}
                 borderBeamGradient={theme.borderBeamGradient}
                 onClick={() => onSelectAdvisor && onSelectAdvisor(advisor.raw, advisor.team)}
-                className={`rank-card advisor-card ${theme.cardBg} ${theme.cardBorder} rounded-3xl p-5 flex flex-col justify-between cursor-pointer group relative overflow-hidden transition-all duration-300 ${theme.podiumElevation}`}
+                className={`rank-card advisor-card ${theme.cardBg} ${theme.cardBorder} rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 md:p-5 flex flex-col justify-between cursor-pointer group relative overflow-hidden transition-all duration-300 ${theme.podiumElevation}`}
               >
                 {/* Luminous Ambient Halo in Card Background */}
                 <div className={`absolute -top-14 -right-14 w-52 h-52 bg-gradient-to-br ${theme.glowHalo} rounded-full blur-2xl pointer-events-none group-hover:scale-130 transition-transform duration-700`} />
@@ -1373,13 +1382,16 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
                             </span>
                           </motion.div>
 
-                          {/* Avg Reach Calls in Electric Azure Cyan */}
+                          {/* Reach Calls in Electric Azure Cyan (Total for Virtual, Avg for Stationed) */}
                           <motion.div 
                             whileHover={{ scale: 1.06, y: -2 }}
                             className="stat-box metric-box p-2.5 bg-cyan-50/80 dark:bg-cyan-950/40 rounded-2xl border-2 border-cyan-200 dark:border-cyan-800/80 transition-all hover:shadow-md flex flex-col items-center justify-between"
                           >
-                            <span className="text-[9px] text-cyan-800 dark:text-cyan-300 font-extrabold uppercase block truncate w-full" title="Accurate Average Reach Calls">
-                              Avg Reach
+                            <span 
+                              className="text-[9px] text-cyan-800 dark:text-cyan-300 font-extrabold uppercase block truncate w-full" 
+                              title={advisor.team === 'virtual' ? "Total Reach Calls" : "Accurate Average Reach Calls"}
+                            >
+                              {advisor.team === 'virtual' ? 'Total Reach' : 'Avg Reach'}
                             </span>
                             <div className="my-1 text-cyan-500">
                               <LiveActivitySoundwaveGraphic colorClass="text-cyan-500" />
@@ -1393,13 +1405,16 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
                             </span>
                           </motion.div>
 
-                          {/* Avg Talk in Vibrant Violet */}
+                          {/* Talk Time in Vibrant Violet (Total for Virtual, Avg/Duty for Stationed) */}
                           <motion.div 
                             whileHover={{ scale: 1.06, y: -2 }}
                             className="stat-box metric-box p-2.5 bg-violet-50/80 dark:bg-violet-950/40 rounded-2xl border-2 border-violet-200 dark:border-violet-800/80 transition-all hover:shadow-md flex flex-col items-center justify-between"
                           >
-                            <span className="text-[9px] text-violet-800 dark:text-violet-300 font-extrabold uppercase block truncate w-full">
-                              {timeframe === 'last_day' ? 'Duty Talk' : 'Avg Talk'}
+                            <span 
+                              className="text-[9px] text-violet-800 dark:text-violet-300 font-extrabold uppercase block truncate w-full"
+                              title={advisor.team === 'virtual' ? "Total Talk Time" : (timeframe === 'last_day' ? "Duty Talk Time" : "Average Talk Time")}
+                            >
+                              {advisor.team === 'virtual' ? 'Total Talk' : (timeframe === 'last_day' ? 'Duty Talk' : 'Avg Talk')}
                             </span>
                             <div className="my-1">
                               <motion.div 

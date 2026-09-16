@@ -52,7 +52,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xs space-y-4 flex flex-col justify-between relative overflow-hidden group/card hover:border-amber-400/60 dark:hover:border-amber-500/40 transition-all duration-300"
+      className="bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 sm:p-5 md:p-6 shadow-xs space-y-4 flex flex-col justify-between relative overflow-hidden group/card hover:border-amber-400/60 dark:hover:border-amber-500/40 transition-all duration-300"
     >
       {/* Subtle Ambient Golden Corner Glow */}
       <div className="absolute -top-16 -right-16 w-36 h-36 rounded-full bg-gradient-to-br from-amber-300/20 via-indigo-200/10 to-transparent blur-2xl pointer-events-none transition-opacity duration-500 group-hover/card:opacity-100 opacity-60" />
@@ -197,11 +197,14 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                       ease: [0.16, 1, 0.3, 1]
                     }}
                     whileHover={{ 
-                      y: -2.5, 
-                      scale: 1.015,
-                      transition: { duration: 0.2, ease: "easeOut" }
+                      y: -3.5, 
+                      scale: 1.018,
+                      transition: { type: 'spring', stiffness: 400, damping: 22 }
                     }}
-                    whileTap={{ scale: 0.985 }}
+                    whileTap={{ 
+                      scale: 0.985,
+                      transition: { type: 'spring', stiffness: 500, damping: 25 }
+                    }}
                     onClick={() => onSelectAdvisor(item.raw, item.team.toLowerCase() as any)}
                     className={`relative p-2.5 rounded-xl border flex flex-col justify-between gap-1.5 cursor-pointer transition-all duration-200 group/item shadow-2xs hover:shadow-md overflow-hidden ${
                       isChampion

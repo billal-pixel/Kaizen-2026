@@ -423,8 +423,10 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
                 if (item.type === 'advisor') {
                   const isStationed = item.advisorType === 'stationed';
                   return (
-                    <div
+                    <motion.div
                       key={item.id}
+                      whileHover={{ x: 4, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+                      whileTap={{ scale: 0.99, transition: { type: 'spring', stiffness: 500, damping: 30 } }}
                       onClick={() => handleSelect(item)}
                       onMouseEnter={() => setSelectedIndex(index)}
                       className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-all ${
@@ -471,7 +473,7 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
                         </span>
                         <ChevronRight className="w-4 h-4 text-slate-400" />
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 }
 

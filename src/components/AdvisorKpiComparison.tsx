@@ -479,7 +479,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xs space-y-6 relative overflow-hidden transition-all"
+      className="bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 sm:p-5 md:p-6 shadow-xs space-y-4 sm:space-y-6 relative overflow-hidden transition-all"
     >
       {/* Background Ambient Gradient Accents */}
       <div className="absolute top-0 right-1/4 w-80 h-80 bg-indigo-500/5 dark:bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -693,9 +693,11 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                     </div>
                   ) : (
                     filteredList1.map(adv => (
-                      <button
+                      <motion.button
                         key={`select-adv1-${adv.id}`}
                         type="button"
+                        whileHover={{ x: 3, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+                        whileTap={{ scale: 0.98, transition: { type: 'spring', stiffness: 500, damping: 30 } }}
                         onClick={() => {
                           setAdvisor1Id(adv.id);
                           setOpenSelector('none');
@@ -720,7 +722,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                         {adv.id === advisor1Id && (
                           <Check className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />
                         )}
-                      </button>
+                      </motion.button>
                     ))
                   )}
                 </div>
@@ -893,9 +895,11 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                     </div>
                   ) : (
                     filteredList2.map(adv => (
-                      <button
+                      <motion.button
                         key={`select-adv2-${adv.id}`}
                         type="button"
+                        whileHover={{ x: 3, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+                        whileTap={{ scale: 0.98, transition: { type: 'spring', stiffness: 500, damping: 30 } }}
                         onClick={() => {
                           setAdvisor2Id(adv.id);
                           setOpenSelector('none');
@@ -920,7 +924,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
                         {adv.id === advisor2Id && (
                           <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                         )}
-                      </button>
+                      </motion.button>
                     ))
                   )}
                 </div>

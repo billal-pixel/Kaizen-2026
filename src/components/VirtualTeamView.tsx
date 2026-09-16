@@ -459,7 +459,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
             >
               <option value="overallKpi" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Overall KPI</option>
               <option value="finalSales" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Final Sales</option>
-              <option value="reachCall" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Avg Reach</option>
+              <option value="reachCall" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Total Reach</option>
               <option value="totalSalary" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Total Salary</option>
               <option value="advisorName" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Advisor Name</option>
             </select>
@@ -705,6 +705,14 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.2, delay: Math.min(index * 0.02, 0.3) }}
+                          whileHover={{
+                            x: 4,
+                            transition: { type: 'spring', stiffness: 400, damping: 25 }
+                          }}
+                          whileTap={{
+                            scale: 0.996,
+                            transition: { type: 'spring', stiffness: 500, damping: 30 }
+                          }}
                           className={`transition-colors group cursor-pointer ${
                             alertStatus.isTriggered
                               ? 'bg-rose-50/60 dark:bg-rose-950/25 hover:bg-rose-100/60 dark:hover:bg-rose-950/45 border-l-4 border-l-rose-500'
@@ -869,7 +877,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
 
                         <div className="grid grid-cols-2 gap-2">
                           <div>
-                            <label className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 block mb-1">Avg Reach</label>
+                            <label className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 block mb-1">Total Reach</label>
                             <input
                               type="number"
                               value={editForm.reachCall ?? 0}
@@ -926,10 +934,17 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
                       opacity: { duration: 0.2 },
                       scale: { duration: 0.2 },
                     }}
-                    whileHover={{ y: -4, transition: { duration: 0.18, ease: "easeOut" } }}
-                    whileTap={{ scale: 0.99 }}
+                    whileHover={{ 
+                      y: -6, 
+                      scale: 1.015,
+                      transition: { type: 'spring', stiffness: 350, damping: 20 } 
+                    }}
+                    whileTap={{ 
+                      scale: 0.985,
+                      transition: { type: 'spring', stiffness: 450, damping: 25 } 
+                    }}
                     onClick={() => onSelectAdvisor(advisor)}
-                    className={`rounded-2xl p-5 shadow-xs dark:shadow-lg relative overflow-hidden group cursor-pointer flex flex-col justify-between transition-colors transition-shadow duration-200 ${
+                    className={`rounded-2xl p-5 shadow-xs hover:shadow-xl dark:shadow-lg relative overflow-hidden group cursor-pointer flex flex-col justify-between transition-colors transition-shadow duration-300 ${
                       alertStatus.isTriggered
                         ? 'bg-rose-50/60 dark:bg-rose-950/20 border-2 border-rose-400 dark:border-rose-500/80 shadow-md shadow-rose-500/10'
                         : 'bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] hover:border-rose-400 dark:hover:border-rose-500/60'

@@ -657,16 +657,16 @@ export default function App() {
         </div>
 
         {/* Sleek System Footer */}
-        <footer className="flex flex-col sm:flex-row justify-between items-center text-[11px] text-[#475569] font-medium bg-white px-6 py-3.5 rounded-2xl border border-[#E2E8F0] shadow-xs backdrop-blur-md mt-10 gap-2">
+        <footer className="flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-500 dark:text-slate-400 font-medium bg-white/95 dark:bg-[#0F172A]/95 px-6 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs backdrop-blur-md mt-10 gap-2">
           <div className="flex items-center gap-2">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span className="text-[#0F172A] font-bold tracking-wider uppercase text-[10px]">SYSTEM STATUS: OPERATIONAL</span>
+            <span className="text-slate-900 dark:text-slate-100 font-bold tracking-wider uppercase text-[10px]">SYSTEM STATUS: OPERATIONAL</span>
           </div>
-          <div>Team Leader: <span className="text-[#0F172A] font-bold">{teamLeaderName}</span></div>
-          <div className="text-[#475569]">Real-Time Performance Dashboard</div>
+          <div>Team Leader: <span className="text-slate-900 dark:text-slate-100 font-bold">{teamLeaderName}</span></div>
+          <div className="text-slate-500 dark:text-slate-400 font-medium">10 Minute School • Real-Time Operations Platform</div>
         </footer>
       </main>
       </div>

@@ -622,8 +622,19 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
                 paginatedAdvisors.map((adv, idx) => {
                   const globalRank = (currentPage - 1) * (pageSize === -1 ? 0 : pageSize) + idx + 1;
                   return (
-                    <tr
+                    <motion.tr
                       key={adv.id}
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.15, delay: Math.min(idx * 0.015, 0.2) }}
+                      whileHover={{
+                        x: 4,
+                        transition: { type: 'spring', stiffness: 400, damping: 25 }
+                      }}
+                      whileTap={{
+                        scale: 0.996,
+                        transition: { type: 'spring', stiffness: 500, damping: 30 }
+                      }}
                       onClick={() => onSelectAdvisor(adv.raw, adv.team.toLowerCase() as any)}
                       className="hover:bg-slate-50 dark:hover:bg-[#15223c]/50 cursor-pointer transition-colors group"
                     >
@@ -739,7 +750,7 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
                           <span>Inspect</span>
                         </button>
                       </td>
-                    </tr>
+                    </motion.tr>
                   );
                 })
               )}
