@@ -122,7 +122,9 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
   const unifiedAdvisors = useMemo(() => {
     const stationed = stationedAdvisors.map(a => ({
       id: a.id || `st-${a.advisorName}`,
+      employeeId: a.employeeId || '',
       name: a.advisorName,
+      subTeam: a.subTeam || '',
       designation: a.designation || a.advisorDesignation || 'Stationed Advisor',
       team: 'Stationed' as const,
       sales: a.finalSalesData || 0,
@@ -139,7 +141,9 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
 
     const virtual = virtualAdvisors.map(a => ({
       id: a.id || `vt-${a.advisorName}`,
+      employeeId: a.employeeId || '',
       name: a.advisorName,
+      subTeam: a.subTeam || '',
       designation: a.designation || a.advisorDesignation || 'Virtual Advisor',
       team: 'Virtual' as const,
       sales: a.finalSales || 0,
@@ -166,7 +170,9 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
       const q = searchTerm.toLowerCase();
       result = result.filter(a => 
         a.name.toLowerCase().includes(q) || 
-        a.designation.toLowerCase().includes(q)
+        a.designation.toLowerCase().includes(q) ||
+        (a.employeeId && a.employeeId.toLowerCase().includes(q)) ||
+        (a.subTeam && a.subTeam.toLowerCase().includes(q))
       );
     }
 
@@ -244,10 +250,10 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* 1. EXECUTIVE OPERATIONAL ROLLUP MATRIX */}
-      <div id="executive-rollup-section" className="bg-white dark:bg-[#10192e] border border-slate-200 dark:border-[#1e2c4a] rounded-2xl shadow-sm dark:shadow-xl overflow-hidden">
-        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-[#1e2c4a] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50/50 dark:bg-[#15223c]/50">
+      <div id="executive-rollup-section" className="bg-white dark:bg-[#10192e] border border-sky-200/80 dark:border-[#1e2c4a] rounded-2xl shadow-sm dark:shadow-xl overflow-hidden">
+        <div className="p-4 sm:p-5 border-b border-sky-200/80 dark:border-[#1e2c4a] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-sky-50/70 dark:bg-[#15223c]/50">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-600 dark:text-indigo-400">
+            <div className="p-2 rounded-xl bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400">
               <Layers className="w-4 h-4" />
             </div>
             <div>
@@ -260,8 +266,8 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
             </div>
           </div>
           <div className="flex items-center gap-2 text-xs font-mono font-bold text-slate-600 dark:text-slate-300">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50 dark:bg-[#15223c] text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30">
-              <span className="w-2 h-2 rounded-full bg-indigo-500" />
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-50 dark:bg-[#15223c] text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30">
+              <span className="w-2 h-2 rounded-full bg-sky-500" />
               {stationedAdvisors.length + virtualAdvisors.length} Total Reps
             </span>
           </div>
@@ -271,7 +277,7 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-100/90 dark:bg-[#15223c] text-slate-700 dark:text-slate-200 font-extrabold uppercase tracking-wider text-[10px] border-b border-slate-200 dark:border-[#1e2c4a]">
+              <tr className="bg-sky-50/90 dark:bg-[#15223c] text-slate-700 dark:text-slate-200 font-extrabold uppercase tracking-wider text-[10px] border-b border-sky-200/80 dark:border-[#1e2c4a]">
                 <th className="py-3.5 px-4 font-bold">Operational Unit</th>
                 <th className="py-3.5 px-3 text-center font-bold">Headcount</th>
                 <th className="py-3.5 px-4 text-right font-bold">Total Revenue</th>
@@ -284,7 +290,7 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
                 <th className="py-3.5 px-3 text-center font-bold">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-[#1e2c4a]/60 font-medium">
+            <tbody className="divide-y divide-sky-100 dark:divide-[#1e2c4a]/60 font-medium">
               {/* Row 1: Stationed Division */}
               <tr className="hover:bg-indigo-50/50 dark:hover:bg-[#15223c]/60 transition-colors">
                 <td className="py-3.5 px-4">
@@ -406,10 +412,10 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
               </tr>
 
               {/* Row 3: Consolidated Total Summary */}
-              <tr className="bg-slate-100/90 dark:bg-[#15223c] font-extrabold border-t-2 border-slate-300 dark:border-[#24355a]">
+              <tr className="bg-sky-50/90 dark:bg-[#15223c] font-extrabold border-t-2 border-sky-200 dark:border-[#24355a]">
                 <td className="py-3.5 px-4 text-slate-900 dark:text-slate-100">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <Sparkles className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />
                     <div>
                       <span className="text-xs sm:text-sm font-black uppercase tracking-tight">Team Kaizen Consolidated</span>
                       <p className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Entire Combined Sales Fleet</p>
@@ -428,13 +434,13 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
                 <td className="py-3.5 px-4 text-right font-mono font-black text-slate-900 dark:text-slate-100">
                   ৳{Math.round(totalSales / ((stationedAdvisors.length + virtualAdvisors.length) || 1)).toLocaleString('en-BD')}
                 </td>
-                <td className="py-3.5 px-3 text-center font-mono font-black text-indigo-600 dark:text-indigo-400">
+                <td className="py-3.5 px-3 text-center font-mono font-black text-sky-600 dark:text-sky-400">
                   {overallTeamKpi.toFixed(1)}%
                 </td>
                 <td className="py-3.5 px-4 text-center">
-                  <div className="inline-flex items-center gap-1 p-1 bg-slate-200/80 dark:bg-[#10192e] rounded-lg border border-slate-300/80 dark:border-[#24355a] text-[10px] font-mono font-black">
+                  <div className="inline-flex items-center gap-1 p-1 bg-sky-100/80 dark:bg-[#10192e] rounded-lg border border-sky-200 dark:border-[#24355a] text-[10px] font-mono font-black">
                     <span className="px-1.5 py-0.5 rounded bg-emerald-200 dark:bg-emerald-900/60 text-emerald-900 dark:text-emerald-200">{combinedGradeCounts.A}A</span>
-                    <span className="px-1.5 py-0.5 rounded bg-indigo-200 dark:bg-indigo-900/60 text-indigo-900 dark:text-indigo-200">{combinedGradeCounts.B}B</span>
+                    <span className="px-1.5 py-0.5 rounded bg-sky-200 dark:bg-sky-900/60 text-sky-900 dark:text-sky-200">{combinedGradeCounts.B}B</span>
                     <span className="px-1.5 py-0.5 rounded bg-purple-200 dark:bg-purple-900/60 text-purple-900 dark:text-purple-200">{combinedGradeCounts.C}C</span>
                     <span className="px-1.5 py-0.5 rounded bg-amber-200 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200">{combinedGradeCounts.D}D</span>
                     <span className="px-1.5 py-0.5 rounded bg-rose-200 dark:bg-rose-900/60 text-rose-900 dark:text-rose-200">{combinedGradeCounts.PIP}P</span>
@@ -456,16 +462,16 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
       </div>
 
       {/* 2. MASTER CONDENSED ALL-ADVISORS PERFORMANCE TABLE */}
-      <div id="master-advisor-table-section" className="bg-white dark:bg-[#10192e] border border-slate-200 dark:border-[#1e2c4a] rounded-2xl shadow-sm dark:shadow-xl overflow-hidden space-y-4 p-4 sm:p-5">
+      <div id="master-advisor-table-section" className="bg-white dark:bg-[#10192e] border border-sky-200/80 dark:border-[#1e2c4a] rounded-2xl shadow-sm dark:shadow-xl overflow-hidden space-y-4 p-4 sm:p-5">
         {/* Controls Toolbar: Title, Search, Division Filter, Grade Filter, Page Size */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 dark:border-[#1e2c4a] pb-4">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-sky-200/80 dark:border-[#1e2c4a] pb-4">
           <div>
             <div className="flex items-center gap-2">
               <Trophy className="w-4 h-4 text-amber-500" />
               <h2 className="text-base font-black text-slate-900 dark:text-slate-100 tracking-tight">
                 Advisor Performance Roster
               </h2>
-              <span className="text-[11px] font-mono font-bold bg-slate-100 dark:bg-[#15223c] text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-md border border-slate-200 dark:border-[#24355a]">
+              <span className="text-[11px] font-mono font-bold bg-sky-50 dark:bg-[#15223c] text-sky-800 dark:text-sky-300 px-2 py-0.5 rounded-md border border-sky-200/80 dark:border-[#24355a]">
                 {filteredAdvisors.length} of {unifiedAdvisors.length} Reps
               </span>
             </div>
@@ -484,19 +490,19 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
                 value={searchTerm}
                 onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
                 placeholder="Search advisor name..."
-                className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500"
+                className="w-full pl-8 pr-3 py-1.5 text-xs bg-sky-50/70 dark:bg-[#15223c] border border-sky-200/80 dark:border-[#24355a] rounded-xl text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-sky-500"
               />
             </div>
 
             {/* Division Filter */}
-            <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#15223c] p-1 rounded-xl border border-slate-200 dark:border-[#24355a] text-xs">
+            <div className="flex items-center gap-1 bg-sky-50/70 dark:bg-[#15223c] p-1 rounded-xl border border-sky-200/80 dark:border-[#24355a] text-xs">
               <button
                 type="button"
                 onClick={() => { setDivisionFilter('all'); setCurrentPage(1); }}
                 className={`px-2.5 py-1 rounded-lg font-bold transition-all cursor-pointer ${
                   divisionFilter === 'all'
-                    ? 'bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-100 shadow-xs border border-slate-200 dark:border-[#24355a]'
-                    : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                    ? 'bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-100 shadow-xs border border-sky-200 dark:border-[#24355a]'
+                    : 'text-slate-600 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 All
@@ -506,8 +512,8 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
                 onClick={() => { setDivisionFilter('stationed'); setCurrentPage(1); }}
                 className={`px-2.5 py-1 rounded-lg font-bold transition-all cursor-pointer ${
                   divisionFilter === 'stationed'
-                    ? 'bg-blue-600 text-white shadow-xs'
-                    : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                    ? 'bg-sky-600 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 Stationed
@@ -518,7 +524,7 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
                 className={`px-2.5 py-1 rounded-lg font-bold transition-all cursor-pointer ${
                   divisionFilter === 'virtual'
                     ? 'bg-rose-600 text-white shadow-xs'
-                    : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                    : 'text-slate-600 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 Virtual
@@ -529,7 +535,7 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
             <select
               value={gradeFilter}
               onChange={(e) => { setGradeFilter(e.target.value); setCurrentPage(1); }}
-              className="py-1.5 px-3 text-xs bg-slate-50 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] rounded-xl text-slate-800 dark:text-slate-200 font-bold focus:outline-none focus:border-indigo-500 cursor-pointer"
+              className="py-1.5 px-3 text-xs bg-sky-50/70 dark:bg-[#15223c] border border-sky-200/80 dark:border-[#24355a] rounded-xl text-slate-800 dark:text-slate-200 font-bold focus:outline-none focus:border-sky-500 cursor-pointer"
             >
               <option value="all">All Grades</option>
               <option value="A">Grade A (Exceeds)</option>
@@ -543,7 +549,7 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
             <select
               value={pageSize}
               onChange={(e) => { setPageSize(Number(e.target.value)); setCurrentPage(1); }}
-              className="py-1.5 px-2 text-xs bg-slate-50 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] rounded-xl text-slate-800 dark:text-slate-200 font-bold focus:outline-none focus:border-indigo-500 cursor-pointer"
+              className="py-1.5 px-2 text-xs bg-sky-50/70 dark:bg-[#15223c] border border-sky-200/80 dark:border-[#24355a] rounded-xl text-slate-800 dark:text-slate-200 font-bold focus:outline-none focus:border-sky-500 cursor-pointer"
             >
               <option value={10}>10 rows</option>
               <option value={15}>15 rows</option>
@@ -555,10 +561,10 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
         </div>
 
         {/* Master Table */}
-        <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-[#1e2c4a]">
+        <div className="overflow-x-auto rounded-xl border border-sky-200/80 dark:border-[#1e2c4a]">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-100/90 dark:bg-[#15223c] text-slate-600 dark:text-slate-300 font-extrabold uppercase tracking-wider text-[10px] border-b border-slate-200 dark:border-[#1e2c4a]">
+              <tr className="bg-sky-50/90 dark:bg-[#15223c] text-slate-700 dark:text-slate-300 font-extrabold uppercase tracking-wider text-[10px] border-b border-sky-200/80 dark:border-[#1e2c4a]">
                 <th className="py-3 px-3 text-center w-12 cursor-pointer hover:text-slate-900 dark:hover:text-slate-100" onClick={() => handleSort('sales')}>
                   <div className="flex items-center justify-center gap-1">
                     <span>#</span>
@@ -667,8 +673,18 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
                           <span className="font-extrabold text-slate-900 dark:text-slate-100 text-xs sm:text-sm group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">
                             {adv.name}
                           </span>
-                          <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate max-w-[200px]">
-                            {adv.designation}
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate max-w-[240px] flex items-center gap-1.5 flex-wrap">
+                            {adv.employeeId && <span className="font-mono font-semibold">{adv.employeeId}</span>}
+                            {adv.subTeam && (
+                              <>
+                                <span>•</span>
+                                <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60">
+                                  {adv.subTeam}
+                                </span>
+                              </>
+                            )}
+                            <span>•</span>
+                            <span>{adv.designation}</span>
                           </span>
                         </div>
                       </td>

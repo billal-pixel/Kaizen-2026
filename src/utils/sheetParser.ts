@@ -149,34 +149,37 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
 
   if (isStationed) {
     // Column lookups with strict exclusions
-    const nameCol = findHeaderIndex(headers, ['advisor name', 'advisorname', 'name'], ['trainer', 'qa', 'tl', 'lead']);
+    const nameCol = findHeaderIndex(headers, ['advisor name', 'advisorname', 'name'], ['trainer', 'qa', 'tl', 'lead', 'team']);
     const empIdCol = findHeaderIndex(headers, ['employee id', 'employeeid', 'empid', 'id'], ['auth', 'service', 'lead']);
     const desigCol = findHeaderIndex(headers, ['advisor designation', 'designation', 'role']);
     const tlCol = findHeaderIndex(headers, ['tl team', 'teamlead', 'tl', 'team leader']);
-    const reachCol = findHeaderIndex(headers, ['avg reach', 'avgreach', 'reach']);
-    const talktimeCol = findHeaderIndex(headers, ['avg talktime', 'avgtalktime', 'talktime', 'talk time']);
-    const ceCol = findHeaderIndex(headers, ['ce count', 'cecount', 'ce']);
-    const examCol = findHeaderIndex(headers, ['avg exam mark', 'exam mark', 'exam']);
-    const briefingCol = findHeaderIndex(headers, ['avg briefing mark', 'briefing mark', 'briefing']);
-    const salesCol = findHeaderIndex(headers, ['final sales data', 'final sales', 'sales data', 'sales bdt', 'final sales']);
-    const kpiCol = findHeaderIndex(headers, ['total kpi score', 'kpi score', 'total kpi', 'kpi %']);
-    const gradeCol = findHeaderIndex(headers, ['kpi grade', 'grade', 'rating']);
-    const kpiAmtCol = findHeaderIndex(headers, ['kpi amount', 'kpi amt']);
-    const dutyCol = findHeaderIndex(headers, ['duty count', 'duty']);
-    const breakCol = findHeaderIndex(headers, ['avg break', 'break']);
-    const mgtCol = findHeaderIndex(headers, ['avg mgt', 'mgt']);
-    const meetingCol = findHeaderIndex(headers, ['avg meeting', 'meeting']);
-    const incentiveCol = findHeaderIndex(headers, ['total incentive', 'final incentive', 'incentive']);
+    const subTeamCol = findHeaderIndex(headers, ['sub-team', 'subteam', 'sub team'], ['leader', 'lead']);
+    const reachCol = findHeaderIndex(headers, ['avg reach', 'avgreach', 'reach'], ['score', 'tenure']);
+    const talktimeCol = findHeaderIndex(headers, ['avg talktime', 'avgtalktime', 'talktime', 'talk time'], ['score']);
+    const ceCol = findHeaderIndex(headers, ['ce count', 'cecount', 'ce'], ['score']);
+    const examCol = findHeaderIndex(headers, ['avg exam mark', 'exam mark'], ['score']);
+    const briefingCol = findHeaderIndex(headers, ['avg briefing mark', 'briefing mark'], ['score']);
+    const salesCol = findHeaderIndex(headers, ['final sales data', 'final sales', 'sales data'], ['score', 'raw', 'mismatch', 'overlap', 'offline', 'refund']);
+    const kpiCol = findHeaderIndex(headers, ['total kpi score', 'kpi score', 'total kpi'], ['grade', 'remark', 'amount', 'amt', 'summary']);
+    const gradeCol = findHeaderIndex(headers, ['kpi grade', 'grade'], ['score', 'amount', 'amt', 'remark']);
+    const kpiAmtCol = findHeaderIndex(headers, ['kpi amount', 'kpi amt'], ['grade', 'score', 'remark']);
+    const dutyCol = findHeaderIndex(headers, ['duty count', 'duty'], ['score']);
+    const breakCol = findHeaderIndex(headers, ['avg break', 'break'], ['score']);
+    const mgtCol = findHeaderIndex(headers, ['avg mgt', 'mgt'], ['score']);
+    const meetingCol = findHeaderIndex(headers, ['avg meeting', 'meeting'], ['score']);
+    const incentiveCol = findHeaderIndex(headers, ['total incentive', 'final incentive'], ['flat', 'slab', 'remark']);
 
     for (let r = headerRowIndex + 1; r < rawData.length; r++) {
       const row = rawData[r];
       if (!row || row.length === 0) continue;
 
-      // Extract advisor name safely
+      // Extract advisor name safely (Col 6 in live sheet)
       let name = '';
       if (nameCol !== -1 && row[nameCol] !== undefined) {
         name = cleanStr(row[nameCol]);
-      } else if (row[5] !== undefined) {
+      } else if (row[6] !== undefined && isNaN(Number(row[6]))) {
+        name = cleanStr(row[6]);
+      } else if (row[5] !== undefined && isNaN(Number(row[5]))) {
         name = cleanStr(row[5]);
       }
 
@@ -184,17 +187,25 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
         continue;
       }
 
-      const empId = empIdCol !== -1 && row[empIdCol] !== undefined ? cleanStr(row[empIdCol]) : (row[4] ? cleanStr(row[4]) : `TE${800 + r}`);
-      const desig = desigCol !== -1 && row[desigCol] !== undefined ? cleanStr(row[desigCol]) : 'Traine Advisor New';
-      const tl = tlCol !== -1 && row[tlCol] !== undefined ? cleanStr(row[tlCol]) : 'Billal';
-      const avgReach = reachCol !== -1 && row[reachCol] !== undefined ? cleanNum(row[reachCol]) : cleanNum(row[10]);
-      const avgTalktime = talktimeCol !== -1 && row[talktimeCol] !== undefined ? cleanStr(row[talktimeCol], '00:00:00') : cleanStr(row[12], '00:00:00');
-      const ceCount = ceCol !== -1 && row[ceCol] !== undefined ? cleanNum(row[ceCol]) : cleanNum(row[14]);
-      const avgExamMark = examCol !== -1 && row[examCol] !== undefined ? cleanNum(row[examCol]) : cleanNum(row[16]);
-      const avgBriefingMark = briefingCol !== -1 && row[briefingCol] !== undefined ? cleanNum(row[briefingCol]) : cleanNum(row[18]);
-      const finalSalesData = salesCol !== -1 && row[salesCol] !== undefined ? cleanNum(row[salesCol]) : cleanNum(row[25]);
-      const totalKpiScore = kpiCol !== -1 && row[kpiCol] !== undefined ? cleanNum(row[kpiCol]) : cleanNum(row[27]);
-      let kpiGrade = gradeCol !== -1 && row[gradeCol] !== undefined ? cleanStr(row[gradeCol]) : cleanStr(row[28], 'D');
+      // Col 5: Employee ID, Col 7: Designation, Col 2: TL Team, Col 1: Sub-Team
+      const empId = empIdCol !== -1 && row[empIdCol] !== undefined ? cleanStr(row[empIdCol]) : (row[5] ? cleanStr(row[5]) : (row[4] ? cleanStr(row[4]) : `TE${800 + r}`));
+      const desig = desigCol !== -1 && row[desigCol] !== undefined ? cleanStr(row[desigCol]) : (row[7] ? cleanStr(row[7]) : 'Traine Advisor New');
+      const tl = tlCol !== -1 && row[tlCol] !== undefined ? cleanStr(row[tlCol]) : (row[2] ? cleanStr(row[2]) : 'Billal');
+      const subTeam = subTeamCol !== -1 && row[subTeamCol] !== undefined ? cleanStr(row[subTeamCol]) : (row[1] ? cleanStr(row[1]) : 'Achiever');
+      
+      // Col 11: Avg Reach, Col 13: Avg Talktime, Col 15: CE Count
+      const avgReach = reachCol !== -1 && row[reachCol] !== undefined ? cleanNum(row[reachCol]) : cleanNum(row[11]);
+      const avgTalktime = talktimeCol !== -1 && row[talktimeCol] !== undefined ? cleanStr(row[talktimeCol], '00:00:00') : cleanStr(row[13], '00:00:00');
+      const ceCount = ceCol !== -1 && row[ceCol] !== undefined ? cleanNum(row[ceCol]) : cleanNum(row[15]);
+      
+      // Col 17: Avg Exam Mark, Col 19: Avg Briefing Mark
+      const avgExamMark = examCol !== -1 && row[examCol] !== undefined ? cleanNum(row[examCol]) : cleanNum(row[17]);
+      const avgBriefingMark = briefingCol !== -1 && row[briefingCol] !== undefined ? cleanNum(row[briefingCol]) : cleanNum(row[19]);
+      
+      // Col 26: Final Sales Data, Col 28: Total KPI Score, Col 29: KPI Grade, Col 30: KPI Amount
+      const finalSalesData = salesCol !== -1 && row[salesCol] !== undefined ? cleanNum(row[salesCol]) : cleanNum(row[26]);
+      const totalKpiScore = kpiCol !== -1 && row[kpiCol] !== undefined ? cleanNum(row[kpiCol]) : cleanNum(row[28]);
+      let kpiGrade = gradeCol !== -1 && row[gradeCol] !== undefined ? cleanStr(row[gradeCol]) : cleanStr(row[29], 'D');
       if (!kpiGrade || kpiGrade === '0') {
         if (totalKpiScore >= 80) kpiGrade = 'A';
         else if (totalKpiScore >= 70) kpiGrade = 'B';
@@ -202,19 +213,24 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
         else if (totalKpiScore >= 50) kpiGrade = 'D';
         else kpiGrade = 'PIP';
       }
-      const kpiAmount = kpiAmtCol !== -1 && row[kpiAmtCol] !== undefined ? cleanNum(row[kpiAmtCol]) : cleanNum(row[29]);
-      const dutyCount = dutyCol !== -1 && row[dutyCol] !== undefined ? cleanNum(row[dutyCol]) : cleanNum(row[31]);
-      const avgBreak = breakCol !== -1 && row[breakCol] !== undefined ? cleanStr(row[breakCol], '00:00:00') : cleanStr(row[32], '00:00:00');
-      const avgMgt = mgtCol !== -1 && row[mgtCol] !== undefined ? cleanStr(row[mgtCol], '00:00:00') : cleanStr(row[33], '00:00:00');
-      const avgMeeting = meetingCol !== -1 && row[meetingCol] !== undefined ? cleanStr(row[meetingCol], '00:00:00') : cleanStr(row[34], '00:00:00');
-      const totalIncentive = incentiveCol !== -1 && row[incentiveCol] !== undefined ? cleanNum(row[incentiveCol]) : cleanNum(row[46]);
+      const kpiAmount = kpiAmtCol !== -1 && row[kpiAmtCol] !== undefined ? cleanNum(row[kpiAmtCol]) : cleanNum(row[30]);
+      
+      // Col 32: Duty Count, Col 33: AVG Break, Col 34: AVG MGT, Col 35: AVG Meeting, Col 47: Total Incentive
+      const dutyCount = dutyCol !== -1 && row[dutyCol] !== undefined ? cleanNum(row[dutyCol]) : cleanNum(row[32]);
+      const avgBreak = breakCol !== -1 && row[breakCol] !== undefined ? cleanStr(row[breakCol], '00:00:00') : cleanStr(row[33], '00:00:00');
+      const avgMgt = mgtCol !== -1 && row[mgtCol] !== undefined ? cleanStr(row[mgtCol], '00:00:00') : cleanStr(row[34], '00:00:00');
+      const avgMeeting = meetingCol !== -1 && row[meetingCol] !== undefined ? cleanStr(row[meetingCol], '00:00:00') : cleanStr(row[35], '00:00:00');
+      const totalIncentive = incentiveCol !== -1 && row[incentiveCol] !== undefined ? cleanNum(row[incentiveCol]) : cleanNum(row[47]);
 
       stationed.push({
         id: `st-${empId.toLowerCase().replace(/[^a-z0-9]/g, '') || String(r)}`,
         advisorName: name,
         employeeId: empId,
         designation: desig,
+        advisorDesignation: desig,
         teamLead: tl,
+        tlTeam: tl,
+        subTeam,
         avgReach,
         avgTalktime,
         ceCount,
@@ -230,7 +246,7 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
         avgMgt,
         avgMeeting,
         status: 'active',
-        notes: row[30] ? cleanStr(row[30]) : ''
+        notes: row[31] ? cleanStr(row[31]) : (row[48] ? cleanStr(row[48]) : 'Station Advisor')
       });
     }
   } else {
@@ -239,6 +255,7 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
     const empIdCol = findHeaderIndex(headers, ['employee id', 'employeeid', 'empid', 'id'], ['auth', 'service', 'lead']);
     const desigCol = findHeaderIndex(headers, ['advisor designation', 'designation', 'role']);
     const tlCol = findHeaderIndex(headers, ['tl team', 'teamlead', 'tl', 'team leader']);
+    const subTeamCol = findHeaderIndex(headers, ['sub-team', 'subteam', 'sub team'], ['leader', 'lead']);
     const reachCol = findHeaderIndex(headers, ['reach call', 'reach calls', 'reach']);
     const talktimeCol = findHeaderIndex(headers, ['talk time', 'talktime'], ['actual']);
     const meetingCol = findHeaderIndex(headers, ['meeting', 'meeting time']);
@@ -259,6 +276,8 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
       let name = '';
       if (nameCol !== -1 && row[nameCol] !== undefined) {
         name = cleanStr(row[nameCol]);
+      } else if (row[6] !== undefined && isNaN(Number(row[6]))) {
+        name = cleanStr(row[6]);
       } else if (row[3] !== undefined) {
         name = cleanStr(row[3]);
       }
@@ -267,28 +286,32 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
         continue;
       }
 
-      const empId = empIdCol !== -1 && row[empIdCol] !== undefined ? cleanStr(row[empIdCol]) : `VT${760 + r}`;
-      const desig = desigCol !== -1 && row[desigCol] !== undefined ? cleanStr(row[desigCol]) : 'Trainee Advisor Virtual';
-      const tl = tlCol !== -1 && row[tlCol] !== undefined ? cleanStr(row[tlCol]) : 'Billal';
-      const reachCall = reachCol !== -1 && row[reachCol] !== undefined ? cleanNum(row[reachCol]) : 0;
-      const talkTime = talktimeCol !== -1 && row[talktimeCol] !== undefined ? cleanStr(row[talktimeCol], '00:00:00') : '00:00:00';
-      const meeting = meetingCol !== -1 && row[meetingCol] !== undefined ? cleanStr(row[meetingCol], '00:00:00') : '00:00:00';
-      const actualTalkTime = actualTtCol !== -1 && row[actualTtCol] !== undefined ? cleanStr(row[actualTtCol], talkTime) : talkTime;
-      const ceCount = ceCol !== -1 && row[ceCol] !== undefined ? cleanNum(row[ceCol]) : 0;
-      const finalSales = salesCol !== -1 && row[salesCol] !== undefined ? cleanNum(row[salesCol]) : 0;
-      const overallKpi = kpiCol !== -1 && row[kpiCol] !== undefined ? cleanStr(row[kpiCol], 'PIP') : 'PIP';
-      const exam = examCol !== -1 && row[examCol] !== undefined ? cleanStr(row[examCol], '0%') : '0%';
-      const ttAmount = ttAmtCol !== -1 && row[ttAmtCol] !== undefined ? cleanNum(row[ttAmtCol]) : 0;
-      const initialIncentive = initIncCol !== -1 && row[initIncCol] !== undefined ? cleanNum(row[initIncCol]) : 0;
-      const finalIncentive = finIncCol !== -1 && row[finIncCol] !== undefined ? cleanNum(row[finIncCol]) : 0;
-      const totalSalary = salaryCol !== -1 && row[salaryCol] !== undefined ? cleanNum(row[salaryCol]) : 0;
+      const empId = empIdCol !== -1 && row[empIdCol] !== undefined ? cleanStr(row[empIdCol]) : (row[5] ? cleanStr(row[5]) : `VT${760 + r}`);
+      const desig = desigCol !== -1 && row[desigCol] !== undefined ? cleanStr(row[desigCol]) : (row[7] ? cleanStr(row[7]) : 'Trainee Advisor Virtual');
+      const tl = tlCol !== -1 && row[tlCol] !== undefined ? cleanStr(row[tlCol]) : (row[2] ? cleanStr(row[2]) : 'Billal');
+      const subTeam = subTeamCol !== -1 && row[subTeamCol] !== undefined ? cleanStr(row[subTeamCol]) : (row[1] ? cleanStr(row[1]) : 'Virtual');
+      const reachCall = reachCol !== -1 && row[reachCol] !== undefined ? cleanNum(row[reachCol]) : cleanNum(row[11]);
+      const talkTime = talktimeCol !== -1 && row[talktimeCol] !== undefined ? cleanStr(row[talktimeCol], '00:00:00') : cleanStr(row[13], '00:00:00');
+      const meeting = meetingCol !== -1 && row[meetingCol] !== undefined ? cleanStr(row[meetingCol], '00:00:00') : cleanStr(row[14], '00:00:00');
+      const actualTalkTime = actualTtCol !== -1 && row[actualTtCol] !== undefined ? cleanStr(row[actualTtCol], talkTime) : cleanStr(row[16], talkTime);
+      const ceCount = ceCol !== -1 && row[ceCol] !== undefined ? cleanNum(row[ceCol]) : cleanNum(row[18]);
+      const finalSales = salesCol !== -1 && row[salesCol] !== undefined ? cleanNum(row[salesCol]) : cleanNum(row[25]);
+      const overallKpi = kpiCol !== -1 && row[kpiCol] !== undefined ? cleanStr(row[kpiCol], 'PIP') : cleanStr(row[27], 'PIP');
+      const exam = examCol !== -1 && row[examCol] !== undefined ? cleanStr(row[examCol], '0%') : cleanStr(row[28], '0%');
+      const ttAmount = ttAmtCol !== -1 && row[ttAmtCol] !== undefined ? cleanNum(row[ttAmtCol]) : cleanNum(row[29]);
+      const initialIncentive = initIncCol !== -1 && row[initIncCol] !== undefined ? cleanNum(row[initIncCol]) : cleanNum(row[30]);
+      const finalIncentive = finIncCol !== -1 && row[finIncCol] !== undefined ? cleanNum(row[finIncCol]) : cleanNum(row[34]);
+      const totalSalary = salaryCol !== -1 && row[salaryCol] !== undefined ? cleanNum(row[salaryCol]) : cleanNum(row[35]);
 
       virtual.push({
         id: `vt-${empId.toLowerCase().replace(/[^a-z0-9]/g, '') || String(r)}`,
         advisorName: name,
         employeeId: empId,
         designation: desig,
+        advisorDesignation: desig,
         teamLead: tl,
+        tlTeam: tl,
+        subTeam,
         reachCall,
         talkTime,
         meeting,

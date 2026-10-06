@@ -62,12 +62,12 @@ export const ThreeBackground: React.FC<ThreeBackgroundProps> = React.memo(({
     const secondarySky = isDark ? 0x0ea5e9 : 0x0369a1; // Sky-500 : Sky-700
     const accentSky = isDark ? 0x7dd3fc : 0x38bdf8;    // Sky-300 : Sky-400
     const highlightSky = isDark ? 0xe0f2fe : 0xbae6fd; // Sky-100 : Sky-200
-    const fogColor = isDark ? 0x082f49 : 0xe0f2fe;     // Deep Sky-950 : Sky-100
+    const fogColor = isDark ? 0x0b0f19 : 0xf0f9ff;     // Sleek Dark-950 : Crisp light sky blue #F0F9FF
 
     scene.fog = new THREE.FogExp2(fogColor, 0.015);
 
     // Sky-Tinted Atmospheric Directional & Ambient Lighting
-    const ambientLight = new THREE.AmbientLight(0xe0f2fe, isDark ? 0.9 : 1.4);
+    const ambientLight = new THREE.AmbientLight(0xf0f9ff, isDark ? 0.9 : 1.5);
     scene.add(ambientLight);
 
     const dirLight1 = new THREE.DirectionalLight(primarySky, isDark ? 1.6 : 1.2);

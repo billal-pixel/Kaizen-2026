@@ -8,6 +8,7 @@ export interface StationedAdvisor {
   advisorDesignation?: string;
   teamLead?: string;
   tlTeam?: string;
+  subTeam?: string;
   leadId?: string;
   avgReach: number; // Avg reach call count
   avgTalktime: string; // e.g. "02:15:30" or minutes
@@ -35,6 +36,7 @@ export interface VirtualAdvisor {
   advisorDesignation?: string;
   teamLead?: string;
   tlTeam?: string;
+  subTeam?: string;
   leadId?: string;
   reachCall: number;
   talkTime: string; // e.g. "04:20:15"

@@ -257,7 +257,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="main-card container-box bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-5 sm:p-6 shadow-sm dark:shadow-xl relative overflow-hidden"
+        className="main-card container-box bg-white dark:bg-[#10192e] border border-sky-200/80 dark:border-[#1e2c4a] rounded-2xl p-5 sm:p-6 shadow-sm dark:shadow-xl relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 w-80 h-80 bg-rose-500/5 dark:bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -380,7 +380,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
       </motion.div>
 
       {/* Filter & Control Bar */}
-      <div className="main-card container-box bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-sm dark:shadow-lg min-w-0">
+      <div className="main-card container-box bg-white dark:bg-[#10192e] border border-sky-200/80 dark:border-[#1e2c4a] rounded-2xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-sm dark:shadow-lg min-w-0">
         <div className="relative w-full sm:w-80 min-w-0">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
@@ -388,7 +388,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
             placeholder="Search virtual advisor name or ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-50 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] rounded-xl pl-10 pr-8 py-2.5 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 transition-all font-medium"
+            className="w-full bg-sky-50/70 dark:bg-[#15223c] border border-sky-200/80 dark:border-[#24355a] rounded-xl pl-10 pr-8 py-2.5 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-all font-medium"
           />
           {searchTerm && (
             <button
@@ -402,13 +402,13 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
 
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-start sm:justify-end min-w-0">
           {/* Table / Cards View Mode Toggle */}
-          <div className="flex items-center bg-slate-100 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] rounded-xl p-1 shrink-0">
+          <div className="flex items-center bg-sky-50 dark:bg-[#15223c] border border-sky-200/80 dark:border-[#24355a] rounded-xl p-1 shrink-0">
             <button
               onClick={() => handleSetViewMode('table')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 viewMode === 'table'
-                  ? 'bg-white dark:bg-rose-600 text-slate-900 dark:text-white border border-slate-200 dark:border-rose-400/40 shadow-xs'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                  ? 'bg-sky-600 text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-sky-900 dark:hover:text-slate-200'
               }`}
               title="Table View"
             >
@@ -419,8 +419,8 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
               onClick={() => handleSetViewMode('cards')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 viewMode === 'cards'
-                  ? 'bg-white dark:bg-rose-600 text-slate-900 dark:text-white border border-slate-200 dark:border-rose-400/40 shadow-xs'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                  ? 'bg-sky-600 text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-sky-900 dark:hover:text-slate-200'
               }`}
               title="Cards View"
             >
@@ -430,16 +430,16 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
           </div>
 
           <span className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap shrink-0">
-            Showing <strong className="text-rose-600 dark:text-rose-400 font-mono font-bold">{filteredAdvisors.length}</strong> of {advisors.length}
+            Showing <strong className="text-sky-600 dark:text-sky-400 font-mono font-bold">{filteredAdvisors.length}</strong> of {advisors.length}
           </span>
 
-          <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] px-3 py-2 rounded-xl shrink-0">
-            <Filter className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+          <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-sky-50/70 dark:bg-[#15223c] border border-sky-200/80 dark:border-[#24355a] px-3 py-2 rounded-xl shrink-0">
+            <Filter className="w-3.5 h-3.5 text-sky-500 shrink-0" />
             <span className="shrink-0 font-semibold">KPI Tier:</span>
             <select
               value={kpiFilter}
               onChange={(e) => setKpiFilter(e.target.value)}
-              className="bg-transparent text-rose-700 dark:text-rose-300 font-bold focus:outline-none cursor-pointer pr-1"
+              className="bg-transparent text-sky-700 dark:text-sky-300 font-bold focus:outline-none cursor-pointer pr-1"
             >
               <option value="all" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">All Tiers</option>
               <option value="alert" className="bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-bold">🚨 At-Risk (3x Drop Alert)</option>
@@ -449,13 +449,13 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
             </select>
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] px-3 py-2 rounded-xl shrink-0">
-            <ArrowUpDown className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+          <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-sky-50/70 dark:bg-[#15223c] border border-sky-200/80 dark:border-[#24355a] px-3 py-2 rounded-xl shrink-0">
+            <ArrowUpDown className="w-3.5 h-3.5 text-sky-500 shrink-0" />
             <span className="shrink-0 font-semibold">Sort:</span>
             <select
               value={sortField}
               onChange={(e) => setSortField(e.target.value as keyof VirtualAdvisor)}
-              className="bg-transparent text-rose-700 dark:text-rose-300 font-bold focus:outline-none cursor-pointer pr-1"
+              className="bg-transparent text-sky-700 dark:text-sky-300 font-bold focus:outline-none cursor-pointer pr-1"
             >
               <option value="overallKpi" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Overall KPI</option>
               <option value="finalSales" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Final Sales</option>
@@ -467,7 +467,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
               type="button"
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
               title={`Sort ${sortOrder === 'asc' ? 'Descending' : 'Ascending'}`}
-              className="ml-1 p-1 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 rounded text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 transition-colors cursor-pointer"
+              className="ml-1 p-1 hover:bg-sky-100 dark:hover:bg-slate-700/60 rounded text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 transition-colors cursor-pointer"
             >
               <ArrowUpDown className="w-3 h-3" />
             </button>
@@ -477,10 +477,10 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleExportCsv}
-            className="bg-slate-50 dark:bg-[#15223c] hover:bg-slate-100 dark:hover:bg-[#1e2c4a] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-[#24355a] font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all cursor-pointer shrink-0 shadow-2xs"
+            className="bg-sky-50/70 dark:bg-[#15223c] hover:bg-sky-100 dark:hover:bg-[#1e2c4a] text-slate-700 dark:text-slate-200 border border-sky-200/80 dark:border-[#24355a] font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all cursor-pointer shrink-0 shadow-2xs"
             title="Export Virtual Advisors data to CSV file"
           >
-            <Download className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+            <Download className="w-3.5 h-3.5 text-sky-500 shrink-0" />
             <span className="hidden xs:inline">Export</span>
           </motion.button>
 
@@ -488,7 +488,7 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={onAddAdvisor}
-            className="bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all cursor-pointer shadow-xs shrink-0 whitespace-nowrap"
+            className="bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all cursor-pointer shadow-xs shrink-0 whitespace-nowrap"
             title="Add New Advisor"
           >
             <Plus className="w-3.5 h-3.5 stroke-[2.5] shrink-0" />
@@ -506,12 +506,12 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.2 }}
-            className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl overflow-hidden shadow-sm dark:shadow-2xl"
+            className="bg-white dark:bg-[#10192e] border border-sky-200/80 dark:border-[#1e2c4a] rounded-2xl overflow-hidden shadow-sm dark:shadow-2xl"
           >
             <div className="overflow-x-auto max-w-full">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-slate-50/95 dark:bg-[#15223c]/95 backdrop-blur-md text-slate-700 dark:text-slate-300 border-b border-slate-200/90 dark:border-[#1e2c4a] font-extrabold uppercase tracking-wider sticky top-0 z-10">
+                  <tr className="bg-sky-50/90 dark:bg-[#15223c]/95 backdrop-blur-md text-slate-700 dark:text-slate-300 border-b border-sky-200/80 dark:border-[#1e2c4a] font-extrabold uppercase tracking-wider sticky top-0 z-10">
                     <th className="p-3.5 text-slate-900 dark:text-slate-200 min-w-[170px]">
                       <button onClick={() => handleSort('advisorName')} className="flex items-center gap-1 hover:text-rose-600 dark:hover:text-rose-400 transition-colors cursor-pointer">
                         <span>Virtual Advisor</span>
@@ -560,8 +560,30 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
                 <tbody className="divide-y divide-slate-200/80 dark:divide-[#1e2c4a]/60 text-slate-700 dark:text-slate-300">
                   {filteredAdvisors.length === 0 ? (
                     <tr>
-                      <td colSpan={13} className="p-8 text-center text-slate-400 dark:text-slate-500">
-                        No virtual advisors found matching criteria.
+                      <td colSpan={13} className="py-14 px-4 text-center">
+                        <div className="max-w-md mx-auto flex flex-col items-center justify-center">
+                          <div className="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-3">
+                            <Search className="w-6 h-6" />
+                          </div>
+                          <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">No Virtual Advisors Found</h4>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm">
+                            {searchTerm 
+                              ? `No advisors match your search query "${searchTerm}".`
+                              : 'No advisors match the current KPI tier filter.'}
+                          </p>
+                          {(searchTerm || kpiFilter !== 'all') && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSearchTerm('');
+                                setKpiFilter('all');
+                              }}
+                              className="mt-3.5 px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 dark:text-rose-300 font-bold text-xs rounded-lg transition-colors cursor-pointer"
+                            >
+                              Reset Search & Filters
+                            </button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ) : (
@@ -795,6 +817,32 @@ export const VirtualTeamView: React.FC<VirtualTeamViewProps> = ({
               </table>
             </div>
           </motion.div>
+        ) : filteredAdvisors.length === 0 ? (
+          <div className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-14 text-center shadow-xs">
+            <div className="max-w-md mx-auto flex flex-col items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-3">
+                <Search className="w-6 h-6" />
+              </div>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">No Virtual Advisors Found</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm">
+                {searchTerm 
+                  ? `No advisors match your search query "${searchTerm}".`
+                  : 'No advisors match the current KPI tier filter.'}
+              </p>
+              {(searchTerm || kpiFilter !== 'all') && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchTerm('');
+                    setKpiFilter('all');
+                  }}
+                  className="mt-3.5 px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 dark:text-rose-300 font-bold text-xs rounded-lg transition-colors cursor-pointer"
+                >
+                  Reset Search & Filters
+                </button>
+              )}
+            </div>
+          </div>
         ) : (
           /* Cards / Grid View */
           <motion.div

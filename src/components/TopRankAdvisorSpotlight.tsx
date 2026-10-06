@@ -852,7 +852,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
       </AnimatePresence>
 
       {/* Header with Title, Live Indicator & Balanced Single-Row Toolbar */}
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 relative z-10 border-b-2 border-slate-100 dark:border-slate-800 pb-5">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 relative z-10 border-b-2 border-sky-100 dark:border-slate-800 pb-5">
         {/* Left: Animated Trophy Emblem, Title & Neon Live Status */}
         <div className="flex items-center gap-3.5">
           <motion.button 
@@ -896,7 +896,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
         {/* Right Interactive Controls: Bright, High-Contrast Pill Toolbar */}
         <div className="flex flex-wrap items-center gap-2 lg:gap-2.5 self-start xl:self-auto">
           {/* Metric Sort Toggle: Sales (৳) vs KPI (%) with animated sliding background pill */}
-          <div className="relative flex items-center p-1 bg-slate-100 dark:bg-[#1E293B] rounded-2xl border-2 border-slate-200 dark:border-slate-700 shadow-xs">
+          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#1E293B] rounded-2xl border-2 border-sky-200/80 dark:border-slate-700 shadow-xs">
             <button
               type="button"
               onClick={() => setRankMetric('sales')}
@@ -944,7 +944,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
           </div>
 
           {/* Timeframe Switcher with sliding background pill */}
-          <div className="relative flex items-center p-1 bg-slate-100 dark:bg-[#1E293B] rounded-2xl border-2 border-slate-200 dark:border-slate-700 shadow-xs">
+          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#1E293B] rounded-2xl border-2 border-sky-200/80 dark:border-slate-700 shadow-xs">
             {(['month', 'last_day', 'week'] as RankTimeframe[]).map((tf) => {
               const label = tf === 'month' ? 'Month' : tf === 'last_day' ? 'Last Day' : 'Week';
               const Icon = tf === 'month' ? TrendingUp : tf === 'last_day' ? Zap : Calendar;
@@ -978,7 +978,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
           </div>
 
           {/* Division Selector with sliding background pill */}
-          <div className="relative flex items-center p-1 bg-slate-100 dark:bg-[#1E293B] rounded-2xl border-2 border-slate-200 dark:border-slate-700 shadow-xs">
+          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#1E293B] rounded-2xl border-2 border-sky-200/80 dark:border-slate-700 shadow-xs">
             {(['all', 'stationed', 'virtual'] as RankDivisionFilter[]).map((div) => {
               const label = div === 'all' ? 'All' : div === 'stationed' ? 'Stationed' : 'Virtual';
               const isSelected = divisionFilter === div;
@@ -1008,7 +1008,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
           </div>
 
           {/* Layout Mode Toggle: Podium vs Grid cleanly inline */}
-          <div className="relative flex items-center p-1 bg-slate-100 dark:bg-[#1E293B] rounded-2xl border-2 border-slate-200 dark:border-slate-700 shadow-xs">
+          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#1E293B] rounded-2xl border-2 border-sky-200/80 dark:border-slate-700 shadow-xs">
             <button
               type="button"
               onClick={() => setLayoutMode('grid')}

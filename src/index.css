@@ -4,20 +4,20 @@
 
 @layer base {
   :root {
-    /* Primary Brand Teal & Emerald Palette (Continuous Improvement & Precision) */
-    --brand-primary: #0F766E;
-    --brand-primary-light: #14B8A6;
-    --brand-primary-dark: #115E59;
-    --brand-teal: #0F766E;
-    --brand-teal-light: #F0FDF9;
-    --brand-teal-border: #99F6E4;
+    /* Primary Brand Sky Blue Palette (Continuous Improvement & Precision) */
+    --brand-primary: #0284C7;
+    --brand-primary-light: #38BDF8;
+    --brand-primary-dark: #0369A1;
+    --brand-teal: #0284C7;
+    --brand-teal-light: #F0F9FF;
+    --brand-teal-border: #BAE6FD;
 
-    /* Light Theme Core Surfaces (Sky Blue Executive Canvas) */
-    --bg-canvas: #E0F2FE;
-    --bg-canvas-subtle: #BAE6FD;
+    /* Very Light Sky Blue Core Surfaces (Airy & Crisp Canvas) */
+    --bg-canvas: #F0F9FF;
+    --bg-canvas-subtle: #E0F2FE;
     --card-surface: #FFFFFF;
-    --card-border: #E2E8F0;
-    --card-border-subtle: #F1F5F9;
+    --card-border: #BAE6FD;
+    --card-border-subtle: #E0F2FE;
     --well-surface: #F0F9FF;
 
     /* High-Contrast Typography */
@@ -51,8 +51,8 @@
     --palette-rose-border: #FECDD3;
     --palette-rose-text: #9F1239;
 
-    --palette-slate-bg: #F8FAFC;
-    --palette-slate-border: #E2E8F0;
+    --palette-slate-bg: #F0F9FF;
+    --palette-slate-border: #E0F2FE;
     --palette-slate-text: #1E293B;
   }
 
@@ -60,11 +60,11 @@
     font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 14px;
     line-height: 1.55;
-    background-color: #E0F2FE;
+    background-color: #F0F9FF;
     background-image: 
-      radial-gradient(at 15% 10%, rgba(186, 230, 253, 0.7) 0px, transparent 55%),
-      radial-gradient(at 85% 15%, rgba(125, 211, 252, 0.5) 0px, transparent 50%),
-      radial-gradient(at 50% 100%, rgba(224, 242, 254, 0.9) 0px, transparent 100%);
+      radial-gradient(at 10% 5%, rgba(224, 242, 254, 0.9) 0px, transparent 55%),
+      radial-gradient(at 90% 12%, rgba(186, 230, 253, 0.6) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(240, 249, 255, 1) 0px, transparent 100%);
     background-attachment: fixed;
     color: #0F172A;
     -webkit-font-smoothing: antialiased;
@@ -105,8 +105,8 @@
 
 .main-card, .container-box {
   background-color: #FFFFFF;
-  border: 1px solid rgba(226, 232, 240, 0.95);
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+  border: 1px solid rgba(186, 230, 253, 0.75);
+  box-shadow: 0 1px 3px 0 rgba(14, 165, 233, 0.05), 0 1px 2px -1px rgba(14, 165, 233, 0.02);
 }
 
 html.dark .main-card, html.dark .container-box, html.dark .executive-hub-card {
@@ -116,7 +116,7 @@ html.dark .main-card, html.dark .container-box, html.dark .executive-hub-card {
 }
 
 .main-card:hover, .container-box:hover {
-  border-color: rgba(203, 213, 225, 0.95);
+  border-color: rgba(125, 211, 252, 0.95);
 }
 
 html.dark .main-card:hover, html.dark .container-box:hover {
@@ -125,8 +125,8 @@ html.dark .main-card:hover, html.dark .container-box:hover {
 
 .kpi-card, .metric-box {
   background-color: #FFFFFF;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+  border: 1px solid rgba(186, 230, 253, 0.7);
+  box-shadow: 0 1px 3px 0 rgba(14, 165, 233, 0.04), 0 1px 2px -1px rgba(14, 165, 233, 0.02);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -137,7 +137,8 @@ html.dark .kpi-card, html.dark .metric-box {
 }
 
 .kpi-card:hover, .metric-box:hover {
-  box-shadow: 0 6px 16px 0 rgba(15, 23, 42, 0.07), 0 2px 4px -1px rgba(15, 23, 42, 0.03);
+  border-color: rgba(56, 189, 248, 0.85);
+  box-shadow: 0 6px 16px 0 rgba(14, 165, 233, 0.08), 0 2px 4px -1px rgba(14, 165, 233, 0.04);
 }
 
 html.dark .kpi-card:hover, html.dark .metric-box:hover {
@@ -147,8 +148,8 @@ html.dark .kpi-card:hover, html.dark .metric-box:hover {
 
 /* Sub-wells (inner containers inside cards) */
 .inner-well {
-  background-color: #F8FAFC;
-  border: 1px solid rgba(226, 232, 240, 0.85);
+  background-color: #F0F9FF;
+  border: 1px solid rgba(186, 230, 253, 0.7);
 }
 
 html.dark .inner-well {
@@ -156,23 +157,23 @@ html.dark .inner-well {
   border: 1px solid rgba(26, 49, 84, 0.85);
 }
 
-/* Custom Scrollbar Styling - Clean Light Minimal */
+/* Custom Scrollbar Styling - Clean Sky Tinted Minimal */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #F0F9FF;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #BAE6FD;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #7DD3FC;
 }
 
 /* Hide scrollbar for clean horizontal ribbon and smooth scrolling */

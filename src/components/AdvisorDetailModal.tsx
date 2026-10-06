@@ -177,10 +177,20 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
                   {type}
                 </span>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5 mt-0.5 flex-wrap">
                 <span className="font-mono text-sky-600 dark:text-sky-400 font-semibold">{advisor.employeeId || 'TE-ID'}</span>
                 <span>•</span>
-                <span>{advisor.advisorDesignation || (isStationed ? 'Trainee Advisor Station' : 'Trainee Advisor Virtual')}</span>
+                <span>{advisor.advisorDesignation || advisor.designation || (isStationed ? 'Trainee Advisor Station' : 'Trainee Advisor Virtual')}</span>
+                {advisor.subTeam && (
+                  <>
+                    <span>•</span>
+                    <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60">
+                      {advisor.subTeam}
+                    </span>
+                  </>
+                )}
+                <span>•</span>
+                <span>TL: {advisor.tlTeam || advisor.teamLead || 'Billal'}</span>
               </p>
             </div>
           </div>

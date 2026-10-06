@@ -42,6 +42,7 @@ interface StationedTeamViewProps {
   onAddAdvisor: () => void;
   onSelectAdvisor: (advisor: StationedAdvisor) => void;
   onOpenSheetSync?: () => void;
+  onRestoreDefaultAdvisors?: () => void;
 }
 
 // Framer Motion variants for subtle staggered loading & entry effects
@@ -144,9 +145,11 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
   onAddAdvisor,
   onSelectAdvisor,
   onOpenSheetSync,
+  onRestoreDefaultAdvisors,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [gradeFilter, setGradeFilter] = useState<string>('all');
+  const [subTeamFilter, setSubTeamFilter] = useState<string>('all');
   const [sortField, setSortField] = useState<keyof StationedAdvisor>('finalSalesData');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [viewMode, setViewMode] = useState<'table' | 'cards'>(() => {
@@ -186,8 +189,13 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
         } else if (gradeFilter !== 'all') {
           matchesGrade = advisor.kpiGrade === gradeFilter;
         }
+
+        let matchesSubTeam = true;
+        if (subTeamFilter !== 'all') {
+          matchesSubTeam = (advisor.subTeam || '').toLowerCase() === subTeamFilter.toLowerCase();
+        }
         
-        return matchesSearch && matchesGrade;
+        return matchesSearch && matchesGrade && matchesSubTeam;
       })
       .sort((a, b) => {
         if (sortField === 'totalKpiScore') {
@@ -296,14 +304,14 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="main-card container-box bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-5 sm:p-6 shadow-sm dark:shadow-xl relative overflow-hidden"
+        className="main-card container-box bg-white dark:bg-[#10192e] border border-sky-200/80 dark:border-[#1e2c4a] rounded-2xl p-5 sm:p-6 shadow-sm dark:shadow-xl relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-sky-500/5 dark:bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center gap-2">
-              <span className="bg-blue-50 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-500/30 text-xs font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+              <span className="bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30 text-xs font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">
                 Stationed Team
               </span>
               <span className="subtext text-slate-500 dark:text-slate-400 text-xs font-mono font-semibold">Total Members: {advisors.length}</span>
@@ -441,13 +449,13 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
 
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-start sm:justify-end min-w-0">
           {/* Table / Cards View Mode Toggle */}
-          <div className="flex items-center bg-slate-100 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] rounded-xl p-1 shrink-0">
+          <div className="flex items-center bg-sky-50 dark:bg-[#15223c] border border-sky-200/80 dark:border-[#24355a] rounded-xl p-1 shrink-0">
             <button
               onClick={() => handleSetViewMode('table')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 viewMode === 'table'
-                  ? 'bg-white dark:bg-blue-600 text-slate-900 dark:text-white border border-slate-200 dark:border-blue-400/40 shadow-xs'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                  ? 'bg-sky-600 text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-sky-900 dark:hover:text-slate-200'
               }`}
               title="Table View"
             >
@@ -458,8 +466,8 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
               onClick={() => handleSetViewMode('cards')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 viewMode === 'cards'
-                  ? 'bg-white dark:bg-blue-600 text-slate-900 dark:text-white border border-slate-200 dark:border-blue-400/40 shadow-xs'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                  ? 'bg-sky-600 text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-sky-900 dark:hover:text-slate-200'
               }`}
               title="Cards View"
             >
@@ -469,16 +477,32 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
           </div>
 
           <span className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap shrink-0">
-            Showing <strong className="text-blue-600 dark:text-blue-400 font-mono font-bold">{filteredAdvisors.length}</strong> of {advisors.length}
+            Showing <strong className="text-sky-600 dark:text-sky-400 font-mono font-bold">{filteredAdvisors.length}</strong> of {advisors.length}
           </span>
           
-          <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] px-3 py-2 rounded-xl shrink-0">
-            <Filter className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+          <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-sky-50/70 dark:bg-[#15223c] border border-sky-200/80 dark:border-[#24355a] px-3 py-2 rounded-xl shrink-0">
+            <Filter className="w-3.5 h-3.5 text-sky-500 shrink-0" />
+            <span className="shrink-0 font-semibold">Sub-Team:</span>
+            <select
+              value={subTeamFilter}
+              onChange={(e) => setSubTeamFilter(e.target.value)}
+              className="bg-transparent text-sky-700 dark:text-sky-300 font-bold focus:outline-none cursor-pointer pr-1"
+            >
+              <option value="all" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">All Sub-Teams</option>
+              <option value="Star" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Star</option>
+              <option value="Elite" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Elite</option>
+              <option value="Newbie" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Newbie</option>
+              <option value="Achiever" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Achiever</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-sky-50/70 dark:bg-[#15223c] border border-sky-200/80 dark:border-[#24355a] px-3 py-2 rounded-xl shrink-0">
+            <Filter className="w-3.5 h-3.5 text-sky-500 shrink-0" />
             <span className="shrink-0 font-semibold">Grade:</span>
             <select
               value={gradeFilter}
               onChange={(e) => setGradeFilter(e.target.value)}
-              className="bg-transparent text-blue-700 dark:text-blue-300 font-bold focus:outline-none cursor-pointer pr-1"
+              className="bg-transparent text-sky-700 dark:text-sky-300 font-bold focus:outline-none cursor-pointer pr-1"
             >
               <option value="all" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">All Grades</option>
               <option value="alert" className="bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-bold">🚨 At-Risk (3x Drop Alert)</option>
@@ -490,13 +514,13 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
             </select>
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] px-3 py-2 rounded-xl shrink-0">
-            <ArrowUpDown className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+          <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-sky-50/70 dark:bg-[#15223c] border border-sky-200/80 dark:border-[#24355a] px-3 py-2 rounded-xl shrink-0">
+            <ArrowUpDown className="w-3.5 h-3.5 text-sky-500 shrink-0" />
             <span className="shrink-0 font-semibold">Sort:</span>
             <select
               value={sortField}
               onChange={(e) => setSortField(e.target.value as keyof StationedAdvisor)}
-              className="bg-transparent text-blue-700 dark:text-blue-300 font-bold focus:outline-none cursor-pointer pr-1"
+              className="bg-transparent text-sky-700 dark:text-sky-300 font-bold focus:outline-none cursor-pointer pr-1"
             >
               <option value="totalKpiScore" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Total KPI Score</option>
               <option value="finalSalesData" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Final Sales</option>
@@ -508,7 +532,7 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
               type="button"
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
               title={`Sort ${sortOrder === 'asc' ? 'Descending' : 'Ascending'}`}
-              className="ml-1 p-1 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 rounded text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 transition-colors cursor-pointer"
+              className="ml-1 p-1 hover:bg-sky-100 dark:hover:bg-slate-700/60 rounded text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 transition-colors cursor-pointer"
             >
               <ArrowUpDown className="w-3 h-3" />
             </button>
@@ -518,10 +542,10 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleExportCsv}
-            className="bg-slate-50 dark:bg-[#15223c] hover:bg-slate-100 dark:hover:bg-[#1e2c4a] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-[#24355a] font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all cursor-pointer shrink-0 shadow-2xs"
+            className="bg-sky-50/70 dark:bg-[#15223c] hover:bg-sky-100 dark:hover:bg-[#1e2c4a] text-slate-700 dark:text-slate-200 border border-sky-200/80 dark:border-[#24355a] font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all cursor-pointer shrink-0 shadow-2xs"
             title="Export Stationed Advisors data to CSV file"
           >
-            <Download className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+            <Download className="w-3.5 h-3.5 text-sky-500 shrink-0" />
             <span className="hidden xs:inline">Export</span>
           </motion.button>
 
@@ -529,7 +553,7 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={onAddAdvisor}
-            className="bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all cursor-pointer shadow-xs shrink-0 whitespace-nowrap"
+            className="bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all cursor-pointer shadow-xs shrink-0 whitespace-nowrap"
             title="Add New Advisor"
           >
             <Plus className="w-3.5 h-3.5 stroke-[2.5] shrink-0" />
@@ -547,12 +571,12 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.2 }}
-            className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl overflow-hidden shadow-sm dark:shadow-2xl"
+            className="bg-white dark:bg-[#10192e] border border-sky-200/80 dark:border-[#1e2c4a] rounded-2xl overflow-hidden shadow-sm dark:shadow-2xl"
           >
             <div className="overflow-x-auto max-w-full">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-slate-50/95 dark:bg-[#15223c]/95 backdrop-blur-md text-slate-700 dark:text-slate-300 border-b border-slate-200/90 dark:border-[#1e2c4a] font-extrabold uppercase tracking-wider sticky top-0 z-10">
+                  <tr className="bg-sky-50/90 dark:bg-[#15223c]/95 backdrop-blur-md text-slate-700 dark:text-slate-300 border-b border-sky-200/80 dark:border-[#1e2c4a] font-extrabold uppercase tracking-wider sticky top-0 z-10">
                     <th className="p-3.5 text-slate-900 dark:text-slate-200 min-w-[170px]">
                       <button onClick={() => handleSort('advisorName')} className="flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
                         <span>Station Advisor</span>
@@ -596,8 +620,58 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
                 <tbody className="divide-y divide-slate-200/80 dark:divide-[#1e2c4a]/60 text-slate-700 dark:text-slate-300">
                   {filteredAdvisors.length === 0 ? (
                     <tr>
-                      <td colSpan={13} className="p-8 text-center text-slate-400 dark:text-slate-500">
-                        No station advisors found matching criteria.
+                      <td colSpan={13} className="py-14 px-4 text-center">
+                        <div className="max-w-md mx-auto flex flex-col items-center justify-center">
+                          <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3">
+                            <Search className="w-6 h-6" />
+                          </div>
+                          <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                            {advisors.length === 0 ? "Station Data Empty or Not Loaded" : "No Station Advisors Found"}
+                          </h4>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm">
+                            {advisors.length === 0
+                              ? "No stationed advisors found in local cache. Click below to restore the live 12 Station Advisors or sync from Google Sheet."
+                              : searchTerm 
+                              ? `No advisors match your search query "${searchTerm}".`
+                              : subTeamFilter !== 'all'
+                              ? `No advisors match the sub-team filter "${subTeamFilter}".`
+                              : 'No advisors match the current grade filter.'}
+                          </p>
+                          {advisors.length === 0 ? (
+                            <div className="flex items-center gap-2 mt-4">
+                              {onRestoreDefaultAdvisors && (
+                                <button
+                                  type="button"
+                                  onClick={onRestoreDefaultAdvisors}
+                                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
+                                >
+                                  Restore Live Station Team (12 Advisors)
+                                </button>
+                              )}
+                              {onOpenSheetSync && (
+                                <button
+                                  type="button"
+                                  onClick={onOpenSheetSync}
+                                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl transition-colors cursor-pointer"
+                                >
+                                  Sync Sheet
+                                </button>
+                              )}
+                            </div>
+                          ) : (searchTerm || gradeFilter !== 'all' || subTeamFilter !== 'all') ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSearchTerm('');
+                                setGradeFilter('all');
+                                setSubTeamFilter('all');
+                              }}
+                              className="mt-3.5 px-3.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-blue-300 font-bold text-xs rounded-lg transition-colors cursor-pointer"
+                            >
+                              Reset Search & Filters
+                            </button>
+                          ) : null}
+                        </div>
                       </td>
                     </tr>
                   ) : (
@@ -762,9 +836,21 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
                                 {advisor.advisorName}
                                 <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-blue-500 shrink-0" />
                               </span>
-                              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex items-center gap-1">
-                                <span className={`w-1.5 h-1.5 rounded-full ${alertStatus.isTriggered ? 'bg-rose-500' : 'bg-blue-500/80'}`} />
-                                {advisor.employeeId || 'TE-ID'} • {advisor.tlTeam || 'Billal'}
+                              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex items-center gap-1.5 flex-wrap">
+                                <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${alertStatus.isTriggered ? 'bg-rose-500' : 'bg-blue-500/80'}`} />
+                                <span className="font-semibold text-slate-700 dark:text-slate-300">{advisor.employeeId || 'TE-ID'}</span>
+                                {advisor.subTeam && (
+                                  <>
+                                    <span>•</span>
+                                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60">
+                                      {advisor.subTeam}
+                                    </span>
+                                  </>
+                                )}
+                                <span>•</span>
+                                <span>{advisor.advisorDesignation || advisor.designation || 'Traine Advisor New'}</span>
+                                <span>•</span>
+                                <span>TL: {advisor.tlTeam || advisor.teamLead || 'Billal'}</span>
                                 {alertStatus.isTriggered && (
                                   <span className="text-[9px] font-bold text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-950 px-1 rounded border border-rose-300 dark:border-rose-800/60">
                                     3x Alert
@@ -840,6 +926,60 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
               </table>
             </div>
           </motion.div>
+        ) : filteredAdvisors.length === 0 ? (
+          <div className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-14 text-center shadow-xs">
+            <div className="max-w-md mx-auto flex flex-col items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3">
+                <Search className="w-6 h-6" />
+              </div>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                {advisors.length === 0 ? "Station Data Empty or Not Loaded" : "No Station Advisors Found"}
+              </h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm">
+                {advisors.length === 0
+                  ? "No stationed advisors found in local cache. Click below to restore the live 12 Station Advisors or sync from Google Sheet."
+                  : searchTerm 
+                  ? `No advisors match your search query "${searchTerm}".`
+                  : subTeamFilter !== 'all'
+                  ? `No advisors match the sub-team filter "${subTeamFilter}".`
+                  : 'No advisors match the current grade filter.'}
+              </p>
+              {advisors.length === 0 ? (
+                <div className="flex items-center gap-2 mt-4">
+                  {onRestoreDefaultAdvisors && (
+                    <button
+                      type="button"
+                      onClick={onRestoreDefaultAdvisors}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
+                    >
+                      Restore Live Station Team (12 Advisors)
+                    </button>
+                  )}
+                  {onOpenSheetSync && (
+                    <button
+                      type="button"
+                      onClick={onOpenSheetSync}
+                      className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl transition-colors cursor-pointer"
+                    >
+                      Sync Sheet
+                    </button>
+                  )}
+                </div>
+              ) : (searchTerm || gradeFilter !== 'all' || subTeamFilter !== 'all') ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchTerm('');
+                    setGradeFilter('all');
+                    setSubTeamFilter('all');
+                  }}
+                  className="mt-3.5 px-3.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-blue-300 font-bold text-xs rounded-lg transition-colors cursor-pointer"
+                >
+                  Reset Search & Filters
+                </button>
+              ) : null}
+            </div>
+          </div>
         ) : (
           /* Cards / Grid View */
           <motion.div
@@ -1025,8 +1165,18 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
                                 {advisor.advisorName}
                               </h4>
                             </div>
-                            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono truncate mt-0.5">
-                              {advisor.employeeId || 'TE-ID'} • TL: {advisor.tlTeam || 'Billal'}
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono truncate mt-0.5 flex items-center gap-1.5 flex-wrap">
+                              <span>{advisor.employeeId || 'TE-ID'}</span>
+                              {advisor.subTeam && (
+                                <>
+                                  <span>•</span>
+                                  <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60">
+                                    {advisor.subTeam}
+                                  </span>
+                                </>
+                              )}
+                              <span>•</span>
+                              <span>TL: {advisor.tlTeam || advisor.teamLead || 'Billal'}</span>
                             </p>
                           </div>
                         </div>

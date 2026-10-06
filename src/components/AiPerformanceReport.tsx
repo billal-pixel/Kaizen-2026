@@ -368,29 +368,32 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
       </AnimatePresence>
 
       {/* Main Feature Header Banner */}
-      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-xs relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-6 shadow-xs relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-teal-500/5 dark:bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 relative z-10">
           <div className="flex items-start gap-4">
             <KaizenLogo size="md" className="shrink-0 mt-0.5" />
             <div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="bg-teal-50 text-[#3B7A75] border border-teal-200 text-[11px] font-bold px-2.5 py-0.5 rounded-md uppercase flex items-center gap-1.5 font-mono">
-                  <BrainCircuit className="w-3.5 h-3.5 text-[#3B7A75]" />
-                  AI Performance Intelligence & Task Automation
+              <div className="flex items-center gap-2 flex-wrap text-xs">
+                <span className="text-teal-700 dark:text-teal-400 font-semibold flex items-center gap-1.5">
+                  <BrainCircuit className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
+                  AI Intelligence & Task Automation
                 </span>
                 {stats.totalUnderperforming > 0 && (
-                  <span className="bg-rose-50 text-rose-700 border border-rose-200 text-[11px] font-bold px-2.5 py-0.5 rounded-md flex items-center gap-1 font-mono">
-                    <AlertTriangle className="w-3 h-3 text-rose-600" />
-                    {stats.totalUnderperforming} Underperforming Advisors Flagged
-                  </span>
+                  <>
+                    <span className="text-slate-300 dark:text-slate-700">·</span>
+                    <span className="text-rose-600 dark:text-rose-400 font-semibold flex items-center gap-1">
+                      <AlertTriangle className="w-3 h-3 text-rose-500" />
+                      {stats.totalUnderperforming} Underperforming Flagged
+                    </span>
+                  </>
                 )}
               </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight mt-1.5">
-                Automated Operational Briefing & Follow-Up Task Automation
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight mt-1.5">
+                Automated Operational Briefing & Follow-Up Tasks
               </h2>
-              <p className="text-xs text-[#64748B] mt-1 max-w-2xl leading-relaxed">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-2xl leading-relaxed">
                 Synthesizing Stationed & Virtual team metrics into automated executive briefings, diagnosing operational bottlenecks, and auto-generating structured coaching tasks for Team Leader {teamLeaderName}.
               </p>
             </div>
@@ -399,13 +402,13 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
           {/* Action Buttons & Sub-Tab Toggle */}
           <div className="flex flex-wrap items-center gap-2.5">
             {/* View Switcher Tabs */}
-            <div className="flex items-center bg-[#F6F7F9] border border-[#E2E8F0] rounded-xl p-1 shadow-inner">
+            <div className="flex items-center bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-xl p-1 shadow-inner">
               <button
                 onClick={() => setActiveSubTab('report')}
                 className={`px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   activeSubTab === 'report'
-                    ? 'bg-white text-[#3B7A75] border border-[#E2E8F0] shadow-xs'
-                    : 'text-[#64748B] hover:text-[#0F172A]'
+                    ? 'bg-white dark:bg-[#10192e] text-[#3B7A75] dark:text-teal-400 border border-slate-200 dark:border-slate-700 shadow-xs'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
                 }`}
               >
                 <FileText className="w-3.5 h-3.5" />
@@ -415,14 +418,14 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
                 onClick={() => setActiveSubTab('auto_tasks')}
                 className={`px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer relative ${
                   activeSubTab === 'auto_tasks'
-                    ? 'bg-white text-[#3B7A75] border border-[#E2E8F0] shadow-xs'
-                    : 'text-[#64748B] hover:text-[#0F172A]'
+                    ? 'bg-white dark:bg-[#10192e] text-[#3B7A75] dark:text-teal-400 border border-slate-200 dark:border-slate-700 shadow-xs'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
                 }`}
               >
                 <Zap className="w-3.5 h-3.5 text-amber-500" />
                 <span>Auto-Generate Tasks</span>
                 {generatedTasks.length > 0 && (
-                  <span className="bg-amber-100 text-amber-900 font-black text-[10px] px-1.5 py-0.2 rounded-full font-mono border border-amber-300">
+                  <span className="bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 font-black text-[10px] px-1.5 py-0.2 rounded-full font-mono border border-amber-300 dark:border-amber-700">
                     {generatedTasks.length}
                   </span>
                 )}
@@ -444,9 +447,9 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
                 {report && (
                   <button
                     onClick={handlePrint}
-                    className="bg-[#F6F7F9] hover:bg-slate-200 text-[#0F172A] border border-[#E2E8F0] font-medium text-xs px-3.5 py-2.5 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="bg-slate-50 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-medium text-xs px-3.5 py-2.5 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
                   >
-                    <Download className="w-4 h-4 text-[#3B7A75]" />
+                    <Download className="w-4 h-4 text-[#3B7A75] dark:text-teal-400" />
                     <span>PDF / Print</span>
                   </button>
                 )}
@@ -472,93 +475,93 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
         <div className="space-y-6">
           {/* Diagnostic Metric Summary Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
-            <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex flex-col justify-between shadow-xs">
-              <div className="flex items-center justify-between text-[#64748B] text-[11px] font-medium">
+            <div className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-xl p-4 flex flex-col justify-between shadow-xs">
+              <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-[11px] font-medium">
                 <span>Flagged Advisors</span>
-                <Users className="w-4 h-4 text-[#3B7A75]" />
+                <Users className="w-4 h-4 text-teal-600 dark:text-teal-400" />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-black text-[#0F172A] font-mono">
+                <span className="text-2xl font-black text-slate-900 dark:text-slate-100 font-mono">
                   {stats.totalUnderperforming}
                 </span>
-                <span className="text-[10px] text-[#64748B]">of {stationedAdvisors.length + virtualAdvisors.length}</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400">of {stationedAdvisors.length + virtualAdvisors.length}</span>
               </div>
-              <div className="text-[10px] text-[#3B7A75] font-semibold mt-1">
+              <div className="text-[10px] text-teal-700 dark:text-teal-400 font-semibold mt-1">
                 Sub-target KPI or deficits
               </div>
             </div>
 
-            <div className="bg-rose-50/50 border border-rose-200 rounded-xl p-4 flex flex-col justify-between shadow-xs">
-              <div className="flex items-center justify-between text-rose-700 text-[11px] font-medium">
+            <div className="bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/60 rounded-xl p-4 flex flex-col justify-between shadow-xs">
+              <div className="flex items-center justify-between text-rose-700 dark:text-rose-400 text-[11px] font-medium">
                 <span>Urgent Interventions</span>
-                <ShieldAlert className="w-4 h-4 text-rose-600" />
+                <ShieldAlert className="w-4 h-4 text-rose-600 dark:text-rose-400" />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-black text-rose-700 font-mono">
+                <span className="text-2xl font-black text-rose-700 dark:text-rose-400 font-mono">
                   {stats.urgentTasks}
                 </span>
-                <span className="text-[10px] text-rose-600 font-semibold">Immediate</span>
+                <span className="text-[10px] text-rose-600 dark:text-rose-400 font-semibold">Immediate</span>
               </div>
-              <div className="text-[10px] text-rose-700 font-medium mt-1">
+              <div className="text-[10px] text-rose-700 dark:text-rose-400 font-medium mt-1">
                 PIP / 3x Drop Alerts
               </div>
             </div>
 
-            <div className="bg-amber-50/50 border border-amber-200 rounded-xl p-4 flex flex-col justify-between shadow-xs">
-              <div className="flex items-center justify-between text-amber-800 text-[11px] font-medium">
+            <div className="bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/60 rounded-xl p-4 flex flex-col justify-between shadow-xs">
+              <div className="flex items-center justify-between text-amber-800 dark:text-amber-400 text-[11px] font-medium">
                 <span>Exam Knowledge Drills</span>
-                <BookOpen className="w-4 h-4 text-amber-600" />
+                <BookOpen className="w-4 h-4 text-amber-600 dark:text-amber-400" />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-black text-amber-800 font-mono">
+                <span className="text-2xl font-black text-amber-800 dark:text-amber-400 font-mono">
                   {stats.examTasks}
                 </span>
-                <span className="text-[10px] text-amber-700 font-semibold">Tasks</span>
+                <span className="text-[10px] text-amber-700 dark:text-amber-400 font-semibold">Tasks</span>
               </div>
-              <div className="text-[10px] text-amber-800 font-medium mt-1">
+              <div className="text-[10px] text-amber-800 dark:text-amber-400 font-medium mt-1">
                 Scores below benchmark
               </div>
             </div>
 
-            <div className="bg-sky-50/50 border border-sky-200 rounded-xl p-4 flex flex-col justify-between shadow-xs">
-              <div className="flex items-center justify-between text-sky-800 text-[11px] font-medium">
+            <div className="bg-sky-50/50 dark:bg-sky-950/20 border border-sky-200 dark:border-sky-900/60 rounded-xl p-4 flex flex-col justify-between shadow-xs">
+              <div className="flex items-center justify-between text-sky-800 dark:text-sky-400 text-[11px] font-medium">
                 <span>Calling Velocity Pushes</span>
-                <PhoneCall className="w-4 h-4 text-sky-600" />
+                <PhoneCall className="w-4 h-4 text-sky-600 dark:text-sky-400" />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-black text-sky-800 font-mono">
+                <span className="text-2xl font-black text-sky-800 dark:text-sky-400 font-mono">
                   {stats.callingTasks}
                 </span>
-                <span className="text-[10px] text-sky-700 font-semibold">Tasks</span>
+                <span className="text-[10px] text-sky-700 dark:text-sky-400 font-semibold">Tasks</span>
               </div>
-              <div className="text-[10px] text-sky-800 font-medium mt-1">
+              <div className="text-[10px] text-sky-800 dark:text-sky-400 font-medium mt-1">
                 Reach volume & DISPO
               </div>
             </div>
 
-            <div className="bg-emerald-50/50 border border-emerald-200 rounded-xl p-4 flex flex-col justify-between col-span-2 sm:col-span-1 shadow-xs">
-              <div className="flex items-center justify-between text-emerald-800 text-[11px] font-medium">
+            <div className="bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/60 rounded-xl p-4 flex flex-col justify-between col-span-2 sm:col-span-1 shadow-xs">
+              <div className="flex items-center justify-between text-emerald-800 dark:text-emerald-400 text-[11px] font-medium">
                 <span>Tasks Ready to Assign</span>
-                <CheckSquare className="w-4 h-4 text-emerald-600" />
+                <CheckSquare className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-black text-emerald-800 font-mono">
+                <span className="text-2xl font-black text-emerald-800 dark:text-emerald-400 font-mono">
                   {selectedCount}
                 </span>
-                <span className="text-[10px] text-emerald-700 font-semibold">Selected</span>
+                <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-semibold">Selected</span>
               </div>
-              <div className="text-[10px] text-emerald-800 font-medium mt-1">
+              <div className="text-[10px] text-emerald-800 dark:text-emerald-400 font-medium mt-1">
                 Auto-assigned in 1 click
               </div>
             </div>
           </div>
 
           {/* Action & Filter Toolbar */}
-          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
             {/* Left: Filters */}
             <div className="flex items-center gap-3 flex-wrap text-xs">
-              <div className="flex items-center gap-1.5 text-[#64748B] font-medium">
-                <Filter className="w-3.5 h-3.5 text-[#3B7A75]" />
+              <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-medium">
+                <Filter className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
                 <span>Filters:</span>
               </div>
 
@@ -566,7 +569,7 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
               <select
                 value={teamFilter}
                 onChange={(e) => setTeamFilter(e.target.value as any)}
-                className="bg-[#F6F7F9] text-[#0F172A] border border-[#E2E8F0] px-3 py-1.5 rounded-lg font-medium focus:outline-none focus:border-[#3B7A75] cursor-pointer"
+                className="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg font-medium focus:outline-none focus:border-teal-500 cursor-pointer"
               >
                 <option value="all">All Teams (Stationed + Virtual)</option>
                 <option value="stationed">Stationed Division ({taskDiagnostics.filter((d) => d.team === 'stationed').length})</option>
@@ -577,7 +580,7 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
               <select
                 value={priorityFilter}
                 onChange={(e) => setPriorityFilter(e.target.value)}
-                className="bg-[#F6F7F9] text-[#0F172A] border border-[#E2E8F0] px-3 py-1.5 rounded-lg font-medium focus:outline-none focus:border-[#3B7A75] cursor-pointer"
+                className="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg font-medium focus:outline-none focus:border-teal-500 cursor-pointer"
               >
                 <option value="all">All Priorities</option>
                 <option value="urgent">Urgent Interventions (🚨)</option>
@@ -589,7 +592,7 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="bg-[#F6F7F9] text-[#0F172A] border border-[#E2E8F0] px-3 py-1.5 rounded-lg font-medium focus:outline-none focus:border-[#3B7A75] cursor-pointer"
+                className="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg font-medium focus:outline-none focus:border-teal-500 cursor-pointer"
               >
                 <option value="all">All Categories</option>
                 <option value="Exam Preparation">Exam Preparation</option>
@@ -606,13 +609,13 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={handleSelectAll}
-                  className="text-xs text-[#3B7A75] hover:text-[#2c5c58] font-bold px-2.5 py-1.5 rounded-lg bg-teal-50 border border-teal-200 transition-colors cursor-pointer"
+                  className="text-xs text-teal-700 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 font-bold px-2.5 py-1.5 rounded-lg bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800 transition-colors cursor-pointer"
                 >
                   Select All ({filteredTasks.length})
                 </button>
                 <button
                   onClick={handleDeselectAll}
-                  className="text-xs text-[#64748B] hover:text-[#0F172A] font-medium px-2 py-1.5 transition-colors cursor-pointer"
+                  className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-medium px-2 py-1.5 transition-colors cursor-pointer"
                 >
                   Clear
                 </button>
@@ -624,7 +627,7 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
                 className={`text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-xs transition-all cursor-pointer ${
                   selectedCount > 0
                     ? 'bg-emerald-600 hover:bg-emerald-700 text-white active:scale-95'
-                    : 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 cursor-not-allowed'
                 }`}
               >
                 <CheckSquare className="w-4 h-4" />
@@ -635,38 +638,38 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
 
           {/* Underperforming Advisor Diagnostic Cards & Generated Tasks List */}
           {tasksLoading ? (
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-12 text-center space-y-4 shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mx-auto animate-spin">
+            <div className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-12 text-center space-y-4 shadow-xs">
+              <div className="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 flex items-center justify-center mx-auto animate-spin">
                 <Zap className="w-6 h-6" />
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-bold text-amber-800">
+                <p className="text-sm font-bold text-amber-800 dark:text-amber-400">
                   Scanning all Stationed & Virtual advisor operational data...
                 </p>
-                <p className="text-xs text-[#64748B]">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   Parsing KPI scores, exam marks, reach volumes, and calculating targeted follow-up tasks.
                 </p>
               </div>
             </div>
           ) : filteredTasks.length === 0 ? (
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-12 text-center space-y-3 shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto border border-emerald-200">
+            <div className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-12 text-center space-y-3 shadow-xs">
+              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 flex items-center justify-center mx-auto border border-emerald-200 dark:border-emerald-800">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-[#0F172A]">No Matching Underperforming Advisors Found</h3>
-              <p className="text-xs text-[#64748B] max-w-md mx-auto">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">No Matching Underperforming Advisors Found</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
                 All advisors in the selected filter meet or exceed baseline performance thresholds.
               </p>
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="flex items-center justify-between px-1 text-xs text-[#64748B]">
+              <div className="flex items-center justify-between px-1 text-xs text-slate-500 dark:text-slate-400">
                 <span>
-                  Showing <strong className="text-[#0F172A]">{filteredTasks.length}</strong> auto-generated follow-up tasks across{' '}
-                  <strong className="text-[#0F172A]">{taskDiagnostics.length}</strong> flagged advisors
+                  Showing <strong className="text-slate-900 dark:text-slate-100">{filteredTasks.length}</strong> auto-generated follow-up tasks across{' '}
+                  <strong className="text-slate-900 dark:text-slate-100">{taskDiagnostics.length}</strong> flagged advisors
                 </span>
                 {taskSource && (
-                  <span className="text-[11px] font-mono text-[#3B7A75] bg-teal-50 border border-teal-200 px-2 py-0.5 rounded font-bold">
+                  <span className="text-[11px] font-mono text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800 px-2 py-0.5 rounded font-bold">
                     {taskSource === 'gemini-ai' ? '✨ Gemini AI Synthesized' : '⚡ Smart Operations Rule Engine'}
                   </span>
                 )}
@@ -679,10 +682,10 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
                   const isCreated = createdTaskIds.has(task.id);
 
                   const priorityColors = {
-                    urgent: 'bg-rose-50 text-rose-700 border-rose-200',
-                    high: 'bg-amber-50 text-amber-800 border-amber-200',
-                    medium: 'bg-sky-50 text-sky-800 border-sky-200',
-                    low: 'bg-slate-50 text-slate-700 border-slate-200',
+                    urgent: 'bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-900/60',
+                    high: 'bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-400 border-amber-200 dark:border-amber-900/60',
+                    medium: 'bg-sky-50 dark:bg-sky-950/50 text-sky-800 dark:text-sky-400 border-sky-200 dark:border-sky-900/60',
+                    low: 'bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-400 border-slate-200 dark:border-slate-800',
                   };
 
                   const categoryIcons: Record<string, any> = {
@@ -702,10 +705,10 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
                       animate={{ opacity: 1, y: 0 }}
                       className={`rounded-2xl p-5 border transition-all relative flex flex-col justify-between gap-4 shadow-xs ${
                         isCreated
-                          ? 'bg-emerald-50/40 border-emerald-300'
+                          ? 'bg-emerald-50/40 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-800'
                           : isSelected
-                          ? 'bg-teal-50/40 border-[#3B7A75] ring-1 ring-[#3B7A75]/30'
-                          : 'bg-white border-[#E2E8F0] hover:border-slate-300'
+                          ? 'bg-teal-50/40 dark:bg-teal-950/30 border-[#3B7A75] dark:border-teal-500 ring-1 ring-[#3B7A75]/30'
+                          : 'bg-white dark:bg-[#10192e] border-slate-200/90 dark:border-[#1e2c4a] hover:border-slate-300 dark:hover:border-slate-700'
                       }`}
                     >
                       {/* Top Header: Checkbox, Advisor Name, Badges */}
@@ -719,10 +722,10 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
                               disabled={isCreated}
                               className={`mt-0.5 p-1 rounded-md transition-colors cursor-pointer ${
                                 isCreated
-                                  ? 'text-emerald-600 bg-emerald-100'
+                                  ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60'
                                   : isSelected
-                                  ? 'text-[#3B7A75] bg-teal-100'
-                                  : 'text-slate-400 hover:text-slate-600'
+                                  ? 'text-[#3B7A75] dark:text-teal-400 bg-teal-100 dark:bg-teal-950/60'
+                                  : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
                               }`}
                             >
                               {isCreated ? (
@@ -735,19 +738,21 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
                             </button>
 
                             <div className="min-w-0">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className="font-extrabold text-sm text-[#0F172A] truncate">
+                              <div className="flex items-center gap-2 flex-wrap text-xs">
+                                <span className="font-extrabold text-sm text-slate-900 dark:text-slate-100 truncate">
                                   {task.assignedAdvisorName}
                                 </span>
+                                <span className="text-slate-300 dark:text-slate-700">·</span>
                                 <span
-                                  className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-md font-mono ${
+                                  className={`text-[11px] font-semibold uppercase ${
                                     task.team === 'stationed'
-                                      ? 'bg-teal-50 text-[#3B7A75] border border-teal-200'
-                                      : 'bg-purple-50 text-purple-700 border border-purple-200'
+                                      ? 'text-teal-700 dark:text-teal-400'
+                                      : 'text-purple-700 dark:text-purple-400'
                                   }`}
                                 >
                                   {task.team}
                                 </span>
+                                <span className="text-slate-300 dark:text-slate-700">·</span>
                                 <span
                                   className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-md border font-mono ${
                                     priorityColors[task.priority]
@@ -758,60 +763,60 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
                                 </span>
                               </div>
 
-                              <h4 className="text-xs font-bold text-[#0F172A] mt-1 leading-snug">
+                              <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100 mt-1 leading-snug">
                                 {task.title}
                               </h4>
                             </div>
                           </div>
 
                           {/* Category Badge */}
-                          <div className="shrink-0 flex items-center gap-1 bg-[#F6F7F9] text-[#64748B] border border-[#E2E8F0] px-2 py-1 rounded-lg text-[10px] font-medium font-mono">
-                            <CategoryIcon className="w-3 h-3 text-[#3B7A75]" />
+                          <div className="shrink-0 flex items-center gap-1 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 px-2 py-1 rounded-lg text-[10px] font-medium font-mono">
+                            <CategoryIcon className="w-3 h-3 text-[#3B7A75] dark:text-teal-400" />
                             <span className="hidden sm:inline">{task.category}</span>
                           </div>
                         </div>
 
                         {/* Root Cause Diagnostic Callout */}
-                        <div className="mt-3 bg-[#F6F7F9] border border-[#E2E8F0] rounded-xl p-3 space-y-1.5">
+                        <div className="mt-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-3 space-y-1.5">
                           <div className="flex items-center justify-between text-[10px]">
-                            <span className="text-rose-700 font-bold flex items-center gap-1">
-                              <AlertCircle className="w-3 h-3 text-rose-600" />
+                            <span className="text-rose-700 dark:text-rose-400 font-bold flex items-center gap-1">
+                              <AlertCircle className="w-3 h-3 text-rose-600 dark:text-rose-400" />
                               Underperformance Trigger:
                             </span>
-                            <span className="font-mono text-[#64748B] font-medium">
+                            <span className="font-mono text-slate-500 dark:text-slate-400 font-medium">
                               KPI: {task.advisorMetricsSummary.kpi} | Exam: {task.advisorMetricsSummary.exam} | Reach: {task.advisorMetricsSummary.reach}
                             </span>
                           </div>
-                          <p className="text-xs text-[#0F172A] font-medium">
+                          <p className="text-xs text-slate-900 dark:text-slate-100 font-medium">
                             {task.underperformanceReason}
                           </p>
                         </div>
 
                         {/* Actionable Instructions */}
-                        <p className="text-xs text-[#64748B] mt-2.5 leading-relaxed">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-2.5 leading-relaxed">
                           {task.description}
                         </p>
                       </div>
 
                       {/* Bottom Footer: Due date, Suggested Action & Single Action button */}
-                      <div className="pt-3 border-t border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-                        <div className="flex items-center gap-3 text-[11px] text-[#64748B]">
+                      <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                        <div className="flex items-center gap-3 text-[11px] text-slate-500 dark:text-slate-400">
                           <span className="flex items-center gap-1">
-                            <Calendar className="w-3.5 h-3.5 text-[#3B7A75]" />
-                            Target Due: <strong className="text-[#0F172A] font-mono">{task.dueDate}</strong>
+                            <Calendar className="w-3.5 h-3.5 text-[#3B7A75] dark:text-teal-400" />
+                            Target Due: <strong className="text-slate-900 dark:text-slate-100 font-mono">{task.dueDate}</strong>
                           </span>
                         </div>
 
                         <div>
                           {isCreated ? (
-                            <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-xl text-xs font-bold font-mono">
+                            <span className="inline-flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 px-3 py-1.5 rounded-xl text-xs font-bold font-mono">
                               <Check className="w-3.5 h-3.5" />
                               Assigned in Task Manager
                             </span>
                           ) : (
                             <button
                               onClick={() => handleCreateSingleTask(task)}
-                              className="bg-[#F6F7F9] hover:bg-[#3B7A75] hover:text-white text-[#0F172A] font-bold text-xs px-3 py-1.5 rounded-xl border border-[#E2E8F0] hover:border-[#3B7A75] transition-all flex items-center gap-1.5 cursor-pointer"
+                              className="bg-slate-50 dark:bg-slate-900 hover:bg-[#3B7A75] dark:hover:bg-[#3B7A75] hover:text-white text-slate-800 dark:text-slate-200 font-bold text-xs px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-[#3B7A75] transition-all flex items-center gap-1.5 cursor-pointer"
                             >
                               <Plus className="w-3.5 h-3.5" />
                               <span>Assign Task</span>
@@ -834,13 +839,13 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
       {activeSubTab === 'report' && (
         <>
           {!report && !reportLoading ? (
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-12 text-center space-y-4 shadow-xs">
-              <div className="w-16 h-16 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center mx-auto text-[#3B7A75]">
+            <div className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-12 text-center space-y-4 shadow-xs">
+              <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800 flex items-center justify-center mx-auto text-[#3B7A75] dark:text-teal-400">
                 <Sparkles className="w-8 h-8" />
               </div>
               <div className="max-w-md mx-auto">
-                <h3 className="text-base font-bold text-[#0F172A]">Ready to Generate Operational Report</h3>
-                <p className="text-xs text-[#64748B] mt-1">
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">Ready to Generate Operational Report</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   Click 'Generate AI Briefing' above to synthesize all operational metrics for Team Leader {teamLeaderName}, or switch to 'Auto-Generate Tasks' to create immediate recovery plans for underperforming advisors.
                 </p>
                 <div className="mt-4 flex items-center justify-center gap-3">
@@ -862,45 +867,45 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
               </div>
             </div>
           ) : reportLoading ? (
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-12 text-center space-y-4 animate-pulse shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-teal-100 text-[#3B7A75] flex items-center justify-center mx-auto animate-spin">
+            <div className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-12 text-center space-y-4 animate-pulse shadow-xs">
+              <div className="w-12 h-12 rounded-xl bg-teal-100 dark:bg-teal-950/60 text-[#3B7A75] dark:text-teal-400 flex items-center justify-center mx-auto animate-spin">
                 <RefreshCw className="w-6 h-6" />
               </div>
-              <p className="text-sm font-semibold text-[#3B7A75]">
+              <p className="text-sm font-semibold text-[#3B7A75] dark:text-teal-400">
                 Analyzing Team Kaizen operational metrics with Gemini AI...
               </p>
             </div>
           ) : (
-            <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-8 space-y-8 shadow-xs print:bg-white print:text-black">
+            <div className="bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-6 sm:p-8 space-y-8 shadow-xs print:bg-white print:text-black">
               {/* Executive Summary Block */}
-              <div className="space-y-3 border-b border-[#E2E8F0] pb-6">
-                <h3 className="text-base font-extrabold text-[#0F172A] flex items-center gap-2 uppercase tracking-wide">
-                  <FileText className="w-5 h-5 text-[#3B7A75]" />
+              <div className="space-y-3 border-b border-slate-200 dark:border-slate-800 pb-6">
+                <h3 className="text-base font-extrabold text-slate-900 dark:text-slate-100 flex items-center gap-2 uppercase tracking-wide">
+                  <FileText className="w-5 h-5 text-[#3B7A75] dark:text-teal-400" />
                   Executive Operations Summary
                 </h3>
-                <p className="text-xs text-[#0F172A] leading-relaxed whitespace-pre-line bg-[#F6F7F9] border border-[#E2E8F0] rounded-xl p-4">
+                <p className="text-xs text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-line bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-4">
                   {report.executiveSummary}
                 </p>
               </div>
 
               {/* Team Analysis Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-[#F6F7F9] border border-[#E2E8F0] rounded-xl p-5 space-y-2">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-[#0F172A] flex items-center gap-2">
-                    <Users className="w-4 h-4 text-[#3B7A75]" />
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-5 space-y-2">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                    <Users className="w-4 h-4 text-[#3B7A75] dark:text-teal-400" />
                     Stationed Team Analysis
                   </h4>
-                  <p className="text-xs text-[#0F172A] leading-relaxed">
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                     {report.stationedAnalysis}
                   </p>
                 </div>
 
-                <div className="bg-[#F6F7F9] border border-[#E2E8F0] rounded-xl p-5 space-y-2">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-[#0F172A] flex items-center gap-2">
-                    <Layers className="w-4 h-4 text-[#3B7A75]" />
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-5 space-y-2">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-[#3B7A75] dark:text-teal-400" />
                     Virtual Team Analysis
                   </h4>
-                  <p className="text-xs text-[#0F172A] leading-relaxed">
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                     {report.virtualAnalysis}
                   </p>
                 </div>
@@ -909,15 +914,15 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
               {/* 3 Columns: Top Performers, Bottlenecks, Action Items */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
                 {/* Top Performers */}
-                <div className="bg-emerald-50/50 border border-emerald-200 rounded-xl p-5 space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-emerald-950 flex items-center gap-2">
-                    <Award className="w-4 h-4 text-emerald-600" />
+                <div className="bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/60 rounded-xl p-5 space-y-3">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-emerald-950 dark:text-emerald-300 flex items-center gap-2">
+                    <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     Top Performers
                   </h4>
-                  <ul className="space-y-2 text-xs text-[#0F172A]">
+                  <ul className="space-y-2 text-xs text-slate-800 dark:text-slate-200">
                     {report.topPerformers?.map((item: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-2 bg-white p-2.5 rounded-lg border border-emerald-200">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <li key={idx} className="flex items-start gap-2 bg-white dark:bg-[#10192e] p-2.5 rounded-lg border border-emerald-200 dark:border-emerald-900/60">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -925,15 +930,15 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
                 </div>
 
                 {/* Areas for Improvement */}
-                <div className="bg-amber-50/50 border border-amber-200 rounded-xl p-5 space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-amber-950 flex items-center gap-2">
-                    <AlertTriangle className="w-4 h-4 text-amber-600" />
+                <div className="bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/60 rounded-xl p-5 space-y-3">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-amber-950 dark:text-amber-300 flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                     Operational Bottlenecks
                   </h4>
-                  <ul className="space-y-2 text-xs text-[#0F172A]">
+                  <ul className="space-y-2 text-xs text-slate-800 dark:text-slate-200">
                     {report.areasForImprovement?.map((item: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-2 bg-white p-2.5 rounded-lg border border-amber-200">
-                        <ChevronRight className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                      <li key={idx} className="flex items-start gap-2 bg-white dark:bg-[#10192e] p-2.5 rounded-lg border border-amber-200 dark:border-amber-900/60">
+                        <ChevronRight className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -941,15 +946,15 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
                 </div>
 
                 {/* Tactical Actions */}
-                <div className="bg-teal-50/50 border border-teal-200 rounded-xl p-5 space-y-3">
-                  <h4 className="font-bold text-xs uppercase tracking-wider text-[#0F172A] flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-[#3B7A75]" />
+                <div className="bg-teal-50/50 dark:bg-teal-950/20 border border-teal-200 dark:border-teal-900/60 rounded-xl p-5 space-y-3">
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-teal-300 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-[#3B7A75] dark:text-teal-400" />
                     Actionable Coaching Plan
                   </h4>
-                  <ul className="space-y-2 text-xs text-[#0F172A]">
+                  <ul className="space-y-2 text-xs text-slate-800 dark:text-slate-200">
                     {report.coachingActions?.map((item: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-2 bg-white p-2.5 rounded-lg border border-teal-200">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#3B7A75] shrink-0 mt-1.5" />
+                      <li key={idx} className="flex items-start gap-2 bg-white dark:bg-[#10192e] p-2.5 rounded-lg border border-teal-200 dark:border-teal-900/60">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#3B7A75] dark:bg-teal-400 shrink-0 mt-1.5" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -958,16 +963,16 @@ Recorded ৳${totalVirtualSales.toLocaleString('en-BD')} in sales. Total incenti
               </div>
 
               {/* Seamless Bridge CTA to Auto-Task Generator */}
-              <div className="bg-[#F6F7F9] border border-teal-200 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="bg-slate-50 dark:bg-slate-900/60 border border-teal-200 dark:border-teal-900/60 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0">
                     <Zap className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-extrabold text-[#0F172A]">
+                    <h4 className="text-sm font-extrabold text-slate-900 dark:text-slate-100">
                       Convert AI Insights into Actionable Follow-Up Tasks
                     </h4>
-                    <p className="text-xs text-[#64748B] mt-0.5">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                       Auto-generate assigned recovery tasks for underperforming Stationed & Virtual advisors based on this report.
                     </p>
                   </div>

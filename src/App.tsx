@@ -78,7 +78,7 @@ export default function App() {
   const teamLeaderName = "Muhammad Billal";
 
   const PRIMARY_LIVE_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0';
-  const DATA_VERSION = 'kaizen_v38_accurate_avg_reach_and_talktime';
+  const DATA_VERSION = 'kaizen_v45_live_station_complete_sync';
 
   // Snapshot initial version before any state initializers write to localStorage
   const initialSavedVersion = useMemo(() => localStorage.getItem('kaizen_data_version'), []);
@@ -151,7 +151,14 @@ export default function App() {
     }
     try {
       const parsed = JSON.parse(saved);
-      if (!Array.isArray(parsed) || parsed.length !== 20 || parsed.some((a: any) => a.advisorName === 'Tariqul Islam' || a.employeeId === 'TE769')) {
+      // Ensure all 12 live station advisors are present and contain active TE711 (Mir_Md Rezaul kraim)
+      if (
+        !Array.isArray(parsed) ||
+        parsed.length < 12 ||
+        !parsed.some((a: any) => a.employeeId === 'TE711') ||
+        parsed.some((a: any) => a.advisorName === 'Tariqul Islam' || a.employeeId === 'TE769' || a.employeeId === 'TE800')
+      ) {
+        localStorage.setItem('kaizen_stationed_advisors', JSON.stringify(initialStationedAdvisors));
         return deduplicateStationed(initialStationedAdvisors);
       }
       return deduplicateStationed(parsed);
@@ -168,7 +175,12 @@ export default function App() {
     }
     try {
       const parsed = JSON.parse(saved);
-      if (!Array.isArray(parsed) || parsed.length === 0) {
+      if (
+        !Array.isArray(parsed) ||
+        parsed.length < 10 ||
+        !parsed.some((a: any) => a.employeeId === 'TE475') ||
+        parsed.some((a: any) => a.employeeId === 'TE765')
+      ) {
         localStorage.setItem('kaizen_virtual_advisors', JSON.stringify(initialVirtualAdvisors));
         return deduplicateVirtual(initialVirtualAdvisors);
       }
@@ -177,6 +189,16 @@ export default function App() {
       return deduplicateVirtual(initialVirtualAdvisors);
     }
   });
+
+  // Guarantee station and virtual datasets are never empty
+  useEffect(() => {
+    if (stationedAdvisors.length === 0) {
+      setStationedAdvisors(initialStationedAdvisors);
+    }
+    if (virtualAdvisors.length === 0) {
+      setVirtualAdvisors(initialVirtualAdvisors);
+    }
+  }, [stationedAdvisors.length, virtualAdvisors.length]);
 
   const [tasks, setTasks] = useState<TaskItem[]>(() => {
     const saved = localStorage.getItem('kaizen_tasks');
@@ -506,7 +528,7 @@ export default function App() {
   const avgKpi = totalAdvisorCount > 0 ? ((avgStationedKpi * stationedAdvisors.length) + (avgVirtualKpi * virtualAdvisors.length)) / totalAdvisorCount : 0;
 
   return (
-    <div className="relative min-h-screen font-sans bg-sky-100 dark:bg-[#082F49] text-slate-900 dark:text-slate-100 selection:bg-teal-500/20 selection:text-teal-900 transition-colors duration-200 overflow-x-hidden">
+    <div className="relative min-h-screen font-sans bg-[#F0F9FF]/85 dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 selection:bg-sky-200 selection:text-sky-900 transition-colors duration-200 overflow-x-hidden">
       {/* 3D WebGL Background Simulation Canvas Layer */}
       <ThreeBackground
         style={threeBgStyle}
@@ -593,6 +615,11 @@ export default function App() {
                 onAddAdvisor={() => setIsAddModalOpen(true)}
                 onSelectAdvisor={(advisor) => handleOpenAdvisorDetails(advisor, 'stationed')}
                 onOpenSheetSync={() => setIsSheetSyncOpen(true)}
+                onRestoreDefaultAdvisors={() => {
+                  setStationedAdvisors(initialStationedAdvisors);
+                  localStorage.setItem('kaizen_stationed_advisors', JSON.stringify(initialStationedAdvisors));
+                  showToast('Restored all 12 live Station Advisors!', 'success');
+                }}
               />
             )}
 
@@ -628,6 +655,7 @@ export default function App() {
                 onUpdateTaskStatus={handleUpdateTaskStatus}
                 onDeleteTask={handleDeleteTask}
                 onSelectAdvisor={(advisor, type) => handleOpenAdvisorDetails(advisor, type)}
+                onShowToast={showToast}
               />
             )}
 
@@ -656,17 +684,16 @@ export default function App() {
         </AnimatePresence>
         </div>
 
-        {/* Sleek System Footer */}
-        <footer className="flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-500 dark:text-slate-400 font-medium bg-white/95 dark:bg-[#0F172A]/95 px-6 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs backdrop-blur-md mt-10 gap-2">
+        {/* Clean Executive Footer */}
+        <footer className="flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 dark:text-slate-400 font-medium bg-white/95 dark:bg-[#0F172A]/95 px-6 py-3.5 rounded-2xl border border-sky-200/80 dark:border-slate-800 shadow-2xs backdrop-blur-md mt-10 gap-2">
           <div className="flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span className="text-slate-900 dark:text-slate-100 font-bold tracking-wider uppercase text-[10px]">SYSTEM STATUS: OPERATIONAL</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+            <span className="text-slate-700 dark:text-slate-300 font-semibold">Real-time sync active</span>
+            <span className="text-slate-300 dark:text-slate-600">·</span>
+            <span>All systems updated</span>
           </div>
-          <div>Team Leader: <span className="text-slate-900 dark:text-slate-100 font-bold">{teamLeaderName}</span></div>
-          <div className="text-slate-500 dark:text-slate-400 font-medium">10 Minute School • Real-Time Operations Platform</div>
+          <div>Team Lead: <span className="text-slate-900 dark:text-slate-100 font-bold">{teamLeaderName}</span></div>
+          <div className="text-slate-500 dark:text-slate-400">10 Minute School · Operations & Performance Dashboard</div>
         </footer>
       </main>
       </div>

@@ -188,7 +188,8 @@ async function fetchGoogleSheetCsv(docId: string, gid?: string): Promise<string 
     ? `https://docs.google.com/spreadsheets/d/${docId}/export?format=csv&gid=${gid}`
     : `https://docs.google.com/spreadsheets/d/${docId}/export?format=csv`;
 
-  const urlsToTry = [gvizUrl, exportUrl];
+  // Prioritize direct export endpoint to get complete unstripped headers, then fallback to gviz
+  const urlsToTry = [exportUrl, gvizUrl];
 
   for (const url of urlsToTry) {
     const controller = new AbortController();
