@@ -115,10 +115,16 @@ export default function App() {
     });
   }, []);
 
-  // User Selected Theme State ('light' or 'dark') - explicitly set to light theme
+  // User Selected Theme State ('dark' | 'light') - dark is default color
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    localStorage.setItem('kaizen_theme', 'light');
-    return 'light';
+    const initialized = localStorage.getItem('kaizen_theme_default_v5');
+    if (!initialized) {
+      localStorage.setItem('kaizen_theme_default_v5', 'true');
+      localStorage.setItem('kaizen_theme', 'dark');
+      return 'dark';
+    }
+    const saved = localStorage.getItem('kaizen_theme');
+    return saved === 'light' ? 'light' : 'dark';
   });
 
   const handleToggleTheme = useCallback(() => {

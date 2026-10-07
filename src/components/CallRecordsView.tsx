@@ -547,10 +547,10 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
       </div>
 
       {/* Quick Advisor Payment Sharing Bar */}
-      <div className="main-card container-box bg-white dark:bg-[#10192e] border border-slate-200/90 dark:border-[#1e2c4a] rounded-2xl p-4 shadow-sm dark:shadow-lg flex flex-col md:flex-row items-center justify-between gap-3">
+      <div className="main-card container-box bg-white dark:bg-[#10192e] border border-sky-200/80 dark:border-[#1e2c4a] rounded-2xl p-4 shadow-sm dark:shadow-lg flex flex-col xl:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-pink-50 dark:bg-pink-500/10 border border-pink-200 dark:border-pink-500/30 rounded-xl shrink-0">
-            <CreditCard className="w-5 h-5 text-pink-600 dark:text-pink-400" />
+          <div className="p-2 bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/30 rounded-xl shrink-0">
+            <CreditCard className="w-5 h-5 text-sky-600 dark:text-sky-400" />
           </div>
           <div>
             <h4 className="card-title text-xs font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
@@ -560,55 +560,65 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
               </span>
             </h4>
             <p className="subtext text-[11px] text-slate-500 dark:text-slate-400">
-              1-Click copy payment messages for advisors Antu & Kayes to send to students.
+              1-Click copy payment messages for advisors Rabita, Tahshin, Setu & Anisa to send to students.
             </p>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-          {/* Antu Payment Copy */}
-          <button
-            onClick={() => handleCopyPaymentMsg(
-              'আসসালামু আলাইকুম, আমি অন্তু  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01850890778 ধন্যবাদ।',
-              'antu'
-            )}
-            className="flex-1 md:flex-none px-3.5 py-2 bg-slate-50 dark:bg-[#15223c] hover:bg-slate-100 dark:hover:bg-[#1e2c4a] border border-slate-200 dark:border-[#24355a] text-xs font-bold text-pink-700 dark:text-pink-300 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs"
-            title="Copy Antu's Payment Message"
-          >
-            {copiedPaymentTag === 'antu' ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span className="text-emerald-700 dark:text-emerald-400">Copied Antu (01850890778)!</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-3.5 h-3.5 text-pink-600 dark:text-pink-400" />
-                <span>Antu: 01850890778</span>
-              </>
-            )}
-          </button>
-
-          {/* Kayes Payment Copy */}
-          <button
-            onClick={() => handleCopyPaymentMsg(
-              'আসসালামু আলাইকুম, আমি কায়েস ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা  নগদ  করুন  এই নাম্বারে 01644336738 ধন্যবাদ.',
-              'kayes'
-            )}
-            className="flex-1 md:flex-none px-3.5 py-2 bg-slate-50 dark:bg-[#15223c] hover:bg-slate-100 dark:hover:bg-[#1e2c4a] border border-slate-200 dark:border-[#24355a] text-xs font-bold text-amber-700 dark:text-amber-300 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs"
-            title="Copy Kayes's Payment Message"
-          >
-            {copiedPaymentTag === 'kayes' ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span className="text-emerald-700 dark:text-emerald-400">Copied Kayes (01644336738)!</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                <span>Kayes: 01644336738</span>
-              </>
-            )}
-          </button>
+        <div className="flex flex-wrap items-center gap-2 w-full xl:w-auto">
+          {[
+            {
+              id: 'rabita',
+              name: 'Rabita',
+              phone: '01320676761',
+              colorClass: 'text-rose-700 dark:text-rose-300',
+              iconColor: 'text-rose-600 dark:text-rose-400',
+              msg: 'আসসালামু আলাইকুম, আমি রাবিতা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01320676761 ধন্যবাদ।'
+            },
+            {
+              id: 'tahshin',
+              name: 'Tahshin',
+              phone: '01778336887',
+              colorClass: 'text-sky-700 dark:text-sky-300',
+              iconColor: 'text-sky-600 dark:text-sky-400',
+              msg: 'আসসালামু আলাইকুম, আমি তাহ্শিন  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01778336887 ধন্যবাদ।'
+            },
+            {
+              id: 'setu',
+              name: 'Setu',
+              phone: '01304167422',
+              colorClass: 'text-emerald-700 dark:text-emerald-300',
+              iconColor: 'text-emerald-600 dark:text-emerald-400',
+              msg: 'আসসালামু আলাইকুম, আমি সেতু  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01304167422  ধন্যবাদ।'
+            },
+            {
+              id: 'anisa',
+              name: 'Anisa',
+              phone: '01601388897',
+              colorClass: 'text-purple-700 dark:text-purple-300',
+              iconColor: 'text-purple-600 dark:text-purple-400',
+              msg: 'আসসালামু আলাইকুম, আমি আনিসা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01601388897 ধন্যবাদ।'
+            }
+          ].map((adv) => (
+            <button
+              key={adv.id}
+              onClick={() => handleCopyPaymentMsg(adv.msg, adv.id)}
+              className={`px-3 py-2 bg-sky-50/70 hover:bg-sky-100 dark:bg-[#15223c] dark:hover:bg-[#1e2c4a] border border-sky-200/80 dark:border-[#24355a] text-xs font-bold ${adv.colorClass} rounded-xl flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95`}
+              title={`Copy ${adv.name}'s Payment Message (${adv.phone})`}
+            >
+              {copiedPaymentTag === adv.id ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 stroke-[3]" />
+                  <span className="text-emerald-700 dark:text-emerald-400 font-extrabold">Copied {adv.name}!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className={`w-3.5 h-3.5 ${adv.iconColor}`} />
+                  <span>{adv.name}: {adv.phone}</span>
+                </>
+              )}
+            </button>
+          ))}
 
           {/* Quick Portal Links */}
           <div className="flex flex-wrap items-center gap-1.5 border-l border-slate-200 dark:border-slate-800 pl-2">

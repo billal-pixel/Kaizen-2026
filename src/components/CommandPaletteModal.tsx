@@ -107,25 +107,47 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
         },
       },
       {
-        id: 'act-copy-antu',
+        id: 'act-copy-rabita',
         type: 'action',
-        title: 'Copy Antu Payment Text (01850890778)',
+        title: 'Copy Rabita Payment Text (01320676761)',
         sub: 'bKash / Nagad admission message in Bengali',
         icon: Copy,
         action: () => {
-          navigator.clipboard.writeText('আসসালামু আলাইকুম, আমি অন্তু  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01850890778 ধন্যবাদ।');
-          onShowToast('📋 Copied Antu\'s Payment message (01850890778)!');
+          navigator.clipboard.writeText('আসসালামু আলাইকুম, আমি রাবিতা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01320676761 ধন্যবাদ।');
+          onShowToast('📋 Copied Rabita\'s Payment message (01320676761)!');
         },
       },
       {
-        id: 'act-copy-kayes',
+        id: 'act-copy-tahshin',
         type: 'action',
-        title: 'Copy Kayes Payment Text (01644336738)',
+        title: 'Copy Tahshin Payment Text (01778336887)',
         sub: 'bKash / Nagad admission message in Bengali',
         icon: Copy,
         action: () => {
-          navigator.clipboard.writeText('আসসালামু আলাইকুম, আমি কায়েস ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা  নগদ  করুন  এই নাম্বারে 01644336738 ধন্যবাদ.');
-          onShowToast('📋 Copied Kayes\'s Payment message (01644336738)!');
+          navigator.clipboard.writeText('আসসালামু আলাইকুম, আমি তাহ্শিন  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01778336887 ধন্যবাদ।');
+          onShowToast('📋 Copied Tahshin\'s Payment message (01778336887)!');
+        },
+      },
+      {
+        id: 'act-copy-setu',
+        type: 'action',
+        title: 'Copy Setu Payment Text (01304167422)',
+        sub: 'bKash / Nagad admission message in Bengali',
+        icon: Copy,
+        action: () => {
+          navigator.clipboard.writeText('আসসালামু আলাইকুম, আমি সেতু  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01304167422  ধন্যবাদ।');
+          onShowToast('📋 Copied Setu\'s Payment message (01304167422)!');
+        },
+      },
+      {
+        id: 'act-copy-anisa',
+        type: 'action',
+        title: 'Copy Anisa Payment Text (01601388897)',
+        sub: 'bKash / Nagad admission message in Bengali',
+        icon: Copy,
+        action: () => {
+          navigator.clipboard.writeText('আসসালামু আলাইকুম, আমি আনিসা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01601388897 ধন্যবাদ।');
+          onShowToast('📋 Copied Anisa\'s Payment message (01601388897)!');
         },
       },
       {

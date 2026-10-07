@@ -29,20 +29,36 @@ export interface PaymentTemplate {
 
 export const PAYMENT_TEMPLATES: PaymentTemplate[] = [
   {
-    id: 'antu_payment',
-    advisorName: 'Antu (অন্তু)',
-    phone: '01850890778',
+    id: 'rabita_payment',
+    advisorName: 'Rabita (রাবিতা)',
+    phone: '01320676761',
     provider: 'bKash / Nagad',
-    fullMessage: 'আসসালামু আলাইকুম, আমি অন্তু  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01850890778 ধন্যবাদ।',
+    fullMessage: 'আসসালামু আলাইকুম, আমি রাবিতা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01320676761 ধন্যবাদ।',
     badgeColor: 'from-pink-500 to-rose-600'
   },
   {
-    id: 'kayes_payment',
-    advisorName: 'Kayes (কায়েস)',
-    phone: '01644336738',
+    id: 'tahshin_payment',
+    advisorName: 'Tahshin (তাহ্শিন)',
+    phone: '01778336887',
     provider: 'bKash / Nagad',
-    fullMessage: 'আসসালামু আলাইকুম, আমি কায়েস ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা  নগদ  করুন  এই নাম্বারে 01644336738 ধন্যবাদ.',
-    badgeColor: 'from-amber-500 to-orange-600'
+    fullMessage: 'আসসালামু আলাইকুম, আমি তাহ্শিন  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01778336887 ধন্যবাদ।',
+    badgeColor: 'from-sky-500 to-blue-600'
+  },
+  {
+    id: 'setu_payment',
+    advisorName: 'Setu (সেতু)',
+    phone: '01304167422',
+    provider: 'bKash / Nagad',
+    fullMessage: 'আসসালামু আলাইকুম, আমি সেতু  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01304167422  ধন্যবাদ।',
+    badgeColor: 'from-emerald-500 to-teal-600'
+  },
+  {
+    id: 'anisa_payment',
+    advisorName: 'Anisa (আনিসা)',
+    phone: '01601388897',
+    provider: 'bKash / Nagad',
+    fullMessage: 'আসসালামু আলাইকুম, আমি আনিসা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01601388897 ধন্যবাদ।',
+    badgeColor: 'from-purple-500 to-indigo-600'
   }
 ];
 
@@ -96,7 +112,7 @@ export const PaymentCopyModal: React.FC<PaymentCopyModalProps> = ({ isOpen, onCl
                     </span>
                   </h2>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Copy pre-formatted Bengali payment messages for Antu & Kayes to share directly with students.
+                    Copy pre-formatted Bengali payment messages for Rabita, Tahshin, Setu & Anisa to share directly with students.
                   </p>
                 </div>
               </div>
@@ -216,24 +232,32 @@ export const PaymentCopyModal: React.FC<PaymentCopyModalProps> = ({ isOpen, onCl
             </div>
 
             {/* Direct Quick Copy Strip */}
-            <div className="bg-slate-50/70 dark:bg-[#111F36] border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400">
+            <div className="bg-sky-50/60 dark:bg-[#111F36] border border-sky-200/80 dark:border-slate-800 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400">
               <span className="text-slate-900 dark:text-slate-100 font-semibold flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />
                 Quick Copy Phone Numbers:
               </span>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => handleCopy('01850890778', 'quick_antu', 'number')}
-                  className="px-3 py-1.5 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 font-mono font-bold rounded-lg transition-colors cursor-pointer shadow-xs active:scale-95"
-                >
-                  Antu: 01850890778
-                </button>
-                <button
-                  onClick={() => handleCopy('01644336738', 'quick_kayes', 'number')}
-                  className="px-3 py-1.5 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 font-mono font-bold rounded-lg transition-colors cursor-pointer shadow-xs active:scale-95"
-                >
-                  Kayes: 01644336738
-                </button>
+              <div className="flex flex-wrap items-center gap-2">
+                {PAYMENT_TEMPLATES.map((tmpl) => (
+                  <button
+                    key={tmpl.id}
+                    onClick={() => handleCopy(tmpl.phone, `quick_${tmpl.id}`, 'number')}
+                    className="px-2.5 py-1.5 bg-white hover:bg-sky-50 dark:bg-slate-800 dark:hover:bg-slate-700 border border-sky-200/80 dark:border-slate-700 text-slate-900 dark:text-slate-100 font-mono text-[11px] font-bold rounded-lg transition-colors cursor-pointer shadow-xs active:scale-95 flex items-center gap-1.5"
+                    title={`Copy ${tmpl.advisorName.split(' ')[0]}'s number (${tmpl.phone})`}
+                  >
+                    {copiedId === `quick_${tmpl.id}` ? (
+                      <>
+                        <Check className="w-3 h-3 text-emerald-500 stroke-[3]" />
+                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-slate-600 dark:text-slate-300">{tmpl.advisorName.split(' ')[0]}:</span>
+                        <span>{tmpl.phone}</span>
+                      </>
+                    )}
+                  </button>
+                ))}
               </div>
             </div>
 

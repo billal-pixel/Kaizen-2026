@@ -62,7 +62,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   activeTab,
   setActiveTab,
   teamLeaderName,
-  theme = 'light',
+  theme = 'dark',
   onToggleTheme,
   onOpenSheetSync,
   onOpenAddModal,
@@ -183,45 +183,113 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   const teamResources = [
     {
       label: 'Station Group',
+      type: 'Doc',
       url: 'https://docs.google.com/document/d/1jaGIrl5ewYbilQj38ZIqf6Cz6AVeQedGyDeuWP7lK7Q/edit?tab=t.0',
       icon: Link2,
-      color: 'text-emerald-400',
+      color: 'text-emerald-500 dark:text-emerald-400',
+      borderHover: 'hover:border-emerald-400/60',
+      badgeClass: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
     },
     {
       label: 'Virtual Group',
+      type: 'Doc',
       url: 'https://docs.google.com/document/d/1KVLOt1nOmNAsXCtCsxF4TYobUt8zfSGJ3mYq920s1UA/edit?tab=t.0',
       icon: Link2,
-      color: 'text-sky-400',
+      color: 'text-sky-500 dark:text-sky-400',
+      borderHover: 'hover:border-sky-400/60',
+      badgeClass: 'bg-sky-500/10 text-sky-600 dark:text-sky-400',
     },
     {
       label: 'Mirpur Site',
+      type: 'Portal',
       url: 'https://sites.google.com/view/10msmirpur/home',
       icon: Globe,
-      color: 'text-violet-400',
+      color: 'text-violet-500 dark:text-violet-400',
+      borderHover: 'hover:border-violet-400/60',
+      badgeClass: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
     },
     {
       label: 'VT Site',
+      type: 'Portal',
       url: 'https://sites.google.com/view/10ms-vt-essential/home',
       icon: Globe,
-      color: 'text-blue-400',
+      color: 'text-blue-500 dark:text-blue-400',
+      borderHover: 'hover:border-blue-400/60',
+      badgeClass: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
     },
     {
       label: 'Good Call',
+      type: 'Drive',
       url: 'https://drive.google.com/drive/folders/1BGEaDod5zXZ6nvoNfYsGvry02c2oElZk?ths=true',
       icon: Folder,
-      color: 'text-teal-400',
+      color: 'text-teal-500 dark:text-teal-400',
+      borderHover: 'hover:border-teal-400/60',
+      badgeClass: 'bg-teal-500/10 text-teal-600 dark:text-teal-400',
     },
     {
       label: 'Follow Up',
+      type: 'Drive',
       url: 'https://drive.google.com/drive/folders/1Tk2c1pQKVmBhJkZqSeMHizWdeW_cMeah',
       icon: Folder,
-      color: 'text-cyan-400',
+      color: 'text-cyan-500 dark:text-cyan-400',
+      borderHover: 'hover:border-cyan-400/60',
+      badgeClass: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
     },
     {
       label: 'Free Resource',
+      type: 'Guide',
       url: 'https://docs.google.com/document/d/1GiVK9N2diFGsYuW9RfFeDVxtl3AnZe9wP3LGo2g0g1o/edit?tab=t.0',
       icon: BookOpen,
-      color: 'text-amber-400',
+      color: 'text-amber-500 dark:text-amber-400',
+      borderHover: 'hover:border-amber-400/60',
+      badgeClass: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+    }
+  ];
+
+  const paymentAdvisors = [
+    {
+      id: 'rabita_quick',
+      name: 'Rabita',
+      banglaName: 'রাবিতা',
+      phone: '01320676761',
+      dotColor: 'bg-rose-500',
+      ringColor: 'ring-rose-500/30',
+      hoverBorder: 'hover:border-rose-400/60',
+      hoverText: 'group-hover:text-rose-500 dark:group-hover:text-rose-400',
+      msg: 'আসসালামু আলাইকুম, আমি রাবিতা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01320676761 ধন্যবাদ।'
+    },
+    {
+      id: 'tahshin_quick',
+      name: 'Tahshin',
+      banglaName: 'তাহ্শিন',
+      phone: '01778336887',
+      dotColor: 'bg-sky-500',
+      ringColor: 'ring-sky-500/30',
+      hoverBorder: 'hover:border-sky-400/60',
+      hoverText: 'group-hover:text-sky-500 dark:group-hover:text-sky-400',
+      msg: 'আসসালামু আলাইকুম, আমি তাহ্শিন  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01778336887 ধন্যবাদ।'
+    },
+    {
+      id: 'setu_quick',
+      name: 'Setu',
+      banglaName: 'সেতু',
+      phone: '01304167422',
+      dotColor: 'bg-emerald-500',
+      ringColor: 'ring-emerald-500/30',
+      hoverBorder: 'hover:border-emerald-400/60',
+      hoverText: 'group-hover:text-emerald-500 dark:group-hover:text-emerald-400',
+      msg: 'আসসালামু আলাইকুম, আমি সেতু  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01304167422  ধন্যবাদ।'
+    },
+    {
+      id: 'anisa_quick',
+      name: 'Anisa',
+      banglaName: 'আনিসা',
+      phone: '01601388897',
+      dotColor: 'bg-purple-500',
+      ringColor: 'ring-purple-500/30',
+      hoverBorder: 'hover:border-purple-400/60',
+      hoverText: 'group-hover:text-purple-500 dark:group-hover:text-purple-400',
+      msg: 'আসসালামু আলাইকুম, আমি আনিসা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01601388897 ধন্যবাদ।'
     }
   ];
 
@@ -418,62 +486,65 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
         </div>
 
-        {/* Tier 2: Payment Copy & Team Resources Ribbon (Zero Cutoff, Seamless Responsive Alignment) */}
-        <div className="bg-sky-50/80 dark:bg-[#0F172A]/95 backdrop-blur-xs border border-sky-200/80 dark:border-slate-800 rounded-xl px-2.5 py-1.5 shadow-2xs">
-          <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 w-full">
-            {/* Left Cluster: 1-Click Payments (Antu, Kayes, Payment Hub) */}
-            <div className="flex flex-wrap items-center gap-1.5">
-              {/* Antu 1-Click Copy */}
-              <button
-                type="button"
-                onClick={() => handleQuickCopy('আসসালামু আলাইকুম, আমি অন্তু  ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01850890778 ধন্যবাদ।', 'antu_quick', 'Antu')}
-                className={`group h-7.5 px-2.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
-                  copiedQuickId === 'antu_quick'
-                    ? 'bg-emerald-600 text-white border-emerald-500'
-                    : 'bg-white hover:bg-sky-50 text-slate-800 border-sky-200/80 hover:border-sky-300 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:text-slate-100 dark:border-slate-700'
-                }`}
-                title="1-Click copy Bengali bKash message for Antu (01850890778)"
-              >
-                {copiedQuickId === 'antu_quick' ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-white stroke-[3] shrink-0" />
-                    <span className="font-extrabold text-white">Copied Antu!</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
-                    <Copy className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 group-hover:text-rose-600 dark:group-hover:text-rose-400 stroke-[2.2] shrink-0" />
-                    <span>Antu</span>
-                    <span className="font-mono text-[10px] text-slate-500 dark:text-slate-400 opacity-80">(01850890778)</span>
-                  </>
-                )}
-              </button>
+        {/* Tier 2: Unified Executive Operations Ribbon (Structured Dual-Deck Control Bar) */}
+        <div className="bg-sky-50/70 dark:bg-[#0F172A]/95 backdrop-blur-md border border-sky-200/80 dark:border-slate-800 rounded-2xl p-2 sm:p-2.5 shadow-2xs space-y-2">
+          
+          {/* Deck A: 1-Click Payment Messaging & Admission Closing */}
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2.5 bg-white/95 dark:bg-[#131F35]/90 border border-sky-200/70 dark:border-slate-800/90 rounded-xl px-3 py-2 shadow-2xs">
+            {/* Left Identifier Tag */}
+            <div className="flex items-center gap-2.5 shrink-0">
+              <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800/80 flex items-center justify-center text-sky-600 dark:text-sky-400 shadow-2xs">
+                <CreditCard className="w-4 h-4 stroke-[2.2]" />
+              </div>
+              <div className="flex flex-col justify-center">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-slate-100">
+                    Payment Sharing
+                  </span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800/60 leading-tight">
+                    1-Click
+                  </span>
+                </div>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                  bKash & Nagad admission texts for students
+                </span>
+              </div>
+            </div>
 
-              {/* Kayes 1-Click Copy */}
-              <button
-                type="button"
-                onClick={() => handleQuickCopy('আসসালামু আলাইকুম, আমি কায়েস ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা  নগদ  করুন  এই নাম্বারে 01644336738 ধন্যবাদ.', 'kayes_quick', 'Kayes')}
-                className={`group h-7.5 px-2.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
-                  copiedQuickId === 'kayes_quick'
-                    ? 'bg-emerald-600 text-white border-emerald-500'
-                    : 'bg-white hover:bg-sky-50 text-slate-800 border-sky-200/80 hover:border-sky-300 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:text-slate-100 dark:border-slate-700'
-                }`}
-                title="1-Click copy Bengali bKash message for Kayes (01644336738)"
-              >
-                {copiedQuickId === 'kayes_quick' ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-white stroke-[3] shrink-0" />
-                    <span className="font-extrabold text-white">Copied Kayes!</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
-                    <Copy className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 stroke-[2.2] shrink-0" />
-                    <span>Kayes</span>
-                    <span className="font-mono text-[10px] text-slate-500 dark:text-slate-400 opacity-80">(01644336738)</span>
-                  </>
-                )}
-              </button>
+            {/* Center / Right: 4 Advisor Quick Buttons & Payment Hub Modal Trigger */}
+            <div className="flex flex-wrap items-center gap-1.5 xl:justify-end">
+              {paymentAdvisors.map((adv) => {
+                const isCopied = copiedQuickId === adv.id;
+                return (
+                  <button
+                    key={adv.id}
+                    type="button"
+                    onClick={() => handleQuickCopy(adv.msg, adv.id, adv.name)}
+                    className={`group h-8 px-2.5 sm:px-3 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
+                      isCopied
+                        ? 'bg-emerald-600 text-white border-emerald-500 shadow-emerald-500/20'
+                        : `bg-slate-50/80 hover:bg-white text-slate-800 border-sky-200/80 ${adv.hoverBorder} dark:bg-[#1A2744] dark:hover:bg-[#23355B] dark:text-slate-100 dark:border-slate-700/80`
+                    }`}
+                    title={`1-Click copy Bengali payment text for ${adv.name} (${adv.phone})`}
+                  >
+                    {isCopied ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-white stroke-[3] shrink-0" />
+                        <span className="font-extrabold text-white">Copied {adv.name}!</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className={`w-2 h-2 rounded-full ${adv.dotColor} ring-2 ${adv.ringColor} shrink-0`} />
+                        <Copy className={`w-3.5 h-3.5 text-slate-400 ${adv.hoverText} transition-colors stroke-[2.2] shrink-0`} />
+                        <span className="font-bold">{adv.name}</span>
+                        <span className="font-mono text-[11px] font-semibold text-slate-600 dark:text-slate-300 bg-white/80 dark:bg-[#0F172A] px-1.5 py-0.5 rounded border border-slate-200/70 dark:border-slate-800">
+                          {adv.phone}
+                        </span>
+                      </>
+                    )}
+                  </button>
+                );
+              })}
 
               {/* Payment Hub Modal Trigger */}
               {onOpenPaymentModal && (
@@ -481,20 +552,40 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   type="button"
                   onClick={onOpenPaymentModal}
                   title="Open Full Payment Hub & Message Templates"
-                  className="group h-7.5 px-2.5 bg-white hover:bg-sky-50 border border-sky-200/80 hover:border-sky-300 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 rounded-lg text-[11px] font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all shrink-0"
+                  className="group h-8 px-3 bg-sky-600 hover:bg-sky-700 text-white dark:bg-sky-500 dark:hover:bg-sky-400 dark:text-slate-950 font-black rounded-lg text-xs flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all shrink-0 sm:ml-1"
                 >
-                  <CreditCard className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 stroke-[2.2] shrink-0" />
+                  <CreditCard className="w-3.5 h-3.5 stroke-[2.5] shrink-0" />
                   <span>Payment Hub</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse shrink-0"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-white dark:bg-slate-950 animate-pulse shrink-0"></span>
                 </button>
               )}
             </div>
+          </div>
 
-            {/* Subtle Divider (visible on wide screens) */}
-            <div className="hidden 2xl:block h-4 w-px bg-sky-200 dark:bg-slate-700 shrink-0 mx-0.5" />
+          {/* Deck B: Official Portals, Groups & Cloud Drives */}
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2.5 bg-white/95 dark:bg-[#131F35]/90 border border-sky-200/70 dark:border-slate-800/90 rounded-xl px-3 py-2 shadow-2xs">
+            {/* Left Identifier Tag */}
+            <div className="flex items-center gap-2.5 shrink-0">
+              <div className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-200 dark:border-emerald-800/80 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-2xs">
+                <Globe className="w-4 h-4 stroke-[2.2]" />
+              </div>
+              <div className="flex flex-col justify-center">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-slate-100">
+                    Portals & Drives
+                  </span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-800/60 leading-tight">
+                    7 Links
+                  </span>
+                </div>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                  Station & Virtual operations workspace
+                </span>
+              </div>
+            </div>
 
-            {/* Right Cluster: All 7 Team Resource Links (Directly visible, clean alignment, zero cutoff) */}
-            <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
+            {/* Right: All 7 Team Resource Links */}
+            <div className="flex flex-wrap items-center gap-1.5 xl:justify-end">
               {teamResources.map((res, i) => {
                 const Icon = res.icon;
                 return (
@@ -503,17 +594,21 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     href={res.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="group h-7.5 px-2 sm:px-2.5 bg-white hover:bg-sky-50 border border-sky-200/80 hover:border-sky-300 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 rounded-lg text-[11px] font-bold text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white flex items-center gap-1 whitespace-nowrap shadow-2xs transition-colors shrink-0"
-                    title={`Open ${res.label}`}
+                    className={`group h-8 px-2.5 sm:px-3 bg-slate-50/80 hover:bg-white border border-sky-200/80 ${res.borderHover} dark:bg-[#1A2744] dark:hover:bg-[#23355B] dark:border-slate-700/80 rounded-lg text-xs font-bold text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white flex items-center gap-1.5 whitespace-nowrap shadow-2xs transition-all shrink-0 active:scale-95`}
+                    title={`Open ${res.label} (${res.type})`}
                   >
                     <Icon className={`w-3.5 h-3.5 ${res.color} stroke-[2.2] shrink-0`} />
                     <span>{res.label}</span>
-                    <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-300 stroke-[2] shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
+                    <span className={`text-[9px] font-mono font-bold px-1 py-0.2 rounded ${res.badgeClass}`}>
+                      {res.type}
+                    </span>
+                    <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-sky-500 dark:group-hover:text-sky-300 stroke-[2] shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
                   </a>
                 );
               })}
             </div>
           </div>
+
         </div>
 
         {/* Tier 3: Core Navigation Tabs (Balanced, Zero Truncation/Ellipses, High Contrast) */}
