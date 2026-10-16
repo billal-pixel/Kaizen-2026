@@ -250,7 +250,7 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* 1. EXECUTIVE OPERATIONAL ROLLUP MATRIX */}
-      <div id="executive-rollup-section" className="bg-white dark:bg-[#10192e] border border-sky-200/80 dark:border-[#1e2c4a] rounded-2xl shadow-sm dark:shadow-xl overflow-hidden">
+      <div id="executive-rollup-section" className="bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl shadow-xs overflow-hidden">
         <div className="p-4 sm:p-5 border-b border-sky-200/80 dark:border-[#1e2c4a] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-sky-50/70 dark:bg-[#15223c]/50">
           <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-xl bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400">
@@ -462,7 +462,7 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
       </div>
 
       {/* 2. MASTER CONDENSED ALL-ADVISORS PERFORMANCE TABLE */}
-      <div id="master-advisor-table-section" className="bg-white dark:bg-[#10192e] border border-sky-200/80 dark:border-[#1e2c4a] rounded-2xl shadow-sm dark:shadow-xl overflow-hidden space-y-4 p-4 sm:p-5">
+      <div id="master-advisor-table-section" className="bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl shadow-xs overflow-hidden space-y-4 p-6">
         {/* Controls Toolbar: Title, Search, Division Filter, Grade Filter, Page Size */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-sky-200/80 dark:border-[#1e2c4a] pb-4">
           <div>
@@ -803,7 +803,7 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
       </div>
 
       {/* 3. CONDENSED DAILY TELEMETRY LOG TABLE */}
-      <div id="daily-telemetry-log-section" className="bg-white dark:bg-[#10192e] border border-slate-200 dark:border-[#1e2c4a] rounded-2xl shadow-sm dark:shadow-xl overflow-hidden p-4 sm:p-5 space-y-4">
+      <div id="daily-telemetry-log-section" className="bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl shadow-xs overflow-hidden p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-[#1e2c4a] pb-3">
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-emerald-500" />

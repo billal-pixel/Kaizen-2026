@@ -151,6 +151,17 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
         },
       },
       {
+        id: 'act-copy-mayida',
+        type: 'action',
+        title: 'Copy Mayida Payment Text (01756089829)',
+        sub: 'bKash / Nagad admission message in Bengali',
+        icon: Copy,
+        action: () => {
+          navigator.clipboard.writeText('আসসালামু আলাইকুম, আমি মায়িদা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ বা নগদ করুন এই নাম্বারে 01756089829 ধন্যবাদ।');
+          onShowToast('📋 Copied Mayida\'s Payment message (01756089829)!');
+        },
+      },
+      {
         id: 'act-add-advisor',
         type: 'action',
         title: '+ Add New Advisor',

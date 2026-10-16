@@ -534,7 +534,7 @@ export default function App() {
   const avgKpi = totalAdvisorCount > 0 ? ((avgStationedKpi * stationedAdvisors.length) + (avgVirtualKpi * virtualAdvisors.length)) / totalAdvisorCount : 0;
 
   return (
-    <div className="relative min-h-screen font-sans bg-[#F0F9FF]/85 dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 selection:bg-sky-200 selection:text-sky-900 transition-colors duration-200 overflow-x-hidden">
+    <div className="relative min-h-screen font-sans bg-[#F0F9FF]/85 dark:bg-[#0B132B] text-slate-900 dark:text-slate-100 selection:bg-sky-200 selection:text-sky-900 transition-colors duration-200 overflow-x-hidden">
       {/* 3D WebGL Background Simulation Canvas Layer */}
       <ThreeBackground
         style={threeBgStyle}
@@ -691,7 +691,7 @@ export default function App() {
         </div>
 
         {/* Clean Executive Footer */}
-        <footer className="flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 dark:text-slate-400 font-medium bg-white/95 dark:bg-[#0F172A]/95 px-6 py-3.5 rounded-2xl border border-sky-200/80 dark:border-slate-800 shadow-2xs backdrop-blur-md mt-10 gap-2">
+        <footer className="flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 dark:text-slate-400 font-medium bg-white/95 dark:bg-[#1C2541]/95 px-6 py-3.5 rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-2xs backdrop-blur-md mt-10 gap-2">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
             <span className="text-slate-700 dark:text-slate-300 font-semibold">Real-time sync active</span>

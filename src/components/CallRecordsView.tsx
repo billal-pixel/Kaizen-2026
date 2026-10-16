@@ -560,7 +560,7 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
               </span>
             </h4>
             <p className="subtext text-[11px] text-slate-500 dark:text-slate-400">
-              1-Click copy payment messages for advisors Rabita, Tahshin, Setu & Anisa to send to students.
+              1-Click copy payment messages for advisors Rabita, Tahshin, Setu, Anisa & Mayida to send to students.
             </p>
           </div>
         </div>
@@ -598,6 +598,14 @@ export const CallRecordsView: React.FC<CallRecordsViewProps> = ({
               colorClass: 'text-purple-700 dark:text-purple-300',
               iconColor: 'text-purple-600 dark:text-purple-400',
               msg: 'আসসালামু আলাইকুম, আমি আনিসা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01601388897 ধন্যবাদ।'
+            },
+            {
+              id: 'mayida',
+              name: 'Mayida',
+              phone: '01756089829',
+              colorClass: 'text-amber-700 dark:text-amber-300',
+              iconColor: 'text-amber-600 dark:text-amber-400',
+              msg: 'আসসালামু আলাইকুম, আমি মায়িদা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ বা নগদ করুন এই নাম্বারে 01756089829 ধন্যবাদ।'
             }
           ].map((adv) => (
             <button

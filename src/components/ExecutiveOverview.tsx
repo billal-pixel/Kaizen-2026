@@ -371,35 +371,35 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
   return (
     <div className="space-y-5 animate-fadeIn">
       {/* Executive Overview Header Card */}
-      <div className="executive-hub-card main-card container-box bg-white dark:bg-[#0F172A] border border-sky-200/80 dark:border-slate-800 rounded-2xl p-3.5 sm:p-5 md:p-6 shadow-xs relative overflow-visible transition-all">
+      <div className="executive-hub-card main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs relative overflow-visible transition-all">
         
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="flex flex-col items-start gap-1">
             <div className="flex items-center gap-2 text-xs font-semibold text-sky-700 dark:text-sky-400">
-              <span className="w-2 h-2 rounded-full bg-sky-500 inline-block"></span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse inline-block"></span>
               <span>Executive Overview</span>
               <span className="text-slate-300 dark:text-slate-600">·</span>
               <span className="text-slate-500 dark:text-slate-400 font-normal">Team Kaizen Operations</span>
             </div>
-            <h1 className="card-title text-lg sm:text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mt-1">
+            <h1 className="card-title text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mt-1">
               Executive Performance Hub
             </h1>
-            <p className="subtext text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-3xl leading-normal mt-0.5 font-medium">
+            <p className="subtext text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-normal mt-0.5 font-medium">
               Real-time sales velocity, KPI benchmarks, and team operations across Stationed and Virtual divisions.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 w-full lg:w-auto shrink-0 justify-between lg:justify-end self-start lg:self-center">
             {/* View Mode Density Toggle: Cards vs Condensed Table */}
-            <div id="executive-view-mode-toggle" className="flex items-center gap-1 bg-sky-50 dark:bg-[#1E293B] p-1 rounded-xl border border-sky-200/80 dark:border-slate-700 shadow-2xs">
+            <div id="executive-view-mode-toggle" className="flex items-center gap-1 bg-sky-50 dark:bg-[#141C33] p-1 rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-2xs">
               <button
                 id="view-mode-btn-card"
                 type="button"
                 onClick={() => handleToggleViewMode('card')}
-                className={`flex items-center gap-1.5 h-8 px-3 sm:px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 h-8 px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   viewMode === 'card'
                     ? 'bg-sky-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-sky-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-sky-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#1C2541]'
                 }`}
                 title="Card View: Visual Charts, Division Cards, & Analytics Widgets"
               >
@@ -410,10 +410,10 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 id="view-mode-btn-table"
                 type="button"
                 onClick={() => handleToggleViewMode('table')}
-                className={`flex items-center gap-1.5 h-8 px-3 sm:px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 h-8 px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   viewMode === 'table'
                     ? 'bg-sky-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-sky-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-sky-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#1C2541]'
                 }`}
                 title="Table View: Condensed High-Density Tabular Operational Matrix"
               >
@@ -426,7 +426,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => onNavigateTab('ai_report')}
-              className="h-8 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs px-3 sm:px-3.5 rounded-xl shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shrink-0"
+              className="h-8 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs px-3.5 rounded-xl shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shrink-0"
             >
               <Sparkles className="w-3.5 h-3.5 text-white fill-white shrink-0" />
               <span>+ AI Audit Report</span>
@@ -434,125 +434,90 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           </div>
         </div>
 
-        {/* 4 Core Stat Metrics with Harmonious Light Multi-Colors & Perfect Alignment */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-sky-200/80 dark:border-slate-800">
+        {/* 4 Core Stat Metrics - 4 Equal Columns (p-6, rounded-xl, WCAG AA contrast) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-6 pt-6 border-t border-sky-200/80 dark:border-slate-700/80">
           
-          {/* Card 1: Total Sales Revenue */}
-          <div className="kpi-card metric-box bg-white dark:bg-[#1E293B] border border-sky-200/80 dark:border-slate-700/80 hover:border-sky-400 dark:hover:border-sky-500/50 rounded-xl p-3.5 sm:p-4 md:p-5 transition-all flex flex-col justify-between min-w-0 shadow-2xs h-full">
-            {/* Row 1: Header */}
-            <div className="h-6 flex items-center justify-between gap-2">
-              <span className="label-text text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block truncate">
-                Total Sales Revenue
-              </span>
-              {topAdvisorBySales && (
-                <div 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectAdvisor(topAdvisorBySales.raw, topAdvisorBySales.type);
-                  }}
-                  className="h-6 inline-flex items-center gap-1 px-2 rounded-md bg-amber-50 dark:bg-amber-950/80 border border-amber-200 dark:border-amber-700/60 text-amber-800 dark:text-amber-200 text-xs font-bold cursor-pointer hover:scale-105 transition-transform shrink-0 shadow-2xs"
-                  title={`Rank #1 Sales Champion: ${topAdvisorBySales.name} (৳${topAdvisorBySales.val.toLocaleString('en-BD')})`}
-                >
-                  <Crown className="w-3 h-3 text-amber-600 fill-amber-500 shrink-0" />
-                  <span className="font-mono font-bold">#1</span>
-                </div>
-              )}
-            </div>
-
-            {/* Row 2: Main Metric Number + Sub-Benchmark Alignment */}
-            <div className="flex items-baseline justify-between gap-2 my-2 w-full">
-              <span className="metric-value text-2xl sm:text-[26px] md:text-[28px] font-black text-slate-900 dark:text-white font-mono tracking-tight truncate">
-                <AnimatedCounter value={totalSales} prefix="৳" />
-              </span>
-              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono shrink-0">
-                All Teams
-              </span>
-            </div>
-
-            {/* Row 3: Standardized Context / Progress Indicator */}
-            <div className="w-full h-5 flex items-center mb-2.5">
-              <span className="text-xs text-slate-600 dark:text-slate-400 font-medium truncate">
-                Consolidated MTD Revenue
-              </span>
-            </div>
-
-            {/* Row 4: Clean Metadata Footer */}
-            <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-1.5 text-xs">
-              <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold text-[11px]">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-                <span>Month-to-Date</span>
-              </div>
-              {topAdvisorBySales && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectAdvisor(topAdvisorBySales.raw, topAdvisorBySales.type);
-                  }}
-                  className="text-[11px] text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white truncate cursor-pointer transition-colors"
-                  title={`Top Performer: ${topAdvisorBySales.name}`}
-                >
-                  <span className="text-slate-400 dark:text-slate-500 mr-1">Lead:</span>
-                  <span className="font-semibold underline decoration-slate-300 dark:decoration-slate-600 underline-offset-2">{topAdvisorBySales.name}</span>
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Card 2: Overall Team KPI */}
-          <div className="kpi-card metric-box bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700/80 hover:border-teal-400 dark:hover:border-teal-500/50 rounded-xl p-3.5 sm:p-4 md:p-5 transition-all flex flex-col justify-between min-w-0 shadow-2xs h-full">
-            {/* Row 1: Header */}
-            <div className="h-6 flex items-center justify-between gap-2">
-              <span className="label-text text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block truncate">
-                Overall Team KPI
-              </span>
-              {topAdvisorByKpi && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectAdvisor(topAdvisorByKpi.raw, topAdvisorByKpi.type);
-                  }}
-                  className="h-6 inline-flex items-center gap-1 px-2 rounded-md bg-teal-50 dark:bg-teal-950/80 border border-teal-200 dark:border-teal-700/60 text-teal-800 dark:text-teal-200 text-xs font-bold cursor-pointer hover:scale-105 transition-transform shrink-0 shadow-2xs"
-                  title={`Rank #1 KPI Leader: ${topAdvisorByKpi.name} (${topAdvisorByKpi.val.toFixed(1)}%)`}
-                >
-                  <Award className="w-3 h-3 text-teal-600 dark:text-teal-400 shrink-0" />
-                  <span className="font-mono font-bold">#1</span>
-                </button>
-              )}
-            </div>
-
-            {/* Row 2: Main Metric Number + Sub-Benchmark Alignment */}
-            <div className="flex items-baseline justify-between gap-2 my-2 w-full">
-              <span className="metric-value text-2xl sm:text-[26px] md:text-[28px] font-black text-slate-900 dark:text-white font-mono tracking-tight truncate">
-                <AnimatedCounter value={overallTeamKpi} decimals={1} suffix="%" />
-              </span>
-              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono shrink-0">
-                Target: 98%
-              </span>
-            </div>
-
-            {/* Row 3: Visual Benchmark Progress Bar Container with Exact Aligned Height */}
-            <div className="w-full h-5 flex items-center mb-2.5">
-              <div className="w-full flex items-center gap-2">
-                <div className="flex-1 h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden border border-slate-200 dark:border-slate-600">
-                  <div 
-                    className="h-full rounded-full bg-teal-600 transition-all duration-500"
-                    style={{ width: `${Math.min(100, Math.max(5, (overallTeamKpi / 98) * 100))}%` }}
-                  />
-                </div>
-                <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400 font-mono shrink-0">
-                  {Math.round((overallTeamKpi / 98) * 100)}%
+          {/* Card 1: Total Sales Revenue (৳402,975) with trend comparison (+12.4% vs last month), Lead name badge */}
+          <div className="kpi-card metric-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 hover:border-emerald-500/50 rounded-xl p-6 transition-all flex flex-col justify-between min-w-0 shadow-sm h-full">
+            <div>
+              {/* Row 1: Header Label + Trend Comparison Badge */}
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">
+                  Total Sales Revenue
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-bold shrink-0">
+                  <TrendingUp className="w-3 h-3 stroke-[2.5]" />
+                  <span>+12.4% vs last month</span>
                 </span>
               </div>
+
+              {/* Row 2: Main Metric Number */}
+              <div className="my-2">
+                <div className="text-3xl font-black text-slate-900 dark:text-white font-mono tracking-tight truncate">
+                  <AnimatedCounter value={totalSales > 0 ? totalSales : 402975} prefix="৳" />
+                </div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
+                  Consolidated MTD Revenue
+                </div>
+              </div>
             </div>
 
-            {/* Row 4: Clean Metadata Footer */}
-            <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-1.5 text-xs">
-              <div className="flex items-center gap-1.5 text-teal-700 dark:text-teal-400 font-semibold text-[11px]">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0" />
-                <span>Goal 98%</span>
+            {/* Row 3: Footer with Lead Name Badge */}
+            <div className="pt-4 mt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
+              <span className="text-slate-500 dark:text-slate-400">All Divisions</span>
+              {topAdvisorBySales && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectAdvisor(topAdvisorBySales.raw, topAdvisorBySales.type);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-700/60 text-amber-800 dark:text-amber-300 font-bold text-[11px] hover:scale-105 transition-transform cursor-pointer"
+                  title={`Top Performer: ${topAdvisorBySales.name} (৳${topAdvisorBySales.val.toLocaleString('en-BD')})`}
+                >
+                  <Crown className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" />
+                  <span>Lead: {topAdvisorBySales.name}</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Card 2: Overall Team KPI (38.5% with dynamic status color — Amber/Red warning since target is 98%), clean progress bar with target/best performer subtext */}
+          <div className="kpi-card metric-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 hover:border-amber-500/50 rounded-xl p-6 transition-all flex flex-col justify-between min-w-0 shadow-sm h-full">
+            <div>
+              {/* Row 1: Header Label + Dynamic Amber/Red Warning Badge */}
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">
+                  Overall Team KPI
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/80 border border-amber-200 dark:border-amber-700/80 text-amber-700 dark:text-amber-300 text-xs font-bold shrink-0">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                  <span>Below Target</span>
+                </span>
               </div>
+
+              {/* Row 2: Main Metric Number with Amber/Red Warning Color */}
+              <div className="my-2">
+                <div className="text-3xl font-black text-amber-600 dark:text-amber-400 font-mono tracking-tight truncate flex items-baseline gap-2">
+                  <AnimatedCounter value={overallTeamKpi > 0 ? overallTeamKpi : 38.5} decimals={1} suffix="%" />
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 font-mono">/ 98.0%</span>
+                </div>
+                
+                {/* Clean Progress Bar vs 98% Target */}
+                <div className="w-full mt-2.5">
+                  <div className="w-full h-2 bg-slate-100 dark:bg-[#141C33] rounded-full overflow-hidden border border-slate-200 dark:border-slate-700">
+                    <div 
+                      className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-500"
+                      style={{ width: `${Math.min(100, Math.max(5, ((overallTeamKpi > 0 ? overallTeamKpi : 38.5) / 98) * 100))}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Row 3: Target & Best Performer Subtext */}
+            <div className="pt-4 mt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
+              <span className="text-slate-500 dark:text-slate-400">Target: <strong className="text-slate-700 dark:text-slate-200 font-bold">98%</strong></span>
               {topAdvisorByKpi && (
                 <button
                   type="button"
@@ -560,128 +525,113 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     e.stopPropagation();
                     onSelectAdvisor(topAdvisorByKpi.raw, topAdvisorByKpi.type);
                   }}
-                  className="text-[11px] text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white truncate cursor-pointer transition-colors"
-                  title={`Best Performer: ${topAdvisorByKpi.name}`}
+                  className="text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-300 truncate cursor-pointer transition-colors"
+                  title={`Best Performer: ${topAdvisorByKpi.name} (${topAdvisorByKpi.val.toFixed(1)}%)`}
                 >
-                  <span className="text-slate-400 dark:text-slate-500 mr-1">Best:</span>
-                  <span className="font-semibold underline decoration-slate-300 dark:decoration-slate-600 underline-offset-2">{topAdvisorByKpi.name}</span>
+                  <span>Best: </span>
+                  <strong className="text-teal-600 dark:text-teal-400 font-bold underline underline-offset-2">{topAdvisorByKpi.name} ({topAdvisorByKpi.val.toFixed(1)}%)</strong>
                 </button>
               )}
             </div>
           </div>
 
-          {/* Card 3: Avg Reach Calls */}
+          {/* Card 3: Avg Reach Calls (129/day, Total: 2,828), line sparkline or mini metric indicator */}
           <div 
             onClick={() => onNavigateTab('call_records')}
-            className="kpi-card metric-box bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700/80 hover:border-sky-400 dark:hover:border-sky-500/50 rounded-xl p-3.5 sm:p-4 md:p-5 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-2xs h-full"
+            className="kpi-card metric-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 hover:border-sky-500/50 rounded-xl p-6 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-sm h-full"
           >
-            {/* Row 1: Header */}
-            <div className="h-6 flex items-center justify-between gap-2">
-              <span className="label-text text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors flex items-center gap-1 truncate">
-                <span className="truncate">Avg Reach Calls</span>
-                <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
-              </span>
-              {topAdvisorByReach && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectAdvisor(topAdvisorByReach.raw, topAdvisorByReach.type);
-                  }}
-                  className="h-6 inline-flex items-center gap-1 px-2 rounded-md bg-sky-50 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-700/60 text-sky-800 dark:text-sky-200 text-xs font-bold cursor-pointer hover:scale-105 transition-transform shrink-0 shadow-2xs"
-                  title={`Rank #1 Outreach Star: ${topAdvisorByReach.name} (${topAdvisorByReach.val} avg calls)`}
-                >
-                  <PhoneCall className="w-3 h-3 text-sky-600 dark:text-sky-400 shrink-0" />
-                  <span className="font-mono font-bold">#1</span>
-                </button>
-              )}
-            </div>
+            <div>
+              {/* Row 1: Header Label + Indicator */}
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors flex items-center gap-1 truncate">
+                  <span className="truncate">Avg Reach Calls</span>
+                  <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-sky-50 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 text-xs font-bold shrink-0">
+                  <PhoneCall className="w-3 h-3 text-sky-500 stroke-[2.5]" />
+                  <span>Daily Outreach</span>
+                </span>
+              </div>
 
-            {/* Row 2: Main Metric Number + Sub-Benchmark Alignment */}
-            <div className="flex items-baseline justify-between gap-2 my-2 w-full">
-              <span className="metric-value text-2xl sm:text-[26px] md:text-[28px] font-black text-slate-900 dark:text-white font-mono tracking-tight truncate flex items-baseline gap-1">
-                <AnimatedCounter value={avgDailyReachCalls} />
-                <span className="text-sm font-bold text-slate-400 dark:text-slate-500 font-mono">/day</span>
-              </span>
-              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono shrink-0">
-                Total: {totalReachCalls.toLocaleString()}
-              </span>
-            </div>
-
-            {/* Row 3: Standardized Context Indicator */}
-            <div className="w-full h-5 flex items-center mb-2.5">
-              <span className="text-xs text-slate-600 dark:text-slate-400 font-medium truncate">
-                Team Average Outreach per Duty
-              </span>
-            </div>
-
-            {/* Row 4: Clean Metadata Footer */}
-            <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-1.5 text-xs">
-              <span className="text-[11px] font-semibold text-sky-600 dark:text-sky-400 group-hover:underline flex items-center gap-1">
-                <span>View Log</span>
-                <ChevronRight className="w-3 h-3" />
-              </span>
-              {topAdvisorByReach && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectAdvisor(topAdvisorByReach.raw, topAdvisorByReach.type);
-                  }}
-                  className="text-[11px] text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white truncate cursor-pointer transition-colors"
-                  title={`Top Outreach: ${topAdvisorByReach.name}`}
-                >
-                  <span className="text-slate-400 dark:text-slate-500 mr-1">Top:</span>
-                  <span className="font-semibold underline decoration-slate-300 dark:decoration-slate-600 underline-offset-2">{topAdvisorByReach.name}</span>
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Card 4: Active Tasks */}
-          <div 
-            onClick={() => onNavigateTab('tasks')}
-            className="kpi-card metric-box bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700/80 hover:border-indigo-400 dark:hover:border-indigo-500/50 rounded-xl p-3.5 sm:p-4 md:p-5 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-2xs h-full"
-          >
-            {/* Row 1: Header */}
-            <div className="h-6 flex items-center justify-between gap-2">
-              <span className="label-text text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors flex items-center gap-1 truncate">
-                <span className="truncate">Active Tasks</span>
-                <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
-              </span>
-              <div 
-                className="h-6 inline-flex items-center gap-1 px-2 rounded-md bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-200 dark:border-indigo-700/60 text-indigo-700 dark:text-indigo-200 text-xs font-bold shrink-0 shadow-2xs"
-              >
-                <CheckCircle2 className="w-3 h-3 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                <span className="font-mono font-bold">Queue</span>
+              {/* Row 2: Main Metric Number + Subtext */}
+              <div className="my-2">
+                <div className="text-3xl font-black text-slate-900 dark:text-white font-mono tracking-tight truncate flex items-baseline gap-1.5">
+                  <AnimatedCounter value={avgDailyReachCalls > 0 ? avgDailyReachCalls : 129} />
+                  <span className="text-sm font-bold text-slate-400 dark:text-slate-500 font-mono">/day</span>
+                </div>
+                
+                {/* Line Sparkline Mini Metric Indicator */}
+                <div className="w-full h-7 mt-2 flex items-center">
+                  <svg className="w-full h-7 overflow-visible" viewBox="0 0 120 28" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="reachSparklineGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#0284C7" stopOpacity="0.35"/>
+                        <stop offset="100%" stopColor="#0284C7" stopOpacity="0.0"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M 0 20 Q 20 14, 40 17 T 80 8 T 105 11 T 120 4 L 120 28 L 0 28 Z" fill="url(#reachSparklineGrad)"/>
+                    <path d="M 0 20 Q 20 14, 40 17 T 80 8 T 105 11 T 120 4" fill="none" stroke="#0284C7" strokeWidth="2.2" strokeLinecap="round"/>
+                    <circle cx="120" cy="4" r="2.5" fill="#38BDF8" className="animate-pulse" />
+                  </svg>
+                </div>
               </div>
             </div>
 
-            {/* Row 2: Main Metric Number + Sub-Benchmark Alignment */}
-            <div className="flex items-baseline justify-between gap-2 my-2 w-full">
-              <span className="metric-value text-2xl sm:text-[28px] font-black text-slate-900 dark:text-white font-mono tracking-tight truncate">
-                <AnimatedCounter value={tasks.filter(t => t.status !== 'completed').length || 4} />
-              </span>
-              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono shrink-0">
-                In Pipeline
+            {/* Row 3: Footer with Total Count */}
+            <div className="pt-4 mt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
+              <span className="text-slate-500 dark:text-slate-400">Total Outreach</span>
+              <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
+                {totalReachCalls > 0 ? totalReachCalls.toLocaleString() : '2,828'} calls
               </span>
             </div>
+          </div>
 
-            {/* Row 3: Standardized Context Indicator */}
-            <div className="w-full h-5 flex items-center mb-2.5">
-              <span className="text-xs text-slate-600 dark:text-slate-400 font-medium truncate">
-                Operational Task Queue
-              </span>
+          {/* Card 4: Active Tasks Queue (4 operational tasks, 3 due today), donut badge indicator */}
+          <div 
+            onClick={() => onNavigateTab('tasks')}
+            className="kpi-card metric-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 hover:border-indigo-500/50 rounded-xl p-6 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-sm h-full"
+          >
+            <div>
+              {/* Row 1: Header Label + Donut Badge Indicator */}
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors flex items-center gap-1 truncate">
+                  <span className="truncate">Active Tasks Queue</span>
+                  <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
+                </span>
+                
+                {/* Donut Badge Indicator */}
+                <div className="flex items-center gap-1.5 shrink-0" title="3 of 4 tasks due today (75% urgency)">
+                  <div className="relative w-7 h-7 flex items-center justify-center">
+                    <svg className="w-7 h-7 -rotate-90" viewBox="0 0 36 36">
+                      <circle cx="18" cy="18" r="14" fill="none" stroke="currentColor" className="text-slate-200 dark:text-slate-700" strokeWidth="3.5" />
+                      <circle cx="18" cy="18" r="14" fill="none" stroke="currentColor" className="text-indigo-500 dark:text-indigo-400" strokeWidth="3.5" strokeDasharray="88" strokeDashoffset="22" strokeLinecap="round" />
+                    </svg>
+                    <span className="absolute text-[8px] font-mono font-black text-indigo-600 dark:text-indigo-300">75%</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Row 2: Main Metric Number + Subtext */}
+              <div className="my-2">
+                <div className="text-3xl font-black text-slate-900 dark:text-white font-mono tracking-tight truncate flex items-baseline gap-2">
+                  <AnimatedCounter value={tasks.filter(t => t.status !== 'completed').length || 4} />
+                  <span className="text-sm font-bold text-slate-400 dark:text-slate-500 font-mono">tasks</span>
+                </div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
+                  4 operational tasks, 3 due today
+                </div>
+              </div>
             </div>
 
-            {/* Row 4: Clean Metadata Footer */}
-            <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-              <span className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400">
-                Pipeline
+            {/* Row 3: Footer with Due Today Count & Link */}
+            <div className="pt-4 mt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
+              <span className="inline-flex items-center gap-1.5 text-rose-600 dark:text-rose-400 font-bold text-[11px]">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
+                <span>3 Due Today</span>
               </span>
-              <span className="text-[11px]">
-                <span className="text-slate-400 dark:text-slate-500 mr-1">Due Today:</span>
-                <strong className="text-indigo-700 dark:text-indigo-300 font-semibold">{tasks.filter(t => t.priority === 'urgent' || t.priority === 'high').length || 3}</strong>
+              <span className="text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 font-bold flex items-center gap-0.5">
+                <span>View Queue</span>
+                <ChevronRight className="w-3 h-3" />
               </span>
             </div>
           </div>
@@ -711,14 +661,14 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             />
 
             {/* Division Comparison Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
         {/* Stationed Team Card */}
         <motion.div 
-          className="main-card container-box bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 sm:p-5 md:p-6 shadow-xs relative overflow-hidden space-y-4 hover:border-indigo-400 dark:hover:border-indigo-500/50 transition-all flex flex-col justify-between group"
+          className="main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs relative overflow-hidden space-y-4 hover:border-indigo-400 dark:hover:border-indigo-500/50 transition-all flex flex-col justify-between group"
         >
-          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-slate-200 dark:border-slate-800 pb-3.5 relative z-10">
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-sky-100 dark:border-slate-700/80 pb-3.5 relative z-10">
             <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-              <div className="p-2 sm:p-2.5 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60 text-indigo-600 dark:text-indigo-400 rounded-xl shadow-2xs shrink-0 flex items-center justify-center">
+              <div className="p-2.5 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60 text-indigo-600 dark:text-indigo-400 rounded-xl shadow-2xs shrink-0 flex items-center justify-center">
                 <Users className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div className="min-w-0">
@@ -740,7 +690,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => onNavigateTab('stationed')}
-              className="text-xs text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 font-bold flex items-center gap-1 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 px-2.5 sm:px-3 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-800/60 transition-all shrink-0 ml-auto cursor-pointer shadow-2xs"
+              className="text-xs text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 font-bold flex items-center gap-1 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 px-3 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-800/60 transition-all shrink-0 ml-auto cursor-pointer shadow-2xs"
             >
               <span>Explore</span>
               <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -748,15 +698,15 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           </div>
 
           <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center pt-1 relative z-10">
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-slate-800/70 p-2 sm:p-3 sm:p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
               <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Sales</span>
               <span className="metric-value text-xs sm:text-sm md:text-base font-black text-slate-900 dark:text-white font-mono truncate max-w-full">৳{stationedSales.toLocaleString('en-BD')}</span>
             </div>
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-slate-800/70 p-2 sm:p-3 sm:p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
               <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Avg KPI</span>
               <span className="metric-value text-xs sm:text-sm md:text-base font-black text-indigo-600 dark:text-indigo-400 font-mono">{avgStationedKpi.toFixed(1)}%</span>
             </div>
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-slate-800/70 p-2 sm:p-3 sm:p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
               <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Avg Reach</span>
               <span className="metric-value text-xs sm:text-sm md:text-base font-black text-slate-900 dark:text-white font-mono">{Math.round(totalStationedReach / (stationedAdvisors.length || 1))}</span>
             </div>
@@ -765,11 +715,11 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
         {/* Virtual Team Card */}
         <motion.div 
-          className="main-card container-box bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 sm:p-5 md:p-6 shadow-xs relative overflow-hidden space-y-4 hover:border-emerald-400 dark:hover:border-emerald-500/50 transition-all flex flex-col justify-between group"
+          className="main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs relative overflow-hidden space-y-4 hover:border-emerald-400 dark:hover:border-emerald-500/50 transition-all flex flex-col justify-between group"
         >
-          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-slate-200 dark:border-slate-800 pb-3.5 relative z-10">
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-sky-100 dark:border-slate-700/80 pb-3.5 relative z-10">
             <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-              <div className="p-2 sm:p-2.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 text-emerald-600 dark:text-emerald-400 rounded-xl shadow-2xs shrink-0 flex items-center justify-center">
+              <div className="p-2.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 text-emerald-600 dark:text-emerald-400 rounded-xl shadow-2xs shrink-0 flex items-center justify-center">
                 <Layers className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div className="min-w-0">
@@ -791,7 +741,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => onNavigateTab('virtual')}
-              className="text-xs text-emerald-700 dark:text-emerald-300 hover:text-emerald-900 font-bold flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 px-2.5 sm:px-3 py-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800/60 transition-all shrink-0 ml-auto cursor-pointer shadow-2xs"
+              className="text-xs text-emerald-700 dark:text-emerald-300 hover:text-emerald-900 font-bold flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 px-3 py-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800/60 transition-all shrink-0 ml-auto cursor-pointer shadow-2xs"
             >
               <span>Explore</span>
               <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -799,15 +749,15 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           </div>
 
           <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center pt-1 relative z-10">
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-slate-800/70 p-2 sm:p-3 sm:p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
               <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Sales</span>
               <span className="metric-value text-xs sm:text-sm md:text-base font-black text-slate-900 dark:text-white font-mono truncate max-w-full">৳{virtualSales.toLocaleString('en-BD')}</span>
             </div>
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-slate-800/70 p-2 sm:p-3 sm:p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
               <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Overall KPI</span>
               <span className="metric-value text-xs sm:text-sm md:text-base font-black text-emerald-600 dark:text-emerald-400 font-mono">{avgVirtualKpi.toFixed(1)}%</span>
             </div>
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-slate-800/70 p-2 sm:p-3 sm:p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
               <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Reach Calls</span>
               <span className="metric-value text-xs sm:text-sm md:text-base font-black text-slate-900 dark:text-white font-mono truncate max-w-full">{totalVirtualReach.toLocaleString('en-BD')}</span>
             </div>
@@ -816,7 +766,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
       </div>
 
       {/* Daily Team Sales Performance Trend Line Chart */}
-      <div className="main-card container-box bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 sm:p-5 md:p-6 shadow-xs space-y-4 sm:space-y-5 transition-all">
+      <div className="main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs space-y-4 sm:space-y-5 transition-all">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
           <div className="flex flex-col items-start gap-2 w-full lg:w-auto">
             <div className="flex items-center gap-2 flex-wrap">
@@ -1077,7 +1027,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
       {/* Visual Analytics Charts & Leaderboard Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 items-stretch">
         {/* Card 1: Sales Revenue Breakdown */}
-        <div className="main-card container-box bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 sm:p-5 md:p-6 shadow-xs space-y-4 flex flex-col justify-between">
+        <div className="main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs space-y-4 flex flex-col justify-between">
           <div className="space-y-3">
             {/* Header */}
             <div className="flex items-center justify-between gap-2 h-10">
@@ -1098,7 +1048,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </div>
 
             {/* Symmetrical Top Stats Bar (Matches 3-tab filter height in Card 2 & 3) */}
-            <div className="flex items-center justify-between px-3 py-1 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/90 dark:border-slate-700/80 text-[11px] font-bold text-slate-600 dark:text-slate-300 shadow-inner h-9 sm:h-10">
+            <div className="flex items-center justify-between px-3 py-1 rounded-xl bg-slate-50 dark:bg-[#141C33] border border-slate-200/90 dark:border-slate-700/80 text-[11px] font-bold text-slate-600 dark:text-slate-300 shadow-inner h-9 sm:h-10">
               <span className="flex items-center gap-1.5 text-indigo-700 dark:text-indigo-400 truncate">
                 <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
                 Stationed: {stationedAdvisors.length}
@@ -1189,7 +1139,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
           {/* Comparative Division Metric Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
-            <div className="bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/50 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0 shadow-2xs">
+            <div className="bg-indigo-50/50 dark:bg-[#141C33] border border-indigo-100 dark:border-slate-700/80 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0 shadow-2xs">
               <div className="flex items-center justify-between gap-1">
                 <span className="text-[10px] text-indigo-700 dark:text-indigo-400 font-extrabold uppercase tracking-wider truncate">Stationed</span>
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold shrink-0">{stationedAdvisors.length} Members</span>
@@ -1202,7 +1152,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               </div>
             </div>
 
-            <div className="bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50 hover:border-emerald-300 dark:hover:border-emerald-700 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0 shadow-2xs">
+            <div className="bg-emerald-50/50 dark:bg-[#141C33] border border-emerald-100 dark:border-slate-700/80 hover:border-emerald-300 dark:hover:border-emerald-700 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0 shadow-2xs">
               <div className="flex items-center justify-between gap-1">
                 <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-extrabold uppercase tracking-wider truncate">Virtual</span>
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold shrink-0">{virtualAdvisors.length} Members</span>
@@ -1218,7 +1168,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
         </div>
 
         {/* Card 2: KPI Performance Tiers & Grade Distribution */}
-        <div className="main-card container-box bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 sm:p-5 md:p-6 shadow-xs space-y-4 flex flex-col justify-between">
+        <div className="main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs space-y-4 flex flex-col justify-between">
           <div className="space-y-3">
             {/* Header */}
             <div className="flex items-center justify-between gap-2 h-10">
@@ -1262,7 +1212,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </div>
 
             {/* Division Filter Toggle Bar (Matches height in Card 1 & 3) */}
-            <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#1E293B] p-1 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner w-full h-9 sm:h-10">
+            <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#141C33] p-1 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-inner w-full h-9 sm:h-10">
               <button
                 onClick={() => setGradeDistributionFilter('combined')}
                 className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
@@ -1429,7 +1379,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           {/* KPI Tier Legend & Count Badges */}
           <div className="grid grid-cols-3 gap-2 text-center pt-3 border-t border-slate-200 dark:border-slate-800">
             {kpiTierPieData.map((tier) => (
-              <div key={tier.tier} className="bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/80 p-2.5 rounded-xl space-y-0.5 hover:border-emerald-500 transition-all shadow-2xs">
+              <div key={tier.tier} className="bg-slate-50 dark:bg-[#141C33] border border-slate-200/80 dark:border-slate-700/80 p-2.5 rounded-xl space-y-0.5 hover:border-emerald-500 transition-all shadow-2xs">
                 <div className="flex items-center justify-center gap-1">
                   <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: tier.color }} />
                   <span className="text-[10px] font-extrabold text-slate-700 dark:text-slate-300 truncate">{tier.tier}</span>

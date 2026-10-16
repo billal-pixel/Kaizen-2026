@@ -59,6 +59,14 @@ export const PAYMENT_TEMPLATES: PaymentTemplate[] = [
     provider: 'bKash / Nagad',
     fullMessage: 'আসসালামু আলাইকুম, আমি আনিসা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ অথবা নগদ করুন এই নাম্বারে 01601388897 ধন্যবাদ।',
     badgeColor: 'from-purple-500 to-indigo-600'
+  },
+  {
+    id: 'mayida_payment',
+    advisorName: 'Mayida (মায়িদা)',
+    phone: '01756089829',
+    provider: 'bKash / Nagad',
+    fullMessage: 'আসসালামু আলাইকুম, আমি মায়িদা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ বা নগদ করুন এই নাম্বারে 01756089829 ধন্যবাদ।',
+    badgeColor: 'from-amber-500 to-orange-600'
   }
 ];
 
@@ -112,7 +120,7 @@ export const PaymentCopyModal: React.FC<PaymentCopyModalProps> = ({ isOpen, onCl
                     </span>
                   </h2>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Copy pre-formatted Bengali payment messages for Rabita, Tahshin, Setu & Anisa to share directly with students.
+                    Copy pre-formatted Bengali payment messages for Rabita, Tahshin, Setu, Anisa & Mayida to share directly with students.
                   </p>
                 </div>
               </div>

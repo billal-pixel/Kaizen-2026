@@ -62,7 +62,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 sm:p-5 md:p-6 shadow-xs space-y-4 flex flex-col justify-between relative overflow-hidden group/card hover:border-amber-400/60 dark:hover:border-amber-500/40 transition-all duration-300"
+      className="bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs space-y-4 flex flex-col justify-between relative overflow-hidden group/card hover:border-amber-400/60 dark:hover:border-amber-500/40 transition-all duration-300"
     >
       {/* Dynamic Animated Ambient Halo in Background */}
       <motion.div 
@@ -202,7 +202,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
         </div>
 
         {/* Liquid Animated Segmented Filter Bar */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#1E293B] p-1 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner w-full h-9 sm:h-10 relative">
+        <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#141C33] p-1 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-inner w-full h-9 sm:h-10 relative">
           {(['combined', 'stationed', 'virtual'] as const).map((tabKey) => {
             const isActive = leaderboardFilter === tabKey;
             const label = tabKey === 'combined' ? 'Combined' : tabKey === 'stationed' ? 'Stationed' : 'Virtual';

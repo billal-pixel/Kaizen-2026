@@ -479,7 +479,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 sm:p-5 md:p-6 shadow-xs space-y-4 sm:space-y-6 relative overflow-hidden transition-all"
+      className="bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs space-y-4 sm:space-y-6 relative overflow-hidden transition-all"
     >
       {/* Background Ambient Gradient Accents */}
       <div className="absolute top-0 right-1/4 w-80 h-80 bg-indigo-500/5 dark:bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -554,7 +554,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-11 gap-4 items-center">
         {/* Advisor 1 Selector & Card (Left Column - 5 Cols) */}
         <div className="md:col-span-5 relative" ref={dropdownRef1}>
-          <div className="bg-white dark:bg-[#1E293B] border-2 border-sky-300 dark:border-sky-600/60 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs relative overflow-hidden transition-all">
+          <div className="bg-white dark:bg-[#141C33] border-2 border-sky-300 dark:border-sky-600/60 rounded-xl p-4 sm:p-5 space-y-4 shadow-xs relative overflow-hidden transition-all">
             {/* Top Accent Stripe */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-sky-500 to-cyan-400" />
 
@@ -756,7 +756,7 @@ export const AdvisorKpiComparison: React.FC<AdvisorKpiComparisonProps> = ({
 
         {/* Advisor 2 Selector & Card (Right Column - 5 Cols) */}
         <div className="md:col-span-5 relative" ref={dropdownRef2}>
-          <div className="bg-white dark:bg-[#1E293B] border-2 border-emerald-300 dark:border-emerald-600/60 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs relative overflow-hidden transition-all">
+          <div className="bg-white dark:bg-[#141C33] border-2 border-emerald-300 dark:border-emerald-600/60 rounded-xl p-4 sm:p-5 space-y-4 shadow-xs relative overflow-hidden transition-all">
             {/* Top Accent Stripe */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 to-teal-400" />
 

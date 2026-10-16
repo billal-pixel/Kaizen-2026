@@ -637,7 +637,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
           shortRank: '#1',
           tierLabel: 'Gold Champion',
           headerBg: 'bg-gradient-to-r from-amber-500/25 via-yellow-400/20 to-orange-500/10 dark:from-amber-500/35 dark:via-yellow-400/20 dark:to-transparent',
-          cardBg: 'bg-gradient-to-b from-amber-50/70 via-white to-white dark:from-amber-950/20 dark:via-[#1E293B] dark:to-[#1E293B]',
+          cardBg: 'bg-gradient-to-b from-amber-50/70 via-white to-white dark:from-amber-950/20 dark:via-[#141C33] dark:to-[#141C33]',
           badgeStyle: 'bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-slate-950 font-black border border-amber-300 dark:border-amber-400 shadow-md shadow-amber-500/30',
           cardBorder: 'border-2 border-amber-400 dark:border-amber-400/90 shadow-lg shadow-amber-500/15 hover:shadow-2xl hover:shadow-amber-500/30',
           glowHalo: 'from-amber-400/40 via-yellow-300/25 to-transparent',
@@ -664,7 +664,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
           shortRank: '#2',
           tierLabel: 'Electric Azure',
           headerBg: 'bg-gradient-to-r from-cyan-500/25 via-blue-500/20 to-indigo-500/10 dark:from-cyan-500/35 dark:via-blue-500/20 dark:to-transparent',
-          cardBg: 'bg-gradient-to-b from-cyan-50/60 via-white to-white dark:from-cyan-950/20 dark:via-[#1E293B] dark:to-[#1E293B]',
+          cardBg: 'bg-gradient-to-b from-cyan-50/60 via-white to-white dark:from-cyan-950/20 dark:via-[#141C33] dark:to-[#141C33]',
           badgeStyle: 'bg-gradient-to-r from-cyan-500 via-sky-400 to-blue-600 text-white font-black border border-cyan-300 dark:border-cyan-400 shadow-md shadow-cyan-500/30',
           cardBorder: 'border-2 border-cyan-400 dark:border-cyan-400/80 shadow-lg shadow-cyan-500/15 hover:shadow-2xl hover:shadow-cyan-500/30',
           glowHalo: 'from-cyan-400/35 via-blue-400/20 to-transparent',
@@ -692,7 +692,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
           shortRank: '#3',
           tierLabel: 'Sunset Coral',
           headerBg: 'bg-gradient-to-r from-rose-500/25 via-pink-500/20 to-orange-500/10 dark:from-rose-500/35 dark:via-pink-500/20 dark:to-transparent',
-          cardBg: 'bg-gradient-to-b from-rose-50/60 via-white to-white dark:from-rose-950/20 dark:via-[#1E293B] dark:to-[#1E293B]',
+          cardBg: 'bg-gradient-to-b from-rose-50/60 via-white to-white dark:from-rose-950/20 dark:via-[#141C33] dark:to-[#141C33]',
           badgeStyle: 'bg-gradient-to-r from-rose-500 via-pink-500 to-orange-500 text-white font-black border border-rose-300 dark:border-rose-400 shadow-md shadow-rose-500/30',
           cardBorder: 'border-2 border-rose-400 dark:border-rose-400/80 shadow-lg shadow-rose-500/15 hover:shadow-2xl hover:shadow-rose-500/30',
           glowHalo: 'from-rose-400/35 via-orange-400/20 to-transparent',
@@ -778,7 +778,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
   };
 
   return (
-    <div className="top-3-advisors-spotlight bg-white dark:bg-[#0F172A] border-2 border-amber-300/80 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 md:p-6 shadow-xl space-y-4 sm:space-y-6 relative overflow-hidden transition-all">
+    <div className="top-3-advisors-spotlight bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-md space-y-6 relative overflow-hidden transition-all">
       {/* Studio Background Motion Graphics Mesh (Floating Diamonds, Concentric Gyros) */}
       <StudioBackgroundMotionGraphics />
 
@@ -852,7 +852,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
       </AnimatePresence>
 
       {/* Header with Title, Live Indicator & Balanced Single-Row Toolbar */}
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 relative z-10 border-b-2 border-sky-100 dark:border-slate-800 pb-5">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 relative z-10 border-b border-sky-100 dark:border-slate-700/80 pb-5">
         {/* Left: Animated Trophy Emblem, Title & Neon Live Status */}
         <div className="flex items-center gap-3.5">
           <motion.button 
@@ -861,7 +861,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.3 }}
             onClick={triggerHeaderCelebration}
-            className="p-3 rounded-2xl bg-gradient-to-br from-amber-400 via-yellow-400 to-orange-500 text-slate-950 shrink-0 shadow-lg shadow-amber-500/30 relative cursor-pointer group border-2 border-white/60 dark:border-amber-300"
+            className="p-3 rounded-xl bg-gradient-to-br from-amber-400 via-yellow-400 to-orange-500 text-slate-950 shrink-0 shadow-lg shadow-amber-500/30 relative cursor-pointer group border-2 border-white/60 dark:border-amber-300"
             title="Click for celebration confetti!"
           >
             <Trophy className="w-6 h-6 text-slate-950 fill-amber-300 group-hover:animate-bounce" />
@@ -893,14 +893,14 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
           </div>
         </div>
 
-        {/* Right Interactive Controls: Bright, High-Contrast Pill Toolbar */}
+        {/* Right Interactive Controls: 3 Segmented Toggles + View Toggle */}
         <div className="flex flex-wrap items-center gap-2 lg:gap-2.5 self-start xl:self-auto">
-          {/* Metric Sort Toggle: Sales (৳) vs KPI (%) with animated sliding background pill */}
-          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#1E293B] rounded-2xl border-2 border-sky-200/80 dark:border-slate-700 shadow-xs">
+          {/* Toggle 1 - Metric: [By Sales (৳) | By KPI (%)] */}
+          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#141C33] rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-xs">
             <button
               type="button"
               onClick={() => setRankMetric('sales')}
-              className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black transition-colors cursor-pointer ${
+              className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                 rankMetric === 'sales'
                   ? 'text-slate-950'
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
@@ -910,7 +910,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
               {rankMetric === 'sales' && (
                 <motion.div
                   layoutId="spotlightMetricPill"
-                  className="absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 rounded-xl shadow-md shadow-amber-500/30 border border-amber-300"
+                  className="absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 rounded-lg shadow-md shadow-amber-500/30 border border-amber-300"
                   transition={{ type: "spring", stiffness: 450, damping: 32 }}
                 />
               )}
@@ -922,7 +922,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
             <button
               type="button"
               onClick={() => setRankMetric('kpi')}
-              className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black transition-colors cursor-pointer ${
+              className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                 rankMetric === 'kpi'
                   ? 'text-white'
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
@@ -932,7 +932,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
               {rankMetric === 'kpi' && (
                 <motion.div
                   layoutId="spotlightMetricPill"
-                  className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-600 rounded-xl shadow-md shadow-teal-500/30 border border-teal-400"
+                  className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-600 rounded-lg shadow-md shadow-teal-500/30 border border-teal-400"
                   transition={{ type: "spring", stiffness: 450, damping: 32 }}
                 />
               )}
@@ -943,11 +943,11 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
             </button>
           </div>
 
-          {/* Timeframe Switcher with sliding background pill */}
-          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#1E293B] rounded-2xl border-2 border-sky-200/80 dark:border-slate-700 shadow-xs">
-            {(['month', 'last_day', 'week'] as RankTimeframe[]).map((tf) => {
-              const label = tf === 'month' ? 'Month' : tf === 'last_day' ? 'Last Day' : 'Week';
-              const Icon = tf === 'month' ? TrendingUp : tf === 'last_day' ? Zap : Calendar;
+          {/* Toggle 2 - Timeframe: [Month | Week | Last Day] */}
+          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#141C33] rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-xs">
+            {(['month', 'week', 'last_day'] as RankTimeframe[]).map((tf) => {
+              const label = tf === 'month' ? 'Month' : tf === 'week' ? 'Week' : 'Last Day';
+              const Icon = tf === 'month' ? TrendingUp : tf === 'week' ? Calendar : Zap;
               const isSelected = timeframe === tf;
 
               return (
@@ -955,7 +955,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
                   key={tf}
                   type="button"
                   onClick={() => setTimeframe(tf)}
-                  className={`relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-colors cursor-pointer ${
+                  className={`relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                     isSelected
                       ? 'text-white'
                       : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
@@ -964,7 +964,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
                   {isSelected && (
                     <motion.div
                       layoutId="spotlightTimeframePill"
-                      className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl shadow-md shadow-emerald-500/30 border border-emerald-400"
+                      className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg shadow-md shadow-emerald-500/30 border border-emerald-400"
                       transition={{ type: "spring", stiffness: 450, damping: 32 }}
                     />
                   )}
@@ -977,8 +977,8 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
             })}
           </div>
 
-          {/* Division Selector with sliding background pill */}
-          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#1E293B] rounded-2xl border-2 border-sky-200/80 dark:border-slate-700 shadow-xs">
+          {/* Toggle 3 - Division: [All | Stationed | Virtual] */}
+          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#141C33] rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-xs">
             {(['all', 'stationed', 'virtual'] as RankDivisionFilter[]).map((div) => {
               const label = div === 'all' ? 'All' : div === 'stationed' ? 'Stationed' : 'Virtual';
               const isSelected = divisionFilter === div;
@@ -988,7 +988,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
                   key={div}
                   type="button"
                   onClick={() => setDivisionFilter(div)}
-                  className={`relative z-10 px-3 py-1.5 rounded-xl text-xs font-black transition-colors cursor-pointer ${
+                  className={`relative z-10 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                     isSelected
                       ? 'text-white'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -997,7 +997,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
                   {isSelected && (
                     <motion.div
                       layoutId="spotlightDivisionPill"
-                      className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-md shadow-blue-500/30 border border-blue-400"
+                      className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg shadow-md shadow-blue-500/30 border border-blue-400"
                       transition={{ type: "spring", stiffness: 450, damping: 32 }}
                     />
                   )}
@@ -1007,22 +1007,22 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
             })}
           </div>
 
-          {/* Layout Mode Toggle: Podium vs Grid cleanly inline */}
-          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#1E293B] rounded-2xl border-2 border-sky-200/80 dark:border-slate-700 shadow-xs">
+          {/* View Toggle: Grid vs. Podium */}
+          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#141C33] rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-xs">
             <button
               type="button"
               onClick={() => setLayoutMode('grid')}
               title="1-2-3 Sequential Order"
-              className={`relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-colors cursor-pointer ${
+              className={`relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                 layoutMode === 'grid'
                   ? 'text-white'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
               }`}
             >
               {layoutMode === 'grid' && (
                 <motion.div
                   layoutId="spotlightLayoutPill"
-                  className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl shadow-md shadow-teal-500/30"
+                  className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-lg shadow-md shadow-teal-500/30"
                   transition={{ type: "spring", stiffness: 450, damping: 32 }}
                 />
               )}
@@ -1033,16 +1033,16 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
               type="button"
               onClick={() => setLayoutMode('podium')}
               title="Olympic Podium Order (2 - 1 - 3 with Champion Elevated in Center)"
-              className={`relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-colors cursor-pointer ${
+              className={`relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                 layoutMode === 'podium'
                   ? 'text-slate-950'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
               }`}
             >
               {layoutMode === 'podium' && (
                 <motion.div
                   layoutId="spotlightLayoutPill"
-                  className="absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 rounded-xl shadow-md shadow-amber-500/30"
+                  className="absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 rounded-lg shadow-md shadow-amber-500/30"
                   transition={{ type: "spring", stiffness: 450, damping: 32 }}
                 />
               )}
