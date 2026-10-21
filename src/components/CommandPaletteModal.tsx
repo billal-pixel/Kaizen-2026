@@ -41,6 +41,7 @@ interface CommandPaletteModalProps {
   onOpenAddModal: () => void;
   onOpenPaymentModal: () => void;
   onOpenThreeBgModal?: () => void;
+  onOpenPitchModal?: () => void;
   onToggleTheme?: () => void;
   onSyncNow?: () => void;
   onShowToast: (msg: string) => void;
@@ -59,6 +60,7 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
   onOpenAddModal,
   onOpenPaymentModal,
   onOpenThreeBgModal,
+  onOpenPitchModal,
   onToggleTheme,
   onSyncNow,
   onShowToast,
@@ -184,6 +186,21 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
         sub: 'View all bKash and Nagad templates and numbers',
         icon: CreditCard,
         action: () => onOpenPaymentModal(),
+      },
+      {
+        id: 'act-pitch-journey',
+        type: 'action',
+        title: 'Open Defined Call Pitch Journey',
+        sub: 'Telesales Playbook: HSC 28, OB 26, SSC 26, Objections',
+        icon: PhoneCall,
+        action: () => {
+          if (onOpenPitchModal) {
+            onOpenPitchModal();
+          } else {
+            window.open('/assets/aistudio/Defined_Call_Pitch_Journey___Telesales__a819a591', '_blank');
+          }
+          onShowToast('📞 Opened Defined Call Pitch Journey');
+        },
       },
       ...(onOpenThreeBgModal ? [{
         id: 'act-three-bg-modal',

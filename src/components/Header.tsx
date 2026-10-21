@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Plus, 
   BarChart3, 
@@ -26,11 +26,13 @@ import {
   Search,
   Copy,
   Check,
-  Box
+  Box,
+  Settings
 } from 'lucide-react';
 import { KaizenLogo } from './KaizenLogo';
 import { StationedAdvisor, VirtualAdvisor } from '../types';
 import { syncAllSheetsData, PRIMARY_DEFAULT_SHEET } from '../utils/sheetSync';
+import { ResourcesDropdown } from './ResourcesDropdown';
 
 interface HeaderProps {
   activeTab: 'overview' | 'stationed' | 'virtual' | 'tasks' | 'time' | 'call_records' | 'ai_report';
@@ -43,6 +45,7 @@ interface HeaderProps {
   onOpenPaymentModal?: () => void;
   onOpenCommandPalette?: () => void;
   onOpenThreeBgModal?: () => void;
+  onOpenPitchModal?: () => void;
   threeBgEnabled?: boolean;
   threeBgStyle?: string;
   onShowToast?: (msg: string) => void;
@@ -69,6 +72,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   onOpenPaymentModal,
   onOpenCommandPalette,
   onOpenThreeBgModal,
+  onOpenPitchModal,
   threeBgEnabled = true,
   threeBgStyle = 'Cyber Grid',
   onShowToast,
@@ -79,6 +83,24 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   onImportStationedData,
   onImportVirtualData,
 }) => {
+  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const settingsDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close settings dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (settingsDropdownRef.current && !settingsDropdownRef.current.contains(event.target as Node)) {
+        setIsSettingsOpen(false);
+      }
+    };
+    if (isSettingsOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSettingsOpen]);
+
   const [isPaused, setIsPaused] = useState<boolean>(() => {
     const saved = localStorage.getItem('kaizen_auto_sync_enabled');
     return saved !== null ? !JSON.parse(saved) : false;
@@ -179,8 +201,17 @@ export const Header: React.FC<HeaderProps> = React.memo(({
     { id: 'ai_report', label: 'AI Operations', shortLabel: 'AI Audit', icon: Sparkles, isAi: true, keyNum: '7' },
   ] as const;
 
-  // Direct Resource Links (All permanently visible with zero dropdowns or hiding)
+  // Direct Resource Links
   const teamResources = [
+    {
+      label: 'Call Pitch Journey',
+      type: 'Pitch',
+      url: '/assets/aistudio/Defined_Call_Pitch_Journey___Telesales__a819a591',
+      icon: PhoneCall,
+      color: 'text-rose-500 dark:text-rose-400',
+      borderHover: 'hover:border-rose-400/60',
+      badgeClass: 'bg-rose-500/10 text-rose-600 dark:text-rose-400',
+    },
     {
       label: 'Station Group',
       type: 'Doc',
@@ -416,21 +447,10 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 <RefreshCw className={`w-3.5 h-3.5 stroke-[2.5] shrink-0 ${isSyncing ? 'animate-spin text-sky-600 dark:text-sky-400' : 'text-slate-600 dark:text-slate-300'}`} />
                 <span>Sync</span>
               </button>
-
-              {/* Sheet Config Modal Trigger */}
-              <button
-                type="button"
-                onClick={onOpenSheetSync}
-                title="Configure Google Sheet URL and Auto-Refresh Settings"
-                className="h-7.5 px-2.5 bg-white hover:bg-sky-50 hover:text-sky-700 border border-sky-200/80 text-slate-700 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:hover:border-sky-500/60 dark:hover:text-sky-300 dark:border-slate-700 dark:text-slate-200 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95 transition-all shrink-0"
-              >
-                <FileSpreadsheet className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300 stroke-[2.5] shrink-0" />
-                <span className="hidden sm:inline">Config</span>
-              </button>
             </div>
           </div>
 
-          {/* Right Action Controls: Quick Search + Light/Dark Mode + 3D FX + Add Advisor */}
+          {/* Right Action Controls: Quick Search + Light/Dark Mode + Consolidated Settings Menu + Add Advisor */}
           <div className="flex items-center gap-1.5 bg-sky-50/80 dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 px-2 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
             {/* Quick Search Trigger (⌘K) */}
             {onOpenCommandPalette && (
@@ -462,25 +482,85 @@ export const Header: React.FC<HeaderProps> = React.memo(({
               </button>
             )}
 
-            {/* 3D Background FX Experience Trigger */}
-            {onOpenThreeBgModal && (
+            {/* Consolidated Settings Dropdown (Config + 3D FX) */}
+            <div className="relative" ref={settingsDropdownRef}>
               <button
                 type="button"
-                onClick={onOpenThreeBgModal}
-                title={`Configure 3D Background (${threeBgEnabled ? threeBgStyle : 'Disabled'})`}
-                className={`h-7.5 px-2.5 rounded-lg border text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95 transition-all shrink-0 group ${
-                  threeBgEnabled
-                    ? 'bg-sky-100 hover:bg-sky-200/90 border-sky-300 text-sky-900 dark:bg-sky-950/80 dark:hover:bg-sky-900/80 dark:border-sky-400/60 dark:text-sky-200'
-                    : 'bg-white hover:bg-sky-50 border-sky-200/80 text-slate-700 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 dark:text-slate-300'
+                onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+                title="System Tools & Settings (Google Sheet Config, 3D FX)"
+                aria-label="Settings"
+                aria-expanded={isSettingsOpen}
+                className={`h-7.5 px-2 rounded-lg border text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95 transition-all shrink-0 ${
+                  isSettingsOpen
+                    ? 'bg-sky-600 text-white border-sky-600 dark:bg-sky-500 dark:text-slate-950 dark:border-sky-400'
+                    : 'bg-white hover:bg-sky-50 border-sky-200/80 text-slate-700 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:border-slate-700 dark:text-slate-200'
                 }`}
               >
-                <Box className={`w-3.5 h-3.5 ${threeBgEnabled ? 'text-sky-600 dark:text-sky-400' : 'text-slate-500 dark:text-slate-400'} stroke-[2.5] shrink-0`} />
-                <span>3D FX</span>
+                <Settings className={`w-3.5 h-3.5 transition-transform ${isSettingsOpen ? 'rotate-45' : ''}`} />
+                <span className="hidden xl:inline">Settings</span>
                 {threeBgEnabled && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500 inline-block animate-pulse shrink-0"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse"></span>
                 )}
               </button>
-            )}
+
+              <AnimatePresence>
+                {isSettingsOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 mt-2 w-64 rounded-xl bg-white dark:bg-[#1C2541] border border-sky-200/90 dark:border-slate-700 shadow-xl z-50 p-1.5 space-y-1"
+                  >
+                    <div className="px-2 py-1 border-b border-slate-100 dark:border-slate-700/60 mb-1 flex items-center justify-between">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 font-mono">System Tools</span>
+                      <span className="text-[9px] font-mono font-bold text-sky-600 dark:text-sky-400">2 Actions</span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsSettingsOpen(false);
+                        onOpenSheetSync();
+                      }}
+                      className="w-full text-left p-2 rounded-lg hover:bg-sky-50/70 dark:hover:bg-[#141C33] flex items-center gap-2.5 transition-colors cursor-pointer border border-transparent hover:border-sky-200 dark:hover:border-slate-700"
+                    >
+                      <div className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                        <FileSpreadsheet className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs font-bold text-slate-900 dark:text-white">Sheet Sync Config</div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400">Manage Sheet URL & frequency</div>
+                      </div>
+                    </button>
+
+                    {onOpenThreeBgModal && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsSettingsOpen(false);
+                          onOpenThreeBgModal();
+                        }}
+                        className="w-full text-left p-2 rounded-lg hover:bg-sky-50/70 dark:hover:bg-[#141C33] flex items-center gap-2.5 transition-colors cursor-pointer border border-transparent hover:border-sky-200 dark:hover:border-slate-700"
+                      >
+                        <div className="p-1.5 rounded-lg bg-sky-50 dark:bg-sky-950/80 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-800">
+                          <Box className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-bold text-slate-900 dark:text-white">3D Background FX</span>
+                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-sky-100 dark:bg-sky-900/60 text-sky-800 dark:text-sky-300 font-bold">
+                              {threeBgEnabled ? threeBgStyle : 'Off'}
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-slate-500 dark:text-slate-400">Visual style & speed settings</div>
+                        </div>
+                      </button>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* + Add Advisor Button (Sky Blue Accent Button) */}
             <motion.button
@@ -574,7 +654,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
           </div>
 
           {/* Deck B: Official Portals, Groups & Cloud Drives */}
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2.5 bg-white/95 dark:bg-[#141C33]/90 border border-sky-200/70 dark:border-slate-700/80 rounded-lg px-3 py-2 shadow-2xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white/95 dark:bg-[#141C33]/90 border border-sky-200/70 dark:border-slate-700/80 rounded-lg px-3 py-2 shadow-2xs">
             {/* Left Identifier Tag */}
             <div className="flex items-center gap-2.5 shrink-0">
               <div className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-200 dark:border-emerald-800/80 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-2xs">
@@ -586,37 +666,39 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     Portals & Drives
                   </span>
                   <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-800/60 leading-tight">
-                    7 Links
+                    Workspace Hub
                   </span>
                 </div>
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                  Station & Virtual operations workspace
+                  Official docs, portals, drives & telesales call pitch journey
                 </span>
               </div>
             </div>
 
-            {/* Right: All 7 Team Resource Links */}
-            <div className="flex flex-wrap items-center gap-1.5 xl:justify-end">
-              {teamResources.map((res, i) => {
-                const Icon = res.icon;
-                return (
-                  <a
-                    key={i}
-                    href={res.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`group h-8 px-2.5 sm:px-3 bg-slate-50/80 hover:bg-white border border-sky-200/80 ${res.borderHover} dark:bg-[#1C2541] dark:hover:bg-[#253256] dark:border-slate-700/80 rounded-lg text-xs font-bold text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white flex items-center gap-1.5 whitespace-nowrap shadow-2xs transition-all shrink-0 active:scale-95`}
-                    title={`Open ${res.label} (${res.type})`}
-                  >
-                    <Icon className={`w-3.5 h-3.5 ${res.color} stroke-[2.2] shrink-0`} />
-                    <span>{res.label}</span>
-                    <span className={`text-[9px] font-mono font-bold px-1 py-0.2 rounded ${res.badgeClass}`}>
-                      {res.type}
-                    </span>
-                    <ExternalLink className="w-2.5 h-2.5 text-slate-400 group-hover:text-sky-500 dark:group-hover:text-sky-300 stroke-[2] shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
-                  </a>
-                );
-              })}
+            {/* Right: Consolidated Workspace Portals Dropdown + Highlighted Call Pitch Journey button */}
+            <div className="flex items-center gap-2 sm:justify-end flex-wrap">
+              {/* Highlight Action: Defined Call Pitch Journey Button */}
+              <button
+                type="button"
+                onClick={onOpenPitchModal ? onOpenPitchModal : () => window.open('/assets/aistudio/Defined_Call_Pitch_Journey___Telesales__a819a591', '_blank')}
+                className="group h-8 px-3 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-300 dark:bg-rose-950/70 dark:hover:bg-rose-900/90 dark:text-rose-200 dark:border-rose-800/80 font-bold text-xs flex items-center gap-1.5 shadow-2xs transition-all cursor-pointer active:scale-95 shrink-0"
+                title="Open Defined Call Pitch Journey (HSC 28, OB 26, Objection Handling, Campaigns)"
+              >
+                <PhoneCall className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 stroke-[2.2] shrink-0" />
+                <span>Call Pitch Journey</span>
+                <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-200 dark:bg-rose-900 text-rose-900 dark:text-rose-200 shrink-0">
+                  Playbook
+                </span>
+              </button>
+
+              {/* Single Consolidated "Workspace Portals" Dropdown */}
+              <ResourcesDropdown
+                buttonLabel="Workspace Portals"
+                onOpenPaymentModal={onOpenPaymentModal}
+                onOpenSheetSync={onOpenSheetSync}
+                onOpenPitchModal={onOpenPitchModal}
+                theme={theme}
+              />
             </div>
           </div>
 

@@ -36,6 +36,7 @@ import { useAutoRefresh } from './hooks/useAutoRefresh';
 import { ThreeBackground, ThreeBgStyle, ThreeBgIntensity } from './components/ThreeBackground';
 import { ThreeBgModal } from './components/ThreeBgModal';
 import { ThreeBgWidget } from './components/ThreeBgWidget';
+import { CallPitchModal } from './components/CallPitchModal';
 
 const TAB_KEYS = ['overview', 'stationed', 'virtual', 'call_records', 'tasks', 'time', 'ai_report'] as const;
 type NavigationTab = (typeof TAB_KEYS)[number];
@@ -258,6 +259,7 @@ export default function App() {
   const [isSheetSyncOpen, setIsSheetSyncOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isPitchModalOpen, setIsPitchModalOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [selectedAdvisor, setSelectedAdvisor] = useState<{ advisor: StationedAdvisor | VirtualAdvisor; type: 'stationed' | 'virtual' } | null>(null);
 
@@ -557,6 +559,7 @@ export default function App() {
           onOpenSheetSync={() => setIsSheetSyncOpen(true)}
           onOpenAddModal={() => setIsAddModalOpen(true)}
           onOpenPaymentModal={() => setIsPaymentModalOpen(true)}
+          onOpenPitchModal={() => setIsPitchModalOpen(true)}
           onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
           onOpenThreeBgModal={() => setIsThreeBgModalOpen(true)}
           threeBgEnabled={threeBgEnabled}
@@ -753,6 +756,12 @@ export default function App() {
         onClose={() => setIsPaymentModalOpen(false)}
       />
 
+      <CallPitchModal
+        isOpen={isPitchModalOpen}
+        onClose={() => setIsPitchModalOpen(false)}
+        onShowToast={showToast}
+      />
+
       {/* Global Command Search & Action Palette (⌘K) */}
       <CommandPaletteModal
         isOpen={isCommandPaletteOpen}
@@ -780,6 +789,10 @@ export default function App() {
         onOpenPaymentModal={() => {
           setIsCommandPaletteOpen(false);
           setIsPaymentModalOpen(true);
+        }}
+        onOpenPitchModal={() => {
+          setIsCommandPaletteOpen(false);
+          setIsPitchModalOpen(true);
         }}
         onOpenThreeBgModal={() => {
           setIsCommandPaletteOpen(false);

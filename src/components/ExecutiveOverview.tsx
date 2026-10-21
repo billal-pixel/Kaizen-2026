@@ -441,9 +441,9 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           <div className="kpi-card metric-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 hover:border-emerald-500/50 rounded-xl p-6 transition-all flex flex-col justify-between min-w-0 shadow-sm h-full">
             <div>
               {/* Row 1: Header Label + Trend Comparison Badge */}
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">
-                  Total Sales Revenue
+              <div className="flex flex-wrap sm:flex-nowrap items-start justify-between gap-2 mb-3">
+                <span className="text-xs font-semibold tracking-wide text-slate-400 dark:text-slate-400 min-w-0">
+                  Total sales revenue
                 </span>
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-bold shrink-0">
                   <TrendingUp className="w-3 h-3 stroke-[2.5]" />
@@ -486,9 +486,9 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           <div className="kpi-card metric-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 hover:border-amber-500/50 rounded-xl p-6 transition-all flex flex-col justify-between min-w-0 shadow-sm h-full">
             <div>
               {/* Row 1: Header Label + Dynamic Amber/Red Warning Badge */}
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">
-                  Overall Team KPI
+              <div className="flex flex-wrap sm:flex-nowrap items-start justify-between gap-2 mb-3">
+                <span className="text-xs font-semibold tracking-wide text-slate-400 dark:text-slate-400 min-w-0">
+                  Overall team KPI
                 </span>
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/80 border border-amber-200 dark:border-amber-700/80 text-amber-700 dark:text-amber-300 text-xs font-bold shrink-0">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
@@ -500,7 +500,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               <div className="my-2">
                 <div className="text-3xl font-black text-amber-600 dark:text-amber-400 font-mono tracking-tight truncate flex items-baseline gap-2">
                   <AnimatedCounter value={overallTeamKpi > 0 ? overallTeamKpi : 38.5} decimals={1} suffix="%" />
-                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 font-mono">/ 98.0%</span>
+                  <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 font-mono">/ 98.0%</span>
                 </div>
                 
                 {/* Clean Progress Bar vs 98% Target */}
@@ -517,7 +517,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
             {/* Row 3: Target & Best Performer Subtext */}
             <div className="pt-4 mt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
-              <span className="text-slate-500 dark:text-slate-400">Target: <strong className="text-slate-700 dark:text-slate-200 font-bold">98%</strong></span>
+              <span className="text-slate-600 dark:text-slate-300">Target: <strong className="text-slate-800 dark:text-slate-200 font-bold">98%</strong></span>
               {topAdvisorByKpi && (
                 <button
                   type="button"
@@ -542,9 +542,9 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           >
             <div>
               {/* Row 1: Header Label + Indicator */}
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors flex items-center gap-1 truncate">
-                  <span className="truncate">Avg Reach Calls</span>
+              <div className="flex flex-wrap sm:flex-nowrap items-start justify-between gap-2 mb-3">
+                <span className="text-xs font-semibold tracking-wide text-slate-400 dark:text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors flex items-center gap-1 min-w-0">
+                  <span>Avg reach calls</span>
                   <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
                 </span>
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-sky-50 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 text-xs font-bold shrink-0">
@@ -593,9 +593,9 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           >
             <div>
               {/* Row 1: Header Label + Donut Badge Indicator */}
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors flex items-center gap-1 truncate">
-                  <span className="truncate">Active Tasks Queue</span>
+              <div className="flex flex-wrap sm:flex-nowrap items-start justify-between gap-2 mb-3">
+                <span className="text-xs font-semibold tracking-wide text-slate-400 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors flex items-center gap-1 min-w-0">
+                  <span>Active tasks queue</span>
                   <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
                 </span>
                 
