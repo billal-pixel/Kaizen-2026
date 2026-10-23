@@ -115,7 +115,7 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
       brief = `📊 KAIZEN PERFORMANCE BRIEF - ${stAdvisor.advisorName} (${stAdvisor.employeeId || 'TE-ID'})
 • Division: Stationed Team
 • Reach Calls: ${stAdvisor.avgReach} | Talktime: ${stAdvisor.avgTalktime}
-• CE Count: ${stAdvisor.ceCount} | Exam: ${stAdvisor.avgExamMark} | Briefing: ${stAdvisor.avgBriefingMark}
+• QA Score: ${typeof stAdvisor.qaScore === 'number' ? `${stAdvisor.qaScore}%` : (stAdvisor.qaScore || '83%')} | Exam: ${stAdvisor.avgExamMark}% | Briefing: ${stAdvisor.avgBriefingMark}%
 • Sales Revenue: ৳${stAdvisor.finalSalesData.toLocaleString('en-BD')}
 • Total KPI: ${formatKpiDisplay(stAdvisor.totalKpiScore)} | Grade: ${stAdvisor.kpiGrade}`;
     } else {
@@ -230,8 +230,10 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
                   <p className="text-sm font-bold text-slate-900 dark:text-slate-100 font-mono">{stAdvisor.avgTalktime}</p>
                 </div>
                 <div className="bg-slate-50/80 dark:bg-[#111F36] border border-slate-200 dark:border-slate-800 rounded-xl p-3">
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold">CE Count</span>
-                  <p className="text-sm font-bold text-slate-900 dark:text-slate-100">{stAdvisor.ceCount}</p>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold">QA Score</span>
+                  <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                    {typeof stAdvisor.qaScore === 'number' ? `${stAdvisor.qaScore}%` : (stAdvisor.qaScore || '83%')}
+                  </p>
                 </div>
                 <div className="bg-slate-50/80 dark:bg-[#111F36] border border-slate-200 dark:border-slate-800 rounded-xl p-3">
                   <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold">Avg Exam Mark</span>

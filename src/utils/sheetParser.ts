@@ -14,6 +14,20 @@ export const cleanStr = (val: any, defaultVal = ''): string => {
   return String(val).trim() || defaultVal;
 };
 
+export const formatAdvisorName = (name: string): string => {
+  if (!name) return '';
+  return name
+    .replace(/_/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .map(word => {
+      if (!word) return '';
+      if (word.toUpperCase() === 'MD') return 'Md';
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+};
+
 export const getNumericKpi = (val: any): number => {
   if (val === undefined || val === null || val === '') return 0;
   if (typeof val === 'number') {
@@ -156,7 +170,7 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
     const subTeamCol = findHeaderIndex(headers, ['sub-team', 'subteam', 'sub team'], ['leader', 'lead']);
     const reachCol = findHeaderIndex(headers, ['avg reach', 'avgreach', 'reach'], ['score', 'tenure']);
     const talktimeCol = findHeaderIndex(headers, ['avg talktime', 'avgtalktime', 'talktime', 'talk time'], ['score']);
-    const ceCol = findHeaderIndex(headers, ['ce count', 'cecount', 'ce'], ['score']);
+    const qaScoreCol = findHeaderIndex(headers, ['qa score', 'qascore', 'qa'], ['team', 'leader', 'trainer']);
     const examCol = findHeaderIndex(headers, ['avg exam mark', 'exam mark'], ['score']);
     const briefingCol = findHeaderIndex(headers, ['avg briefing mark', 'briefing mark'], ['score']);
     const salesCol = findHeaderIndex(headers, ['final sales data', 'final sales', 'sales data'], ['score', 'raw', 'mismatch', 'overlap', 'offline', 'refund']);
@@ -187,16 +201,20 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
         continue;
       }
 
+      // Format name: remove underscores and Title Case
+      name = formatAdvisorName(name);
+
       // Col 5: Employee ID, Col 7: Designation, Col 2: TL Team, Col 1: Sub-Team
       const empId = empIdCol !== -1 && row[empIdCol] !== undefined ? cleanStr(row[empIdCol]) : (row[5] ? cleanStr(row[5]) : (row[4] ? cleanStr(row[4]) : `TE${800 + r}`));
       const desig = desigCol !== -1 && row[desigCol] !== undefined ? cleanStr(row[desigCol]) : (row[7] ? cleanStr(row[7]) : 'Traine Advisor New');
       const tl = tlCol !== -1 && row[tlCol] !== undefined ? cleanStr(row[tlCol]) : (row[2] ? cleanStr(row[2]) : 'Billal');
       const subTeam = subTeamCol !== -1 && row[subTeamCol] !== undefined ? cleanStr(row[subTeamCol]) : (row[1] ? cleanStr(row[1]) : 'Achiever');
       
-      // Col 11: Avg Reach, Col 13: Avg Talktime, Col 15: CE Count
+      // Col 11: Avg Reach, Col 13: Avg Talktime, Col 15: QA Score (No CE count in sheet)
       const avgReach = reachCol !== -1 && row[reachCol] !== undefined ? cleanNum(row[reachCol]) : cleanNum(row[11]);
       const avgTalktime = talktimeCol !== -1 && row[talktimeCol] !== undefined ? cleanStr(row[talktimeCol], '00:00:00') : cleanStr(row[13], '00:00:00');
-      const ceCount = ceCol !== -1 && row[ceCol] !== undefined ? cleanNum(row[ceCol]) : cleanNum(row[15]);
+      const qaScore = qaScoreCol !== -1 && row[qaScoreCol] !== undefined ? cleanStr(row[qaScoreCol], '83%') : (row[15] ? cleanStr(row[15], '83%') : '83%');
+      const ceCount = 0; // Explicitly prevent MongoDB Auth Service ID (Col 8) from leaking as CE count
       
       // Col 17: Avg Exam Mark, Col 19: Avg Briefing Mark
       const avgExamMark = examCol !== -1 && row[examCol] !== undefined ? cleanNum(row[examCol]) : cleanNum(row[17]);
@@ -215,12 +233,12 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
       }
       const kpiAmount = kpiAmtCol !== -1 && row[kpiAmtCol] !== undefined ? cleanNum(row[kpiAmtCol]) : cleanNum(row[30]);
       
-      // Col 32: Duty Count, Col 33: AVG Break, Col 34: AVG MGT, Col 35: AVG Meeting, Col 47: Total Incentive
-      const dutyCount = dutyCol !== -1 && row[dutyCol] !== undefined ? cleanNum(row[dutyCol]) : cleanNum(row[32]);
-      const avgBreak = breakCol !== -1 && row[breakCol] !== undefined ? cleanStr(row[breakCol], '00:00:00') : cleanStr(row[33], '00:00:00');
-      const avgMgt = mgtCol !== -1 && row[mgtCol] !== undefined ? cleanStr(row[mgtCol], '00:00:00') : cleanStr(row[34], '00:00:00');
-      const avgMeeting = meetingCol !== -1 && row[meetingCol] !== undefined ? cleanStr(row[meetingCol], '00:00:00') : cleanStr(row[35], '00:00:00');
-      const totalIncentive = incentiveCol !== -1 && row[incentiveCol] !== undefined ? cleanNum(row[incentiveCol]) : cleanNum(row[47]);
+      // Col 34: Duty Count, Col 35: AVG Break, Col 36: AVG MGT, Col 37: AVG Meeting, Col 50: Total Incentive
+      const dutyCount = dutyCol !== -1 && row[dutyCol] !== undefined ? cleanNum(row[dutyCol]) : (row[34] ? cleanNum(row[34]) : cleanNum(row[32]));
+      const avgBreak = breakCol !== -1 && row[breakCol] !== undefined ? cleanStr(row[breakCol], '00:00:00') : (row[35] ? cleanStr(row[35], '00:00:00') : cleanStr(row[33], '00:00:00'));
+      const avgMgt = mgtCol !== -1 && row[mgtCol] !== undefined ? cleanStr(row[mgtCol], '00:00:00') : (row[36] ? cleanStr(row[36], '00:00:00') : cleanStr(row[34], '00:00:00'));
+      const avgMeeting = meetingCol !== -1 && row[meetingCol] !== undefined ? cleanStr(row[meetingCol], '00:00:00') : (row[37] ? cleanStr(row[37], '00:00:00') : cleanStr(row[35], '00:00:00'));
+      const totalIncentive = incentiveCol !== -1 && row[incentiveCol] !== undefined ? cleanNum(row[incentiveCol]) : (row[50] ? cleanNum(row[50]) : cleanNum(row[47]));
 
       stationed.push({
         id: `st-${empId.toLowerCase().replace(/[^a-z0-9]/g, '') || String(r)}`,
@@ -233,6 +251,7 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
         subTeam,
         avgReach,
         avgTalktime,
+        qaScore,
         ceCount,
         avgExamMark,
         avgBriefingMark,

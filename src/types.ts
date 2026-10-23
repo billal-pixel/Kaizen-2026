@@ -12,7 +12,8 @@ export interface StationedAdvisor {
   leadId?: string;
   avgReach: number; // Avg reach call count
   avgTalktime: string; // e.g. "02:15:30" or minutes
-  ceCount: number; // Customer Experience count
+  qaScore?: string | number; // e.g. "83%" or 83 (replaces unusual CE count)
+  ceCount?: number; // legacy optional
   avgExamMark: number; // e.g. 85.5
   avgBriefingMark: number; // e.g. 90.0
   finalSalesData: number; // e.g. 150000 (BDT)

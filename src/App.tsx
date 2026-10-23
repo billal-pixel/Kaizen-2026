@@ -79,7 +79,7 @@ export default function App() {
   const teamLeaderName = "Muhammad Billal";
 
   const PRIMARY_LIVE_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0';
-  const DATA_VERSION = 'kaizen_v45_live_station_complete_sync';
+  const DATA_VERSION = 'kaizen_v47_real_sheet_qa_sync';
 
   // Snapshot initial version before any state initializers write to localStorage
   const initialSavedVersion = useMemo(() => localStorage.getItem('kaizen_data_version'), []);

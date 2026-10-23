@@ -32,7 +32,6 @@ import {
 import { KaizenLogo } from './KaizenLogo';
 import { StationedAdvisor, VirtualAdvisor } from '../types';
 import { syncAllSheetsData, PRIMARY_DEFAULT_SHEET } from '../utils/sheetSync';
-import { ResourcesDropdown } from './ResourcesDropdown';
 
 interface HeaderProps {
   activeTab: 'overview' | 'stationed' | 'virtual' | 'tasks' | 'time' | 'call_records' | 'ai_report';
@@ -577,33 +576,26 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
         </div>
 
-        {/* Tier 2: Unified Executive Operations Ribbon (Structured Dual-Deck Control Bar) */}
+        {/* Tier 2: Streamlined Operations Ribbon (1-Click Payments + Direct Workspace Portals & Drives Buttons) */}
         <div className="bg-sky-50/70 dark:bg-[#1C2541]/95 backdrop-blur-md border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-2 sm:p-2.5 shadow-2xs space-y-2">
           
-          {/* Deck A: 1-Click Payment Messaging & Admission Closing */}
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2.5 bg-white/95 dark:bg-[#141C33]/90 border border-sky-200/70 dark:border-slate-700/80 rounded-lg px-3 py-2 shadow-2xs">
-            {/* Left Identifier Tag */}
-            <div className="flex items-center gap-2.5 shrink-0">
-              <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800/80 flex items-center justify-center text-sky-600 dark:text-sky-400 shadow-2xs">
-                <CreditCard className="w-4 h-4 stroke-[2.2]" />
+          {/* Row 1: 1-Click Bengali Payment Sharing Buttons */}
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2 bg-white/95 dark:bg-[#141C33]/90 border border-sky-200/70 dark:border-slate-700/80 rounded-lg px-2.5 py-1.5 shadow-2xs">
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="w-6.5 h-6.5 rounded-lg bg-sky-100 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800/80 flex items-center justify-center text-sky-600 dark:text-sky-400 shadow-2xs">
+                <CreditCard className="w-3.5 h-3.5 stroke-[2.2]" />
               </div>
-              <div className="flex flex-col justify-center">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-slate-100">
-                    Payment Sharing
-                  </span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800/60 leading-tight">
-                    1-Click
-                  </span>
-                </div>
-                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                  bKash & Nagad admission texts for students
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11px] font-black uppercase tracking-wider text-slate-900 dark:text-slate-100 whitespace-nowrap">
+                  1-Click Payment
+                </span>
+                <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800/60 leading-tight">
+                  bKash / Nagad
                 </span>
               </div>
             </div>
 
-            {/* Center / Right: 4 Advisor Quick Buttons & Payment Hub Modal Trigger */}
-            <div className="flex flex-wrap items-center gap-1.5 xl:justify-end">
+            <div className="flex items-center gap-1.5 flex-wrap xl:justify-end">
               {paymentAdvisors.map((adv) => {
                 const isCopied = copiedQuickId === adv.id;
                 return (
@@ -611,7 +603,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     key={adv.id}
                     type="button"
                     onClick={() => handleQuickCopy(adv.msg, adv.id, adv.name)}
-                    className={`group h-8 px-2.5 sm:px-3 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
+                    className={`group h-7.5 px-2.5 sm:px-3 rounded-lg text-xs font-bold flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
                       isCopied
                         ? 'bg-emerald-600 text-white border-emerald-500 shadow-emerald-500/20'
                         : `bg-slate-50/80 hover:bg-white text-slate-800 border-sky-200/80 ${adv.hoverBorder} dark:bg-[#1A2744] dark:hover:bg-[#23355B] dark:text-slate-100 dark:border-slate-700/80`
@@ -621,7 +613,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                     {isCopied ? (
                       <>
                         <Check className="w-3.5 h-3.5 text-white stroke-[3] shrink-0" />
-                        <span className="font-extrabold text-white">Copied {adv.name}!</span>
+                        <span className="font-extrabold text-white text-xs">Copied {adv.name}!</span>
                       </>
                     ) : (
                       <>
@@ -637,13 +629,12 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 );
               })}
 
-              {/* Payment Hub Modal Trigger */}
               {onOpenPaymentModal && (
                 <button
                   type="button"
                   onClick={onOpenPaymentModal}
                   title="Open Full Payment Hub & Message Templates"
-                  className="group h-8 px-3 bg-sky-600 hover:bg-sky-700 text-white dark:bg-sky-500 dark:hover:bg-sky-400 dark:text-slate-950 font-black rounded-lg text-xs flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all shrink-0 sm:ml-1"
+                  className="h-7.5 px-2.5 bg-sky-600 hover:bg-sky-700 text-white dark:bg-sky-500 dark:hover:bg-sky-400 dark:text-slate-950 font-black rounded-lg text-xs flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all shrink-0 sm:ml-0.5"
                 >
                   <CreditCard className="w-3.5 h-3.5 stroke-[2.5] shrink-0" />
                   <span>Payment Hub</span>
@@ -653,52 +644,63 @@ export const Header: React.FC<HeaderProps> = React.memo(({
             </div>
           </div>
 
-          {/* Deck B: Official Portals, Groups & Cloud Drives */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white/95 dark:bg-[#141C33]/90 border border-sky-200/70 dark:border-slate-700/80 rounded-lg px-3 py-2 shadow-2xs">
-            {/* Left Identifier Tag */}
-            <div className="flex items-center gap-2.5 shrink-0">
-              <div className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-200 dark:border-emerald-800/80 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-2xs">
-                <Globe className="w-4 h-4 stroke-[2.2]" />
+          {/* Row 2: Direct Workspace Portals & Drives Buttons (Like the other buttons!) */}
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2 bg-white/95 dark:bg-[#141C33]/90 border border-sky-200/70 dark:border-slate-700/80 rounded-lg px-2.5 py-1.5 shadow-2xs">
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="w-6.5 h-6.5 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-200 dark:border-emerald-800/80 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-2xs">
+                <Globe className="w-3.5 h-3.5 stroke-[2.2]" />
               </div>
-              <div className="flex flex-col justify-center">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-slate-100">
-                    Portals & Drives
-                  </span>
-                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-800/60 leading-tight">
-                    Workspace Hub
-                  </span>
-                </div>
-                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                  Official docs, portals, drives & telesales call pitch journey
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11px] font-black uppercase tracking-wider text-slate-900 dark:text-slate-100 whitespace-nowrap">
+                  Portals & Drives
+                </span>
+                <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-800/60 leading-tight">
+                  8 Quick Links
                 </span>
               </div>
             </div>
 
-            {/* Right: Consolidated Workspace Portals Dropdown + Highlighted Call Pitch Journey button */}
-            <div className="flex items-center gap-2 sm:justify-end flex-wrap">
-              {/* Highlight Action: Defined Call Pitch Journey Button */}
-              <button
-                type="button"
-                onClick={onOpenPitchModal ? onOpenPitchModal : () => window.open('/assets/aistudio/Defined_Call_Pitch_Journey___Telesales__a819a591', '_blank')}
-                className="group h-8 px-3 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-300 dark:bg-rose-950/70 dark:hover:bg-rose-900/90 dark:text-rose-200 dark:border-rose-800/80 font-bold text-xs flex items-center gap-1.5 shadow-2xs transition-all cursor-pointer active:scale-95 shrink-0"
-                title="Open Defined Call Pitch Journey (HSC 28, OB 26, Objection Handling, Campaigns)"
-              >
-                <PhoneCall className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 stroke-[2.2] shrink-0" />
-                <span>Call Pitch Journey</span>
-                <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-200 dark:bg-rose-900 text-rose-900 dark:text-rose-200 shrink-0">
-                  Playbook
-                </span>
-              </button>
+            <div className="flex items-center gap-1.5 flex-wrap xl:justify-end">
+              {teamResources.map((res) => {
+                const Icon = res.icon;
+                const isPitch = res.type === 'Pitch';
 
-              {/* Single Consolidated "Workspace Portals" Dropdown */}
-              <ResourcesDropdown
-                buttonLabel="Workspace Portals"
-                onOpenPaymentModal={onOpenPaymentModal}
-                onOpenSheetSync={onOpenSheetSync}
-                onOpenPitchModal={onOpenPitchModal}
-                theme={theme}
-              />
+                if (isPitch) {
+                  return (
+                    <button
+                      key={res.label}
+                      type="button"
+                      onClick={onOpenPitchModal ? onOpenPitchModal : () => window.open(res.url, '_blank')}
+                      className="group h-7.5 px-2.5 sm:px-3 rounded-lg text-xs font-bold flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all border shrink-0 bg-rose-50/90 hover:bg-rose-100 text-rose-900 border-rose-300 dark:bg-rose-950/60 dark:hover:bg-rose-900/90 dark:text-rose-200 dark:border-rose-800/80"
+                      title="Defined Call Pitch Journey: HSC 28, OB 26, Objection Handling, Campaigns"
+                    >
+                      <Icon className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 stroke-[2.2] shrink-0" />
+                      <span className="font-bold">{res.label}</span>
+                      <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-200 dark:bg-rose-900 text-rose-900 dark:text-rose-200 shrink-0">
+                        Playbook
+                      </span>
+                    </button>
+                  );
+                }
+
+                return (
+                  <a
+                    key={res.label}
+                    href={res.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group h-7.5 px-2.5 sm:px-3 rounded-lg text-xs font-bold flex items-center gap-1.5 whitespace-nowrap shadow-2xs cursor-pointer active:scale-95 transition-all border shrink-0 bg-slate-50/80 hover:bg-white text-slate-800 border-sky-200/80 ${res.borderHover} dark:bg-[#1A2744] dark:hover:bg-[#23355B] dark:text-slate-100 dark:border-slate-700/80`}
+                    title={`Open ${res.label} (${res.type})`}
+                  >
+                    <Icon className={`w-3.5 h-3.5 ${res.color} stroke-[2.2] shrink-0`} />
+                    <span className="font-bold">{res.label}</span>
+                    <span className={`text-[9px] font-mono font-semibold px-1.5 py-0.2 rounded shrink-0 ${res.badgeClass}`}>
+                      {res.type}
+                    </span>
+                    <ExternalLink className="w-3 h-3 text-slate-400 group-hover:text-slate-600 dark:text-slate-400 dark:group-hover:text-slate-200 opacity-60 group-hover:opacity-100 shrink-0" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
@@ -773,7 +775,6 @@ export const Header: React.FC<HeaderProps> = React.memo(({
             </div>
           </div>
         </nav>
-
       </div>
     </header>
   );

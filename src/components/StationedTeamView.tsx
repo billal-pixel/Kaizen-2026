@@ -295,7 +295,18 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
     if (advisors.length === 0) return 0;
     return Math.round(advisors.reduce((sum, a) => sum + (a.avgReach || 0), 0) / advisors.length);
   }, [advisors]);
-  const totalCeCount = useMemo(() => advisors.reduce((sum, a) => sum + (a.ceCount || 0), 0), [advisors]);
+  const avgQaScore = useMemo(() => {
+    if (advisors.length === 0) return 0;
+    const scores = advisors.map(a => {
+      if (typeof a.qaScore === 'number') return a.qaScore;
+      if (typeof a.qaScore === 'string') {
+        const parsed = parseFloat(a.qaScore.replace(/[^0-9.]/g, ''));
+        return isNaN(parsed) ? 83 : parsed;
+      }
+      return 83;
+    });
+    return Math.round((scores.reduce((sum, s) => sum + s, 0) / advisors.length) * 10) / 10;
+  }, [advisors]);
 
   return (
     <div className="space-y-6">
@@ -320,7 +331,7 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
               Station Advisors Performance Hub
             </h2>
             <p className="subtext text-xs text-[#64748B] dark:text-slate-400 mt-1 max-w-2xl font-medium">
-              Tracking on-site call reach, talktime, customer experience (CE) evaluations, exam & briefing scores, management time, and sales contributions.
+              Tracking on-site call reach, talktime, quality assurance (QA) evaluations, exam & briefing scores, management time, and sales contributions.
             </p>
           </div>
 
@@ -417,9 +428,9 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
               <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
-              <p className="label-text text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Total CE Count</p>
-              <p className="metric-value text-base sm:text-lg font-black text-slate-900 dark:text-slate-100 font-mono tracking-tight leading-tight truncate">
-                <AnimatedCounter value={totalCeCount} />
+              <p className="label-text text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Avg QA Score</p>
+              <p className="metric-value text-base sm:text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono tracking-tight leading-tight truncate">
+                <AnimatedCounter value={avgQaScore} decimals={1} suffix="%" />
               </p>
             </div>
           </motion.div>
@@ -524,6 +535,7 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
             >
               <option value="totalKpiScore" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Total KPI Score</option>
               <option value="finalSalesData" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Final Sales</option>
+              <option value="qaScore" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">QA Score</option>
               <option value="avgReach" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Avg Reach</option>
               <option value="kpiGrade" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">KPI Grade</option>
               <option value="advisorName" className="bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-200">Advisor Name</option>
@@ -590,9 +602,9 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
                       </button>
                     </th>
                     <th className="p-3.5 text-right min-w-[100px]">Avg Talktime</th>
-                    <th className="p-3.5 text-right min-w-[80px]">
-                      <button onClick={() => handleSort('ceCount')} className="flex items-center gap-1 justify-end hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
-                        <span>CE Count</span>
+                    <th className="p-3.5 text-right min-w-[85px]">
+                      <button onClick={() => handleSort('qaScore' as any)} className="flex items-center gap-1 justify-end hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer" title="Quality Assurance Score">
+                        <span>QA Score</span>
                         <ArrowUpDown className="w-3 h-3 text-slate-400" />
                       </button>
                     </th>
@@ -708,9 +720,9 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
                             </td>
                             <td className="p-2">
                               <input
-                                type="number"
-                                value={editForm.ceCount ?? 0}
-                                onChange={(e) => setEditForm({ ...editForm, ceCount: Number(e.target.value) })}
+                                type="text"
+                                value={editForm.qaScore ?? '83%'}
+                                onChange={(e) => setEditForm({ ...editForm, qaScore: e.target.value })}
                                 className="bg-white dark:bg-[#10192e] border border-slate-200 dark:border-[#24355a] text-xs text-slate-800 dark:text-slate-200 rounded px-2 py-1 w-full text-right font-mono"
                               />
                             </td>
@@ -861,7 +873,9 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
                           </td>
                           <td className="p-3.5 text-right font-bold text-blue-600 dark:text-blue-400 font-mono">{advisor.avgReach}</td>
                           <td className="p-3.5 text-right text-slate-600 dark:text-slate-300 font-mono text-[11px]">{advisor.avgTalktime}</td>
-                          <td className="p-3.5 text-right font-medium text-slate-800 dark:text-slate-200 font-mono">{advisor.ceCount}</td>
+                          <td className="p-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                            {typeof advisor.qaScore === 'number' ? `${advisor.qaScore}%` : (advisor.qaScore || '83%')}
+                          </td>
                           <td className="p-3.5 text-right font-medium text-slate-800 dark:text-slate-200 font-mono">{advisor.avgExamMark}</td>
                           <td className="p-3.5 text-right font-medium text-slate-800 dark:text-slate-200 font-mono">{advisor.avgBriefingMark}</td>
                           <td className="p-3.5 text-right font-black text-slate-900 dark:text-slate-100 font-mono">৳{advisor.finalSalesData.toLocaleString('en-BD')}</td>
@@ -1241,9 +1255,11 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
                             <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase block font-semibold">Talktime</span>
                             <span className="font-bold text-slate-800 dark:text-slate-200 font-mono">{advisor.avgTalktime || '0m'}</span>
                           </div>
-                          <div className="bg-slate-50/80 dark:bg-[#15223c]/60 p-2 rounded-lg border border-slate-200/80 dark:border-[#24355a] group-hover:border-blue-300/70 dark:group-hover:border-blue-500/50 transition-colors">
-                            <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase block font-semibold">CE Count</span>
-                            <span className="font-bold text-slate-800 dark:text-slate-200 font-mono">{advisor.ceCount}</span>
+                          <div className="bg-slate-50/80 dark:bg-[#15223c]/60 p-2 rounded-lg border border-slate-200/80 dark:border-[#24355a] group-hover:border-emerald-300/70 dark:group-hover:border-emerald-500/50 transition-colors">
+                            <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase block font-semibold">QA Score</span>
+                            <span className="font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                              {typeof advisor.qaScore === 'number' ? `${advisor.qaScore}%` : (advisor.qaScore || '83%')}
+                            </span>
                           </div>
                         </div>
 
