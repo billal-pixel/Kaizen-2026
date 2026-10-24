@@ -10,7 +10,8 @@ import {
   Info,
   Globe,
   Sparkles,
-  Send
+  Send,
+  Building2
 } from 'lucide-react';
 
 interface PaymentCopyModalProps {
@@ -25,6 +26,14 @@ export interface PaymentTemplate {
   provider: string;
   fullMessage: string;
   badgeColor: string;
+  isBank?: boolean;
+  bankMeta?: {
+    accountName: string;
+    accountNo: string;
+    routingNo: string;
+    bankName: string;
+    branch: string;
+  };
 }
 
 export const PAYMENT_TEMPLATES: PaymentTemplate[] = [
@@ -67,6 +76,22 @@ export const PAYMENT_TEMPLATES: PaymentTemplate[] = [
     provider: 'bKash / Nagad',
     fullMessage: 'আসসালামু আলাইকুম, আমি মায়িদা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ বা নগদ করুন এই নাম্বারে 01756089829 ধন্যবাদ।',
     badgeColor: 'from-amber-500 to-orange-600'
+  },
+  {
+    id: 'city_bank_shaikat',
+    advisorName: 'City Bank (Shaikat)',
+    phone: '2303373444001',
+    provider: 'City Bank Transfer',
+    fullMessage: 'কাঙ্ক্ষিত কোর্সে ভর্তি হতে ব্যাংকের মাধ্যমে টাকা পাঠাতে পারেন এই একাউন্টে। A/C Name: Md. Estiak Hossain Shaikat A/C No : 2303373444001 Routing Number 225264300 City Bank, Shyamoli Branch Thank You.',
+    badgeColor: 'from-indigo-600 to-blue-700',
+    isBank: true,
+    bankMeta: {
+      accountName: 'Md. Estiak Hossain Shaikat',
+      accountNo: '2303373444001',
+      routingNo: '225264300',
+      bankName: 'City Bank',
+      branch: 'Shyamoli Branch'
+    }
   }
 ];
 
@@ -166,16 +191,22 @@ export const PaymentCopyModal: React.FC<PaymentCopyModalProps> = ({ isOpen, onCl
                     {/* Number Box */}
                     <div className="bg-white dark:bg-[#0B172A] border border-slate-200 dark:border-slate-700/80 rounded-xl p-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Smartphone className="w-4 h-4 text-rose-500 shrink-0" />
+                        {tmpl.isBank ? (
+                          <Building2 className="w-4 h-4 text-indigo-500 shrink-0" />
+                        ) : (
+                          <Smartphone className="w-4 h-4 text-rose-500 shrink-0" />
+                        )}
                         <div>
-                          <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-mono font-bold">Payment Number</p>
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-mono font-bold">
+                            {tmpl.isBank ? 'Bank Account Number' : 'Payment Number'}
+                          </p>
                           <p className="text-sm font-mono font-black text-slate-900 dark:text-slate-100 tracking-wider">{tmpl.phone}</p>
                         </div>
                       </div>
                       <button
                         onClick={() => handleCopy(tmpl.phone, tmpl.id, 'number')}
                         className="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-all cursor-pointer border border-slate-200 dark:border-slate-700 active:scale-95"
-                        title="Copy Number Only"
+                        title={tmpl.isBank ? "Copy Account Number Only" : "Copy Number Only"}
                       >
                         {isNumberCopied ? (
                           <>
@@ -185,11 +216,29 @@ export const PaymentCopyModal: React.FC<PaymentCopyModalProps> = ({ isOpen, onCl
                         ) : (
                           <>
                             <Copy className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-                            <span>Copy No.</span>
+                            <span>{tmpl.isBank ? 'Copy A/C' : 'Copy No.'}</span>
                           </>
                         )}
                       </button>
                     </div>
+
+                    {/* Bank Breakdown Metadata (if Bank Transfer) */}
+                    {tmpl.bankMeta && (
+                      <div className="bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200/80 dark:border-indigo-900/60 rounded-xl p-2.5 text-xs space-y-1.5">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">A/C Name</span>
+                          <span className="font-bold text-slate-900 dark:text-slate-100 text-right">{tmpl.bankMeta.accountName}</span>
+                        </div>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">Routing No.</span>
+                          <span className="font-mono font-bold text-indigo-700 dark:text-indigo-400 text-xs">{tmpl.bankMeta.routingNo}</span>
+                        </div>
+                        <div className="flex items-center justify-between gap-2 pt-1 border-t border-indigo-200/60 dark:border-indigo-900/50 text-[11px]">
+                          <span className="text-slate-700 dark:text-slate-300 font-semibold">{tmpl.bankMeta.bankName}</span>
+                          <span className="text-slate-500 dark:text-slate-400 font-medium">{tmpl.bankMeta.branch}</span>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Message Preview */}
                     <div className="space-y-1">
@@ -243,7 +292,7 @@ export const PaymentCopyModal: React.FC<PaymentCopyModalProps> = ({ isOpen, onCl
             <div className="bg-sky-50/60 dark:bg-[#111F36] border border-sky-200/80 dark:border-slate-800 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400">
               <span className="text-slate-900 dark:text-slate-100 font-semibold flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />
-                Quick Copy Phone Numbers:
+                Quick Copy Numbers & Bank A/C:
               </span>
               <div className="flex flex-wrap items-center gap-2">
                 {PAYMENT_TEMPLATES.map((tmpl) => (
@@ -251,7 +300,7 @@ export const PaymentCopyModal: React.FC<PaymentCopyModalProps> = ({ isOpen, onCl
                     key={tmpl.id}
                     onClick={() => handleCopy(tmpl.phone, `quick_${tmpl.id}`, 'number')}
                     className="px-2.5 py-1.5 bg-white hover:bg-sky-50 dark:bg-slate-800 dark:hover:bg-slate-700 border border-sky-200/80 dark:border-slate-700 text-slate-900 dark:text-slate-100 font-mono text-[11px] font-bold rounded-lg transition-colors cursor-pointer shadow-xs active:scale-95 flex items-center gap-1.5"
-                    title={`Copy ${tmpl.advisorName.split(' ')[0]}'s number (${tmpl.phone})`}
+                    title={tmpl.isBank ? `Copy City Bank A/C (${tmpl.phone})` : `Copy ${tmpl.advisorName.split(' ')[0]}'s number (${tmpl.phone})`}
                   >
                     {copiedId === `quick_${tmpl.id}` ? (
                       <>
@@ -260,7 +309,12 @@ export const PaymentCopyModal: React.FC<PaymentCopyModalProps> = ({ isOpen, onCl
                       </>
                     ) : (
                       <>
-                        <span className="text-slate-600 dark:text-slate-300">{tmpl.advisorName.split(' ')[0]}:</span>
+                        {tmpl.isBank ? (
+                          <Building2 className="w-3 h-3 text-indigo-500 shrink-0" />
+                        ) : null}
+                        <span className="text-slate-600 dark:text-slate-300">
+                          {tmpl.isBank ? 'City Bank' : tmpl.advisorName.split(' ')[0]}:
+                        </span>
                         <span>{tmpl.phone}</span>
                       </>
                     )}

@@ -27,7 +27,8 @@ import {
   Copy,
   Check,
   Box,
-  Settings
+  Settings,
+  Building2
 } from 'lucide-react';
 import { KaizenLogo } from './KaizenLogo';
 import { StationedAdvisor, VirtualAdvisor } from '../types';
@@ -331,6 +332,18 @@ export const Header: React.FC<HeaderProps> = React.memo(({
       hoverBorder: 'hover:border-amber-400/60',
       hoverText: 'group-hover:text-amber-500 dark:group-hover:text-amber-400',
       msg: 'আসসালামু আলাইকুম, আমি মায়িদা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ বা নগদ করুন এই নাম্বারে 01756089829 ধন্যবাদ।'
+    },
+    {
+      id: 'city_bank_quick',
+      name: 'City Bank',
+      banglaName: 'সিটি ব্যাংক',
+      phone: '2303373444001',
+      dotColor: 'bg-indigo-500',
+      ringColor: 'ring-indigo-500/30',
+      hoverBorder: 'hover:border-indigo-400/60',
+      hoverText: 'group-hover:text-indigo-500 dark:group-hover:text-indigo-400',
+      msg: 'কাঙ্ক্ষিত কোর্সে ভর্তি হতে ব্যাংকের মাধ্যমে টাকা পাঠাতে পারেন এই একাউন্টে। A/C Name: Md. Estiak Hossain Shaikat A/C No : 2303373444001 Routing Number 225264300 City Bank, Shyamoli Branch Thank You.',
+      isBank: true
     }
   ];
 
@@ -590,7 +603,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                   1-Click Payment
                 </span>
                 <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800/60 leading-tight">
-                  bKash / Nagad
+                  bKash / Nagad / Bank
                 </span>
               </div>
             </div>
@@ -608,7 +621,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                         ? 'bg-emerald-600 text-white border-emerald-500 shadow-emerald-500/20'
                         : `bg-slate-50/80 hover:bg-white text-slate-800 border-sky-200/80 ${adv.hoverBorder} dark:bg-[#1A2744] dark:hover:bg-[#23355B] dark:text-slate-100 dark:border-slate-700/80`
                     }`}
-                    title={`1-Click copy Bengali payment text for ${adv.name} (${adv.phone})`}
+                    title={adv.isBank ? `1-Click copy City Bank payment text (${adv.phone})` : `1-Click copy Bengali payment text for ${adv.name} (${adv.phone})`}
                   >
                     {isCopied ? (
                       <>
@@ -617,10 +630,18 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                       </>
                     ) : (
                       <>
-                        <span className={`w-2 h-2 rounded-full ${adv.dotColor} ring-2 ${adv.ringColor} shrink-0`} />
+                        {adv.isBank ? (
+                          <Building2 className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400 shrink-0" />
+                        ) : (
+                          <span className={`w-2 h-2 rounded-full ${adv.dotColor} ring-2 ${adv.ringColor} shrink-0`} />
+                        )}
                         <Copy className={`w-3.5 h-3.5 text-slate-400 ${adv.hoverText} transition-colors stroke-[2.2] shrink-0`} />
                         <span className="font-bold">{adv.name}</span>
-                        <span className="font-mono text-[11px] font-semibold text-slate-600 dark:text-slate-300 bg-white/80 dark:bg-[#0F172A] px-1.5 py-0.5 rounded border border-slate-200/70 dark:border-slate-800">
+                        <span className={`font-mono text-[11px] font-semibold px-1.5 py-0.5 rounded border ${
+                          adv.isBank 
+                            ? 'text-indigo-700 dark:text-indigo-300 bg-indigo-50/90 dark:bg-indigo-950/70 border-indigo-200 dark:border-indigo-800' 
+                            : 'text-slate-600 dark:text-slate-300 bg-white/80 dark:bg-[#0F172A] border-slate-200/70 dark:border-slate-800'
+                        }`}>
                           {adv.phone}
                         </span>
                       </>

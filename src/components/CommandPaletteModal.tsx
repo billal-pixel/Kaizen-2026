@@ -23,7 +23,8 @@ import {
   Sliders,
   ExternalLink,
   ShieldAlert,
-  Box
+  Box,
+  Building2
 } from 'lucide-react';
 import { StationedAdvisor, VirtualAdvisor, TaskItem, CallRecord } from '../types';
 import { getNumericKpi, formatKpiDisplay } from '../utils/sheetParser';
@@ -161,6 +162,17 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
         action: () => {
           navigator.clipboard.writeText('আসসালামু আলাইকুম, আমি মায়িদা ১০ মিনিট স্কুল থেকে,আপনার কাঙ্ক্ষিত কোর্সে ভর্তি হতে বিকাশ বা নগদ করুন এই নাম্বারে 01756089829 ধন্যবাদ।');
           onShowToast('📋 Copied Mayida\'s Payment message (01756089829)!');
+        },
+      },
+      {
+        id: 'act-copy-city-bank',
+        type: 'action',
+        title: 'Copy City Bank Account Text (2303373444001)',
+        sub: 'Shaikat - Shyamoli Branch transfer message in Bengali',
+        icon: Building2,
+        action: () => {
+          navigator.clipboard.writeText('কাঙ্ক্ষিত কোর্সে ভর্তি হতে ব্যাংকের মাধ্যমে টাকা পাঠাতে পারেন এই একাউন্টে। A/C Name: Md. Estiak Hossain Shaikat A/C No : 2303373444001 Routing Number 225264300 City Bank, Shyamoli Branch Thank You.');
+          onShowToast('📋 Copied City Bank Payment message (2303373444001)!');
         },
       },
       {
