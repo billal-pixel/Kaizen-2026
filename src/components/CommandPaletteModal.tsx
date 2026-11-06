@@ -24,7 +24,8 @@ import {
   ExternalLink,
   ShieldAlert,
   Box,
-  Building2
+  Building2,
+  Target
 } from 'lucide-react';
 import { StationedAdvisor, VirtualAdvisor, TaskItem, CallRecord } from '../types';
 import { getNumericKpi, formatKpiDisplay } from '../utils/sheetParser';
@@ -37,7 +38,7 @@ interface CommandPaletteModalProps {
   tasks: TaskItem[];
   callRecords?: CallRecord[];
   onSelectAdvisor: (advisor: any, type: 'stationed' | 'virtual') => void;
-  onNavigateTab: (tab: 'overview' | 'stationed' | 'virtual' | 'tasks' | 'time' | 'call_records' | 'ai_report') => void;
+  onNavigateTab: (tab: 'overview' | 'target' | 'stationed' | 'virtual' | 'tasks' | 'time' | 'call_records' | 'ai_report') => void;
   onOpenSheetSync: () => void;
   onOpenAddModal: () => void;
   onOpenPaymentModal: () => void;
@@ -88,6 +89,7 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
     // 1. Navigation items
     const navItems = [
       { id: 'nav-overview', type: 'nav', title: 'Executive Hub (Overview)', sub: 'High-level telemetry & velocity', tab: 'overview' as const, icon: BarChart3 },
+      { id: 'nav-target', type: 'nav', title: 'Sales Target & Quota', sub: 'Advisor quotas & attainment pacing', tab: 'target' as const, icon: Target },
       { id: 'nav-stationed', type: 'nav', title: 'Stationed Team View', sub: `${stationedAdvisors.length} advisors`, tab: 'stationed' as const, icon: Users },
       { id: 'nav-virtual', type: 'nav', title: 'Virtual Team View', sub: `${virtualAdvisors.length} advisors`, tab: 'virtual' as const, icon: Users },
       { id: 'nav-calls', type: 'nav', title: 'Call Records Directory', sub: `${callRecords.length} recorded calls`, tab: 'call_records' as const, icon: PhoneCall },

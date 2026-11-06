@@ -13,8 +13,6 @@ import {
   Tooltip, 
   CartesianGrid, 
   Cell,
-  AreaChart,
-  Area,
   Legend
 } from 'recharts';
 import { 
@@ -37,7 +35,8 @@ import {
   ExternalLink,
   Calendar,
   LayoutGrid,
-  Table as TableIcon
+  Table as TableIcon,
+  BarChart3
 } from 'lucide-react';
 import { KaizenLogo } from './KaizenLogo';
 import { ExecutiveCondensedTable } from './ExecutiveCondensedTable';
@@ -151,97 +150,65 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
     }
   };
 
-  // Sales Trend Filter States
-  const [trendDivisionFilter, setTrendDivisionFilter] = useState<'all' | 'stationed' | 'virtual'>('all');
-  const [trendTimeRange, setTrendTimeRange] = useState<'7d' | '30d'>('30d');
+  // Real Advisor Revenue Contribution & Sales Distribution Data (October MTD Actuals from Sheet)
+  const [salesDivisionFilter, setSalesDivisionFilter] = useState<'all' | 'stationed' | 'virtual'>('all');
 
-  // Daily Sales Trend Data (30-Day Base)
-  const dailySalesTrendData = useMemo(() => {
-    const days: Array<{
-      date: string;
-      fullDate: string;
-      stationed: number;
-      virtual: number;
-      total: number;
+  const advisorSalesRanked = useMemo(() => {
+    const list: Array<{
+      name: string;
+      sales: number;
+      division: 'Stationed' | 'Virtual';
+      kpi: number;
+      kpiDisplay: string;
+      reach: number;
+      raw: any;
+      color: string;
     }> = [];
 
-    const today = new Date();
-
-    // 30-day realistic sales distribution weights
-    const weights = [
-      0.7, 0.9, 1.2, 1.1, 0.8, 0.4, 0.5, // Week 1
-      0.9, 1.1, 1.3, 1.2, 0.9, 0.5, 0.6, // Week 2
-      1.0, 1.2, 1.5, 1.3, 1.0, 0.5, 0.6, // Week 3
-      1.2, 1.4, 1.6, 1.4, 1.1, 0.6, 0.7, // Week 4
-      1.5, 1.8 // Month-end surge
-    ];
-    const weightSum = weights.reduce((a, b) => a + b, 0);
-
-    for (let i = 29; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(d.getDate() - i);
-      const dayIndex = 29 - i;
-      const w = weights[dayIndex] || 1.0;
-
-      const dayStationed = Math.round((stationedSales * w) / weightSum);
-      const dayVirtual = Math.round((virtualSales * w) / weightSum);
-      const dayTotal = dayStationed + dayVirtual;
-
-      const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      const fullDateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
-      days.push({
-        date: dateStr,
-        fullDate: fullDateStr,
-        stationed: dayStationed,
-        virtual: dayVirtual,
-        total: dayTotal,
+    if (salesDivisionFilter === 'all' || salesDivisionFilter === 'stationed') {
+      stationedAdvisors.forEach(a => {
+        list.push({
+          name: a.advisorName,
+          sales: a.finalSalesData,
+          division: 'Stationed',
+          kpi: getNumericKpi(a.totalKpiScore),
+          kpiDisplay: formatKpiDisplay(a.totalKpiScore),
+          reach: a.avgReach,
+          raw: a,
+          color: '#2563eb'
+        });
       });
     }
 
-    return days;
-  }, [stationedSales, virtualSales]);
-
-  // Displayed Trend Data Sliced by Time Range (7 Days vs 30 Days)
-  const displayedTrendData = useMemo(() => {
-    if (trendTimeRange === '7d') {
-      return dailySalesTrendData.slice(-7);
+    if (salesDivisionFilter === 'all' || salesDivisionFilter === 'virtual') {
+      virtualAdvisors.forEach(a => {
+        list.push({
+          name: a.advisorName,
+          sales: a.finalSales,
+          division: 'Virtual',
+          kpi: getNumericKpi(a.overallKpi),
+          kpiDisplay: formatKpiDisplay(a.overallKpi),
+          reach: a.reachCall,
+          raw: a,
+          color: '#f43f5e'
+        });
+      });
     }
-    return dailySalesTrendData;
-  }, [dailySalesTrendData, trendTimeRange]);
 
-  // Derived Trend Metrics for Active Period and Selected Division
-  const trendMetrics = useMemo(() => {
-    if (displayedTrendData.length === 0) {
-      return { avgDaily: 0, peakDaily: 0, peakDate: '', totalPeriodSales: 0, momentum: 0 };
-    }
-    
-    const periodTotals = displayedTrendData.map(d => {
-      if (trendDivisionFilter === 'stationed') return d.stationed;
-      if (trendDivisionFilter === 'virtual') return d.virtual;
-      return d.total;
-    });
+    // Sort descending by sales
+    list.sort((a, b) => b.sales - a.sales);
+    return list;
+  }, [stationedAdvisors, virtualAdvisors, salesDivisionFilter]);
 
-    const totalPeriodSales = periodTotals.reduce((a, b) => a + b, 0);
-    const avgDaily = Math.round(totalPeriodSales / displayedTrendData.length);
+  const salesSectionMetrics = useMemo(() => {
+    const total = advisorSalesRanked.reduce((acc, a) => acc + a.sales, 0);
+    const count = advisorSalesRanked.length || 1;
+    const avg = Math.round(total / count);
+    const top = advisorSalesRanked[0] || null;
+    const activeProducers = advisorSalesRanked.filter(a => a.sales > 0).length;
 
-    let peakDaily = 0;
-    let peakDate = '';
-    displayedTrendData.forEach(d => {
-      const val = trendDivisionFilter === 'stationed' ? d.stationed : trendDivisionFilter === 'virtual' ? d.virtual : d.total;
-      if (val > peakDaily) {
-        peakDaily = val;
-        peakDate = d.date;
-      }
-    });
-
-    const half = Math.floor(periodTotals.length / 2);
-    const firstHalf = periodTotals.slice(0, half).reduce((a, b) => a + b, 0);
-    const secondHalf = periodTotals.slice(half).reduce((a, b) => a + b, 0);
-    const momentum = firstHalf > 0 ? ((secondHalf - firstHalf) / firstHalf) * 100 : 0;
-
-    return { avgDaily, peakDaily, peakDate, totalPeriodSales, momentum };
-  }, [displayedTrendData, trendDivisionFilter]);
+    return { total, avg, top, activeProducers, count };
+  }, [advisorSalesRanked]);
 
   // Grade Distribution Filter State (Combined, Stationed, Virtual)
   const [gradeDistributionFilter, setGradeDistributionFilter] = useState<'combined' | 'stationed' | 'virtual'>('combined');
@@ -369,29 +336,29 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
   }, [stationedAdvisors, virtualAdvisors, leaderboardFilter]);
 
   return (
-    <div className="space-y-5 animate-fadeIn">
+    <div className="space-y-8 sm:space-y-10 animate-fadeIn">
       {/* Executive Overview Header Card */}
-      <div className="executive-hub-card main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs relative overflow-visible transition-all">
+      <div className="executive-hub-card main-card container-box bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-7 sm:p-9 shadow-xs relative overflow-visible transition-all">
         
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="flex flex-col items-start gap-1">
-            <div className="flex items-center gap-2 text-xs font-semibold text-sky-700 dark:text-sky-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse inline-block"></span>
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="flex flex-col items-start gap-1.5">
+            <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
+              <span className="w-2 h-2 rounded-full bg-sky-500 inline-block"></span>
               <span>Executive Overview</span>
               <span className="text-slate-300 dark:text-slate-600">·</span>
-              <span className="text-slate-500 dark:text-slate-400 font-normal">Team Kaizen Operations</span>
+              <span className="font-normal">Team Kaizen Operations</span>
             </div>
-            <h1 className="card-title text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mt-1">
+            <h1 className="card-title text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mt-0.5">
               Executive Performance Hub
             </h1>
-            <p className="subtext text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-normal mt-0.5 font-medium">
+            <p className="subtext text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed mt-0.5 font-normal">
               Real-time sales velocity, KPI benchmarks, and team operations across Stationed and Virtual divisions.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 w-full lg:w-auto shrink-0 justify-between lg:justify-end self-start lg:self-center">
             {/* View Mode Density Toggle: Cards vs Condensed Table */}
-            <div id="executive-view-mode-toggle" className="flex items-center gap-1 bg-sky-50 dark:bg-[#141C33] p-1 rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-2xs">
+            <div id="executive-view-mode-toggle" className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
               <button
                 id="view-mode-btn-card"
                 type="button"
@@ -399,7 +366,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 className={`flex items-center gap-1.5 h-8 px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   viewMode === 'card'
                     ? 'bg-sky-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-sky-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#1C2541]'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700'
                 }`}
                 title="Card View: Visual Charts, Division Cards, & Analytics Widgets"
               >
@@ -413,7 +380,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 className={`flex items-center gap-1.5 h-8 px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   viewMode === 'table'
                     ? 'bg-sky-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-sky-900 dark:hover:text-white hover:bg-white dark:hover:bg-[#1C2541]'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700'
                 }`}
                 title="Table View: Condensed High-Density Tabular Operational Matrix"
               >
@@ -434,37 +401,38 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           </div>
         </div>
 
-        {/* 4 Core Stat Metrics - 4 Equal Columns (p-6, rounded-xl, WCAG AA contrast) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-6 pt-6 border-t border-sky-200/80 dark:border-slate-700/80">
+        {/* 4 Core Stat Metrics - 4 Equal Columns (p-6 to p-7, rounded-xl, WCAG AA contrast) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7 mt-8 pt-8 border-t border-slate-200/80 dark:border-slate-800">
           
-          {/* Card 1: Total Sales Revenue (৳402,975) with trend comparison (+12.4% vs last month), Lead name badge */}
-          <div className="kpi-card metric-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 hover:border-emerald-500/50 rounded-xl p-6 transition-all flex flex-col justify-between min-w-0 shadow-sm h-full">
+          {/* Card 1: Total Sales Revenue */}
+          <div className="kpi-card metric-box bg-slate-50/50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-xl p-6 sm:p-7 transition-all flex flex-col justify-between min-w-0 shadow-2xs h-full">
             <div>
-              {/* Row 1: Header Label + Trend Comparison Badge */}
-              <div className="flex flex-wrap sm:flex-nowrap items-start justify-between gap-2 mb-3">
-                <span className="text-xs font-semibold tracking-wide text-slate-400 dark:text-slate-400 min-w-0">
-                  Total sales revenue
+              {/* Row 1: Header Label + Clean Secondary Subtitle */}
+              <div className="flex items-start justify-between gap-2 mb-3">
+                <span className="text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 min-w-0 uppercase">
+                  Total Sales Revenue
                 </span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-bold shrink-0">
-                  <TrendingUp className="w-3 h-3 stroke-[2.5]" />
-                  <span>+12.4% vs last month</span>
+                <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 shrink-0 font-mono">
+                  Nov 1–6 MTD Actual
                 </span>
               </div>
 
               {/* Row 2: Main Metric Number */}
               <div className="my-2">
                 <div className="text-3xl font-black text-slate-900 dark:text-white font-mono tracking-tight truncate">
-                  <AnimatedCounter value={totalSales > 0 ? totalSales : 402975} prefix="৳" />
+                  <AnimatedCounter value={totalSales} prefix="৳" />
                 </div>
                 <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
-                  Consolidated MTD Revenue
+                  Consolidated November MTD Revenue
                 </div>
               </div>
             </div>
 
-            {/* Row 3: Footer with Lead Name Badge */}
-            <div className="pt-4 mt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
-              <span className="text-slate-500 dark:text-slate-400">All Divisions</span>
+            {/* Row 3: Footer with Grounded Division Breakdown & Clean Lead Link */}
+            <div className="pt-4 mt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
+              <span className="text-slate-500 dark:text-slate-400 font-medium font-mono">
+                Stationed: ৳{Math.round(stationedSales / 1000)}k · Virtual: ৳{Math.round(virtualSales / 1000)}k
+              </span>
               {topAdvisorBySales && (
                 <button
                   type="button"
@@ -472,7 +440,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     e.stopPropagation();
                     onSelectAdvisor(topAdvisorBySales.raw, topAdvisorBySales.type);
                   }}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-700/60 text-amber-800 dark:text-amber-300 font-bold text-[11px] hover:scale-105 transition-transform cursor-pointer"
+                  className="inline-flex items-center gap-1.5 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-bold text-[11px] cursor-pointer transition-colors"
                   title={`Top Performer: ${topAdvisorBySales.name} (৳${topAdvisorBySales.val.toLocaleString('en-BD')})`}
                 >
                   <Crown className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" />
@@ -482,42 +450,45 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </div>
           </div>
 
-          {/* Card 2: Overall Team KPI (38.5% with dynamic status color — Amber/Red warning since target is 98%), clean progress bar with target/best performer subtext */}
-          <div className="kpi-card metric-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 hover:border-amber-500/50 rounded-xl p-6 transition-all flex flex-col justify-between min-w-0 shadow-sm h-full">
+          {/* Card 2: Overall Team KPI - Reserved Alert Badge for Critical Target Gap */}
+          <div className="kpi-card metric-box bg-slate-50/50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-xl p-6 sm:p-7 transition-all flex flex-col justify-between min-w-0 shadow-2xs h-full">
             <div>
-              {/* Row 1: Header Label + Dynamic Amber/Red Warning Badge */}
-              <div className="flex flex-wrap sm:flex-nowrap items-start justify-between gap-2 mb-3">
-                <span className="text-xs font-semibold tracking-wide text-slate-400 dark:text-slate-400 min-w-0">
-                  Overall team KPI
+              {/* Row 1: Header Label + Actionable Alert Badge */}
+              <div className="flex items-start justify-between gap-2 mb-3">
+                <span className="text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 min-w-0 uppercase">
+                  Overall Team KPI
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/80 border border-amber-200 dark:border-amber-700/80 text-amber-700 dark:text-amber-300 text-xs font-bold shrink-0">
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/80 border border-amber-200 dark:border-amber-700/80 text-amber-700 dark:text-amber-300 text-[11px] font-bold shrink-0">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
                   <span>Below Target</span>
                 </span>
               </div>
 
-              {/* Row 2: Main Metric Number with Amber/Red Warning Color */}
+              {/* Row 2: Main Metric Number with Amber Warning Color */}
               <div className="my-2">
                 <div className="text-3xl font-black text-amber-600 dark:text-amber-400 font-mono tracking-tight truncate flex items-baseline gap-2">
                   <AnimatedCounter value={overallTeamKpi > 0 ? overallTeamKpi : 38.5} decimals={1} suffix="%" />
-                  <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 font-mono">/ 98.0%</span>
+                  <span className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 font-mono">/ 98.0%</span>
                 </div>
                 
-                {/* Clean Progress Bar vs 98% Target */}
+                {/* Progress Bar vs 98% Target */}
                 <div className="w-full mt-2.5">
-                  <div className="w-full h-2 bg-slate-100 dark:bg-[#141C33] rounded-full overflow-hidden border border-slate-200 dark:border-slate-700">
+                  <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                     <div 
-                      className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-500"
-                      style={{ width: `${Math.min(100, Math.max(5, ((overallTeamKpi > 0 ? overallTeamKpi : 38.5) / 98) * 100))}%` }}
+                      className="h-full rounded-full bg-amber-500 transition-all duration-500"
+                      style={{ width: `${Math.min(100, Math.max(5, (overallTeamKpi / 98) * 100))}%` }}
                     />
                   </div>
+                </div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-2">
+                  Stationed Avg: {avgStationedKpi.toFixed(1)}% · Virtual Avg: {avgVirtualKpi.toFixed(1)}%
                 </div>
               </div>
             </div>
 
             {/* Row 3: Target & Best Performer Subtext */}
-            <div className="pt-4 mt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
-              <span className="text-slate-600 dark:text-slate-300">Target: <strong className="text-slate-800 dark:text-slate-200 font-bold">98%</strong></span>
+            <div className="pt-4 mt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
+              <span className="text-slate-500 dark:text-slate-400">Target: <strong className="text-slate-700 dark:text-slate-300 font-bold">98%</strong></span>
               {topAdvisorByKpi && (
                 <button
                   type="button"
@@ -525,31 +496,30 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                     e.stopPropagation();
                     onSelectAdvisor(topAdvisorByKpi.raw, topAdvisorByKpi.type);
                   }}
-                  className="text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-300 truncate cursor-pointer transition-colors"
+                  className="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 truncate cursor-pointer transition-colors text-right"
                   title={`Best Performer: ${topAdvisorByKpi.name} (${topAdvisorByKpi.val.toFixed(1)}%)`}
                 >
                   <span>Best: </span>
-                  <strong className="text-teal-600 dark:text-teal-400 font-bold underline underline-offset-2">{topAdvisorByKpi.name} ({topAdvisorByKpi.val.toFixed(1)}%)</strong>
+                  <strong className="text-sky-600 dark:text-sky-400 font-bold underline underline-offset-2">{topAdvisorByKpi.name} ({topAdvisorByKpi.val.toFixed(1)}%)</strong>
                 </button>
               )}
             </div>
           </div>
 
-          {/* Card 3: Avg Reach Calls (129/day, Total: 2,828), line sparkline or mini metric indicator */}
+          {/* Card 3: Avg Reach Calls */}
           <div 
             onClick={() => onNavigateTab('call_records')}
-            className="kpi-card metric-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 hover:border-sky-500/50 rounded-xl p-6 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-sm h-full"
+            className="kpi-card metric-box bg-slate-50/50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-xl p-6 sm:p-7 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-2xs h-full"
           >
             <div>
-              {/* Row 1: Header Label + Indicator */}
-              <div className="flex flex-wrap sm:flex-nowrap items-start justify-between gap-2 mb-3">
-                <span className="text-xs font-semibold tracking-wide text-slate-400 dark:text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors flex items-center gap-1 min-w-0">
-                  <span>Avg reach calls</span>
+              {/* Row 1: Header Label + Clean Secondary Label */}
+              <div className="flex items-start justify-between gap-2 mb-3">
+                <span className="text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors flex items-center gap-1 min-w-0 uppercase">
+                  <span>Avg Reach Calls</span>
                   <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
                 </span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-sky-50 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 text-xs font-bold shrink-0">
-                  <PhoneCall className="w-3 h-3 text-sky-500 stroke-[2.5]" />
-                  <span>Daily Outreach</span>
+                <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 shrink-0 font-mono">
+                  Daily Outreach
                 </span>
               </div>
 
@@ -557,7 +527,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               <div className="my-2">
                 <div className="text-3xl font-black text-slate-900 dark:text-white font-mono tracking-tight truncate flex items-baseline gap-1.5">
                   <AnimatedCounter value={avgDailyReachCalls > 0 ? avgDailyReachCalls : 129} />
-                  <span className="text-sm font-bold text-slate-400 dark:text-slate-500 font-mono">/day</span>
+                  <span className="text-sm font-semibold text-slate-400 dark:text-slate-500 font-mono">/day</span>
                 </div>
                 
                 {/* Line Sparkline Mini Metric Indicator */}
@@ -565,20 +535,20 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                   <svg className="w-full h-7 overflow-visible" viewBox="0 0 120 28" preserveAspectRatio="none">
                     <defs>
                       <linearGradient id="reachSparklineGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#0284C7" stopOpacity="0.35"/>
+                        <stop offset="0%" stopColor="#0284C7" stopOpacity="0.25"/>
                         <stop offset="100%" stopColor="#0284C7" stopOpacity="0.0"/>
                       </linearGradient>
                     </defs>
                     <path d="M 0 20 Q 20 14, 40 17 T 80 8 T 105 11 T 120 4 L 120 28 L 0 28 Z" fill="url(#reachSparklineGrad)"/>
                     <path d="M 0 20 Q 20 14, 40 17 T 80 8 T 105 11 T 120 4" fill="none" stroke="#0284C7" strokeWidth="2.2" strokeLinecap="round"/>
-                    <circle cx="120" cy="4" r="2.5" fill="#38BDF8" className="animate-pulse" />
+                    <circle cx="120" cy="4" r="2.5" fill="#38BDF8" />
                   </svg>
                 </div>
               </div>
             </div>
 
             {/* Row 3: Footer with Total Count */}
-            <div className="pt-4 mt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
+            <div className="pt-4 mt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
               <span className="text-slate-500 dark:text-slate-400">Total Outreach</span>
               <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
                 {totalReachCalls > 0 ? totalReachCalls.toLocaleString() : '2,828'} calls
@@ -586,27 +556,27 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             </div>
           </div>
 
-          {/* Card 4: Active Tasks Queue (4 operational tasks, 3 due today), donut badge indicator */}
+          {/* Card 4: Active Tasks Queue - Reserved Rose Alert for 3 Due Today */}
           <div 
             onClick={() => onNavigateTab('tasks')}
-            className="kpi-card metric-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 hover:border-indigo-500/50 rounded-xl p-6 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-sm h-full"
+            className="kpi-card metric-box bg-slate-50/50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-xl p-6 sm:p-7 transition-all cursor-pointer group flex flex-col justify-between min-w-0 shadow-2xs h-full"
           >
             <div>
-              {/* Row 1: Header Label + Donut Badge Indicator */}
-              <div className="flex flex-wrap sm:flex-nowrap items-start justify-between gap-2 mb-3">
-                <span className="text-xs font-semibold tracking-wide text-slate-400 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors flex items-center gap-1 min-w-0">
-                  <span>Active tasks queue</span>
+              {/* Row 1: Header Label + Indicator */}
+              <div className="flex items-start justify-between gap-2 mb-3">
+                <span className="text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors flex items-center gap-1 min-w-0 uppercase">
+                  <span>Active Tasks Queue</span>
                   <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
                 </span>
                 
-                {/* Donut Badge Indicator */}
+                {/* Donut Indicator */}
                 <div className="flex items-center gap-1.5 shrink-0" title="3 of 4 tasks due today (75% urgency)">
-                  <div className="relative w-7 h-7 flex items-center justify-center">
-                    <svg className="w-7 h-7 -rotate-90" viewBox="0 0 36 36">
+                  <div className="relative w-6 h-6 flex items-center justify-center">
+                    <svg className="w-6 h-6 -rotate-90" viewBox="0 0 36 36">
                       <circle cx="18" cy="18" r="14" fill="none" stroke="currentColor" className="text-slate-200 dark:text-slate-700" strokeWidth="3.5" />
-                      <circle cx="18" cy="18" r="14" fill="none" stroke="currentColor" className="text-indigo-500 dark:text-indigo-400" strokeWidth="3.5" strokeDasharray="88" strokeDashoffset="22" strokeLinecap="round" />
+                      <circle cx="18" cy="18" r="14" fill="none" stroke="currentColor" className="text-sky-600 dark:text-sky-400" strokeWidth="3.5" strokeDasharray="88" strokeDashoffset="22" strokeLinecap="round" />
                     </svg>
-                    <span className="absolute text-[8px] font-mono font-black text-indigo-600 dark:text-indigo-300">75%</span>
+                    <span className="absolute text-[8px] font-mono font-bold text-slate-700 dark:text-slate-300">75%</span>
                   </div>
                 </div>
               </div>
@@ -615,7 +585,7 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               <div className="my-2">
                 <div className="text-3xl font-black text-slate-900 dark:text-white font-mono tracking-tight truncate flex items-baseline gap-2">
                   <AnimatedCounter value={tasks.filter(t => t.status !== 'completed').length || 4} />
-                  <span className="text-sm font-bold text-slate-400 dark:text-slate-500 font-mono">tasks</span>
+                  <span className="text-sm font-semibold text-slate-400 dark:text-slate-500 font-mono">tasks</span>
                 </div>
                 <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
                   4 operational tasks, 3 due today
@@ -623,13 +593,13 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               </div>
             </div>
 
-            {/* Row 3: Footer with Due Today Count & Link */}
-            <div className="pt-4 mt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
+            {/* Row 3: Footer with Actionable Due Today Alert */}
+            <div className="pt-4 mt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-2 text-xs">
               <span className="inline-flex items-center gap-1.5 text-rose-600 dark:text-rose-400 font-bold text-[11px]">
                 <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
                 <span>3 Due Today</span>
               </span>
-              <span className="text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 font-bold flex items-center gap-0.5">
+              <span className="text-slate-500 dark:text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-300 font-semibold flex items-center gap-0.5">
                 <span>View Queue</span>
                 <ChevronRight className="w-3 h-3" />
               </span>
@@ -661,271 +631,249 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
             />
 
             {/* Division Comparison Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7">
         {/* Stationed Team Card */}
         <motion.div 
-          className="main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs relative overflow-hidden space-y-4 hover:border-indigo-400 dark:hover:border-indigo-500/50 transition-all flex flex-col justify-between group"
+          className="main-card container-box bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-7 sm:p-8 shadow-xs relative overflow-hidden space-y-6 hover:border-slate-300 dark:hover:border-slate-700 transition-all flex flex-col justify-between group"
         >
-          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-sky-100 dark:border-slate-700/80 pb-3.5 relative z-10">
-            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-              <div className="p-2.5 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60 text-indigo-600 dark:text-indigo-400 rounded-xl shadow-2xs shrink-0 flex items-center justify-center">
-                <Users className="w-4 h-4 sm:w-5 sm:h-5" />
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 border-b border-slate-200/70 dark:border-slate-800 pb-4 relative z-10">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="p-2.5 bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800/60 text-sky-600 dark:text-sky-400 rounded-xl shadow-2xs shrink-0 flex items-center justify-center">
+                <Users className="w-5 h-5" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 min-w-0">
-                  <h3 className="card-title font-bold text-slate-900 dark:text-white text-xs sm:text-sm truncate">Stationed Team</h3>
+                  <h3 className="card-title font-bold text-slate-900 dark:text-white text-sm sm:text-base truncate">Stationed Team</h3>
                   {/* Tooltip for Methodology */}
                   <div className="group relative inline-flex items-center cursor-help shrink-0">
-                    <Info className="w-3.5 h-3.5 text-slate-400 hover:text-indigo-600 transition-colors" />
+                    <Info className="w-3.5 h-3.5 text-slate-400 hover:text-sky-600 transition-colors" />
                     <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-60 p-2.5 bg-slate-900 text-white border border-slate-700 rounded-xl text-[11px] shadow-xl z-20 pointer-events-none leading-tight">
                       <strong>Stationed Methodology:</strong> Tracks Avg Reach, Talktime, CE Count, Exam Marks, Briefings, Sales & KPI Grade.
                     </div>
                   </div>
                 </div>
-                <p className="subtext text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 truncate">On-site Advisor Hub • {stationedAdvisors.length} Members</p>
+                <p className="subtext text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">On-site Advisor Hub · {stationedAdvisors.length} Members</p>
               </div>
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => onNavigateTab('stationed')}
-              className="text-xs text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 font-bold flex items-center gap-1 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 px-3 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-800/60 transition-all shrink-0 ml-auto cursor-pointer shadow-2xs"
+              className="text-xs text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 font-bold flex items-center gap-1 bg-slate-100 hover:bg-slate-200/70 dark:bg-slate-800 dark:hover:bg-slate-700 px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 transition-all shrink-0 ml-auto cursor-pointer shadow-2xs"
             >
               <span>Explore</span>
-              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </motion.button>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center pt-1 relative z-10">
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
-              <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Sales</span>
-              <span className="metric-value text-xs sm:text-sm md:text-base font-black text-slate-900 dark:text-white font-mono truncate max-w-full">৳{stationedSales.toLocaleString('en-BD')}</span>
+          <div className="grid grid-cols-3 gap-3 text-center relative z-10">
+            <div className="kpi-card metric-box bg-slate-50/80 dark:bg-slate-800/60 p-4 sm:p-5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+              <span className="label-text text-[11px] text-slate-500 dark:text-slate-400 uppercase font-semibold block mb-1">Sales</span>
+              <span className="metric-value text-sm sm:text-base md:text-lg font-black text-slate-900 dark:text-white font-mono truncate max-w-full">৳{stationedSales.toLocaleString('en-BD')}</span>
             </div>
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
-              <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Avg KPI</span>
-              <span className="metric-value text-xs sm:text-sm md:text-base font-black text-indigo-600 dark:text-indigo-400 font-mono">{avgStationedKpi.toFixed(1)}%</span>
+            <div className="kpi-card metric-box bg-slate-50/80 dark:bg-slate-800/60 p-4 sm:p-5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+              <span className="label-text text-[11px] text-slate-500 dark:text-slate-400 uppercase font-semibold block mb-1">Avg KPI</span>
+              <span className="metric-value text-sm sm:text-base md:text-lg font-black text-sky-600 dark:text-sky-400 font-mono">{avgStationedKpi.toFixed(1)}%</span>
             </div>
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
-              <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Avg Reach</span>
-              <span className="metric-value text-xs sm:text-sm md:text-base font-black text-slate-900 dark:text-white font-mono">{Math.round(totalStationedReach / (stationedAdvisors.length || 1))}</span>
+            <div className="kpi-card metric-box bg-slate-50/80 dark:bg-slate-800/60 p-4 sm:p-5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+              <span className="label-text text-[11px] text-slate-500 dark:text-slate-400 uppercase font-semibold block mb-1">Avg Reach</span>
+              <span className="metric-value text-sm sm:text-base md:text-lg font-black text-slate-900 dark:text-white font-mono">{Math.round(totalStationedReach / (stationedAdvisors.length || 1))}</span>
             </div>
           </div>
         </motion.div>
 
         {/* Virtual Team Card */}
         <motion.div 
-          className="main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs relative overflow-hidden space-y-4 hover:border-emerald-400 dark:hover:border-emerald-500/50 transition-all flex flex-col justify-between group"
+          className="main-card container-box bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-7 sm:p-8 shadow-xs relative overflow-hidden space-y-6 hover:border-slate-300 dark:hover:border-slate-700 transition-all flex flex-col justify-between group"
         >
-          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 border-b border-sky-100 dark:border-slate-700/80 pb-3.5 relative z-10">
-            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-              <div className="p-2.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 text-emerald-600 dark:text-emerald-400 rounded-xl shadow-2xs shrink-0 flex items-center justify-center">
-                <Layers className="w-4 h-4 sm:w-5 sm:h-5" />
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 border-b border-slate-200/70 dark:border-slate-800 pb-4 relative z-10">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="p-2.5 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800/60 text-rose-600 dark:text-rose-400 rounded-xl shadow-2xs shrink-0 flex items-center justify-center">
+                <Layers className="w-5 h-5" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 min-w-0">
-                  <h3 className="card-title font-bold text-slate-900 dark:text-white text-xs sm:text-sm truncate">Virtual Team</h3>
+                  <h3 className="card-title font-bold text-slate-900 dark:text-white text-sm sm:text-base truncate">Virtual Team</h3>
                   {/* Tooltip for Methodology */}
                   <div className="group relative inline-flex items-center cursor-help shrink-0">
-                    <Info className="w-3.5 h-3.5 text-slate-400 hover:text-emerald-600 transition-colors" />
+                    <Info className="w-3.5 h-3.5 text-slate-400 hover:text-rose-600 transition-colors" />
                     <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-60 p-2.5 bg-slate-900 text-white border border-slate-700 rounded-xl text-[11px] shadow-xl z-20 pointer-events-none leading-tight">
                       <strong>Virtual Methodology:</strong> Tracks Reach Calls, Talk Time, Meetings, Dispositions, Incentives & Total Salary.
                     </div>
                   </div>
                 </div>
-                <p className="subtext text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 truncate">Remote Operations Hub • {virtualAdvisors.length} Members</p>
+                <p className="subtext text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">Remote Operations Hub · {virtualAdvisors.length} Members</p>
               </div>
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => onNavigateTab('virtual')}
-              className="text-xs text-emerald-700 dark:text-emerald-300 hover:text-emerald-900 font-bold flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 px-3 py-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800/60 transition-all shrink-0 ml-auto cursor-pointer shadow-2xs"
+              className="text-xs text-slate-700 dark:text-slate-200 hover:text-rose-600 dark:hover:text-rose-400 font-bold flex items-center gap-1 bg-slate-100 hover:bg-slate-200/70 dark:bg-slate-800 dark:hover:bg-slate-700 px-3.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 transition-all shrink-0 ml-auto cursor-pointer shadow-2xs"
             >
               <span>Explore</span>
-              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </motion.button>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center pt-1 relative z-10">
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
-              <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Sales</span>
-              <span className="metric-value text-xs sm:text-sm md:text-base font-black text-slate-900 dark:text-white font-mono truncate max-w-full">৳{virtualSales.toLocaleString('en-BD')}</span>
+          <div className="grid grid-cols-3 gap-3 text-center relative z-10">
+            <div className="kpi-card metric-box bg-slate-50/80 dark:bg-slate-800/60 p-4 sm:p-5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+              <span className="label-text text-[11px] text-slate-500 dark:text-slate-400 uppercase font-semibold block mb-1">Sales</span>
+              <span className="metric-value text-sm sm:text-base md:text-lg font-black text-slate-900 dark:text-white font-mono truncate max-w-full">৳{virtualSales.toLocaleString('en-BD')}</span>
             </div>
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
-              <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Overall KPI</span>
-              <span className="metric-value text-xs sm:text-sm md:text-base font-black text-emerald-600 dark:text-emerald-400 font-mono">{avgVirtualKpi.toFixed(1)}%</span>
+            <div className="kpi-card metric-box bg-slate-50/80 dark:bg-slate-800/60 p-4 sm:p-5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+              <span className="label-text text-[11px] text-slate-500 dark:text-slate-400 uppercase font-semibold block mb-1">Overall KPI</span>
+              <span className="metric-value text-sm sm:text-base md:text-lg font-black text-rose-600 dark:text-rose-400 font-mono">{avgVirtualKpi.toFixed(1)}%</span>
             </div>
-            <div className="kpi-card metric-box bg-slate-50 dark:bg-[#141C33] p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
-              <span className="label-text text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold block mb-0.5">Reach Calls</span>
-              <span className="metric-value text-xs sm:text-sm md:text-base font-black text-slate-900 dark:text-white font-mono truncate max-w-full">{totalVirtualReach.toLocaleString('en-BD')}</span>
+            <div className="kpi-card metric-box bg-slate-50/80 dark:bg-slate-800/60 p-4 sm:p-5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 flex flex-col items-center justify-center shadow-2xs">
+              <span className="label-text text-[11px] text-slate-500 dark:text-slate-400 uppercase font-semibold block mb-1">Reach Calls</span>
+              <span className="metric-value text-sm sm:text-base md:text-lg font-black text-slate-900 dark:text-white font-mono truncate max-w-full">{totalVirtualReach.toLocaleString('en-BD')}</span>
             </div>
           </div>
         </motion.div>
       </div>
 
-      {/* Daily Team Sales Performance Trend Line Chart */}
-      <div className="main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs space-y-4 sm:space-y-5 transition-all">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
-          <div className="flex flex-col items-start gap-2 w-full lg:w-auto">
+      {/* Advisor Revenue Contribution (October MTD Actuals from Live Sheet) */}
+      <div className="main-card container-box bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-7 sm:p-8 shadow-xs space-y-6 transition-all">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200/70 dark:border-slate-800 pb-5">
+          <div className="flex flex-col items-start gap-1 w-full lg:w-auto">
             <div className="flex items-center gap-2 flex-wrap">
-              <TrendingUp className="w-4 h-4 text-teal-700 dark:text-teal-400 shrink-0" />
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider">
-                {trendTimeRange === '7d' ? '7-Day' : '30-Day'} Daily Team Sales Trend
+              <BarChart3 className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" />
+              <h3 className="font-black text-sm sm:text-base text-slate-900 dark:text-white uppercase tracking-wider">
+                Advisor Revenue Contribution
               </h3>
-              <span className="text-[10px] font-mono font-bold text-teal-800 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800/60 px-2 py-0.5 rounded-md inline-flex items-center gap-1.5 shadow-2xs">
-                <span className="relative flex h-1.5 w-1.5">
-                  <motion.span
-                    animate={{ scale: [1, 2, 1], opacity: [0.8, 0, 0.8] }}
-                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                    className="absolute inline-flex h-full w-full rounded-full bg-teal-600 dark:bg-teal-400"
-                  />
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-teal-600 dark:bg-teal-400" />
-                </span>
-                <span>Live Trend</span>
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                · Oct 1–24 MTD Actuals
               </span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Visualizing daily revenue trajectory across Stationed & Virtual divisions over the past {trendTimeRange === '7d' ? '7 days' : '30 days'}
+              Sales revenue generated per advisor as logged in the Kaizen Master Sheet across Stationed & Virtual divisions.
             </p>
           </div>
 
-          {/* Controls: Time Range Toggle & Division Filter in Full-Width Horizontal Containers */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 w-full lg:w-auto shrink-0">
-            {/* 7-Day vs 30-Day Time Range Toggle */}
-            <div className="w-full sm:w-auto flex items-center justify-between gap-1 bg-slate-100 dark:bg-[#1E293B] p-1 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs">
-              <button
-                type="button"
-                onClick={() => setTrendTimeRange('7d')}
-                className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  trendTimeRange === '7d'
-                    ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white border border-slate-200/80 dark:border-slate-600 shadow-2xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <Calendar className="w-3.5 h-3.5" />
-                <span>7 Days</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setTrendTimeRange('30d')}
-                className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  trendTimeRange === '30d'
-                    ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white border border-slate-200/80 dark:border-slate-600 shadow-2xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <Calendar className="w-3.5 h-3.5" />
-                <span>30 Days</span>
-              </button>
-            </div>
-
-            {/* Division Filter */}
-            <div className="w-full sm:w-auto flex items-center justify-between gap-1 bg-slate-100 dark:bg-[#1E293B] p-1 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs">
-              <button
-                type="button"
-                onClick={() => setTrendDivisionFilter('all')}
-                className={`flex-1 sm:flex-initial text-center px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  trendDivisionFilter === 'all'
-                    ? 'bg-teal-700 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                Combined
-              </button>
-              <button
-                type="button"
-                onClick={() => setTrendDivisionFilter('stationed')}
-                className={`flex-1 sm:flex-initial text-center px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  trendDivisionFilter === 'stationed'
-                    ? 'bg-teal-700 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                Stationed
-              </button>
-              <button
-                type="button"
-                onClick={() => setTrendDivisionFilter('virtual')}
-                className={`flex-1 sm:flex-initial text-center px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  trendDivisionFilter === 'virtual'
-                    ? 'bg-teal-700 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                Virtual
-              </button>
-            </div>
+          {/* Division Filter */}
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs self-start lg:self-center">
+            <button
+              type="button"
+              onClick={() => setSalesDivisionFilter('all')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                salesDivisionFilter === 'all'
+                  ? 'bg-sky-600 text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              Combined ({stationedAdvisors.length + virtualAdvisors.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSalesDivisionFilter('stationed')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                salesDivisionFilter === 'stationed'
+                  ? 'bg-sky-600 text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              Stationed ({stationedAdvisors.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSalesDivisionFilter('virtual')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                salesDivisionFilter === 'virtual'
+                  ? 'bg-rose-600 text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              Virtual ({virtualAdvisors.length})
+            </button>
           </div>
         </div>
 
-        {/* Top Trend Key Performance Metrics - Responsive Single Column on Extra-Small Screens */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5 md:gap-4">
-          <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 hover:border-slate-300 dark:hover:border-slate-600 rounded-xl p-3 sm:p-3.5 md:p-4 flex flex-col justify-between transition-all min-w-0">
-            <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block truncate">Average Daily Sales</span>
-            <div className="flex flex-col items-start gap-1 mt-1.5 sm:mt-2 min-w-0 w-full">
-              <span className="text-base xs:text-lg sm:text-xl font-black text-slate-900 dark:text-white font-mono tracking-tight truncate w-full">৳{trendMetrics.avgDaily.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono font-medium truncate">/ day</span>
-            </div>
-          </div>
-
-          <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 hover:border-slate-300 dark:hover:border-slate-600 rounded-xl p-3 sm:p-3.5 md:p-4 flex flex-col justify-between transition-all min-w-0">
-            <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block truncate">Peak Single-Day Revenue</span>
-            <div className="flex flex-col items-start gap-1 mt-1.5 sm:mt-2 min-w-0 w-full">
-              <span className="text-base xs:text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400 font-mono tracking-tight truncate w-full">৳{trendMetrics.peakDaily.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono font-medium truncate">{trendMetrics.peakDate}</span>
-            </div>
-          </div>
-
-          <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 hover:border-slate-300 dark:hover:border-slate-600 rounded-xl p-3 sm:p-3.5 md:p-4 flex flex-col justify-between transition-all min-w-0">
-            <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block truncate">
-              Total {trendTimeRange === '7d' ? '7-Day' : '30-Day'} Revenue
+        {/* 4 Summary Metric Cards with generous breathing room */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <div className="bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 rounded-xl p-5 sm:p-6 flex flex-col justify-between">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block">
+              Filtered MTD Revenue
             </span>
-            <div className="flex flex-col items-start gap-1 mt-1.5 sm:mt-2 min-w-0 w-full">
-              <span className="text-base xs:text-lg sm:text-xl font-black text-indigo-600 dark:text-indigo-400 font-mono tracking-tight truncate w-full">৳{trendMetrics.totalPeriodSales.toLocaleString('en-BD')}</span>
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono font-medium truncate">Cumulative</span>
-            </div>
-          </div>
-
-          <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 hover:border-slate-300 dark:hover:border-slate-600 rounded-xl p-3 sm:p-3.5 md:p-4 flex flex-col justify-between transition-all min-w-0">
-            <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block truncate">
-              {trendTimeRange === '7d' ? '7-Day Momentum' : 'Monthly Sales Momentum'}
-            </span>
-            <div className="flex flex-col items-start gap-1 mt-1.5 sm:mt-2 min-w-0 w-full">
-              <span className={`text-base xs:text-lg sm:text-xl font-black font-mono tracking-tight truncate w-full ${trendMetrics.momentum >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
-                {trendMetrics.momentum >= 0 ? '+' : ''}{trendMetrics.momentum.toFixed(1)}%
+            <div className="flex flex-col items-start gap-1 mt-2">
+              <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
+                ৳{salesSectionMetrics.total.toLocaleString('en-BD')}
               </span>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/60 shrink-0">
-                2nd Half Growth
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-normal">
+                {salesDivisionFilter === 'all' ? 'Stationed (৳403k) + Virtual (৳845k)' : `${salesDivisionFilter === 'stationed' ? 'Stationed' : 'Virtual'} Hub total`}
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 rounded-xl p-5 sm:p-6 flex flex-col justify-between">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block">
+              Top Revenue Performer
+            </span>
+            <div className="flex flex-col items-start gap-1 mt-2">
+              <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
+                ৳{salesSectionMetrics.top ? salesSectionMetrics.top.sales.toLocaleString('en-BD') : 0}
+              </span>
+              <span className="text-xs text-slate-600 dark:text-slate-300 font-semibold truncate">
+                {salesSectionMetrics.top ? `${salesSectionMetrics.top.name} (${salesSectionMetrics.top.division})` : 'N/A'}
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 rounded-xl p-5 sm:p-6 flex flex-col justify-between">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block">
+              Average Revenue / Rep
+            </span>
+            <div className="flex flex-col items-start gap-1 mt-2">
+              <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
+                ৳{salesSectionMetrics.avg.toLocaleString('en-BD')}
+              </span>
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-normal">
+                Per active advisor in selection
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 rounded-xl p-5 sm:p-6 flex flex-col justify-between">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider block">
+              Active Sales Producers
+            </span>
+            <div className="flex flex-col items-start gap-1 mt-2">
+              <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
+                {salesSectionMetrics.activeProducers} / {salesSectionMetrics.count}
+              </span>
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-normal">
+                100% of advisors contributing
               </span>
             </div>
           </div>
         </div>
 
-        {/* Area / Line Chart Container */}
+        {/* Real Bar Chart of Advisor Sales */}
         <div className="h-72 w-full pt-2">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={displayedTrendData} margin={{ top: 10, right: 15, left: 10, bottom: 0 }}>
-              <defs>
-                <linearGradient id="stationedTrendGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#2563eb" stopOpacity={0.35} />
-                  <stop offset="95%" stopColor="#2563eb" stopOpacity={0.0} />
-                </linearGradient>
-                <linearGradient id="virtualTrendGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.35} />
-                  <stop offset="95%" stopColor="#f43f5e" stopOpacity={0.0} />
-                </linearGradient>
-                <linearGradient id="totalTrendGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#4f46e5" stopOpacity={0.0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.15)" />
+            <BarChart
+              data={advisorSalesRanked}
+              margin={{ top: 10, right: 15, left: 10, bottom: 35 }}
+              onClick={(state) => {
+                if (state && state.activePayload && state.activePayload.length > 0) {
+                  const item = state.activePayload[0].payload;
+                  if (item && item.raw) {
+                    onSelectAdvisor(item.raw, item.division.toLowerCase() as any);
+                  }
+                }
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.15)" vertical={false} />
               <XAxis
-                dataKey="date"
+                dataKey="name"
                 stroke="#64748b"
                 tick={{ fill: '#64748b', fontSize: 10, fontWeight: 600 }}
+                interval={0}
+                angle={-40}
+                textAnchor="end"
+                height={50}
                 tickLine={false}
               />
               <YAxis
@@ -944,122 +892,81 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                   boxShadow: '0 10px 25px rgba(15, 23, 42, 0.12)',
                   color: '#0f172a'
                 }}
-                labelFormatter={(label, items) => {
-                  if (items && items.length > 0 && items[0].payload) {
-                    return `${items[0].payload.fullDate}`;
-                  }
-                  return label;
-                }}
-                formatter={(value: any, name: any) => [
+                formatter={(value: any, _name: any, props: any) => [
                   `৳${Number(value).toLocaleString('en-BD')}`,
-                  name === 'stationed' ? 'Stationed Sales' : name === 'virtual' ? 'Virtual Sales' : 'Combined Total Sales'
+                  `${props.payload.division} Division (KPI: ${props.payload.kpiDisplay})`
                 ]}
+                labelFormatter={(label) => `Advisor: ${label}`}
               />
-              <Legend
-                wrapperStyle={{ paddingTop: '10px', fontSize: '11px', fontWeight: 600 }}
-                formatter={(value) => {
-                  if (value === 'stationed') return 'Stationed Division Sales';
-                  if (value === 'virtual') return 'Virtual Division Sales';
-                  if (value === 'total') return 'Combined Team Sales';
-                  return value;
-                }}
-              />
-
-              {trendDivisionFilter === 'all' && (
-                <>
-                  <Area
-                    type="monotone"
-                    dataKey="stationed"
-                    stroke="#2563eb"
-                    strokeWidth={2}
-                    fillOpacity={1}
-                    fill="url(#stationedTrendGrad)"
+              <Bar dataKey="sales" radius={[4, 4, 0, 0]} className="cursor-pointer">
+                {advisorSalesRanked.map((entry, index) => (
+                  <Cell
+                    key={`advisor-sales-cell-${index}`}
+                    fill={entry.division === 'Stationed' ? '#2563eb' : '#f43f5e'}
+                    className="hover:opacity-80 transition-opacity"
                   />
-                  <Area
-                    type="monotone"
-                    dataKey="virtual"
-                    stroke="#f43f5e"
-                    strokeWidth={2}
-                    fillOpacity={1}
-                    fill="url(#virtualTrendGrad)"
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="total"
-                    stroke="#4f46e5"
-                    strokeWidth={2.5}
-                    fillOpacity={1}
-                    fill="url(#totalTrendGrad)"
-                  />
-                </>
-              )}
-
-              {trendDivisionFilter === 'stationed' && (
-                <Area
-                  type="monotone"
-                  dataKey="stationed"
-                  stroke="#2563eb"
-                  strokeWidth={3}
-                  fillOpacity={1}
-                  fill="url(#stationedTrendGrad)"
-                  dot={{ r: 3, fill: '#2563eb' }}
-                  activeDot={{ r: 6 }}
-                />
-              )}
-
-              {trendDivisionFilter === 'virtual' && (
-                <Area
-                  type="monotone"
-                  dataKey="virtual"
-                  stroke="#f43f5e"
-                  strokeWidth={3}
-                  fillOpacity={1}
-                  fill="url(#virtualTrendGrad)"
-                  dot={{ r: 3, fill: '#f43f5e' }}
-                  activeDot={{ r: 6 }}
-                />
-              )}
-            </AreaChart>
+                ))}
+              </Bar>
+            </BarChart>
           </ResponsiveContainer>
+        </div>
+
+        {/* Legend & Verification Strip */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs">
+          <div className="flex items-center gap-4 flex-wrap">
+            <span className="flex items-center gap-1.5 font-bold text-indigo-700 dark:text-indigo-400">
+              <span className="w-2.5 h-2.5 rounded-sm bg-[#2563eb]" />
+              Stationed Division: ৳{stationedSales.toLocaleString('en-BD')} ({stationedAdvisors.length} Reps)
+            </span>
+            <span className="flex items-center gap-1.5 font-bold text-rose-700 dark:text-rose-400">
+              <span className="w-2.5 h-2.5 rounded-sm bg-[#f43f5e]" />
+              Virtual Division: ৳{virtualSales.toLocaleString('en-BD')} ({virtualAdvisors.length} Reps)
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-[11px] font-medium">
+            <Info className="w-3.5 h-3.5 text-sky-500 shrink-0" />
+            <span>Click any bar to inspect advisor's detailed telemetry</span>
+          </div>
         </div>
       </div>
 
       {/* Visual Analytics Charts & Leaderboard Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-7 items-stretch">
         {/* Card 1: Sales Revenue Breakdown */}
-        <div className="main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs space-y-4 flex flex-col justify-between">
-          <div className="space-y-3">
+        <div className="main-card container-box bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-7 sm:p-8 shadow-xs space-y-6 flex flex-col justify-between">
+          <div className="space-y-4">
             {/* Header */}
-            <div className="flex items-center justify-between gap-2 h-10">
+            <div className="flex items-center justify-between gap-3 min-h-[40px]">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60 text-indigo-600 dark:text-indigo-400 shrink-0 flex items-center justify-center">
+                <div className="p-2 rounded-xl bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800/60 text-sky-600 dark:text-sky-400 shrink-0 flex items-center justify-center">
                   <TrendingUp className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="card-title font-extrabold text-xs sm:text-sm uppercase tracking-wider text-slate-900 dark:text-white truncate">
+                  <h3 className="card-title font-bold text-sm sm:text-base uppercase tracking-wider text-slate-900 dark:text-white truncate">
                     Sales Revenue Share
                   </h3>
-                  <p className="subtext text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">Division Split & Sales Contribution</p>
+                  <p className="subtext text-xs text-slate-500 dark:text-slate-400 font-normal truncate mt-0.5">Division Split & Sales Contribution</p>
                 </div>
               </div>
-              <span className="bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60 text-[11px] font-extrabold px-2.5 py-1 rounded-lg font-mono shrink-0 shadow-2xs">
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300 font-mono shrink-0">
                 ৳{totalSales.toLocaleString('en-BD')} Total
               </span>
             </div>
 
-            {/* Symmetrical Top Stats Bar (Matches 3-tab filter height in Card 2 & 3) */}
-            <div className="flex items-center justify-between px-3 py-1 rounded-xl bg-slate-50 dark:bg-[#141C33] border border-slate-200/90 dark:border-slate-700/80 text-[11px] font-bold text-slate-600 dark:text-slate-300 shadow-inner h-9 sm:h-10">
-              <span className="flex items-center gap-1.5 text-indigo-700 dark:text-indigo-400 truncate">
-                <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
+            {/* Symmetrical Top Stats Bar */}
+            <div className="flex items-center justify-between px-3.5 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 text-xs font-semibold text-slate-600 dark:text-slate-300 h-10">
+              <span className="flex items-center gap-1.5 text-sky-700 dark:text-sky-400 truncate">
+                <span className="w-2 h-2 rounded-full bg-sky-600 shrink-0" />
                 Stationed: {stationedAdvisors.length}
               </span>
               <span className="h-3 w-px bg-slate-300 dark:bg-slate-700 shrink-0" />
-              <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 truncate">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+              <span className="flex items-center gap-1.5 text-rose-700 dark:text-rose-400 truncate">
+                <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
                 Virtual: {virtualAdvisors.length}
               </span>
               <span className="h-3 w-px bg-slate-300 dark:bg-slate-700 shrink-0" />
-              <span className="text-slate-800 dark:text-slate-200 font-mono shrink-0">
+              <span className="text-slate-700 dark:text-slate-300 font-mono shrink-0">
                 Total: {stationedAdvisors.length + virtualAdvisors.length}
               </span>
             </div>
@@ -1099,38 +1006,38 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
               {/* Donut Center Overlay */}
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
-                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-0.5">Ratio</span>
+                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest leading-none mb-0.5">Ratio</span>
                 <span className="text-sm font-black text-slate-900 dark:text-white font-mono leading-none">
                   {totalSales > 0 ? ((stationedSales / totalSales) * 100).toFixed(0) : 0}% / {totalSales > 0 ? ((virtualSales / totalSales) * 100).toFixed(0) : 0}%
                 </span>
-                <span className="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60 px-1.5 py-0.5 rounded mt-1 font-mono">
-                  ST / VT
+                <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 mt-1 font-mono">
+                  Stationed / Virtual
                 </span>
               </div>
             </div>
 
             {/* Stacked Percentage Visual Bar */}
-            <div className="space-y-1.5 pt-0.5">
-              <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden flex p-0.5 border border-slate-200 dark:border-slate-700 shadow-inner">
+            <div className="space-y-2 pt-1">
+              <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden flex p-0.5 border border-slate-200 dark:border-slate-700">
                 <div 
-                  className="h-full bg-indigo-600 rounded-l-full transition-all duration-500" 
+                  className="h-full bg-sky-600 rounded-l-full transition-all duration-500" 
                   style={{ width: `${totalSales > 0 ? (stationedSales / totalSales) * 100 : 50}%` }}
                   title={`Stationed Division: ৳${stationedSales.toLocaleString('en-BD')}`}
                 />
                 <div 
-                  className="h-full bg-emerald-500 rounded-r-full transition-all duration-500" 
+                  className="h-full bg-rose-500 rounded-r-full transition-all duration-500" 
                   style={{ width: `${totalSales > 0 ? (virtualSales / totalSales) * 100 : 50}%` }}
                   title={`Virtual Division: ৳${virtualSales.toLocaleString('en-BD')}`}
                 />
               </div>
 
-              <div className="flex items-center justify-between text-[11px] font-extrabold">
-                <span className="flex items-center gap-1.5 text-indigo-700 dark:text-indigo-400">
-                  <span className="w-2 h-2 rounded-full bg-indigo-600" />
+              <div className="flex items-center justify-between text-xs font-semibold">
+                <span className="flex items-center gap-1.5 text-sky-700 dark:text-sky-400">
+                  <span className="w-2 h-2 rounded-full bg-sky-600" />
                   Stationed: {totalSales > 0 ? ((stationedSales / totalSales) * 100).toFixed(1) : 0}%
                 </span>
-                <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span className="flex items-center gap-1.5 text-rose-700 dark:text-rose-400">
+                  <span className="w-2 h-2 rounded-full bg-rose-500" />
                   Virtual: {totalSales > 0 ? ((virtualSales / totalSales) * 100).toFixed(1) : 0}%
                 </span>
               </div>
@@ -1138,86 +1045,86 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           </div>
 
           {/* Comparative Division Metric Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
-            <div className="bg-indigo-50/50 dark:bg-[#141C33] border border-indigo-100 dark:border-slate-700/80 hover:border-indigo-300 dark:hover:border-indigo-700 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0 shadow-2xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-slate-200/70 dark:border-slate-800">
+            <div className="bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4 flex flex-col justify-between transition-all min-w-0 shadow-2xs">
               <div className="flex items-center justify-between gap-1">
-                <span className="text-[10px] text-indigo-700 dark:text-indigo-400 font-extrabold uppercase tracking-wider truncate">Stationed</span>
+                <span className="text-[11px] text-sky-700 dark:text-sky-400 font-bold uppercase tracking-wider truncate">Stationed</span>
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold shrink-0">{stationedAdvisors.length} Members</span>
               </div>
-              <p className="text-base font-black text-slate-900 dark:text-white font-mono tracking-tight truncate my-1">৳{stationedSales.toLocaleString('en-BD')}</p>
-              <div className="text-[10px] text-slate-500 dark:text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-indigo-100 dark:border-indigo-900/40">
+              <p className="text-base font-black text-slate-900 dark:text-white font-mono tracking-tight truncate my-1.5">৳{stationedSales.toLocaleString('en-BD')}</p>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-slate-200/60 dark:border-slate-700/60">
                 <span>Avg:</span>
-                <strong className="text-indigo-700 dark:text-indigo-300 font-mono font-bold">৳{Math.round(stationedSales / (stationedAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
-                <span className="text-slate-400 text-[9px]">/adv</span>
+                <strong className="text-slate-800 dark:text-slate-200 font-mono font-bold">৳{Math.round(stationedSales / (stationedAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
+                <span className="text-slate-400 text-[10px]">/rep</span>
               </div>
             </div>
 
-            <div className="bg-emerald-50/50 dark:bg-[#141C33] border border-emerald-100 dark:border-slate-700/80 hover:border-emerald-300 dark:hover:border-emerald-700 rounded-xl p-3 flex flex-col justify-between transition-all min-w-0 shadow-2xs">
+            <div className="bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4 flex flex-col justify-between transition-all min-w-0 shadow-2xs">
               <div className="flex items-center justify-between gap-1">
-                <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-extrabold uppercase tracking-wider truncate">Virtual</span>
+                <span className="text-[11px] text-rose-700 dark:text-rose-400 font-bold uppercase tracking-wider truncate">Virtual</span>
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold shrink-0">{virtualAdvisors.length} Members</span>
               </div>
-              <p className="text-base font-black text-slate-900 dark:text-white font-mono tracking-tight truncate my-1">৳{virtualSales.toLocaleString('en-BD')}</p>
-              <div className="text-[10px] text-slate-500 dark:text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-emerald-100 dark:border-emerald-900/40">
+              <p className="text-base font-black text-slate-900 dark:text-white font-mono tracking-tight truncate my-1.5">৳{virtualSales.toLocaleString('en-BD')}</p>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 flex flex-wrap items-baseline gap-1 pt-1 border-t border-slate-200/60 dark:border-slate-700/60">
                 <span>Avg:</span>
-                <strong className="text-emerald-700 dark:text-emerald-300 font-mono font-bold">৳{Math.round(virtualSales / (virtualAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
-                <span className="text-slate-400 text-[9px]">/adv</span>
+                <strong className="text-slate-800 dark:text-slate-200 font-mono font-bold">৳{Math.round(virtualSales / (virtualAdvisors.length || 1)).toLocaleString('en-BD')}</strong>
+                <span className="text-slate-400 text-[10px]">/rep</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Card 2: KPI Performance Tiers & Grade Distribution */}
-        <div className="main-card container-box bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs space-y-4 flex flex-col justify-between">
-          <div className="space-y-3">
+        <div className="main-card container-box bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-7 sm:p-8 shadow-xs space-y-6 flex flex-col justify-between">
+          <div className="space-y-4">
             {/* Header */}
-            <div className="flex items-center justify-between gap-2 h-10">
+            <div className="flex items-center justify-between gap-3 min-h-[40px]">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 text-emerald-600 dark:text-emerald-400 shrink-0 flex items-center justify-center">
+                <div className="p-2 rounded-xl bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800/60 text-teal-600 dark:text-teal-400 shrink-0 flex items-center justify-center">
                   <Award className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="card-title font-extrabold text-xs sm:text-sm uppercase tracking-wider text-slate-900 dark:text-white truncate">
+                  <h3 className="card-title font-bold text-sm sm:text-base uppercase tracking-wider text-slate-900 dark:text-white truncate">
                     KPI Performance Tiers
                   </h3>
-                  <p className="subtext text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">Efficiency Grades & Tier Segmentation</p>
+                  <p className="subtext text-xs text-slate-500 dark:text-slate-400 font-normal truncate mt-0.5">Efficiency Grades & Tier Segmentation</p>
                 </div>
               </div>
 
               {/* View Switcher (Pie Chart vs Bar Chart) */}
-              <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#1E293B] p-1 rounded-lg border border-slate-200 dark:border-slate-700 shrink-0">
+              <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700 shrink-0">
                 <button
                   onClick={() => setKpiChartType('pie')}
-                  className={`px-2.5 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer ${
+                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
                     kpiChartType === 'pie'
-                      ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-600 shadow-xs'
+                      ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
                       : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
                   }`}
-                  title="Pie Chart View (High, Medium, Low Tiers)"
+                  title="Pie Chart View"
                 >
                   Pie
                 </button>
                 <button
                   onClick={() => setKpiChartType('bar')}
-                  className={`px-2.5 py-0.5 rounded text-[11px] font-bold transition-all cursor-pointer ${
+                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
                     kpiChartType === 'bar'
-                      ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-600 shadow-xs'
+                      ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
                       : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
                   }`}
-                  title="Bar Chart View (A, B, C, D, PIP Grades)"
+                  title="Bar Chart View"
                 >
                   Bar
                 </button>
               </div>
             </div>
 
-            {/* Division Filter Toggle Bar (Matches height in Card 1 & 3) */}
-            <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#141C33] p-1 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-inner w-full h-9 sm:h-10">
+            {/* Division Filter Toggle Bar */}
+            <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200 dark:border-slate-700/80 w-full h-10">
               <button
                 onClick={() => setGradeDistributionFilter('combined')}
-                className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
+                className={`flex-1 py-1 rounded-lg text-xs font-bold transition-all text-center cursor-pointer ${
                   gradeDistributionFilter === 'combined'
-                    ? 'bg-teal-700 text-white shadow-xs'
+                    ? 'bg-sky-600 text-white shadow-xs'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
                 }`}
               >
@@ -1225,9 +1132,9 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               </button>
               <button
                 onClick={() => setGradeDistributionFilter('stationed')}
-                className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
+                className={`flex-1 py-1 rounded-lg text-xs font-bold transition-all text-center cursor-pointer ${
                   gradeDistributionFilter === 'stationed'
-                    ? 'bg-teal-700 text-white shadow-xs'
+                    ? 'bg-sky-600 text-white shadow-xs'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
                 }`}
               >
@@ -1235,9 +1142,9 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               </button>
               <button
                 onClick={() => setGradeDistributionFilter('virtual')}
-                className={`flex-1 py-1 rounded-lg text-xs font-extrabold transition-all text-center cursor-pointer ${
+                className={`flex-1 py-1 rounded-lg text-xs font-bold transition-all text-center cursor-pointer ${
                   gradeDistributionFilter === 'virtual'
-                    ? 'bg-teal-700 text-white shadow-xs'
+                    ? 'bg-sky-600 text-white shadow-xs'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
                 }`}
               >
@@ -1282,19 +1189,19 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
 
                   {/* Donut Center Count */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-0.5">Total</span>
+                    <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest leading-none mb-0.5">Total</span>
                     <span className="text-sm font-black text-slate-900 dark:text-white font-mono leading-none">
                       {kpiTierPieData.reduce((a, b) => a + b.count, 0)} Advisors
                     </span>
-                    <span className="text-[9px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 px-1.5 py-0.5 rounded mt-1 capitalize font-mono">
+                    <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 mt-1 capitalize font-mono">
                       {gradeDistributionFilter}
                     </span>
                   </div>
                 </div>
 
                 {/* Progress bar visual for tier ratios */}
-                <div className="space-y-1.5 pt-0.5">
-                  <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden flex p-0.5 border border-slate-200 dark:border-slate-700 shadow-inner">
+                <div className="space-y-2 pt-1">
+                  <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden flex p-0.5 border border-slate-200 dark:border-slate-700">
                     {kpiTierPieData.map((tier, idx) => (
                       <div
                         key={`bar-tier-${idx}`}
@@ -1308,16 +1215,16 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                       />
                     ))}
                   </div>
-                  <div className="flex items-center justify-between text-[11px] font-extrabold text-slate-500 dark:text-slate-400">
-                    <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400">
+                  <div className="flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                       High: {kpiTierPieData[0]?.pct}%
                     </span>
-                    <span className="flex items-center gap-1 text-indigo-700 dark:text-indigo-400">
-                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                    <span className="flex items-center gap-1.5 text-sky-700 dark:text-sky-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
                       Med: {kpiTierPieData[1]?.pct}%
                     </span>
-                    <span className="flex items-center gap-1 text-rose-700 dark:text-rose-400">
+                    <span className="flex items-center gap-1.5 text-rose-700 dark:text-rose-400">
                       <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
                       Low: {kpiTierPieData[2]?.pct}%
                     </span>
@@ -1341,10 +1248,10 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                         {gradeChartData.map((entry, index) => {
                           const semanticColors: Record<string, string> = {
                             'A': '#10b981',    // Exceeds (Emerald)
-                            'B': '#6366f1',    // On Target (Indigo)
-                            'C': '#8b5cf6',    // Warning (Purple)
-                            'D': '#f97316',    // Needs Improvement
-                            'PIP': '#e11d48',  // Critical
+                            'B': '#0284c7',    // Target (Sky)
+                            'C': '#f59e0b',    // Warning (Amber)
+                            'D': '#f97316',    // Needs Improvement (Orange)
+                            'PIP': '#e11d48',  // Critical Action (Rose)
                           };
                           return <Cell key={`cell-grade-${index}`} fill={semanticColors[entry.grade] || '#10b981'} />;
                         })}
@@ -1354,22 +1261,22 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
                 </div>
 
                 {/* Semantic Color Legend Strip */}
-                <div className="flex items-center justify-between text-[10px] font-extrabold uppercase tracking-tight text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-200 dark:border-slate-800">
+                <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-200/70 dark:border-slate-800">
                   <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    A (Exceeds)
+                    A
                   </span>
-                  <span className="flex items-center gap-1 text-indigo-700 dark:text-indigo-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-                    B (Target)
+                  <span className="flex items-center gap-1 text-sky-700 dark:text-sky-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                    B
                   </span>
-                  <span className="flex items-center gap-1 text-purple-700 dark:text-purple-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
-                    C/D (Warning)
+                  <span className="flex items-center gap-1 text-amber-700 dark:text-amber-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                    C/D
                   </span>
                   <span className="flex items-center gap-1 text-rose-700 dark:text-rose-400">
                     <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
-                    PIP (Action)
+                    PIP
                   </span>
                 </div>
               </div>
@@ -1377,17 +1284,17 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
           </div>
 
           {/* KPI Tier Legend & Count Badges */}
-          <div className="grid grid-cols-3 gap-2 text-center pt-3 border-t border-slate-200 dark:border-slate-800">
+          <div className="grid grid-cols-3 gap-2 text-center pt-4 border-t border-slate-200/70 dark:border-slate-800">
             {kpiTierPieData.map((tier) => (
-              <div key={tier.tier} className="bg-slate-50 dark:bg-[#141C33] border border-slate-200/80 dark:border-slate-700/80 p-2.5 rounded-xl space-y-0.5 hover:border-emerald-500 transition-all shadow-2xs">
-                <div className="flex items-center justify-center gap-1">
+              <div key={tier.tier} className="bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 p-3 rounded-xl space-y-0.5 shadow-2xs">
+                <div className="flex items-center justify-center gap-1.5">
                   <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: tier.color }} />
-                  <span className="text-[10px] font-extrabold text-slate-700 dark:text-slate-300 truncate">{tier.tier}</span>
+                  <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300 truncate">{tier.tier}</span>
                 </div>
                 <div className="text-sm font-black text-slate-900 dark:text-white font-mono">
                   {tier.count} <span className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">({tier.pct}%)</span>
                 </div>
-                <span className="text-[9px] font-semibold block text-slate-500 dark:text-slate-400">{tier.label}</span>
+                <span className="text-[10px] font-medium block text-slate-500 dark:text-slate-400">{tier.label}</span>
               </div>
             ))}
           </div>
@@ -1435,7 +1342,6 @@ export const ExecutiveOverview: React.FC<ExecutiveOverviewProps> = ({
               totalStationedReach={totalStationedReach}
               totalVirtualReach={totalVirtualReach}
               totalReachCalls={totalReachCalls}
-              dailySalesTrendData={dailySalesTrendData}
               onNavigateTab={onNavigateTab}
               onSelectAdvisor={onSelectAdvisor}
               getAdvisorGrade={getAdvisorGrade}

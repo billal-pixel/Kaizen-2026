@@ -3,12 +3,14 @@ import { motion, AnimatePresence } from 'motion/react';
 import { StationedAdvisor, VirtualAdvisor, TaskItem, TimeLog, CallRecord } from '../types';
 import { formatKpiDisplay } from '../utils/sheetParser';
 import { AdvisorKpiSparkline } from './AdvisorKpiSparkline';
-import { User, Award, PhoneCall, DollarSign, Clock, CheckSquare, X, Edit2, Copy, Check, Zap, Plus, Send } from 'lucide-react';
+import { User, Award, PhoneCall, DollarSign, Clock, CheckSquare, X, Edit2, Copy, Check, Zap, Plus, Send, Target } from 'lucide-react';
 import { KaizenLogo } from './KaizenLogo';
 
 interface AdvisorDetailModalProps {
   advisor: StationedAdvisor | VirtualAdvisor | null;
   type: 'stationed' | 'virtual';
+  stationedAdvisors?: StationedAdvisor[];
+  virtualAdvisors?: VirtualAdvisor[];
   tasks: TaskItem[];
   timeLogs: TimeLog[];
   callRecords?: CallRecord[];
@@ -21,6 +23,8 @@ interface AdvisorDetailModalProps {
 export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
   advisor,
   type,
+  stationedAdvisors = [],
+  virtualAdvisors = [],
   tasks,
   timeLogs,
   callRecords = [],
@@ -202,6 +206,220 @@ export const AdvisorDetailModal: React.FC<AdvisorDetailModalProps> = ({
             <X className="w-5 h-5" />
           </button>
         </div>
+
+        {/* Monthly Target Achievement Progress */}
+        {(() => {
+          const salesTarget = isStationed ? (stAdvisor.advisorSalesTarget ?? 0) : (vtAdvisor.advisorSalesTarget ?? 0);
+          const achievedSales = isStationed ? (stAdvisor.finalSalesData ?? 0) : (vtAdvisor.finalSales ?? 0);
+          const salesGap = Math.max(0, salesTarget - achievedSales);
+          const salesPct = salesTarget > 0 ? (achievedSales / salesTarget) * 100 : 0;
+          const salesClamped = Math.min(100, Math.max(0, salesPct));
+
+          const callTarget = isStationed ? (stAdvisor.advisorCallTarget ?? 80) : (vtAdvisor.advisorCallTarget ?? 100);
+          const achievedCalls = isStationed ? (stAdvisor.avgReach ?? 0) : (vtAdvisor.reachCall ?? 0);
+          const callsGap = Math.max(0, callTarget - achievedCalls);
+          const callsPct = callTarget > 0 ? (achievedCalls / callTarget) * 100 : 0;
+          const callsClamped = Math.min(100, Math.max(0, callsPct));
+
+          const getBarColor = (pct: number) =>
+            pct >= 80 ? 'bg-emerald-500' : pct >= 40 ? 'bg-sky-500' : pct > 0 ? 'bg-amber-500' : 'bg-rose-500';
+          const getTextColor = (pct: number) =>
+            pct >= 80
+              ? 'text-emerald-600 dark:text-emerald-400'
+              : pct >= 40
+              ? 'text-sky-600 dark:text-sky-400'
+              : pct > 0
+              ? 'text-amber-600 dark:text-amber-400'
+              : 'text-rose-600 dark:text-rose-400';
+
+          // Main Team (Station or Virtual) & Sub-Team target aggregation
+          const divisionList = isStationed ? stationedAdvisors : virtualAdvisors;
+          const mainTeamLabel = isStationed ? 'Station Team' : 'Virtual Team';
+          const mainTeamSalesTarget = divisionList.reduce((acc, a) => acc + (a.advisorSalesTarget ?? 0), 0);
+          const mainTeamSalesAchieved = divisionList.reduce(
+            (acc, a) => acc + (isStationed ? ((a as StationedAdvisor).finalSalesData ?? 0) : ((a as VirtualAdvisor).finalSales ?? 0)),
+            0
+          );
+          const mainTeamSalesPct = mainTeamSalesTarget > 0 ? (mainTeamSalesAchieved / mainTeamSalesTarget) * 100 : 0;
+          const mainTeamCallTarget = divisionList.reduce(
+            (acc, a) => acc + (a.advisorCallTarget ?? (isStationed ? 80 : 100)),
+            0
+          );
+          const mainTeamCallAchieved = divisionList.reduce(
+            (acc, a) => acc + (isStationed ? ((a as StationedAdvisor).avgReach ?? 0) : ((a as VirtualAdvisor).reachCall ?? 0)),
+            0
+          );
+          const mainTeamCallPct = mainTeamCallTarget > 0 ? (mainTeamCallAchieved / mainTeamCallTarget) * 100 : 0;
+
+          const subTeamName = advisor.subTeam || (isStationed ? 'General' : 'Virtual');
+          const subTeamList = divisionList.filter(
+            (a) => (a.subTeam || (isStationed ? 'General' : 'Virtual')).toLowerCase() === subTeamName.toLowerCase()
+          );
+          const subTeamSalesTarget = subTeamList.reduce((acc, a) => acc + (a.advisorSalesTarget ?? 0), 0);
+          const subTeamSalesAchieved = subTeamList.reduce(
+            (acc, a) => acc + (isStationed ? ((a as StationedAdvisor).finalSalesData ?? 0) : ((a as VirtualAdvisor).finalSales ?? 0)),
+            0
+          );
+          const subTeamSalesPct = subTeamSalesTarget > 0 ? (subTeamSalesAchieved / subTeamSalesTarget) * 100 : 0;
+          const subTeamCallTarget = subTeamList.reduce(
+            (acc, a) => acc + (a.advisorCallTarget ?? (isStationed ? 80 : 100)),
+            0
+          );
+          const subTeamCallAchieved = subTeamList.reduce(
+            (acc, a) => acc + (isStationed ? ((a as StationedAdvisor).avgReach ?? 0) : ((a as VirtualAdvisor).reachCall ?? 0)),
+            0
+          );
+          const subTeamCallPct = subTeamCallTarget > 0 ? (subTeamCallAchieved / subTeamCallTarget) * 100 : 0;
+
+          return (
+            <div className="bg-slate-50/90 dark:bg-[#111F36] border border-slate-200 dark:border-slate-800 rounded-xl p-4 space-y-3.5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Target className="w-4 h-4 text-sky-600 dark:text-sky-400" />
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
+                    Monthly Target Progress
+                  </h4>
+                </div>
+                <span className="text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400">
+                  {salesTarget > 0 ? `${salesPct.toFixed(1)}% Sales Achieved` : 'No Sales Quota Set'}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {/* Sales Volume Progress */}
+                <div className="bg-white dark:bg-[#0B172A] border border-slate-200/80 dark:border-slate-800 rounded-lg p-3 space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-semibold text-slate-500 dark:text-slate-400">Sales Volume</span>
+                    <span className={`font-mono font-bold ${getTextColor(salesPct)}`}>
+                      {salesTarget > 0 ? `${salesPct.toFixed(1)}%` : '—'}
+                    </span>
+                  </div>
+                  <div className="flex items-baseline justify-between font-mono">
+                    <span className="text-sm font-black text-slate-900 dark:text-white">
+                      ৳{achievedSales.toLocaleString('en-BD')}
+                    </span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                      of ৳{salesTarget.toLocaleString('en-BD')}
+                    </span>
+                  </div>
+                  <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-300 ${getBarColor(salesPct)}`}
+                      style={{ width: `${salesClamped}%` }}
+                    />
+                  </div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                    {salesTarget > 0
+                      ? salesGap === 0
+                        ? 'Target achieved!'
+                        : `৳${salesGap.toLocaleString('en-BD')} remaining to goal`
+                      : 'Target not assigned'}
+                  </div>
+                </div>
+
+                {/* Call Reach Progress */}
+                <div className="bg-white dark:bg-[#0B172A] border border-slate-200/80 dark:border-slate-800 rounded-lg p-3 space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-semibold text-slate-500 dark:text-slate-400">Call Reach</span>
+                    <span className={`font-mono font-bold ${getTextColor(callsPct)}`}>
+                      {callTarget > 0 ? `${callsPct.toFixed(0)}%` : '—'}
+                    </span>
+                  </div>
+                  <div className="flex items-baseline justify-between font-mono">
+                    <span className="text-sm font-black text-slate-900 dark:text-white">
+                      {achievedCalls} calls
+                    </span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                      of {callTarget} target
+                    </span>
+                  </div>
+                  <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-300 ${getBarColor(callsPct)}`}
+                      style={{ width: `${callsClamped}%` }}
+                    />
+                  </div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                    {callTarget > 0
+                      ? callsGap === 0
+                        ? 'Call target achieved!'
+                        : `${callsGap} calls remaining to goal`
+                      : 'Call target not assigned'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Main Team (Station / Virtual) & Sub-Team Target Progress */}
+              {divisionList.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+                  {/* Main Team Progress */}
+                  <div className="bg-white dark:bg-[#0B172A] border border-slate-200/80 dark:border-slate-800 rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-semibold text-slate-500 dark:text-slate-400">
+                        Main Team · {mainTeamLabel}
+                      </span>
+                      <span className={`font-mono font-bold ${getTextColor(mainTeamSalesPct)}`}>
+                        {mainTeamSalesTarget > 0 ? `${mainTeamSalesPct.toFixed(1)}%` : '—'}
+                      </span>
+                    </div>
+                    <div className="flex items-baseline justify-between font-mono">
+                      <span className="text-xs font-black text-slate-900 dark:text-white">
+                        ৳{mainTeamSalesAchieved.toLocaleString('en-BD')}
+                      </span>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                        of ৳{mainTeamSalesTarget.toLocaleString('en-BD')}
+                      </span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-300 ${getBarColor(mainTeamSalesPct)}`}
+                        style={{ width: `${Math.min(100, Math.max(0, mainTeamSalesPct))}%` }}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                      <span>Calls: {mainTeamCallAchieved}/{mainTeamCallTarget}</span>
+                      <span className={`font-bold ${getTextColor(mainTeamCallPct)}`}>
+                        {mainTeamCallTarget > 0 ? `${mainTeamCallPct.toFixed(0)}%` : '—'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Sub-Team Progress */}
+                  <div className="bg-white dark:bg-[#0B172A] border border-slate-200/80 dark:border-slate-800 rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-semibold text-slate-500 dark:text-slate-400">
+                        Sub-Team · {subTeamName}
+                      </span>
+                      <span className={`font-mono font-bold ${getTextColor(subTeamSalesPct)}`}>
+                        {subTeamSalesTarget > 0 ? `${subTeamSalesPct.toFixed(1)}%` : '—'}
+                      </span>
+                    </div>
+                    <div className="flex items-baseline justify-between font-mono">
+                      <span className="text-xs font-black text-slate-900 dark:text-white">
+                        ৳{subTeamSalesAchieved.toLocaleString('en-BD')}
+                      </span>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                        of ৳{subTeamSalesTarget.toLocaleString('en-BD')}
+                      </span>
+                    </div>
+                    <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-300 ${getBarColor(subTeamSalesPct)}`}
+                        style={{ width: `${Math.min(100, Math.max(0, subTeamSalesPct))}%` }}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                      <span>Calls: {subTeamCallAchieved}/{subTeamCallTarget}</span>
+                      <span className={`font-bold ${getTextColor(subTeamCallPct)}`}>
+                        {subTeamCallTarget > 0 ? `${subTeamCallPct.toFixed(0)}%` : '—'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })()}
 
         {/* 30-Day Weekly KPI Performance Trend Sparkline */}
         <div>

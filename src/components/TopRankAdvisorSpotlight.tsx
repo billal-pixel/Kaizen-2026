@@ -628,7 +628,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
     return top3Advisors;
   }, [top3Advisors, layoutMode]);
 
-  // Bright, High-Energy Visual Themes for Rank 1 (Sunburst Gold), Rank 2 (Electric Azure Cyan), Rank 3 (Sunset Coral Rose)
+  // Standardized Palette: Crisp slate base with tasteful gold accent for Rank 1 Champion
   const getRankTheme = (rank: number) => {
     switch (rank) {
       case 1:
@@ -636,82 +636,82 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
           title: 'RANK #1 CHAMPION',
           shortRank: '#1',
           tierLabel: 'Gold Champion',
-          headerBg: 'bg-gradient-to-r from-amber-500/25 via-yellow-400/20 to-orange-500/10 dark:from-amber-500/35 dark:via-yellow-400/20 dark:to-transparent',
-          cardBg: 'bg-gradient-to-b from-amber-50/70 via-white to-white dark:from-amber-950/20 dark:via-[#141C33] dark:to-[#141C33]',
-          badgeStyle: 'bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-slate-950 font-black border border-amber-300 dark:border-amber-400 shadow-md shadow-amber-500/30',
-          cardBorder: 'border-2 border-amber-400 dark:border-amber-400/90 shadow-lg shadow-amber-500/15 hover:shadow-2xl hover:shadow-amber-500/30',
-          glowHalo: 'from-amber-400/40 via-yellow-300/25 to-transparent',
-          borderBeamGradient: 'from-amber-400 via-yellow-300 to-orange-500',
+          headerBg: 'bg-amber-50/50 dark:bg-amber-950/20',
+          cardBg: 'bg-white dark:bg-slate-900',
+          badgeStyle: 'bg-amber-500 text-slate-950 font-black border border-amber-400 shadow-xs',
+          cardBorder: 'border-2 border-amber-400/80 dark:border-amber-500/70 shadow-sm',
+          glowHalo: 'from-amber-400/10 to-transparent',
+          borderBeamGradient: 'from-amber-400 via-amber-300 to-amber-500',
           accentColor: 'text-amber-600 dark:text-amber-400',
-          numberGradient: 'from-amber-600 via-yellow-600 to-amber-800 dark:from-amber-300 dark:via-yellow-300 dark:to-amber-400',
+          numberGradient: 'from-amber-600 via-amber-700 to-amber-900 dark:from-amber-300 dark:via-amber-400 dark:to-amber-500',
           icon: Crown,
           crownColor: 'text-slate-950 dark:text-slate-950 fill-amber-300',
           ringColor: 'stroke-amber-400',
           satelliteColor: '#F59E0B',
-          progressColor: 'from-amber-500 via-yellow-400 to-orange-500',
-          progressGlow: 'shadow-[0_0_15px_rgba(245,158,11,0.65)]',
-          avatarBorder: 'border-2 border-amber-400 bg-gradient-to-br from-amber-400 via-yellow-300 to-amber-500 text-slate-950 font-black shadow-md shadow-amber-500/25',
-          podiumElevation: layoutMode === 'podium' ? 'lg:-translate-y-4 z-20 scale-[1.03]' : '',
+          progressColor: 'from-amber-500 to-amber-600',
+          progressGlow: 'shadow-xs',
+          avatarBorder: 'border border-amber-400 bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 font-black',
+          podiumElevation: layoutMode === 'podium' ? 'lg:-translate-y-3 z-20' : '',
           kudosKey: 'rank-1',
-          kudosButton: 'bg-gradient-to-r from-amber-500 via-yellow-400 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 border border-amber-300 shadow-md shadow-amber-500/30',
+          kudosButton: 'bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold border border-amber-400 shadow-xs',
           kudosIconColor: 'text-slate-950 fill-slate-950',
           gaugeColor: '#F59E0B',
-          gaugeGlow: 'rgba(245, 158, 11, 0.5)',
+          gaugeGlow: 'rgba(245, 158, 11, 0.2)',
         };
       case 2:
         return {
-          title: 'RANK #2 AZURE TIER',
+          title: 'RANK #2 PERFORMER',
           shortRank: '#2',
-          tierLabel: 'Electric Azure',
-          headerBg: 'bg-gradient-to-r from-cyan-500/25 via-blue-500/20 to-indigo-500/10 dark:from-cyan-500/35 dark:via-blue-500/20 dark:to-transparent',
-          cardBg: 'bg-gradient-to-b from-cyan-50/60 via-white to-white dark:from-cyan-950/20 dark:via-[#141C33] dark:to-[#141C33]',
-          badgeStyle: 'bg-gradient-to-r from-cyan-500 via-sky-400 to-blue-600 text-white font-black border border-cyan-300 dark:border-cyan-400 shadow-md shadow-cyan-500/30',
-          cardBorder: 'border-2 border-cyan-400 dark:border-cyan-400/80 shadow-lg shadow-cyan-500/15 hover:shadow-2xl hover:shadow-cyan-500/30',
-          glowHalo: 'from-cyan-400/35 via-blue-400/20 to-transparent',
-          borderBeamGradient: 'from-cyan-400 via-sky-300 to-blue-600',
-          accentColor: 'text-cyan-600 dark:text-cyan-400',
-          numberGradient: 'from-cyan-600 via-blue-600 to-indigo-700 dark:from-cyan-300 dark:via-sky-300 dark:to-blue-400',
+          tierLabel: 'Rank 2 Leader',
+          headerBg: 'bg-slate-50 dark:bg-slate-800/40',
+          cardBg: 'bg-white dark:bg-slate-900',
+          badgeStyle: 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold border border-slate-200 dark:border-slate-700',
+          cardBorder: 'border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-2xs',
+          glowHalo: 'from-slate-400/5 to-transparent',
+          borderBeamGradient: 'from-sky-400 via-slate-300 to-sky-500',
+          accentColor: 'text-sky-600 dark:text-sky-400',
+          numberGradient: 'from-slate-900 to-slate-700 dark:from-white dark:to-slate-300',
           icon: Medal,
-          crownColor: 'text-white fill-white',
-          ringColor: 'stroke-cyan-400',
-          satelliteColor: '#06B6D4',
-          progressColor: 'from-cyan-400 via-sky-400 to-blue-600',
-          progressGlow: 'shadow-[0_0_15px_rgba(6,182,212,0.65)]',
-          avatarBorder: 'border-2 border-cyan-400 bg-gradient-to-br from-cyan-500 via-sky-400 to-blue-600 text-white font-black shadow-md shadow-cyan-500/25',
-          podiumElevation: layoutMode === 'podium' ? 'lg:translate-y-2 z-10' : '',
+          crownColor: 'text-slate-700 dark:text-slate-300 fill-slate-400',
+          ringColor: 'stroke-slate-300 dark:stroke-slate-600',
+          satelliteColor: '#0284C7',
+          progressColor: 'from-sky-500 to-sky-600',
+          progressGlow: 'shadow-xs',
+          avatarBorder: 'border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold',
+          podiumElevation: layoutMode === 'podium' ? 'lg:translate-y-1 z-10' : '',
           kudosKey: 'rank-2',
-          kudosButton: 'bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white border border-cyan-300 shadow-md shadow-cyan-500/30',
-          kudosIconColor: 'text-white fill-white',
-          gaugeColor: '#06B6D4',
-          gaugeGlow: 'rgba(6, 182, 212, 0.5)',
+          kudosButton: 'bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-2xs',
+          kudosIconColor: 'text-slate-700 dark:text-slate-300',
+          gaugeColor: '#0284C7',
+          gaugeGlow: 'rgba(2, 132, 199, 0.2)',
         };
       case 3:
       default:
         return {
-          title: 'RANK #3 CORAL TIER',
+          title: 'RANK #3 PERFORMER',
           shortRank: '#3',
-          tierLabel: 'Sunset Coral',
-          headerBg: 'bg-gradient-to-r from-rose-500/25 via-pink-500/20 to-orange-500/10 dark:from-rose-500/35 dark:via-pink-500/20 dark:to-transparent',
-          cardBg: 'bg-gradient-to-b from-rose-50/60 via-white to-white dark:from-rose-950/20 dark:via-[#141C33] dark:to-[#141C33]',
-          badgeStyle: 'bg-gradient-to-r from-rose-500 via-pink-500 to-orange-500 text-white font-black border border-rose-300 dark:border-rose-400 shadow-md shadow-rose-500/30',
-          cardBorder: 'border-2 border-rose-400 dark:border-rose-400/80 shadow-lg shadow-rose-500/15 hover:shadow-2xl hover:shadow-rose-500/30',
-          glowHalo: 'from-rose-400/35 via-orange-400/20 to-transparent',
-          borderBeamGradient: 'from-rose-400 via-pink-300 to-orange-500',
-          accentColor: 'text-rose-600 dark:text-rose-400',
-          numberGradient: 'from-rose-600 via-orange-600 to-amber-700 dark:from-rose-300 dark:via-orange-300 dark:to-amber-400',
+          tierLabel: 'Rank 3 Leader',
+          headerBg: 'bg-slate-50 dark:bg-slate-800/40',
+          cardBg: 'bg-white dark:bg-slate-900',
+          badgeStyle: 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold border border-slate-200 dark:border-slate-700',
+          cardBorder: 'border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-2xs',
+          glowHalo: 'from-slate-400/5 to-transparent',
+          borderBeamGradient: 'from-slate-400 to-slate-500',
+          accentColor: 'text-slate-700 dark:text-slate-300',
+          numberGradient: 'from-slate-900 to-slate-700 dark:from-white dark:to-slate-300',
           icon: Award,
-          crownColor: 'text-white fill-white',
-          ringColor: 'stroke-rose-400',
-          satelliteColor: '#F43F5E',
-          progressColor: 'from-rose-500 via-pink-500 to-orange-500',
-          progressGlow: 'shadow-[0_0_15px_rgba(244,63,94,0.65)]',
-          avatarBorder: 'border-2 border-rose-400 bg-gradient-to-br from-rose-500 via-pink-500 to-orange-500 text-white font-black shadow-md shadow-rose-500/25',
-          podiumElevation: layoutMode === 'podium' ? 'lg:translate-y-3 z-10' : '',
+          crownColor: 'text-slate-700 dark:text-slate-300 fill-slate-400',
+          ringColor: 'stroke-slate-300 dark:stroke-slate-600',
+          satelliteColor: '#64748B',
+          progressColor: 'from-slate-500 to-slate-600',
+          progressGlow: 'shadow-xs',
+          avatarBorder: 'border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold',
+          podiumElevation: layoutMode === 'podium' ? 'lg:translate-y-2 z-10' : '',
           kudosKey: 'rank-3',
-          kudosButton: 'bg-gradient-to-r from-rose-500 via-pink-500 to-orange-500 hover:from-rose-600 hover:to-orange-600 text-white border border-rose-300 shadow-md shadow-rose-500/30',
-          kudosIconColor: 'text-white fill-white',
-          gaugeColor: '#F43F5E',
-          gaugeGlow: 'rgba(244, 63, 94, 0.5)',
+          kudosButton: 'bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-2xs',
+          kudosIconColor: 'text-slate-700 dark:text-slate-300',
+          gaugeColor: '#64748B',
+          gaugeGlow: 'rgba(100, 116, 139, 0.2)',
         };
     }
   };
@@ -778,39 +778,9 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
   };
 
   return (
-    <div className="top-3-advisors-spotlight bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-md space-y-6 relative overflow-hidden transition-all">
-      {/* Studio Background Motion Graphics Mesh (Floating Diamonds, Concentric Gyros) */}
+    <div className="top-3-advisors-spotlight bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-7 sm:p-9 shadow-xs space-y-7 relative overflow-hidden transition-all">
+      {/* Subtle Studio Ambient Background Mesh */}
       <StudioBackgroundMotionGraphics />
-
-      {/* Dynamic Animated Ambient Color Flares */}
-      <motion.div 
-        animate={{ 
-          x: [0, 30, -20, 0],
-          y: [0, -20, 20, 0],
-          scale: [1, 1.25, 1], 
-          opacity: [0.35, 0.6, 0.35] 
-        }}
-        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-10 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-amber-400/25 via-yellow-400/20 to-orange-500/10 rounded-full blur-3xl pointer-events-none" 
-      />
-      <motion.div 
-        animate={{ 
-          x: [0, -30, 20, 0],
-          y: [0, 25, -15, 0],
-          scale: [1, 1.2, 1], 
-          opacity: [0.3, 0.55, 0.3] 
-        }}
-        transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute -bottom-10 right-10 w-[450px] h-[450px] bg-gradient-to-br from-cyan-400/25 via-blue-500/20 to-teal-400/10 rounded-full blur-3xl pointer-events-none" 
-      />
-      <motion.div 
-        animate={{ 
-          scale: [1, 1.3, 1], 
-          opacity: [0.2, 0.45, 0.2] 
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute top-1/2 left-10 w-[350px] h-[350px] bg-gradient-to-br from-rose-500/20 to-pink-500/10 rounded-full blur-3xl pointer-events-none" 
-      />
 
       {/* Floating Particle Fireworks Emojis Overlay */}
       <AnimatePresence>
@@ -835,74 +805,63 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
         ))}
       </AnimatePresence>
 
-      {/* Celebration Banner Overlay with Bright Pulsing Gradient */}
+      {/* Celebration Banner Overlay */}
       <AnimatePresence>
         {showCelebrationBanner && (
           <motion.div
             initial={{ opacity: 0, y: -30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -30, scale: 0.9 }}
-            className="absolute top-4 left-1/2 -translate-x-1/2 z-40 px-6 py-3 rounded-full bg-gradient-to-r from-amber-500 via-rose-500 to-cyan-500 text-white font-black text-xs sm:text-sm shadow-2xl flex items-center gap-3 border-2 border-white/60 backdrop-blur-md"
+            className="absolute top-4 left-1/2 -translate-x-1/2 z-40 px-6 py-3 rounded-full bg-slate-900 text-white font-bold text-xs sm:text-sm shadow-xl flex items-center gap-3 border border-slate-700 backdrop-blur-md"
           >
-            <PartyPopper className="w-5 h-5 animate-bounce" />
-            <span>🎉 Outstanding Achievement! Celebrating Team Kaizen Top Performers!</span>
-            <Sparkles className="w-5 h-5 animate-spin" />
+            <PartyPopper className="w-5 h-5 text-amber-400 animate-bounce" />
+            <span>Celebrating Team Kaizen Top Performers</span>
+            <Sparkles className="w-4 h-4 text-amber-400" />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Header with Title, Live Indicator & Balanced Single-Row Toolbar */}
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 relative z-10 border-b border-sky-100 dark:border-slate-700/80 pb-5">
-        {/* Left: Animated Trophy Emblem, Title & Neon Live Status */}
+      {/* Header with Title & Balanced Toolbar */}
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 relative z-10 border-b border-slate-200/70 dark:border-slate-800 pb-5">
+        {/* Left: Animated Trophy Emblem & Clean Title */}
         <div className="flex items-center gap-3.5">
           <motion.button 
             type="button"
-            whileHover={{ scale: 1.15, rotate: [0, -8, 8, 0] }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
             onClick={triggerHeaderCelebration}
-            className="p-3 rounded-xl bg-gradient-to-br from-amber-400 via-yellow-400 to-orange-500 text-slate-950 shrink-0 shadow-lg shadow-amber-500/30 relative cursor-pointer group border-2 border-white/60 dark:border-amber-300"
+            className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 shrink-0 shadow-xs relative cursor-pointer group border border-amber-200 dark:border-amber-800/60"
             title="Click for celebration confetti!"
           >
-            <Trophy className="w-6 h-6 text-slate-950 fill-amber-300 group-hover:animate-bounce" />
-            <motion.span 
-              animate={{ scale: [1, 1.5, 1], opacity: [0.7, 1, 0.7] }} 
-              transition={{ repeat: Infinity, duration: 1.8 }}
-              className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full ring-2 ring-white shadow-sm" 
-            />
+            <Trophy className="w-5 h-5 text-amber-500 fill-amber-500" />
           </motion.button>
 
           <div>
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
                 Top 3 Advisors Performance Spotlight
               </h2>
-              {/* Neon Pulsating Live Verified Status Badge with Live Soundwave */}
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500 text-white text-[10px] font-black uppercase tracking-wider shadow-md shadow-emerald-500/30 border border-emerald-400">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-90"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-                </span>
-                <span>Verified Live</span>
-                <LiveActivitySoundwaveGraphic colorClass="text-white" />
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                · Verified October MTD
               </span>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">
-              Rankings calculated for <span className="font-bold text-slate-800 dark:text-slate-200">{timeframeLabel}</span> • Sorted by <span className="font-extrabold text-amber-600 dark:text-amber-400">{rankMetric === 'sales' ? 'Total Sales Revenue' : 'Overall KPI Score'}</span>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-normal mt-0.5">
+              Rankings for <span className="font-semibold text-slate-700 dark:text-slate-300">{timeframeLabel}</span> · Sorted by <span className="font-semibold text-slate-700 dark:text-slate-300">{rankMetric === 'sales' ? 'Total Sales Revenue' : 'Overall KPI Score'}</span>
             </p>
           </div>
         </div>
 
-        {/* Right Interactive Controls: 3 Segmented Toggles + View Toggle */}
+        {/* Right Interactive Controls: Clean Segmented Toggles */}
         <div className="flex flex-wrap items-center gap-2 lg:gap-2.5 self-start xl:self-auto">
           {/* Toggle 1 - Metric: [By Sales (৳) | By KPI (%)] */}
-          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#141C33] rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-xs">
+          <div className="relative flex items-center p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
             <button
               type="button"
               onClick={() => setRankMetric('sales')}
-              className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+              className={`relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                 rankMetric === 'sales'
-                  ? 'text-slate-950'
+                  ? 'text-white'
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
               }`}
               title="Rank by Total Sales Revenue"
@@ -910,19 +869,19 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
               {rankMetric === 'sales' && (
                 <motion.div
                   layoutId="spotlightMetricPill"
-                  className="absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 rounded-lg shadow-md shadow-amber-500/30 border border-amber-300"
+                  className="absolute inset-0 bg-sky-600 rounded-lg shadow-xs"
                   transition={{ type: "spring", stiffness: 450, damping: 32 }}
                 />
               )}
               <span className="relative z-10 flex items-center gap-1.5">
-                <Crown className={`w-3.5 h-3.5 shrink-0 ${rankMetric === 'sales' ? 'text-slate-950 fill-amber-300' : ''}`} />
+                <Crown className={`w-3.5 h-3.5 shrink-0 ${rankMetric === 'sales' ? 'text-amber-300 fill-amber-300' : ''}`} />
                 <span>By Sales (৳)</span>
               </span>
             </button>
             <button
               type="button"
               onClick={() => setRankMetric('kpi')}
-              className={`relative z-10 flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+              className={`relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                 rankMetric === 'kpi'
                   ? 'text-white'
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
@@ -932,7 +891,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
               {rankMetric === 'kpi' && (
                 <motion.div
                   layoutId="spotlightMetricPill"
-                  className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-600 rounded-lg shadow-md shadow-teal-500/30 border border-teal-400"
+                  className="absolute inset-0 bg-sky-600 rounded-lg shadow-xs"
                   transition={{ type: "spring", stiffness: 450, damping: 32 }}
                 />
               )}
@@ -944,7 +903,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
           </div>
 
           {/* Toggle 2 - Timeframe: [Month | Week | Last Day] */}
-          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#141C33] rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-xs">
+          <div className="relative flex items-center p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
             {(['month', 'week', 'last_day'] as RankTimeframe[]).map((tf) => {
               const label = tf === 'month' ? 'Month' : tf === 'week' ? 'Week' : 'Last Day';
               const Icon = tf === 'month' ? TrendingUp : tf === 'week' ? Calendar : Zap;
@@ -964,7 +923,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
                   {isSelected && (
                     <motion.div
                       layoutId="spotlightTimeframePill"
-                      className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg shadow-md shadow-emerald-500/30 border border-emerald-400"
+                      className="absolute inset-0 bg-sky-600 rounded-lg shadow-xs"
                       transition={{ type: "spring", stiffness: 450, damping: 32 }}
                     />
                   )}
@@ -978,7 +937,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
           </div>
 
           {/* Toggle 3 - Division: [All | Stationed | Virtual] */}
-          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#141C33] rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-xs">
+          <div className="relative flex items-center p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
             {(['all', 'stationed', 'virtual'] as RankDivisionFilter[]).map((div) => {
               const label = div === 'all' ? 'All' : div === 'stationed' ? 'Stationed' : 'Virtual';
               const isSelected = divisionFilter === div;
@@ -997,7 +956,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
                   {isSelected && (
                     <motion.div
                       layoutId="spotlightDivisionPill"
-                      className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg shadow-md shadow-blue-500/30 border border-blue-400"
+                      className="absolute inset-0 bg-sky-600 rounded-lg shadow-xs"
                       transition={{ type: "spring", stiffness: 450, damping: 32 }}
                     />
                   )}
@@ -1008,7 +967,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
           </div>
 
           {/* View Toggle: Grid vs. Podium */}
-          <div className="relative flex items-center p-1 bg-sky-50 dark:bg-[#141C33] rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-xs">
+          <div className="relative flex items-center p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
             <button
               type="button"
               onClick={() => setLayoutMode('grid')}
@@ -1022,7 +981,7 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
               {layoutMode === 'grid' && (
                 <motion.div
                   layoutId="spotlightLayoutPill"
-                  className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-lg shadow-md shadow-teal-500/30"
+                  className="absolute inset-0 bg-sky-600 rounded-lg shadow-xs"
                   transition={{ type: "spring", stiffness: 450, damping: 32 }}
                 />
               )}
@@ -1035,14 +994,14 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
               title="Olympic Podium Order (2 - 1 - 3 with Champion Elevated in Center)"
               className={`relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                 layoutMode === 'podium'
-                  ? 'text-slate-950'
+                  ? 'text-white'
                   : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
               }`}
             >
               {layoutMode === 'podium' && (
                 <motion.div
                   layoutId="spotlightLayoutPill"
-                  className="absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 rounded-lg shadow-md shadow-amber-500/30"
+                  className="absolute inset-0 bg-sky-600 rounded-lg shadow-xs"
                   transition={{ type: "spring", stiffness: 450, damping: 32 }}
                 />
               )}
@@ -1053,10 +1012,10 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
         </div>
       </div>
 
-      {/* Top 3 Scorecards Grid with Dynamic 3D Tilt, Vivid Colors, Laser Shimmer & Micro-Interactions */}
+      {/* Top 3 Scorecards Grid with Restrained Palette & Generous Breathing Room */}
       <motion.div 
         layout
-        className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 items-stretch relative z-10 pt-1"
+        className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 items-stretch relative z-10 pt-2"
       >
         <AnimatePresence mode="popLayout">
           {displayedAdvisors.map((advisor) => {
@@ -1074,10 +1033,8 @@ export const TopRankAdvisorSpotlight: React.FC<TopRankAdvisorSpotlightProps> = (
                 isChampion={isChampion}
                 borderBeamGradient={theme.borderBeamGradient}
                 onClick={() => onSelectAdvisor && onSelectAdvisor(advisor.raw, advisor.team)}
-                className={`rank-card advisor-card ${theme.cardBg} ${theme.cardBorder} rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 md:p-5 flex flex-col justify-between cursor-pointer group relative overflow-hidden transition-all duration-300 ${theme.podiumElevation}`}
+                className={`rank-card advisor-card ${theme.cardBg} ${theme.cardBorder} rounded-2xl p-6 sm:p-7 md:p-8 flex flex-col justify-between cursor-pointer group relative overflow-hidden transition-all duration-300 ${theme.podiumElevation}`}
               >
-                {/* Luminous Ambient Halo in Card Background */}
-                <div className={`absolute -top-14 -right-14 w-52 h-52 bg-gradient-to-br ${theme.glowHalo} rounded-full blur-2xl pointer-events-none group-hover:scale-130 transition-transform duration-700`} />
 
                 {/* Champion Sparkle Ambient Overlay */}
                 {isChampion && (

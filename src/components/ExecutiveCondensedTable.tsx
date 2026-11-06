@@ -40,13 +40,6 @@ interface ExecutiveCondensedTableProps {
   totalStationedReach: number;
   totalVirtualReach: number;
   totalReachCalls: number;
-  dailySalesTrendData: Array<{
-    date: string;
-    fullDate: string;
-    stationed: number;
-    virtual: number;
-    total: number;
-  }>;
   onNavigateTab: (tab: 'stationed' | 'virtual' | 'tasks' | 'time' | 'call_records' | 'ai_report') => void;
   onSelectAdvisor: (advisor: any, type: 'stationed' | 'virtual') => void;
   getAdvisorGrade: (kpiVal: any, rawGrade?: string) => string;
@@ -68,7 +61,6 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
   totalStationedReach,
   totalVirtualReach,
   totalReachCalls,
-  dailySalesTrendData,
   onNavigateTab,
   onSelectAdvisor,
   getAdvisorGrade,
@@ -81,9 +73,6 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [pageSize, setPageSize] = useState<number>(15);
   const [currentPage, setCurrentPage] = useState<number>(1);
-
-  // Daily Telemetry Log State
-  const [telemetryTimeRange, setTelemetryTimeRange] = useState<'7d' | '30d'>('7d');
 
   // Grade Counts for Rollup Table
   const stationedGradeCounts = useMemo(() => {
@@ -233,19 +222,6 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
     }
     setCurrentPage(1);
   };
-
-  // Telemetry Log Data (7 or 30 days)
-  const displayedTelemetryData = useMemo(() => {
-    const list = telemetryTimeRange === '7d' ? dailySalesTrendData.slice(-7) : dailySalesTrendData;
-    return list.map((item, idx, arr) => {
-      const prevTotal = idx > 0 ? arr[idx - 1].total : item.total;
-      const changePct = prevTotal > 0 ? ((item.total - prevTotal) / prevTotal) * 100 : 0;
-      return {
-        ...item,
-        changePct,
-      };
-    });
-  }, [dailySalesTrendData, telemetryTimeRange]);
 
   return (
     <div className="space-y-6 animate-fadeIn">
@@ -800,101 +776,6 @@ export const ExecutiveCondensedTable: React.FC<ExecutiveCondensedTableProps> = (
             </div>
           </div>
         )}
-      </div>
-
-      {/* 3. CONDENSED DAILY TELEMETRY LOG TABLE */}
-      <div id="daily-telemetry-log-section" className="bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl shadow-xs overflow-hidden p-6 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-[#1e2c4a] pb-3">
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-emerald-500" />
-            <div>
-              <h2 className="text-sm sm:text-base font-black text-slate-900 dark:text-slate-100 tracking-tight">
-                Daily Sales Revenue Telemetry Log
-              </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                Condensed historical log of daily revenue and day-over-day growth trajectory
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#15223c] p-1 rounded-xl border border-slate-200 dark:border-[#24355a] text-xs">
-            <button
-              type="button"
-              onClick={() => setTelemetryTimeRange('7d')}
-              className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
-                telemetryTimeRange === '7d'
-                  ? 'bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-100 shadow-xs border border-slate-200 dark:border-[#24355a]'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-              }`}
-            >
-              Last 7 Days
-            </button>
-            <button
-              type="button"
-              onClick={() => setTelemetryTimeRange('30d')}
-              className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
-                telemetryTimeRange === '30d'
-                  ? 'bg-white dark:bg-[#10192e] text-slate-900 dark:text-slate-100 shadow-xs border border-slate-200 dark:border-[#24355a]'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-              }`}
-            >
-              Last 30 Days
-            </button>
-          </div>
-        </div>
-
-        <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-[#1e2c4a]">
-          <table className="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr className="bg-slate-100/90 dark:bg-[#15223c] text-slate-600 dark:text-slate-300 font-extrabold uppercase tracking-wider text-[10px] border-b border-slate-200 dark:border-[#1e2c4a]">
-                <th className="py-2.5 px-4">Date</th>
-                <th className="py-2.5 px-4 text-right">Stationed Sales</th>
-                <th className="py-2.5 px-4 text-right">Virtual Sales</th>
-                <th className="py-2.5 px-4 text-right">Combined Total</th>
-                <th className="py-2.5 px-4 text-right">Stationed Ratio</th>
-                <th className="py-2.5 px-4 text-right">Virtual Ratio</th>
-                <th className="py-2.5 px-4 text-center">Day-over-Day</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-[#1e2c4a]/60 font-medium">
-              {displayedTelemetryData.map((row, idx) => (
-                <tr key={`telemetry-${row.date}-${idx}`} className="hover:bg-slate-50 dark:hover:bg-[#15223c]/40 transition-colors">
-                  <td className="py-2.5 px-4 font-mono font-bold text-slate-900 dark:text-slate-100">
-                    {row.fullDate}
-                  </td>
-                  <td className="py-2.5 px-4 text-right font-mono text-indigo-600 dark:text-indigo-400 font-bold">
-                    ৳{row.stationed.toLocaleString('en-BD')}
-                  </td>
-                  <td className="py-2.5 px-4 text-right font-mono text-emerald-600 dark:text-emerald-400 font-bold">
-                    ৳{row.virtual.toLocaleString('en-BD')}
-                  </td>
-                  <td className="py-2.5 px-4 text-right font-mono font-black text-slate-900 dark:text-slate-100">
-                    ৳{row.total.toLocaleString('en-BD')}
-                  </td>
-                  <td className="py-2.5 px-4 text-right font-mono text-slate-600 dark:text-slate-400 text-[11px]">
-                    {row.total > 0 ? ((row.stationed / row.total) * 100).toFixed(1) : 0}%
-                  </td>
-                  <td className="py-2.5 px-4 text-right font-mono text-slate-600 dark:text-slate-400 text-[11px]">
-                    {row.total > 0 ? ((row.virtual / row.total) * 100).toFixed(1) : 0}%
-                  </td>
-                  <td className="py-2.5 px-4 text-center">
-                    {idx === 0 ? (
-                      <span className="text-slate-400 font-mono text-[10px]">Baseline</span>
-                    ) : row.changePct >= 0 ? (
-                      <span className="inline-flex items-center gap-0.5 text-emerald-600 dark:text-emerald-400 font-mono font-bold text-[11px]">
-                        +{row.changePct.toFixed(1)}%
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-0.5 text-rose-600 dark:text-rose-400 font-mono font-bold text-[11px]">
-                        {row.changePct.toFixed(1)}%
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
       </div>
 
       {/* Side-by-Side Advisor KPI Performance Score Comparison Feature */}

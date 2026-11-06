@@ -17,6 +17,10 @@ export interface StationedAdvisor {
   avgExamMark: number; // e.g. 85.5
   avgBriefingMark: number; // e.g. 90.0
   finalSalesData: number; // e.g. 150000 (BDT)
+  advisorSalesTarget?: number; // Monthly sales target in BDT
+  advisorCallTarget?: number; // Monthly/daily reach call count target
+  joiningDate?: string;
+  tenureMonths?: number;
   totalKpiScore: number; // percentage, e.g., 92.5
   kpiGrade: string; // e.g. 'A' | 'B' | 'C' | 'D' | 'PIP'
   kpiAmount?: number;
@@ -45,6 +49,8 @@ export interface VirtualAdvisor {
   actualTalkTime: string; // Call Duration, PD, DISPO
   ceCount: number;
   finalSales: number; // Sales amount
+  advisorSalesTarget?: number; // Monthly sales target in BDT
+  advisorCallTarget?: number; // Monthly/daily reach call count target
   overallKpi: string | number; // e.g., "PIP" or 88.0
   exam: string | number; // Exam mark, e.g. "0%" or 80
   ttAmount: number; // Target / Talktime Amount in currency or hours

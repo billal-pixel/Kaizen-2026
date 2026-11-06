@@ -12,13 +12,16 @@ import {
   Sparkles,
   HelpCircle,
   MessageSquare,
-  Award
+  Award,
+  CreditCard,
+  Target
 } from 'lucide-react';
 
 interface CallPitchModalProps {
   isOpen: boolean;
   onClose: () => void;
   onShowToast?: (msg: string) => void;
+  onOpenPaymentModal?: () => void;
 }
 
 interface PitchSection {
@@ -103,6 +106,12 @@ const PITCH_SECTIONS: PitchSection[] = [
       '২৫ ব্যাচের ৫,১৭৯ জন GPA-5 অর্জনের পর এবার ১০ হাজার শিক্ষার্থীর A+ ব্লু-প্রিন্ট'
     ],
     scriptOpening: 'হ্যালো [Student Name], আমি টেন মিনিট স্কুল থেকে কল করেছি সামনে তোমার SSC পরীক্ষার জন্য কিছু গুরুত্বপূর্ণ guideline এবং ফাইনাল সাজেশন দেওয়ার জন্য। কেমন চলছে তোমার প্রস্তুতি?',
+    objectionHandling: [
+      {
+        issue: 'সিলেবাস কি সময়মতো শেষ হবে?',
+        response: 'হ্যাঁ, সম্পূর্ণ রুটিন তৈরি করা হয়েছে যাতে বোর্ড পরীক্ষার আগেই প্রতিটি অধ্যায় ২ বার রিভিশন ও মডেল টেস্ট সম্পন্ন হয়।'
+      }
+    ],
     cta: 'সম্পূর্ণ বান্ডেল কোর্সে ডিসকাউন্টসহ এনরোলমেন্ট অথবা ফ্রি স্পেশাল ফেসবুক গ্রুপে সাজেশন সংগ্রহ।'
   },
   {
@@ -118,6 +127,12 @@ const PITCH_SECTIONS: PitchSection[] = [
       'Admission 2024 এ ৪০২+ জন শীর্ষ ১০০ তে চান্স পেয়েছে (DMC-তে ২৫ জন, DU B Unit-এ ১২তম সহ)'
     ],
     scriptOpening: 'আসসালামু আলাইকুম, আমি টেন মিনিট স্কুল থেকে বলছি। আপনার HSC পরীক্ষার পর এডমিশনের প্রস্তুতি কেমন চলছে? কোন বিশ্ববিদ্যালয় ও ইউনিট আপনার মূল টার্গেট?',
+    objectionHandling: [
+      {
+        issue: 'ফার্মগেট বা অফলাইনে কোচিং করার চিন্তা করছি',
+        response: 'অফলাইনে প্রতিদিন ট্রাফিক জ্যামে ৩-৪ ঘণ্টা নষ্ট হয়। আমাদের ক্লাসে টপ ঢাকা বিশ্ববিদ্যালয়ের মেন্টররা সরাসরি লাইভ ক্লাস নেন এবং প্রতিটি ক্লাস লাইব্রেরিতে সেভ থাকে।'
+      }
+    ],
     cta: 'ভার্সিটি এডমিশন কোর্সে স্পেশাল অ্যাডভাইজর ডিসকাউন্ট সহ সরাসরি ভর্তি।'
   },
   {
@@ -133,11 +148,22 @@ const PITCH_SECTIONS: PitchSection[] = [
       'কমপ্লিমেন্টারি ফ্রি স্পিকিং টেস্ট, লেভেল অ্যাসেসমেন্ট ও গিফট হ্যাম্পার'
     ],
     scriptOpening: 'আসসালামু আলাইকুম! টেন মিনিট স্কুল থেকে আমি [Advisor Name] বলছি। বিদেশে উচ্চশিক্ষা বা IELTS প্রস্তুতি নিয়ে একটু কথা বলতে চাচ্ছিলাম, আপনার কি একটু সময় হবে?',
+    objectionHandling: [
+      {
+        issue: 'ব্রাঞ্চ দূরে হলে কীভাবে ক্লাস করবে?',
+        response: 'আমাদের উত্তরা, পান্থপথ, মিরপুর, মগবাজার ও চট্টগ্রামে আধুনিক সেন্টার রয়েছে। আপনি সুবিধাজনক সেন্টারে ফ্রি এসেসমেন্ট দিতে পারেন।'
+      }
+    ],
     cta: 'নিকটস্থ অফলাইন সেন্টারে ফ্রি স্পিকিং টেস্ট ও ডেমো ক্লাসের স্লট কনফার্মেশন।'
   }
 ];
 
-export const CallPitchModal: React.FC<CallPitchModalProps> = ({ isOpen, onClose, onShowToast }) => {
+export const CallPitchModal: React.FC<CallPitchModalProps> = ({ 
+  isOpen, 
+  onClose, 
+  onShowToast,
+  onOpenPaymentModal 
+}) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -148,11 +174,14 @@ export const CallPitchModal: React.FC<CallPitchModalProps> = ({ isOpen, onClose,
 
   const filteredPitches = PITCH_SECTIONS.filter((p) => {
     const matchCat = selectedCategory === 'All' || p.category === selectedCategory;
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return matchCat;
     const matchSearch = 
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.scriptOpening.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.highlights.some(h => h.toLowerCase().includes(searchQuery.toLowerCase()));
+      p.title.toLowerCase().includes(q) ||
+      p.subtitle.toLowerCase().includes(q) ||
+      p.scriptOpening.toLowerCase().includes(q) ||
+      p.highlights.some(h => h.toLowerCase().includes(q)) ||
+      (p.objectionHandling && p.objectionHandling.some(o => o.issue.toLowerCase().includes(q) || o.response.toLowerCase().includes(q)));
     return matchCat && matchSearch;
   });
 
@@ -160,7 +189,7 @@ export const CallPitchModal: React.FC<CallPitchModalProps> = ({ isOpen, onClose,
     navigator.clipboard.writeText(text);
     setCopiedId(id);
     if (onShowToast) {
-      onShowToast(`📋 Copied ${label} script to clipboard!`);
+      onShowToast(`📋 Copied ${label} to clipboard!`);
     }
     setTimeout(() => setCopiedId(null), 2000);
   };
@@ -170,21 +199,21 @@ export const CallPitchModal: React.FC<CallPitchModalProps> = ({ isOpen, onClose,
   return (
     <AnimatePresence>
       <div 
-        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/80 backdrop-blur-xs overflow-y-auto"
+        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/75 backdrop-blur-xs overflow-y-auto"
         onClick={onClose}
       >
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          transition={{ duration: 0.2 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 320 }}
           onClick={(e) => e.stopPropagation()}
-          className="bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700 rounded-2xl w-full max-w-4xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
+          className="bg-white dark:bg-[#0E1726] border border-slate-200/90 dark:border-slate-800 rounded-3xl w-full max-w-4xl shadow-2xl flex flex-col max-h-[92vh] overflow-hidden"
         >
           {/* Header */}
-          <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700/80 flex items-center justify-between gap-3 bg-slate-50/70 dark:bg-[#141C33]">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 shadow-2xs">
+          <div className="p-4 sm:p-5 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-3 bg-slate-50/70 dark:bg-slate-900/60 shrink-0">
+            <div className="flex items-center gap-3.5 min-w-0">
+              <div className="w-11 h-11 rounded-2xl bg-rose-50 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 shadow-2xs">
                 <PhoneCall className="w-5 h-5 stroke-[2.2]" />
               </div>
               <div className="min-w-0">
@@ -192,63 +221,89 @@ export const CallPitchModal: React.FC<CallPitchModalProps> = ({ isOpen, onClose,
                   <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight">
                     Defined Call Pitch Journey
                   </h3>
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 shrink-0">
+                  <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 shrink-0">
                     Telesales Playbook
                   </span>
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate">
-                  Comprehensive scripts, objection handling, value propositions & campaigns
+                  Comprehensive opening scripts, objection responses, value propositions & campaigns
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
+              {onOpenPaymentModal && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    onOpenPaymentModal();
+                  }}
+                  className="h-8 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  title="Switch to Quick Payment Messages"
+                >
+                  <CreditCard className="w-3.5 h-3.5 text-sky-500" />
+                  <span className="hidden sm:inline">Payment Messages</span>
+                </button>
+              )}
+
               <a
                 href={originalDocUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="h-8 px-3 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors shrink-0"
-                title="Open raw telesales document in a new tab"
+                className="h-8 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-colors shrink-0"
+                title="Open raw telesales document transcript in a new tab"
               >
-                <FileText className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Open Full Doc</span>
-                <ExternalLink className="w-3 h-3 opacity-80" />
+                <FileText className="w-3.5 h-3.5 text-slate-500" />
+                <span className="hidden sm:inline">Doc</span>
+                <ExternalLink className="w-3 h-3 opacity-60" />
               </a>
 
               <button
                 type="button"
                 onClick={onClose}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
+                className="w-8 h-8 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                title="Close (Esc)"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
           </div>
 
-          {/* Search & Category Filter Toolbar */}
-          <div className="p-3 sm:p-4 border-b border-slate-200 dark:border-slate-700/80 bg-white dark:bg-[#1C2541] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          {/* Distinct Search & Category Filter Toolbar */}
+          <div className="p-3 sm:p-4 border-b border-slate-200/80 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/90 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
+            {/* Search Input */}
             <div className="relative flex-1 min-w-0">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search scripts, objections, campaigns, courses..."
-                className="w-full pl-9 pr-3 py-1.5 rounded-lg text-xs font-medium bg-slate-50 dark:bg-[#141C33] border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-sky-500"
+                placeholder="Search scripts, objections, campaigns, courses (e.g. HSC 28, EMI, offline)..."
+                className="w-full pl-10 pr-9 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-rose-500/80 shadow-2xs"
               />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
 
-            {/* Categories */}
-            <div className="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+            {/* Category Filter Chips */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none shrink-0">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => setSelectedCategory(cat)}
-                  className={`h-7 px-2.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                  className={`h-8 px-3 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                     selectedCategory === cat
                       ? 'bg-rose-600 text-white shadow-2xs'
-                      : 'bg-slate-100 hover:bg-slate-200 dark:bg-[#141C33] dark:hover:bg-[#253256] text-slate-600 dark:text-slate-300'
+                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
                   }`}
                 >
                   {cat}
@@ -257,53 +312,73 @@ export const CallPitchModal: React.FC<CallPitchModalProps> = ({ isOpen, onClose,
             </div>
           </div>
 
-          {/* Pitches List Content */}
-          <div className="p-4 sm:p-6 overflow-y-auto space-y-6 flex-1 divide-y divide-slate-100 dark:divide-slate-800">
+          {/* Pitches List Content with Clear Visual Division */}
+          <div className="p-4 sm:p-6 overflow-y-auto space-y-6 flex-1">
             {filteredPitches.map((pitch) => (
-              <div key={pitch.id} className="pt-6 first:pt-0 space-y-4">
-                {/* Title & Badge */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div 
+                key={pitch.id} 
+                className="bg-slate-50/70 dark:bg-slate-900/70 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-5 sm:p-6 space-y-5 shadow-2xs hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
+              >
+                {/* Title & Target Audience Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/70 dark:border-slate-800/80 pb-4">
                   <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/70 px-2 py-0.5 rounded border border-rose-200 dark:border-rose-900/60">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/70 px-2.5 py-0.5 rounded-lg border border-rose-200 dark:border-rose-900/60">
                         {pitch.category}
                       </span>
-                      <h4 className="text-sm sm:text-base font-black text-slate-900 dark:text-white">
+                      <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                         {pitch.title}
                       </h4>
                     </div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
-                      {pitch.subtitle} • Target: <span className="text-slate-700 dark:text-slate-300 font-bold">{pitch.targetAudience}</span>
-                    </p>
+                    <div className="flex items-center gap-2 mt-1 text-xs text-slate-500 dark:text-slate-400">
+                      <span>{pitch.subtitle}</span>
+                      <span>·</span>
+                      <span className="flex items-center gap-1 font-semibold text-slate-700 dark:text-slate-300">
+                        <Target className="w-3.5 h-3.5 text-sky-500" />
+                        Target: {pitch.targetAudience}
+                      </span>
+                    </div>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => handleCopyText(pitch.scriptOpening, pitch.id, pitch.title)}
-                    className="self-start sm:self-auto h-7 px-2.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-rose-400 dark:hover:border-rose-500 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-[#141C33] hover:bg-white flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
-                    title="Copy opening script"
-                  >
-                    {copiedId === pitch.id ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-500 stroke-[3]" />
-                        <span className="text-emerald-600 dark:text-emerald-400">Copied!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5 text-slate-400" />
-                        <span>Copy Script</span>
-                      </>
-                    )}
-                  </button>
+                  <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 self-start sm:self-auto">
+                    {pitch.highlights.length} USPs
+                  </span>
                 </div>
 
-                {/* Opening Call Script Box */}
-                <div className="bg-sky-50/70 dark:bg-[#141C33]/90 border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-3.5 space-y-2">
-                  <div className="flex items-center gap-2 text-xs font-black text-sky-800 dark:text-sky-300">
-                    <MessageSquare className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
-                    <span>Live Call Opening & Rapport Building</span>
+                {/* Opening Call Script Box with Large Target Copy Button */}
+                <div className="bg-sky-50/70 dark:bg-slate-800/80 border border-sky-200/80 dark:border-slate-700/80 rounded-2xl p-4 sm:p-5 space-y-3">
+                  <div className="flex items-center justify-between gap-3 flex-wrap">
+                    <div className="flex items-center gap-2 text-xs font-bold text-sky-900 dark:text-sky-300">
+                      <MessageSquare className="w-4 h-4 text-sky-600 dark:text-sky-400" />
+                      <span>Live Call Opening Script & Rapport Building</span>
+                    </div>
+
+                    {/* Enlarged Clickable Target for Copying Opening Script */}
+                    <button
+                      type="button"
+                      onClick={() => handleCopyText(pitch.scriptOpening, `${pitch.id}-opening`, `${pitch.title} script`)}
+                      className={`h-10 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer shadow-2xs active:scale-95 shrink-0 border ${
+                        copiedId === `${pitch.id}-opening`
+                          ? 'bg-emerald-600 text-white border-emerald-600'
+                          : 'bg-white hover:bg-slate-50 text-slate-800 hover:text-sky-700 border-sky-200/80 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white dark:border-slate-600'
+                      }`}
+                      title="Copy opening call script"
+                    >
+                      {copiedId === `${pitch.id}-opening` ? (
+                        <>
+                          <Check className="w-4 h-4 text-white stroke-[3]" />
+                          <span>Copied Script!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4 text-slate-400" />
+                          <span>Copy Opening Script</span>
+                        </>
+                      )}
+                    </button>
                   </div>
-                  <p className="text-xs text-slate-800 dark:text-slate-200 font-medium leading-relaxed bg-white/80 dark:bg-[#0B132B]/80 p-3 rounded-lg border border-sky-100 dark:border-slate-800">
+
+                  <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-medium leading-relaxed bg-white/90 dark:bg-slate-900/90 p-4 rounded-xl border border-sky-100 dark:border-slate-800 font-sans select-all">
                     {pitch.scriptOpening}
                   </p>
                 </div>
@@ -311,65 +386,105 @@ export const CallPitchModal: React.FC<CallPitchModalProps> = ({ isOpen, onClose,
                 {/* Key USPs & Selling Points */}
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                    <Sparkles className="w-4 h-4 text-amber-500" />
                     <span>Product USPs & Core Strengths</span>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {pitch.highlights.map((h, i) => (
-                      <div key={i} className="text-xs text-slate-600 dark:text-slate-300 flex items-start gap-2 bg-slate-50 dark:bg-[#141C33] p-2.5 rounded-lg border border-slate-100 dark:border-slate-800">
-                        <span className="text-emerald-500 font-bold shrink-0">✓</span>
-                        <span>{h}</span>
+                      <div key={i} className="text-xs text-slate-700 dark:text-slate-300 flex items-start gap-2.5 bg-white dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80">
+                        <span className="w-4 h-4 rounded-full bg-emerald-100 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">✓</span>
+                        <span className="leading-snug">{h}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Objection Handling (if available) */}
+                {/* Objection Handling Cards with Dedicated Copy Buttons */}
                 {pitch.objectionHandling && pitch.objectionHandling.length > 0 && (
-                  <div className="space-y-2 pt-1">
+                  <div className="space-y-2.5 pt-1">
                     <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300">
-                      <HelpCircle className="w-3.5 h-3.5 text-indigo-500" />
-                      <span>Objection Handling Quick Guide</span>
+                      <HelpCircle className="w-4 h-4 text-indigo-500" />
+                      <span>Objection Handling Quick Reference</span>
                     </div>
-                    <div className="space-y-2">
-                      {pitch.objectionHandling.map((obj, i) => (
-                        <div key={i} className="text-xs bg-slate-50/70 dark:bg-[#141C33]/70 p-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 space-y-1">
-                          <p className="font-bold text-rose-700 dark:text-rose-400">
-                            Q: {obj.issue}
-                          </p>
-                          <p className="text-slate-700 dark:text-slate-300 font-medium">
-                            A: {obj.response}
-                          </p>
-                        </div>
-                      ))}
+                    <div className="space-y-2.5">
+                      {pitch.objectionHandling.map((obj, i) => {
+                        const objCopyId = `${pitch.id}-obj-${i}`;
+                        const isObjCopied = copiedId === objCopyId;
+
+                        return (
+                          <div key={i} className="bg-white dark:bg-slate-800/80 p-3.5 sm:p-4 rounded-xl border border-slate-200/80 dark:border-slate-700/80 space-y-2 shadow-2xs">
+                            <div className="flex items-start justify-between gap-3">
+                              <p className="text-xs font-bold text-rose-600 dark:text-rose-400">
+                                Objection: {obj.issue}
+                              </p>
+
+                              <button
+                                type="button"
+                                onClick={() => handleCopyText(obj.response, objCopyId, 'objection response')}
+                                className={`h-8 px-3 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border active:scale-95 shrink-0 ${
+                                  isObjCopied
+                                    ? 'bg-emerald-600 text-white border-emerald-600'
+                                    : 'bg-slate-50 hover:bg-slate-100 text-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200 border-slate-200 dark:border-slate-600'
+                                }`}
+                                title="Copy response to clipboard"
+                              >
+                                {isObjCopied ? (
+                                  <>
+                                    <Check className="w-3.5 h-3.5 stroke-[3]" />
+                                    <span>Copied!</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3.5 h-3.5 text-slate-400" />
+                                    <span>Copy Response</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+
+                            <p className="text-xs text-slate-700 dark:text-slate-200 font-medium leading-relaxed bg-slate-50/80 dark:bg-slate-900/60 p-2.5 rounded-lg border border-slate-100 dark:border-slate-800">
+                              {obj.response}
+                            </p>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
 
-                {/* CTA Call-to-action */}
-                <div className="bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 rounded-xl p-3 text-xs text-amber-900 dark:text-amber-200 font-semibold flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
+                {/* Closing Call to Action (CTA) */}
+                <div className="bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-900/50 rounded-xl p-3.5 flex items-center justify-between gap-3 flex-wrap">
+                  <div className="flex items-center gap-2 text-xs text-amber-950 dark:text-amber-200 font-medium">
                     <Award className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
                     <span><strong>Closing Call to Action:</strong> {pitch.cta}</span>
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handleCopyText(pitch.cta, `${pitch.id}-cta`, 'Closing CTA')}
+                    className="h-8 px-3 rounded-lg text-xs font-bold bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/60 dark:hover:bg-amber-800/80 text-amber-900 dark:text-amber-100 transition-colors cursor-pointer flex items-center gap-1.5 shrink-0"
+                  >
+                    <Copy className="w-3 h-3" />
+                    <span>{copiedId === `${pitch.id}-cta` ? 'Copied CTA!' : 'Copy CTA'}</span>
+                  </button>
                 </div>
               </div>
             ))}
 
             {filteredPitches.length === 0 && (
-              <div className="text-center py-12 text-slate-400">
+              <div className="text-center py-12 text-slate-400 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
                 <BookOpen className="w-10 h-10 mx-auto mb-2 opacity-50" />
-                <p className="text-sm font-bold">No pitch matching "{searchQuery}"</p>
-                <p className="text-xs text-slate-500 mt-1">Try searching for HSC, OB, IELTS, or admission</p>
+                <p className="text-sm font-bold text-slate-700 dark:text-slate-300">No pitch script matching "{searchQuery}"</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Try searching for HSC, OB, IELTS, or admission</p>
               </div>
             )}
           </div>
 
-          {/* Footer note & link to original file */}
-          <div className="p-3 sm:p-4 bg-slate-50 dark:bg-[#141C33] border-t border-slate-200 dark:border-slate-700/80 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+          {/* Footer with link to transcript */}
+          <div className="p-3 sm:p-4 bg-slate-50 dark:bg-slate-900/90 border-t border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400 shrink-0">
             <span className="flex items-center gap-1.5">
-              <span>Original document:</span>
-              <code className="font-mono text-[11px] bg-slate-200 dark:bg-[#0B132B] px-1.5 py-0.5 rounded text-slate-700 dark:text-slate-300">
+              <span>Source document:</span>
+              <code className="font-mono text-[11px] bg-white dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300">
                 Defined_Call_Pitch_Journey___Telesales
               </code>
             </span>
@@ -379,8 +494,8 @@ export const CallPitchModal: React.FC<CallPitchModalProps> = ({ isOpen, onClose,
               rel="noreferrer"
               className="text-sky-600 dark:text-sky-400 hover:underline font-bold flex items-center gap-1"
             >
-              <span>View full 6,900+ lines transcript</span>
-              <ExternalLink className="w-3 h-3" />
+              <span>View full 6,900+ lines playbook</span>
+              <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
         </motion.div>

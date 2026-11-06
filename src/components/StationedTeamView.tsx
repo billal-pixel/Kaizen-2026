@@ -315,22 +315,20 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="main-card container-box bg-white dark:bg-[#10192e] border border-sky-200/80 dark:border-[#1e2c4a] rounded-2xl p-5 sm:p-6 shadow-sm dark:shadow-xl relative overflow-hidden"
+        className="main-card container-box bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xs relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-80 h-80 bg-sky-500/5 dark:bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
-
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center gap-2">
-              <span className="bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30 text-xs font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+              <span className="bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200/80 dark:border-sky-800/60 text-xs font-bold px-2.5 py-0.5 rounded-md uppercase tracking-wider">
                 Stationed Team
               </span>
               <span className="subtext text-slate-500 dark:text-slate-400 text-xs font-mono font-semibold">Total Members: {advisors.length}</span>
             </div>
-            <h2 className="card-title text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight mt-1">
+            <h2 className="card-title text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight mt-1.5">
               Station Advisors Performance Hub
             </h2>
-            <p className="subtext text-xs text-[#64748B] dark:text-slate-400 mt-1 max-w-2xl font-medium">
+            <p className="subtext text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-2xl font-medium">
               Tracking on-site call reach, talktime, quality assurance (QA) evaluations, exam & briefing scores, management time, and sales contributions.
             </p>
           </div>
@@ -342,11 +340,11 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
               href="https://docs.google.com/document/d/1jaGIrl5ewYbilQj38ZIqf6Cz6AVeQedGyDeuWP7lK7Q/edit?tab=t.0"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-emerald-50 dark:bg-emerald-500/15 hover:bg-emerald-100 dark:hover:bg-emerald-500/25 border border-emerald-300 dark:border-emerald-500/40 text-emerald-700 dark:text-emerald-300 font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer group"
+              className="inline-flex items-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-xs cursor-pointer group"
             >
               <Link2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 group-hover:rotate-12 transition-transform" />
               <span>Station Group Joining Link</span>
-              <ExternalLink className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 opacity-80" />
+              <ExternalLink className="w-3.5 h-3.5 text-slate-400 opacity-80" />
             </motion.a>
 
             <motion.a
@@ -355,11 +353,11 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
               href="https://sites.google.com/view/10msmirpur/home"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-500/15 hover:bg-blue-100 dark:hover:bg-blue-500/25 border border-blue-300 dark:border-blue-500/40 text-blue-700 dark:text-blue-300 font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer group"
+              className="inline-flex items-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700/80 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-xs cursor-pointer group"
             >
-              <Globe className="w-4 h-4 text-blue-600 dark:text-blue-400 group-hover:rotate-12 transition-transform" />
+              <Globe className="w-4 h-4 text-sky-600 dark:text-sky-400 group-hover:rotate-12 transition-transform" />
               <span>10MS Mirpur Portal</span>
-              <ExternalLink className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 opacity-80" />
+              <ExternalLink className="w-3.5 h-3.5 text-slate-400 opacity-80" />
             </motion.a>
           </div>
         </div>
@@ -369,18 +367,18 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
           variants={statContainerVariants}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-6 sm:mt-7"
         >
           <motion.div 
             variants={statCardVariants}
-            whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="kpi-card metric-box bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] hover:border-blue-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors"
+            whileHover={{ y: -2, transition: { duration: 0.15 } }}
+            className="kpi-card metric-box bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4 sm:p-5 flex items-center gap-3.5 min-w-0 shadow-2xs transition-colors"
           >
-            <div className="p-2.5 sm:p-3 rounded-xl bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30 shrink-0 flex items-center justify-center">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border border-sky-200/70 dark:border-sky-800/50 shrink-0 flex items-center justify-center">
               <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
-              <p className="label-text text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Stationed Sales</p>
+              <p className="label-text text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider leading-tight truncate">Stationed Sales</p>
               <p className="metric-value text-base sm:text-lg font-black text-slate-900 dark:text-slate-100 font-mono tracking-tight leading-tight truncate">
                 <AnimatedCounter value={totalSales} prefix="৳" />
               </p>
@@ -389,14 +387,14 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
 
           <motion.div 
             variants={statCardVariants}
-            whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="kpi-card metric-box bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] hover:border-emerald-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors"
+            whileHover={{ y: -2, transition: { duration: 0.15 } }}
+            className="kpi-card metric-box bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4 sm:p-5 flex items-center gap-3.5 min-w-0 shadow-2xs transition-colors"
           >
-            <div className="p-2.5 sm:p-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 shrink-0 flex items-center justify-center">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200/70 dark:border-emerald-800/50 shrink-0 flex items-center justify-center">
               <Award className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
-              <p className="label-text text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Avg KPI Score</p>
+              <p className="label-text text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider leading-tight truncate">Avg KPI Score</p>
               <p className="metric-value text-base sm:text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono tracking-tight leading-tight truncate">
                 <AnimatedCounter value={avgKpiScore} decimals={1} suffix="%" />
               </p>
@@ -405,14 +403,14 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
 
           <motion.div 
             variants={statCardVariants}
-            whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="kpi-card metric-box bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] hover:border-cyan-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors"
+            whileHover={{ y: -2, transition: { duration: 0.15 } }}
+            className="kpi-card metric-box bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4 sm:p-5 flex items-center gap-3.5 min-w-0 shadow-2xs transition-colors"
           >
-            <div className="p-2.5 sm:p-3 rounded-xl bg-cyan-50 dark:bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-500/30 shrink-0 flex items-center justify-center">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/70 dark:border-slate-700/50 shrink-0 flex items-center justify-center">
               <PhoneCall className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
-              <p className="label-text text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Avg Reach / Advisor</p>
+              <p className="label-text text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider leading-tight truncate">Avg Reach / Advisor</p>
               <p className="metric-value text-base sm:text-lg font-black text-slate-900 dark:text-slate-100 font-mono tracking-tight leading-tight truncate">
                 <AnimatedCounter value={avgReachCount} />
               </p>
@@ -421,14 +419,14 @@ export const StationedTeamView: React.FC<StationedTeamViewProps> = ({
 
           <motion.div 
             variants={statCardVariants}
-            whileHover={{ y: -3, transition: { duration: 0.2 } }}
-            className="kpi-card metric-box bg-white dark:bg-[#15223c] border border-slate-200 dark:border-[#24355a] hover:border-emerald-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 flex items-center gap-3 min-w-0 shadow-xs transition-colors"
+            whileHover={{ y: -2, transition: { duration: 0.15 } }}
+            className="kpi-card metric-box bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4 sm:p-5 flex items-center gap-3.5 min-w-0 shadow-2xs transition-colors"
           >
-            <div className="p-2.5 sm:p-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 shrink-0 flex items-center justify-center">
+            <div className="p-2.5 sm:p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200/70 dark:border-emerald-800/50 shrink-0 flex items-center justify-center">
               <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0 flex-1 flex flex-col justify-center space-y-0.5">
-              <p className="label-text text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-wider leading-tight truncate">Avg QA Score</p>
+              <p className="label-text text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider leading-tight truncate">Avg QA Score</p>
               <p className="metric-value text-base sm:text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono tracking-tight leading-tight truncate">
                 <AnimatedCounter value={avgQaScore} decimals={1} suffix="%" />
               </p>

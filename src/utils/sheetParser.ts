@@ -173,7 +173,10 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
     const qaScoreCol = findHeaderIndex(headers, ['qa score', 'qascore', 'qa'], ['team', 'leader', 'trainer']);
     const examCol = findHeaderIndex(headers, ['avg exam mark', 'exam mark'], ['score']);
     const briefingCol = findHeaderIndex(headers, ['avg briefing mark', 'briefing mark'], ['score']);
-    const salesCol = findHeaderIndex(headers, ['final sales data', 'final sales', 'sales data'], ['score', 'raw', 'mismatch', 'overlap', 'offline', 'refund']);
+    const salesCol = findHeaderIndex(headers, ['final sales data', 'final sales', 'sales data'], ['score', 'raw', 'mismatch', 'overlap', 'offline', 'refund', 'target']);
+    const salesTargetCol = findHeaderIndex(headers, ['advisor sales target', 'sales target', 'target'], ['score', 'remark']);
+    const joiningCol = findHeaderIndex(headers, ['joining date', 'join date'], []);
+    const tenureCol = findHeaderIndex(headers, ['tenure (month)', 'tenure'], []);
     const kpiCol = findHeaderIndex(headers, ['total kpi score', 'kpi score', 'total kpi'], ['grade', 'remark', 'amount', 'amt', 'summary']);
     const gradeCol = findHeaderIndex(headers, ['kpi grade', 'grade'], ['score', 'amount', 'amt', 'remark']);
     const kpiAmtCol = findHeaderIndex(headers, ['kpi amount', 'kpi amt'], ['grade', 'score', 'remark']);
@@ -220,8 +223,11 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
       const avgExamMark = examCol !== -1 && row[examCol] !== undefined ? cleanNum(row[examCol]) : cleanNum(row[17]);
       const avgBriefingMark = briefingCol !== -1 && row[briefingCol] !== undefined ? cleanNum(row[briefingCol]) : cleanNum(row[19]);
       
-      // Col 26: Final Sales Data, Col 28: Total KPI Score, Col 29: KPI Grade, Col 30: KPI Amount
+      // Col 26: Final Sales Data, Col 28: Total KPI Score, Col 29: KPI Grade, Col 30: KPI Amount, Col 31: Advisor Sales Target
       const finalSalesData = salesCol !== -1 && row[salesCol] !== undefined ? cleanNum(row[salesCol]) : cleanNum(row[26]);
+      const advisorSalesTarget = salesTargetCol !== -1 && row[salesTargetCol] !== undefined ? cleanNum(row[salesTargetCol]) : cleanNum(row[31]);
+      const joiningDate = joiningCol !== -1 && row[joiningCol] !== undefined ? cleanStr(row[joiningCol]) : cleanStr(row[9]);
+      const tenureMonths = tenureCol !== -1 && row[tenureCol] !== undefined ? cleanNum(row[tenureCol]) : cleanNum(row[10]);
       const totalKpiScore = kpiCol !== -1 && row[kpiCol] !== undefined ? cleanNum(row[kpiCol]) : cleanNum(row[28]);
       let kpiGrade = gradeCol !== -1 && row[gradeCol] !== undefined ? cleanStr(row[gradeCol]) : cleanStr(row[29], 'D');
       if (!kpiGrade || kpiGrade === '0') {
@@ -233,12 +239,12 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
       }
       const kpiAmount = kpiAmtCol !== -1 && row[kpiAmtCol] !== undefined ? cleanNum(row[kpiAmtCol]) : cleanNum(row[30]);
       
-      // Col 34: Duty Count, Col 35: AVG Break, Col 36: AVG MGT, Col 37: AVG Meeting, Col 50: Total Incentive
-      const dutyCount = dutyCol !== -1 && row[dutyCol] !== undefined ? cleanNum(row[dutyCol]) : (row[34] ? cleanNum(row[34]) : cleanNum(row[32]));
-      const avgBreak = breakCol !== -1 && row[breakCol] !== undefined ? cleanStr(row[breakCol], '00:00:00') : (row[35] ? cleanStr(row[35], '00:00:00') : cleanStr(row[33], '00:00:00'));
-      const avgMgt = mgtCol !== -1 && row[mgtCol] !== undefined ? cleanStr(row[mgtCol], '00:00:00') : (row[36] ? cleanStr(row[36], '00:00:00') : cleanStr(row[34], '00:00:00'));
-      const avgMeeting = meetingCol !== -1 && row[meetingCol] !== undefined ? cleanStr(row[meetingCol], '00:00:00') : (row[37] ? cleanStr(row[37], '00:00:00') : cleanStr(row[35], '00:00:00'));
-      const totalIncentive = incentiveCol !== -1 && row[incentiveCol] !== undefined ? cleanNum(row[incentiveCol]) : (row[50] ? cleanNum(row[50]) : cleanNum(row[47]));
+      // Col 33: Duty Count, Col 34: AVG Break, Col 35: AVG MGT, Col 36: AVG Meeting, Col 48: Total Incentive
+      const dutyCount = dutyCol !== -1 && row[dutyCol] !== undefined ? cleanNum(row[dutyCol]) : (row[33] ? cleanNum(row[33]) : cleanNum(row[32]));
+      const avgBreak = breakCol !== -1 && row[breakCol] !== undefined ? cleanStr(row[breakCol], '00:00:00') : (row[34] ? cleanStr(row[34], '00:00:00') : cleanStr(row[33], '00:00:00'));
+      const avgMgt = mgtCol !== -1 && row[mgtCol] !== undefined ? cleanStr(row[mgtCol], '00:00:00') : (row[35] ? cleanStr(row[35], '00:00:00') : cleanStr(row[34], '00:00:00'));
+      const avgMeeting = meetingCol !== -1 && row[meetingCol] !== undefined ? cleanStr(row[meetingCol], '00:00:00') : (row[36] ? cleanStr(row[36], '00:00:00') : cleanStr(row[35], '00:00:00'));
+      const totalIncentive = incentiveCol !== -1 && row[incentiveCol] !== undefined ? cleanNum(row[incentiveCol]) : (row[48] ? cleanNum(row[48]) : cleanNum(row[50]));
 
       stationed.push({
         id: `st-${empId.toLowerCase().replace(/[^a-z0-9]/g, '') || String(r)}`,
@@ -249,6 +255,8 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
         teamLead: tl,
         tlTeam: tl,
         subTeam,
+        joiningDate: joiningDate || undefined,
+        tenureMonths: tenureMonths || undefined,
         avgReach,
         avgTalktime,
         qaScore,
@@ -256,6 +264,7 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
         avgExamMark,
         avgBriefingMark,
         finalSalesData,
+        advisorSalesTarget,
         totalKpiScore,
         kpiGrade,
         kpiAmount,
@@ -265,7 +274,7 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
         avgMgt,
         avgMeeting,
         status: 'active',
-        notes: row[31] ? cleanStr(row[31]) : (row[48] ? cleanStr(row[48]) : 'Station Advisor')
+        notes: row[32] ? cleanStr(row[32]) : 'Station Advisor'
       });
     }
   } else {
@@ -280,7 +289,8 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
     const meetingCol = findHeaderIndex(headers, ['meeting', 'meeting time']);
     const actualTtCol = findHeaderIndex(headers, ['actual talk time', 'actual talktime', 'actual talk', 'pd/dispo']);
     const ceCol = findHeaderIndex(headers, ['ce count', 'cecount'], ['service', 'auth', 'device', 'licence']);
-    const salesCol = findHeaderIndex(headers, ['final sales', 'final sales data', 'sales'], ['yesterday', 'raw', 'mismatch', 'overlap', 'offline', 'refund']);
+    const salesCol = findHeaderIndex(headers, ['final sales', 'final sales data', 'sales'], ['yesterday', 'raw', 'mismatch', 'overlap', 'offline', 'refund', 'target']);
+    const salesTargetCol = findHeaderIndex(headers, ['advisor sales target', 'sales target', 'target'], ['score', 'remark', 'tt']);
     const kpiCol = findHeaderIndex(headers, ['overall kpi', 'total kpi'], ['sales']);
     const examCol = findHeaderIndex(headers, ['exam', 'exam mark', 'avg exam mark']);
     const ttAmtCol = findHeaderIndex(headers, ['tt amount', 'tt sales', 'tt']);
@@ -315,6 +325,7 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
       const actualTalkTime = actualTtCol !== -1 && row[actualTtCol] !== undefined ? cleanStr(row[actualTtCol], talkTime) : cleanStr(row[16], talkTime);
       const ceCount = ceCol !== -1 && row[ceCol] !== undefined ? cleanNum(row[ceCol]) : cleanNum(row[18]);
       const finalSales = salesCol !== -1 && row[salesCol] !== undefined ? cleanNum(row[salesCol]) : cleanNum(row[25]);
+      const advisorSalesTarget = salesTargetCol !== -1 && row[salesTargetCol] !== undefined ? cleanNum(row[salesTargetCol]) : 0;
       const overallKpi = kpiCol !== -1 && row[kpiCol] !== undefined ? cleanStr(row[kpiCol], 'PIP') : cleanStr(row[27], 'PIP');
       const exam = examCol !== -1 && row[examCol] !== undefined ? cleanStr(row[examCol], '0%') : cleanStr(row[28], '0%');
       const ttAmount = ttAmtCol !== -1 && row[ttAmtCol] !== undefined ? cleanNum(row[ttAmtCol]) : cleanNum(row[29]);
@@ -337,6 +348,7 @@ export const parseMatrixData = (rawData: any[][], targetTeam: 'auto' | 'statione
         actualTalkTime,
         ceCount,
         finalSales,
+        advisorSalesTarget: advisorSalesTarget || undefined,
         overallKpi,
         exam,
         ttAmount,

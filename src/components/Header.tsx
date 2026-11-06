@@ -28,15 +28,16 @@ import {
   Check,
   Box,
   Settings,
-  Building2
+  Building2,
+  Target
 } from 'lucide-react';
 import { KaizenLogo } from './KaizenLogo';
 import { StationedAdvisor, VirtualAdvisor } from '../types';
 import { syncAllSheetsData, PRIMARY_DEFAULT_SHEET } from '../utils/sheetSync';
 
 interface HeaderProps {
-  activeTab: 'overview' | 'stationed' | 'virtual' | 'tasks' | 'time' | 'call_records' | 'ai_report';
-  setActiveTab: (tab: 'overview' | 'stationed' | 'virtual' | 'tasks' | 'time' | 'call_records' | 'ai_report') => void;
+  activeTab: 'overview' | 'target' | 'stationed' | 'virtual' | 'tasks' | 'time' | 'call_records' | 'ai_report';
+  setActiveTab: (tab: 'overview' | 'target' | 'stationed' | 'virtual' | 'tasks' | 'time' | 'call_records' | 'ai_report') => void;
   teamLeaderName: string;
   theme?: 'dark' | 'light';
   onToggleTheme?: () => void;
@@ -193,12 +194,13 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
   const tabs = [
     { id: 'overview', label: 'Executive Hub', shortLabel: 'Overview', icon: BarChart3, keyNum: '1' },
-    { id: 'stationed', label: 'Stationed Team', shortLabel: 'Stationed', icon: Users, badge: stationedCount || 20, keyNum: '2' },
-    { id: 'virtual', label: 'Virtual Team', shortLabel: 'Virtual', icon: Users, badge: virtualCount || 0, keyNum: '3' },
-    { id: 'call_records', label: 'Call Records', shortLabel: 'Calls', icon: PhoneCall, badge: callRecordsCount || 5, keyNum: '4' },
-    { id: 'tasks', label: 'Task Manager', shortLabel: 'Tasks', icon: CheckSquare, keyNum: '5' },
-    { id: 'time', label: 'Time Tracker', shortLabel: 'Time', icon: Clock, keyNum: '6' },
-    { id: 'ai_report', label: 'AI Operations', shortLabel: 'AI Audit', icon: Sparkles, isAi: true, keyNum: '7' },
+    { id: 'target', label: 'Sales Target', shortLabel: 'Target', icon: Target, keyNum: '2' },
+    { id: 'stationed', label: 'Stationed Team', shortLabel: 'Stationed', icon: Users, badge: stationedCount || 13, keyNum: '3' },
+    { id: 'virtual', label: 'Virtual Team', shortLabel: 'Virtual', icon: Users, badge: virtualCount || 0, keyNum: '4' },
+    { id: 'call_records', label: 'Call Records', shortLabel: 'Calls', icon: PhoneCall, badge: callRecordsCount || 5, keyNum: '5' },
+    { id: 'tasks', label: 'Task Manager', shortLabel: 'Tasks', icon: CheckSquare, keyNum: '6' },
+    { id: 'time', label: 'Time Tracker', shortLabel: 'Time', icon: Clock, keyNum: '7' },
+    { id: 'ai_report', label: 'AI Operations', shortLabel: 'AI Audit', icon: Sparkles, isAi: true, keyNum: '8' },
   ] as const;
 
   // Direct Resource Links
@@ -360,14 +362,14 @@ export const Header: React.FC<HeaderProps> = React.memo(({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0B132B]/95 backdrop-blur-md border-b border-sky-200/80 dark:border-slate-800 shadow-xs transition-colors duration-200">
-      <div className="max-w-[1680px] w-full mx-auto px-3 sm:px-5 lg:px-6 py-2.5 space-y-2">
+    <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0B132B]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs transition-colors duration-200">
+      <div className="max-w-[1680px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5 space-y-3">
         
         {/* Tier 1: Unified Executive Command Bar */}
-        <div className="flex flex-col lg:flex-row lg:items-stretch justify-between gap-2">
+        <div className="flex flex-col lg:flex-row lg:items-stretch justify-between gap-2.5">
           
           {/* Top-Left: Brand Identity & Team Leader Tag */}
-          <div className="flex items-center gap-2 bg-sky-50/80 dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 px-3 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
+          <div className="flex items-center gap-2 bg-slate-50/80 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 px-3 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
             <div 
               onClick={() => setActiveTab('overview')}
               className="w-8 h-8 bg-white dark:bg-[#141C33] border border-sky-200 dark:border-slate-700 p-1 rounded-lg shadow-2xs flex items-center justify-center cursor-pointer hover:scale-105 transition-transform shrink-0"
@@ -393,7 +395,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
           </div>
 
           {/* Center: Live Google Sheet Sync Status Pill (Fluid, No Overflow, Crisp Alignment) */}
-          <div className="flex-1 min-w-0 bg-sky-50/80 dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl px-3 py-1.5 flex items-center justify-between gap-2 shadow-xs min-h-[46px] lg:h-[46px]">
+          <div className="flex-1 min-w-0 bg-slate-50/80 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-xl px-3 py-1.5 flex items-center justify-between gap-2 shadow-xs min-h-[46px] lg:h-[46px]">
             {/* Sync Left Info (Zap + Title + Live badge + Substatus) */}
             <div className="flex items-center gap-2.5 min-w-0 shrink">
               <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-500/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 shadow-2xs">
@@ -432,7 +434,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 className={`h-7.5 px-2.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95 transition-all border shrink-0 ${
                   isPaused 
                     ? 'bg-amber-50 hover:bg-amber-100 text-amber-900 border-amber-200 dark:bg-amber-950/70 dark:hover:bg-amber-900/90 dark:text-amber-200 dark:border-amber-500/60' 
-                    : 'bg-white hover:bg-sky-50 text-slate-700 hover:text-slate-900 border-sky-200/80 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:text-slate-200 dark:border-slate-700'
+                    : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 dark:border-slate-700'
                 }`}
               >
                 {isPaused ? (
@@ -454,7 +456,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
                 onClick={executeSync}
                 disabled={isSyncing}
                 title="Fetch latest data from Google Sheet now"
-                className="h-7.5 px-2.5 bg-white hover:bg-sky-50 hover:text-sky-700 border border-sky-200/80 text-slate-700 dark:bg-[#1E293B] dark:hover:bg-[#283953] dark:hover:text-sky-300 dark:border-slate-700 dark:text-slate-200 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95 transition-all disabled:opacity-50 shrink-0"
+                className="h-7.5 px-2.5 bg-white hover:bg-slate-50 hover:text-sky-700 border border-slate-200/80 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:hover:text-sky-300 dark:border-slate-700 dark:text-slate-200 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95 transition-all disabled:opacity-50 shrink-0"
               >
                 <RefreshCw className={`w-3.5 h-3.5 stroke-[2.5] shrink-0 ${isSyncing ? 'animate-spin text-sky-600 dark:text-sky-400' : 'text-slate-600 dark:text-slate-300'}`} />
                 <span>Sync</span>
@@ -463,7 +465,7 @@ export const Header: React.FC<HeaderProps> = React.memo(({
           </div>
 
           {/* Right Action Controls: Quick Search + Light/Dark Mode + Consolidated Settings Menu + Add Advisor */}
-          <div className="flex items-center gap-1.5 bg-sky-50/80 dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 px-2 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
+          <div className="flex items-center gap-1.5 bg-slate-50/80 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 px-2 py-1.5 rounded-xl shadow-xs shrink-0 min-h-[46px] lg:h-[46px]">
             {/* Quick Search Trigger (⌘K) */}
             {onOpenCommandPalette && (
               <button
@@ -590,10 +592,10 @@ export const Header: React.FC<HeaderProps> = React.memo(({
         </div>
 
         {/* Tier 2: Streamlined Operations Ribbon (1-Click Payments + Direct Workspace Portals & Drives Buttons) */}
-        <div className="bg-sky-50/70 dark:bg-[#1C2541]/95 backdrop-blur-md border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-2 sm:p-2.5 shadow-2xs space-y-2">
+        <div className="bg-slate-50/80 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 rounded-xl p-2.5 sm:p-3 shadow-2xs space-y-2.5">
           
           {/* Row 1: 1-Click Bengali Payment Sharing Buttons */}
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2 bg-white/95 dark:bg-[#141C33]/90 border border-sky-200/70 dark:border-slate-700/80 rounded-lg px-2.5 py-1.5 shadow-2xs">
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2 bg-white/95 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700/80 rounded-lg px-3 py-2 shadow-2xs">
             <div className="flex items-center gap-2 shrink-0">
               <div className="w-6.5 h-6.5 rounded-lg bg-sky-100 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800/80 flex items-center justify-center text-sky-600 dark:text-sky-400 shadow-2xs">
                 <CreditCard className="w-3.5 h-3.5 stroke-[2.2]" />
@@ -729,8 +731,8 @@ export const Header: React.FC<HeaderProps> = React.memo(({
 
         {/* Tier 3: Core Navigation Tabs (Balanced, Zero Truncation/Ellipses, High Contrast) */}
         <nav className="w-full" aria-label="Main Navigation">
-          <div className="bg-sky-50/80 dark:bg-[#1C2541]/95 backdrop-blur-xs p-1.5 rounded-xl border border-sky-200/80 dark:border-slate-700/80 shadow-2xs w-full">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-1.5 w-full">
+          <div className="bg-slate-50/80 dark:bg-slate-900/90 backdrop-blur-xs p-1.5 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-2xs w-full">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-1.5 w-full">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;
                 const Icon = tab.icon;

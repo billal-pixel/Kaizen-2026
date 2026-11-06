@@ -62,7 +62,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white dark:bg-[#1C2541] border border-sky-200/80 dark:border-slate-700/80 rounded-xl p-6 shadow-xs space-y-4 flex flex-col justify-between relative overflow-hidden group/card hover:border-amber-400/60 dark:hover:border-amber-500/40 transition-all duration-300"
+      className="bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-7 sm:p-8 shadow-xs space-y-6 flex flex-col justify-between relative overflow-hidden group/card hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-300"
     >
       {/* Dynamic Animated Ambient Halo in Background */}
       <motion.div 
@@ -202,7 +202,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
         </div>
 
         {/* Liquid Animated Segmented Filter Bar */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-[#141C33] p-1 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-inner w-full h-9 sm:h-10 relative">
+        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200 dark:border-slate-700/80 w-full h-10 relative">
           {(['combined', 'stationed', 'virtual'] as const).map((tabKey) => {
             const isActive = leaderboardFilter === tabKey;
             const label = tabKey === 'combined' ? 'Combined' : tabKey === 'stationed' ? 'Stationed' : 'Virtual';
@@ -213,7 +213,7 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                 key={tabKey}
                 type="button"
                 onClick={() => setLeaderboardFilter(tabKey)}
-                className={`relative flex-1 py-1 rounded-lg text-xs font-extrabold transition-colors text-center cursor-pointer z-10 flex items-center justify-center gap-1.5 ${
+                className={`relative flex-1 py-1 rounded-lg text-xs font-bold transition-colors text-center cursor-pointer z-10 flex items-center justify-center gap-1.5 ${
                   isActive
                     ? 'text-white'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
@@ -224,21 +224,8 @@ export const AnimatedLeaderboard: React.FC<AnimatedLeaderboardProps> = ({
                   <motion.div
                     layoutId="activeLeaderboardFilterPill"
                     transition={{ type: 'spring', stiffness: 450, damping: 32 }}
-                    className={`absolute inset-0 rounded-lg shadow-sm border ${
-                      tabKey === 'combined'
-                        ? 'bg-teal-700 border-teal-700 text-white'
-                        : tabKey === 'stationed'
-                        ? 'bg-indigo-600 text-white border-indigo-600'
-                        : 'bg-emerald-600 text-white border-emerald-600'
-                    }`}
-                  >
-                    {/* Active Tab Glimmer */}
-                    <motion.div
-                      animate={{ x: ['-100%', '200%'] }}
-                      transition={{ repeat: Infinity, duration: 3, ease: "linear", repeatDelay: 1.5 }}
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
-                    />
-                  </motion.div>
+                    className="absolute inset-0 rounded-lg shadow-xs bg-sky-600 text-white"
+                  />
                 )}
                 <span className="relative z-10">{label}</span>
                 <span className={`relative z-10 text-[9px] font-mono font-bold px-1 rounded ${

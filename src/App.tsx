@@ -37,8 +37,9 @@ import { ThreeBackground, ThreeBgStyle, ThreeBgIntensity } from './components/Th
 import { ThreeBgModal } from './components/ThreeBgModal';
 import { ThreeBgWidget } from './components/ThreeBgWidget';
 import { CallPitchModal } from './components/CallPitchModal';
+import { TargetView } from './components/TargetView';
 
-const TAB_KEYS = ['overview', 'stationed', 'virtual', 'call_records', 'tasks', 'time', 'ai_report'] as const;
+const TAB_KEYS = ['overview', 'target', 'stationed', 'virtual', 'call_records', 'tasks', 'time', 'ai_report'] as const;
 type NavigationTab = (typeof TAB_KEYS)[number];
 
 // Premium Apple-calibrated slide-fade variants with micro-blur and organic easing
@@ -79,7 +80,7 @@ export default function App() {
   const teamLeaderName = "Muhammad Billal";
 
   const PRIMARY_LIVE_SHEET = 'https://docs.google.com/spreadsheets/d/1r0_mnl6zERztFzIVU54RvwZ2z5kRVRf2JWLoGUrDzys/edit#gid=0';
-  const DATA_VERSION = 'kaizen_v47_real_sheet_qa_sync';
+  const DATA_VERSION = 'kaizen_v48_nov_target_sync';
 
   // Snapshot initial version before any state initializers write to localStorage
   const initialSavedVersion = useMemo(() => localStorage.getItem('kaizen_data_version'), []);
@@ -358,15 +359,16 @@ export default function App() {
         return;
       }
 
-      // Quick 1-7 keys to switch tabs
+      // Quick 1-8 keys to switch tabs
       if (!e.metaKey && !e.ctrlKey && !e.altKey) {
         if (e.key === '1') { e.preventDefault(); setActiveTab('overview'); }
-        else if (e.key === '2') { e.preventDefault(); setActiveTab('stationed'); }
-        else if (e.key === '3') { e.preventDefault(); setActiveTab('virtual'); }
-        else if (e.key === '4') { e.preventDefault(); setActiveTab('call_records'); }
-        else if (e.key === '5') { e.preventDefault(); setActiveTab('tasks'); }
-        else if (e.key === '6') { e.preventDefault(); setActiveTab('time'); }
-        else if (e.key === '7') { e.preventDefault(); setActiveTab('ai_report'); }
+        else if (e.key === '2') { e.preventDefault(); setActiveTab('target'); }
+        else if (e.key === '3') { e.preventDefault(); setActiveTab('stationed'); }
+        else if (e.key === '4') { e.preventDefault(); setActiveTab('virtual'); }
+        else if (e.key === '5') { e.preventDefault(); setActiveTab('call_records'); }
+        else if (e.key === '6') { e.preventDefault(); setActiveTab('tasks'); }
+        else if (e.key === '7') { e.preventDefault(); setActiveTab('time'); }
+        else if (e.key === '8') { e.preventDefault(); setActiveTab('ai_report'); }
         else if (e.key === '/') { e.preventDefault(); setIsCommandPaletteOpen(true); }
       }
     };
@@ -439,6 +441,45 @@ export default function App() {
   const handleAddVirtual = useCallback((newAdvisor: VirtualAdvisor) => {
     setVirtualAdvisors((prev) => [newAdvisor, ...prev]);
   }, []);
+
+  // Batch update monthly sales & call targets
+  const handleBatchUpdateTargets = useCallback(
+    (updates: Array<{ id: string; division: 'stationed' | 'virtual'; salesTarget: number; callTarget: number }>) => {
+      const stationedMap = new Map<string, { salesTarget: number; callTarget: number }>();
+      const virtualMap = new Map<string, { salesTarget: number; callTarget: number }>();
+
+      updates.forEach((u) => {
+        if (u.division === 'stationed') {
+          stationedMap.set(u.id, { salesTarget: u.salesTarget, callTarget: u.callTarget });
+        } else {
+          virtualMap.set(u.id, { salesTarget: u.salesTarget, callTarget: u.callTarget });
+        }
+      });
+
+      if (stationedMap.size > 0) {
+        setStationedAdvisors((prev) =>
+          prev.map((adv) => {
+            const upd = stationedMap.get(adv.id);
+            return upd
+              ? { ...adv, advisorSalesTarget: upd.salesTarget, advisorCallTarget: upd.callTarget }
+              : adv;
+          })
+        );
+      }
+
+      if (virtualMap.size > 0) {
+        setVirtualAdvisors((prev) =>
+          prev.map((adv) => {
+            const upd = virtualMap.get(adv.id);
+            return upd
+              ? { ...adv, advisorSalesTarget: upd.salesTarget, advisorCallTarget: upd.callTarget }
+              : adv;
+          })
+        );
+      }
+    },
+    []
+  );
 
   // Handlers for Tasks
   const handleAddTask = useCallback((newTask: TaskItem) => {
@@ -578,7 +619,7 @@ export default function App() {
         />
 
       {/* Main Content Area */}
-      <main className="max-w-[1680px] w-full mx-auto px-3 sm:px-5 lg:px-6 py-6 pb-24 sm:pb-28">
+      <main className="max-w-[1680px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 pb-28 sm:pb-32">
         {/* Visual Error Alert Banner when Google Sheet Auto-Refresh Fails */}
         <SyncErrorAlert
           errorMessage={autoRefreshError}
@@ -613,6 +654,18 @@ export default function App() {
                 callRecords={callRecords}
                 onNavigateTab={(tab) => setActiveTab(tab as any)}
                 onSelectAdvisor={(advisor, type) => handleOpenAdvisorDetails(advisor, type)}
+              />
+            )}
+
+            {activeTab === 'target' && (
+              <TargetView
+                stationedAdvisors={stationedAdvisors}
+                virtualAdvisors={virtualAdvisors}
+                onUpdateStationed={handleUpdateStationed}
+                onUpdateVirtual={handleUpdateVirtual}
+                onBatchUpdateTargets={handleBatchUpdateTargets}
+                onSelectAdvisor={(advisor, type) => handleOpenAdvisorDetails(advisor, type)}
+                onShowToast={showToast}
               />
             )}
 
@@ -808,6 +861,8 @@ export default function App() {
         <AdvisorDetailModal
           advisor={selectedAdvisor.advisor}
           type={selectedAdvisor.type}
+          stationedAdvisors={stationedAdvisors}
+          virtualAdvisors={virtualAdvisors}
           tasks={tasks}
           timeLogs={timeLogs}
           callRecords={callRecords}
